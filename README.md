@@ -1,6 +1,6 @@
 # Krishi-Cure-AI
 
-An advanced, AI-powered agricultural diagnostic system designed specifically for uneducated farmers. Built with Node.js, Express, and Google Gemini AI.
+An advanced, AI-powered agricultural diagnostic system designed specifically for farmers.
 
 ## Major Project Features
 

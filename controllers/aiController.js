@@ -10,15 +10,13 @@ export async function diagnoseWithAI(cropName, symptoms, cropProfile, lang) {
 
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-    const systemInstruction = `You are an elite, highly accurate Agricultural Scientist from Gujarat, but you speak like a friendly local farmer.`;
+    const systemInstruction = `You are an elite Agricultural Scientist from Gujarat. Provide ONLY the exact disease, pest, or deficiency that matches the given symptoms. Do NOT hallucinate. Use simple farmer language.`;
 
     const taskPrompt = `Task: Carefully analyze these symptoms for ${cropName} and accurately identify the exact disease, pest, or deficiency.
 Symptoms: ${symptoms.join(", ")}
 Language Requested: ${lang === 'hi' ? 'Hindi' : lang === 'gu' ? 'Gujarati' : 'English'}
 
-Output Requirement: You MUST respond ONLY with a valid JSON object (no markdown formatting, no code blocks, just raw JSON).
-1. Your diagnosis MUST be 100% scientifically accurate based on the symptoms.
-2. Keep your answers VERY SHORT and use EXTREMELY SIMPLE, EVERYDAY language that an uneducated farmer can easily understand. Avoid hard scientific words in the remedy steps.
+Output Requirement: You MUST respond ONLY with a valid JSON object (no markdown, no code blocks). Ensure the diagnosis is scientifically accurate based on the symptoms. Keep answers VERY SHORT and in simple everyday language.
 
 {
     "disease_name": "Common local name of the disease in the requested language",

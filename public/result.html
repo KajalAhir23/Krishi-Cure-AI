@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishi-Cure Pro - Result</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="warning-banner">
+        <marquee scrollamount="5" id="warning_banner">Loading...</marquee>
+    </div>
+
+    <header class="app-header">
+        <div class="logo">🌿 <span id="app_name">Krishi-Cure Pro</span></div>
+        <div class="lang-selector">
+            <button class="lang-btn active" data-lang="en">ENGLISH</button>
+            <button class="lang-btn" data-lang="hi">हिन्दी</button>
+            <button class="lang-btn" data-lang="gu">ગુજરાતી</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="step-card active">
+            <a href="/symptoms.html" class="back-btn" id="back_btn">Back</a>
+            
+            <div class="result-header">
+                <h2 id="diagnosis_result_title">Diagnosis Result</h2>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading-state" style="text-align: center; padding: 3rem;">
+                <h3 id="loading_text" style="color: var(--forest-green);">Analyzing Symptoms with AI...</h3>
+                <div class="loader" style="margin: 1rem auto; width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--forest-green); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+            </div>
+
+            <!-- Farmer Action Card -->
+            <div class="result-box" id="result-box" style="display: none;">
+                
+                <div id="status-banner" class="status-banner">
+                    <span id="status-icon" class="status-icon"></span>
+                    <span id="status-text" class="status-text"></span>
+                </div>
+
+                <div id="standard-result">
+                    <div class="disease-prefix-container">
+                        <span class="disease-prefix" id="disease_prefix_text">Your crop has:</span>
+                        <h3 id="disease-name" class="disease-name"></h3>
+                        <div class="confidence-score">
+                            <span id="confidence-percentage"></span> 
+                            <span id="match_text">Match</span>
+                        </div>
+                    </div>
+
+                    <div class="action-plan remedy-section organic-bg">
+                        <h4 class="organic-title">
+                            <span class="remedy-icon">🌿</span> 
+                            <span id="action_plan_title">3-Step Organic Action Plan:</span>
+                        </h4>
+                        <ol class="action-steps" id="action-steps-list">
+                            <!-- Populated via JS -->
+                        </ol>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="primary-btn diagnose-btn" id="listen-btn" style="background-color: var(--forest-green); color: white;">
+                            🔊 <span id="speak_btn_text">Listen</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <a href="/index.html" class="primary-btn restart-btn" id="restart_btn" style="display: block; text-align: center; text-decoration: none; margin-top: 2rem;">Start Over</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer">
+            <div class="footer-bottom"></div>
+        </div>
+    </footer>
+
+    <style>
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/diagnostic.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window.initApp();
+            
+            const diagnosisDataStr = sessionStorage.getItem('diagnosisResult');
+            if (!diagnosisDataStr) {
+                window.location.href = '/index.html';
+                return;
+            }
+
+            const data = JSON.parse(diagnosisDataStr);
+            const lang = window.currentLang;
+            const langStore = window.appData.langStore[lang];
+
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('result-box').style.display = 'block';
+
+            // Populate UI Elements
+            const statusBanner = document.getElementById('status-banner');
+            statusBanner.className = `status-banner ${data.severity_color.toLowerCase()}`;
+            
+            document.getElementById('status-icon').textContent = data.severity_color.toUpperCase() === 'RED' ? '🔴' : (data.severity_color.toUpperCase() === 'YELLOW' ? '🟡' : '🟢');
+            
+            let statusTextKey = data.severity_color.toUpperCase() === 'RED' ? 'status_red' : (data.severity_color.toUpperCase() === 'YELLOW' ? 'status_yellow' : 'status_green');
+            document.getElementById('status-text').textContent = langStore[statusTextKey];
+
+            document.getElementById('disease-name').textContent = data.disease_name;
+            document.getElementById('confidence-percentage').textContent = data.confidence_score + (String(data.confidence_score).includes('%') ? '' : '%');
+            
+            const actionList = document.getElementById('action-steps-list');
+            if (data.organic_remedy && data.organic_remedy.length > 0) {
+                data.organic_remedy.forEach((step, index) => {
+                    const li = document.createElement('li');
+                    const stepLabel = index === 0 ? langStore.step_prep : (index === 1 ? langStore.step_app : langStore.step_prev);
+                    li.innerHTML = `<strong>${stepLabel}</strong> <span>${step}</span>`;
+                    actionList.appendChild(li);
+                });
+            } else {
+                actionList.innerHTML = '<li>No specific remedy found.</li>';
+            }
+
+            // Web Speech API Integration
+            const listenBtn = document.getElementById('listen-btn');
+            const langCodeMap = { 'en': 'en-IN', 'hi': 'hi-IN', 'gu': 'gu-IN' };
+
+            let fullTextToSpeak = "";
+            const remedies = data.organic_remedy || [];
+            if (lang === 'gu') {
+                fullTextToSpeak = `રોગ: ${data.disease_name}. ઉપાય: ${remedies.join(". ")}`;
+            } else if (lang === 'hi') {
+                fullTextToSpeak = `रोग: ${data.disease_name}. उपाय: ${remedies.join(". ")}`;
+            } else {
+                fullTextToSpeak = `Disease: ${data.disease_name}. Remedy steps: ${remedies.join(". ")}`;
+            }
+
+            listenBtn.addEventListener('click', () => {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(fullTextToSpeak);
+                    utterance.lang = langCodeMap[lang] || 'en-US';
+                    utterance.rate = 0.9;
+                    window.speechSynthesis.speak(utterance);
+                } else {
+                    alert("Sorry, your browser doesn't support text to speech.");
+                }
+            });
+
+            // Listen to languageChanged to refresh AI diagnosis dynamically
+            const handleLanguageChange = async () => {
+                const cropId = localStorage.getItem('selectedCrop');
+                const symptomsStr = localStorage.getItem('selectedSymptoms');
+                if (!cropId || !symptomsStr) return;
+
+                const symptoms = JSON.parse(symptomsStr);
+                
+                // Show loading state and hide results
+                document.getElementById('loading-state').style.display = 'block';
+                document.getElementById('result-box').style.display = 'none';
+
+                // Re-submit diagnosis in the new language
+                await window.submitDiagnosis(cropId, symptoms, window.currentLang);
+            };
+
+            window.addEventListener('languageChanged', handleLanguageChange);
+        });
+    </script>
+</body>
+</html>

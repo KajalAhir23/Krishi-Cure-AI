@@ -1,0 +1,4652 @@
+{
+  "cropsList": {
+    "field": [
+      {
+        "id": "cotton",
+        "en": "Cotton",
+        "hi": "कपास",
+        "gu": "કપાસ",
+        "symptoms": [
+          "sym_34",
+          "sym_35",
+          "sym_36",
+          "sym_37",
+          "sym_38",
+          "sym_39",
+          "sym_40",
+          "sym_41",
+          "sym_42",
+          "sym_43",
+          "sym_44",
+          "sym_45",
+          "sym_46",
+          "sym_47",
+          "sym_48",
+          "sym_49",
+          "sym_50",
+          "sym_51",
+          "sym_52",
+          "sym_53",
+          "sym_54",
+          "sym_55",
+          "sym_56",
+          "sym_57",
+          "sym_58",
+          "sym_59",
+          "sym_60"
+        ]
+      },
+      {
+        "id": "groundnut",
+        "en": "Groundnut",
+        "hi": "मूंगफली",
+        "gu": "મગફળી",
+        "symptoms": [
+          "sym_61",
+          "sym_62",
+          "sym_63",
+          "rust_pustules",
+          "sym_64",
+          "sym_65",
+          "sym_66",
+          "sym_67",
+          "sym_68",
+          "sym_69",
+          "sym_70",
+          "sym_71",
+          "sym_72",
+          "sym_73",
+          "sym_74",
+          "sym_60",
+          "sym_59",
+          "sym_75",
+          "sym_76",
+          "sym_77",
+          "sym_78",
+          "sym_79"
+        ]
+      },
+      {
+        "id": "wheat",
+        "en": "Wheat",
+        "hi": "गेहूं",
+        "gu": "ઘઉં",
+        "symptoms": [
+          "sym_80",
+          "sym_81",
+          "sym_82",
+          "sym_83",
+          "sym_84",
+          "sym_85",
+          "sym_86",
+          "sym_87",
+          "sym_51",
+          "sym_45",
+          "sym_72",
+          "sym_88",
+          "sym_89",
+          "sym_90",
+          "sym_91",
+          "sym_92",
+          "sym_93",
+          "sym_55",
+          "sym_94",
+          "sym_60",
+          "sym_95"
+        ]
+      },
+      {
+        "id": "rice",
+        "en": "Rice (Paddy)",
+        "hi": "चावल (धान)",
+        "gu": "ચોખા (ડાંગર)",
+        "symptoms": [
+          "sym_96",
+          "sym_97",
+          "sym_98",
+          "sym_99",
+          "sym_100",
+          "sym_101",
+          "sym_102",
+          "sym_103",
+          "sym_104",
+          "sym_105",
+          "sym_106",
+          "sym_107",
+          "sym_108",
+          "sym_73",
+          "sym_109",
+          "sym_110",
+          "sym_111",
+          "sym_112",
+          "sym_89",
+          "sym_113",
+          "sym_114",
+          "sym_115",
+          "sym_116",
+          "sym_117",
+          "sym_118"
+        ]
+      },
+      {
+        "id": "bajra",
+        "en": "Bajra",
+        "hi": "बाजरा",
+        "gu": "બાજરી",
+        "symptoms": [
+          "sym_119",
+          "sym_55",
+          "sym_120",
+          "sym_121",
+          "sym_122",
+          "sym_123",
+          "sym_51",
+          "sym_124",
+          "sym_66",
+          "sym_69",
+          "sym_125",
+          "sym_126",
+          "sym_118",
+          "sym_127",
+          "sym_128"
+        ]
+      },
+      {
+        "id": "jowar",
+        "en": "Jowar",
+        "hi": "ज्वार",
+        "gu": "જુવાર",
+        "symptoms": [
+          "sym_129",
+          "sym_130",
+          "sym_131",
+          "sym_125",
+          "sym_90",
+          "sym_45",
+          "sym_132",
+          "sym_65",
+          "sym_133",
+          "sym_134",
+          "sym_135",
+          "sym_136",
+          "sym_55",
+          "sym_137",
+          "sym_128",
+          "sym_138"
+        ]
+      },
+      {
+        "id": "maize",
+        "en": "Maize",
+        "hi": "मक्का",
+        "gu": "મકાઈ",
+        "symptoms": [
+          "sym_139",
+          "sym_140",
+          "sym_120",
+          "sym_141",
+          "sym_66",
+          "sym_142",
+          "sym_143",
+          "sym_90",
+          "sym_144",
+          "sym_91",
+          "sym_51",
+          "sym_55",
+          "sym_145",
+          "sym_146",
+          "sym_60",
+          "sym_147",
+          "sym_148",
+          "sym_149",
+          "sym_150"
+        ]
+      },
+      {
+        "id": "barley",
+        "en": "Barley",
+        "hi": "जौ",
+        "gu": "જવ",
+        "symptoms": [
+          "sym_151",
+          "sym_152",
+          "sym_153",
+          "sym_120",
+          "sym_126",
+          "sym_45",
+          "sym_154",
+          "sym_84",
+          "sym_155",
+          "sym_156",
+          "sym_60",
+          "sym_59",
+          "sym_55",
+          "sym_89"
+        ]
+      },
+      {
+        "id": "sugarcane",
+        "en": "Sugarcane",
+        "hi": "गन्ना",
+        "gu": "શેરડી",
+        "symptoms": [
+          "sym_157",
+          "sym_158",
+          "sym_159",
+          "sym_160",
+          "sym_161",
+          "sym_43",
+          "sym_45",
+          "sym_162",
+          "sym_163",
+          "sym_164",
+          "sym_165",
+          "sym_166",
+          "sym_167",
+          "sym_168",
+          "sym_169",
+          "sym_170",
+          "sym_171",
+          "sym_172",
+          "sym_173",
+          "sym_174",
+          "sym_175",
+          "sym_176",
+          "sym_177",
+          "sym_178"
+        ]
+      },
+      {
+        "id": "castor",
+        "en": "Castor",
+        "hi": "अरंडी",
+        "gu": "એરંડા",
+        "symptoms": [
+          "sym_179",
+          "sym_180",
+          "sym_73",
+          "sym_181",
+          "sym_44",
+          "sym_45",
+          "sym_91",
+          "sym_65",
+          "sym_50",
+          "sym_182",
+          "sym_59",
+          "sym_60",
+          "sym_90"
+        ]
+      },
+      {
+        "id": "sesame",
+        "en": "Sesame (Til)",
+        "hi": "तिल",
+        "gu": "તલ",
+        "symptoms": [
+          "sym_183",
+          "sym_66",
+          "sym_45",
+          "sym_154",
+          "sym_184",
+          "sym_185",
+          "sym_186",
+          "sym_187",
+          "sym_188",
+          "sym_189",
+          "sym_190",
+          "sym_51",
+          "sym_60",
+          "sym_73"
+        ]
+      },
+      {
+        "id": "mustard",
+        "en": "Mustard",
+        "hi": "सरसों",
+        "gu": "સરસવ",
+        "symptoms": [
+          "sym_191",
+          "sym_192",
+          "sym_193",
+          "sym_65",
+          "sym_66",
+          "sym_91",
+          "sym_55",
+          "sym_194",
+          "sym_51",
+          "sym_195",
+          "sym_188",
+          "sym_196",
+          "sym_69"
+        ]
+      },
+      {
+        "id": "pulses",
+        "en": "Pulses",
+        "hi": "दालें",
+        "gu": "કઠોળ",
+        "symptoms": [
+          "sym_184",
+          "sym_183",
+          "sym_154",
+          "sym_45",
+          "sym_152",
+          "sym_189",
+          "sym_197",
+          "sym_198",
+          "sym_199",
+          "sym_200",
+          "sym_60",
+          "sym_95",
+          "sym_188"
+        ]
+      },
+      {
+        "id": "gram",
+        "en": "Gram",
+        "hi": "चना",
+        "gu": "ચણા",
+        "symptoms": [
+          "sym_201",
+          "sym_202",
+          "sym_43",
+          "sym_65",
+          "sym_203",
+          "sym_126",
+          "sym_91",
+          "sym_190",
+          "sym_204",
+          "sym_67",
+          "sym_205",
+          "sym_90",
+          "sym_60",
+          "sym_69"
+        ]
+      },
+      {
+        "id": "pigeon_pea",
+        "en": "Pigeon Pea",
+        "hi": "अरहर",
+        "gu": "તુવેર",
+        "symptoms": [
+          "sym_154",
+          "sym_206",
+          "sym_65",
+          "sym_45",
+          "sym_189",
+          "sym_50",
+          "sym_73",
+          "sym_199",
+          "sym_198",
+          "sym_207",
+          "sym_51",
+          "sym_60",
+          "sym_59"
+        ]
+      },
+      {
+        "id": "green_gram",
+        "en": "Green Gram",
+        "hi": "मूंग",
+        "gu": "મગ",
+        "symptoms": [
+          "sym_184",
+          "sym_193",
+          "sym_208",
+          "sym_73",
+          "sym_51",
+          "sym_123",
+          "sym_45",
+          "sym_189",
+          "sym_91",
+          "sym_199",
+          "sym_204",
+          "sym_60",
+          "sym_188"
+        ]
+      },
+      {
+        "id": "black_gram",
+        "en": "Black Gram",
+        "hi": "उड़द",
+        "gu": "અડદ",
+        "symptoms": [
+          "sym_54",
+          "sym_183",
+          "sym_45",
+          "sym_154",
+          "sym_209",
+          "sym_189",
+          "sym_188",
+          "sym_133",
+          "sym_60",
+          "sym_55",
+          "sym_210"
+        ]
+      },
+      {
+        "id": "cowpea",
+        "en": "Cowpea",
+        "hi": "लोबिया",
+        "gu": "ચોળા",
+        "symptoms": [
+          "sym_211",
+          "sym_73",
+          "sym_152",
+          "sym_45",
+          "sym_154",
+          "sym_212",
+          "sym_65",
+          "sym_71",
+          "sym_189",
+          "sym_199",
+          "sym_51"
+        ]
+      },
+      {
+        "id": "cluster_bean",
+        "en": "Cluster Bean",
+        "hi": "ग्वार",
+        "gu": "ગુવાર",
+        "symptoms": [
+          "sym_213",
+          "sym_152",
+          "sym_154",
+          "sym_45",
+          "sym_183",
+          "sym_65",
+          "sym_189",
+          "sym_198",
+          "sym_188",
+          "sym_51"
+        ]
+      },
+      {
+        "id": "moth_bean",
+        "en": "Moth Bean",
+        "hi": "मोठ",
+        "gu": "મઠ",
+        "symptoms": [
+          "sym_184",
+          "sym_183",
+          "sym_45",
+          "sym_154",
+          "sym_152",
+          "sym_60",
+          "sym_196",
+          "sym_198",
+          "sym_197",
+          "sym_51"
+        ]
+      },
+      {
+        "id": "soybean",
+        "en": "Soybean",
+        "hi": "सोयाबीन",
+        "gu": "સોયાબીન",
+        "symptoms": [
+          "sym_140",
+          "sym_184",
+          "sym_214",
+          "sym_45",
+          "sym_215",
+          "sym_73",
+          "sym_188",
+          "sym_91",
+          "sym_60",
+          "sym_95",
+          "sym_198",
+          "sym_200",
+          "sym_216"
+        ]
+      },
+      {
+        "id": "fennel",
+        "en": "Fennel",
+        "hi": "सौंफ",
+        "gu": "વરિયાળી",
+        "symptoms": [
+          "sym_193",
+          "sym_90",
+          "sym_66",
+          "sym_217",
+          "sym_218",
+          "sym_69",
+          "sym_183",
+          "sym_51",
+          "sym_154",
+          "sym_60"
+        ]
+      },
+      {
+        "id": "cumin",
+        "en": "Cumin",
+        "hi": "जीरा",
+        "gu": "જીરું",
+        "symptoms": [
+          "sym_154",
+          "sym_152",
+          "sym_219",
+          "sym_45",
+          "sym_50",
+          "sym_220",
+          "sym_189",
+          "sym_188",
+          "sym_187",
+          "sym_60",
+          "sym_95"
+        ]
+      },
+      {
+        "id": "coriander",
+        "en": "Coriander",
+        "hi": "धनिया",
+        "gu": "ધાણા",
+        "symptoms": [
+          "sym_221",
+          "sym_154",
+          "sym_152",
+          "sym_183",
+          "sym_65",
+          "sym_45",
+          "sym_133",
+          "sym_51",
+          "sym_60",
+          "sym_90"
+        ]
+      },
+      {
+        "id": "fenugreek",
+        "en": "Fenugreek",
+        "hi": "मेथी",
+        "gu": "મેથી",
+        "symptoms": [
+          "sym_45",
+          "sym_152",
+          "sym_222",
+          "sym_65",
+          "sym_189",
+          "sym_154",
+          "sym_188",
+          "sym_51",
+          "sym_60",
+          "sym_59"
+        ]
+      },
+      {
+        "id": "ajwain",
+        "en": "Ajwain",
+        "hi": "अजवाइन",
+        "gu": "અજમા",
+        "symptoms": [
+          "sym_152",
+          "sym_90",
+          "sym_154",
+          "sym_45",
+          "sym_65",
+          "sym_189",
+          "sym_50",
+          "sym_188",
+          "sym_60",
+          "sym_51"
+        ]
+      },
+      {
+        "id": "chilli",
+        "en": "Chilli",
+        "hi": "मिर्च",
+        "gu": "મરચું",
+        "symptoms": [
+          "sym_223",
+          "sym_224",
+          "sym_154",
+          "sym_152",
+          "sym_79",
+          "sym_65",
+          "sym_50",
+          "sym_225",
+          "sym_45",
+          "sym_199",
+          "sym_226",
+          "sym_60",
+          "sym_227"
+        ]
+      },
+      {
+        "id": "garlic",
+        "en": "Garlic",
+        "hi": "लहसुन",
+        "gu": "લસણ",
+        "symptoms": [
+          "sym_140",
+          "sym_228",
+          "sym_229",
+          "sym_65",
+          "sym_230",
+          "sym_45",
+          "sym_154",
+          "sym_123",
+          "sym_231",
+          "sym_232",
+          "sym_60"
+        ]
+      },
+      {
+        "id": "onion",
+        "en": "Onion",
+        "hi": "प्याज",
+        "gu": "ડુંગળી",
+        "symptoms": [
+          "sym_233",
+          "sym_222",
+          "sym_101",
+          "sym_234",
+          "sym_84",
+          "sym_65",
+          "sym_235",
+          "sym_37",
+          "sym_69",
+          "sym_236",
+          "sym_91",
+          "sym_231",
+          "sym_60"
+        ]
+      },
+      {
+        "id": "isabgol",
+        "en": "Isabgol",
+        "hi": "ईसबगोल",
+        "gu": "ઇસબગુલ",
+        "symptoms": [
+          "sym_222",
+          "sym_154",
+          "sym_45",
+          "sym_90",
+          "sym_65",
+          "sym_189",
+          "sym_72",
+          "sym_188",
+          "sym_51",
+          "sym_60"
+        ]
+      },
+      {
+        "id": "sunflower",
+        "en": "Sunflower",
+        "hi": "सूरजमुखी",
+        "gu": "સૂર્યમુખી",
+        "symptoms": [
+          "sym_140",
+          "sym_237",
+          "sym_222",
+          "sym_66",
+          "sym_238",
+          "sym_91",
+          "sym_123",
+          "sym_51",
+          "sym_239",
+          "sym_72",
+          "sym_209",
+          "sym_90",
+          "sym_95",
+          "sym_60"
+        ]
+      }
+    ],
+    "fruit": [
+      {
+        "id": "mango",
+        "en": "Mango",
+        "hi": "आम",
+        "gu": "કેરી",
+        "symptoms": [
+          "sym_240",
+          "sym_152",
+          "sym_241",
+          "sym_242",
+          "sym_243",
+          "sym_224",
+          "sym_244",
+          "sym_245",
+          "sym_246",
+          "sym_247",
+          "sym_73",
+          "sym_44",
+          "sym_154",
+          "sym_248",
+          "sym_65",
+          "sym_210",
+          "sym_249",
+          "sym_250",
+          "sym_251",
+          "sym_252"
+        ]
+      },
+      {
+        "id": "banana",
+        "en": "Banana",
+        "hi": "केला",
+        "gu": "કેળું",
+        "symptoms": [
+          "sym_253",
+          "sym_254",
+          "sym_255",
+          "sym_256",
+          "sym_65",
+          "sym_257",
+          "sym_258",
+          "sym_224",
+          "sym_69",
+          "sym_259",
+          "sym_260",
+          "sym_60",
+          "sym_261",
+          "sym_172",
+          "sym_262",
+          "sym_37",
+          "sym_51",
+          "sym_263",
+          "sym_73",
+          "sym_123"
+        ]
+      },
+      {
+        "id": "papaya",
+        "en": "Papaya",
+        "hi": "पपीता",
+        "gu": "પપૈયું",
+        "symptoms": [
+          "sym_264",
+          "sym_223",
+          "sym_152",
+          "sym_66",
+          "sym_265",
+          "sym_65",
+          "sym_227",
+          "sym_45",
+          "sym_109",
+          "sym_266",
+          "sym_267",
+          "sym_37",
+          "sym_268",
+          "sym_199",
+          "sym_224",
+          "sym_60",
+          "sym_269",
+          "sym_154",
+          "sym_59",
+          "sym_270"
+        ]
+      },
+      {
+        "id": "pomegranate",
+        "en": "Pomegranate",
+        "hi": "अनार",
+        "gu": "દાડમ",
+        "symptoms": [
+          "sym_213",
+          "sym_227",
+          "sym_154",
+          "sym_271",
+          "sym_34",
+          "sym_189",
+          "sym_224",
+          "sym_50",
+          "sym_272",
+          "sym_192",
+          "sym_37",
+          "sym_188",
+          "sym_60",
+          "sym_273",
+          "sym_248",
+          "sym_45",
+          "sym_274",
+          "sym_95",
+          "sym_73",
+          "sym_275"
+        ]
+      },
+      {
+        "id": "guava",
+        "en": "Guava",
+        "hi": "अमरूद",
+        "gu": "જામફળ",
+        "symptoms": [
+          "sym_154",
+          "sym_276",
+          "sym_277",
+          "sym_183",
+          "sym_65",
+          "sym_50",
+          "sym_224",
+          "sym_188",
+          "sym_44",
+          "sym_248",
+          "sym_45",
+          "sym_60",
+          "sym_196",
+          "sym_274",
+          "sym_251",
+          "sym_90",
+          "sym_278",
+          "sym_275"
+        ]
+      },
+      {
+        "id": "sapota",
+        "en": "Sapota (Chikoo)",
+        "hi": "चीकू",
+        "gu": "ચીકુ",
+        "symptoms": [
+          "sym_183",
+          "sym_242",
+          "sym_154",
+          "sym_224",
+          "sym_65",
+          "sym_189",
+          "sym_271",
+          "sym_45",
+          "sym_188",
+          "sym_50",
+          "sym_279",
+          "sym_248",
+          "sym_280",
+          "sym_60",
+          "sym_250",
+          "sym_59",
+          "sym_281"
+        ]
+      },
+      {
+        "id": "citrus",
+        "en": "Citrus Fruits",
+        "hi": "खट्टे फल",
+        "gu": "ખાટા ફળો",
+        "symptoms": [
+          "sym_282",
+          "sym_283",
+          "sym_284",
+          "sym_285",
+          "sym_227",
+          "sym_286",
+          "sym_73",
+          "sym_247",
+          "sym_248",
+          "sym_45",
+          "sym_60",
+          "sym_37",
+          "sym_280",
+          "sym_287",
+          "sym_288",
+          "sym_289",
+          "sym_266",
+          "sym_189",
+          "sym_242",
+          "sym_188"
+        ]
+      },
+      {
+        "id": "lemon",
+        "en": "Lemon",
+        "hi": "नींबू",
+        "gu": "લીંબુ",
+        "symptoms": [
+          "sym_282",
+          "sym_283",
+          "sym_65",
+          "sym_223",
+          "sym_227",
+          "sym_247",
+          "sym_248",
+          "sym_45",
+          "sym_251",
+          "sym_60",
+          "sym_37",
+          "sym_290",
+          "sym_188",
+          "sym_196",
+          "sym_274"
+        ]
+      },
+      {
+        "id": "sweet_lime",
+        "en": "Sweet Lime",
+        "hi": "मोसंबी",
+        "gu": "મોસંબી",
+        "symptoms": [
+          "sym_291",
+          "sym_34",
+          "sym_247",
+          "sym_227",
+          "sym_280",
+          "sym_45",
+          "sym_283",
+          "sym_292",
+          "sym_60",
+          "sym_73",
+          "sym_293",
+          "sym_294",
+          "sym_188",
+          "sym_43"
+        ]
+      },
+      {
+        "id": "orange",
+        "en": "Orange",
+        "hi": "संतरा",
+        "gu": "નારંગી",
+        "symptoms": [
+          "sym_282",
+          "sym_284",
+          "sym_34",
+          "sym_224",
+          "sym_227",
+          "sym_251",
+          "sym_248",
+          "sym_45",
+          "sym_60",
+          "sym_188",
+          "sym_37",
+          "sym_293",
+          "sym_275",
+          "sym_223",
+          "sym_289"
+        ]
+      },
+      {
+        "id": "dragon_fruit",
+        "en": "Dragon Fruit",
+        "hi": "ड्रैगन फ्रूट",
+        "gu": "ડ્રેગન ફ્રૂટ"
+      },
+      {
+        "id": "amla",
+        "en": "Amla",
+        "hi": "आंवला",
+        "gu": "આમળા",
+        "symptoms": [
+          "sym_224",
+          "sym_183",
+          "sym_304",
+          "sym_154",
+          "sym_44",
+          "sym_65",
+          "sym_271",
+          "sym_45",
+          "sym_188",
+          "sym_305",
+          "sym_292",
+          "sym_60",
+          "sym_274",
+          "sym_59",
+          "sym_280"
+        ]
+      },
+      {
+        "id": "custard_apple",
+        "en": "Custard Apple",
+        "hi": "शरीफा",
+        "gu": "સીતાફળ",
+        "symptoms": [
+          "sym_306",
+          "sym_224",
+          "sym_307",
+          "sym_154",
+          "sym_65",
+          "sym_189",
+          "sym_50",
+          "sym_45",
+          "sym_271",
+          "sym_308",
+          "sym_60",
+          "sym_292",
+          "sym_188",
+          "sym_251",
+          "sym_250"
+        ]
+      },
+      {
+        "id": "coconut",
+        "en": "Coconut",
+        "hi": "नारियल",
+        "gu": "નાળિયેર",
+        "symptoms": [
+          "sym_309",
+          "sym_310",
+          "sym_90",
+          "sym_311",
+          "sym_312",
+          "sym_262",
+          "sym_247",
+          "sym_123",
+          "sym_313",
+          "sym_314",
+          "sym_60",
+          "sym_315",
+          "sym_316",
+          "sym_69",
+          "sym_317"
+        ]
+      },
+      {
+        "id": "ber",
+        "en": "Ber",
+        "hi": "बेर",
+        "gu": "બોર",
+        "symptoms": [
+          "sym_152",
+          "sym_183",
+          "sym_224",
+          "sym_154",
+          "sym_65",
+          "sym_188",
+          "sym_44",
+          "sym_45",
+          "sym_50",
+          "sym_271",
+          "sym_60",
+          "sym_273",
+          "sym_196",
+          "sym_274",
+          "sym_248"
+        ]
+      },
+      {
+        "id": "cashew",
+        "en": "Cashew Nut",
+        "hi": "काजू",
+        "gu": "કાજુ",
+        "symptoms": [
+          "sym_152",
+          "sym_307",
+          "sym_321",
+          "sym_249",
+          "sym_183",
+          "sym_224",
+          "sym_44",
+          "sym_246",
+          "sym_91",
+          "sym_50",
+          "sym_60",
+          "sym_196",
+          "sym_248",
+          "sym_274",
+          "sym_188"
+        ]
+      },
+      {
+        "id": "grapes",
+        "en": "Grapes",
+        "hi": "अंगूर",
+        "gu": "દ્રાક્ષ",
+        "symptoms": [
+          "sym_222",
+          "sym_152",
+          "sym_307",
+          "sym_322",
+          "sym_183",
+          "sym_271",
+          "sym_65",
+          "sym_189",
+          "sym_323",
+          "sym_146",
+          "sym_60",
+          "sym_188",
+          "sym_324",
+          "sym_59",
+          "sym_280",
+          "sym_325",
+          "sym_326",
+          "sym_45",
+          "sym_327",
+          "sym_227",
+          "sym_154",
+          "sym_65",
+          "sym_44",
+          "sym_188",
+          "sym_247",
+          "sym_248",
+          "sym_226",
+          "sym_60",
+          "sym_196",
+          "sym_146",
+          "sym_280",
+          "sym_278"
+        ]
+      }
+    ],
+    "vegetable": [
+      {
+        "id": "potato",
+        "en": "Potato",
+        "hi": "आलू",
+        "gu": "બટાટા",
+        "symptoms": [
+          "sym_328",
+          "sym_329",
+          "sym_330",
+          "sym_331",
+          "sym_332",
+          "sym_300",
+          "sym_73",
+          "sym_333",
+          "sym_65",
+          "sym_189",
+          "sym_91",
+          "sym_188",
+          "sym_79",
+          "sym_334",
+          "sym_335",
+          "sym_60",
+          "sym_59",
+          "sym_336",
+          "sym_337",
+          "sym_338"
+        ]
+      },
+      {
+        "id": "onion_v",
+        "en": "Onion",
+        "hi": "प्याज",
+        "gu": "ડુંગળી",
+        "symptoms": [
+          "sym_233",
+          "sym_222",
+          "sym_101",
+          "sym_234",
+          "sym_84",
+          "sym_65",
+          "sym_235",
+          "sym_37",
+          "sym_69",
+          "sym_236",
+          "sym_91",
+          "sym_231",
+          "sym_60"
+        ]
+      },
+      {
+        "id": "tomato",
+        "en": "Tomato",
+        "hi": "टमाटर",
+        "gu": "ટામેટા",
+        "symptoms": [
+          "sym_331",
+          "sym_330",
+          "sym_339",
+          "sym_340",
+          "sym_224",
+          "sym_265",
+          "sym_65",
+          "sym_44",
+          "sym_45",
+          "sym_199",
+          "sym_271",
+          "sym_146",
+          "sym_60",
+          "sym_196",
+          "sym_341",
+          "sym_250",
+          "sym_267",
+          "sym_75",
+          "sym_270",
+          "sym_188"
+        ]
+      },
+      {
+        "id": "brinjal",
+        "en": "Brinjal",
+        "hi": "बैंगन",
+        "gu": "રીંગણ",
+        "symptoms": [
+          "sym_342",
+          "sym_154",
+          "sym_224",
+          "sym_219",
+          "sym_54",
+          "sym_65",
+          "sym_66",
+          "sym_50",
+          "sym_69",
+          "sym_308",
+          "sym_343",
+          "sym_60",
+          "sym_73",
+          "sym_37",
+          "sym_188",
+          "sym_59",
+          "sym_44",
+          "sym_199"
+        ]
+      },
+      {
+        "id": "okra",
+        "en": "Okra",
+        "hi": "भिंडी",
+        "gu": "ભીંડા",
+        "symptoms": [
+          "sym_344",
+          "sym_152",
+          "sym_208",
+          "sym_154",
+          "sym_73",
+          "sym_65",
+          "sym_266",
+          "sym_45",
+          "sym_109",
+          "sym_123",
+          "sym_90",
+          "sym_189",
+          "sym_60",
+          "sym_188",
+          "sym_59",
+          "sym_227",
+          "sym_199",
+          "sym_37"
+        ]
+      },
+      {
+        "id": "cabbage",
+        "en": "Cabbage",
+        "hi": "पत्ता गोभी",
+        "gu": "કોબીજ",
+        "symptoms": [
+          "sym_345",
+          "sym_222",
+          "sym_346",
+          "sym_183",
+          "sym_238",
+          "sym_65",
+          "sym_91",
+          "sym_300",
+          "sym_69",
+          "sym_347",
+          "sym_60",
+          "sym_37",
+          "sym_348",
+          "sym_188",
+          "sym_66"
+        ]
+      },
+      {
+        "id": "cauliflower",
+        "en": "Cauliflower",
+        "hi": "फूलगोभी",
+        "gu": "ફુલાવર",
+        "symptoms": [
+          "sym_345",
+          "sym_222",
+          "sym_216",
+          "sym_349",
+          "sym_350",
+          "sym_65",
+          "sym_66",
+          "sym_91",
+          "sym_351",
+          "sym_300",
+          "sym_60",
+          "sym_188",
+          "sym_37",
+          "sym_59",
+          "sym_352"
+        ]
+      },
+      {
+        "id": "bottle_gourd",
+        "en": "Bottle Gourd",
+        "hi": "लौकी",
+        "gu": "દૂધી",
+        "symptoms": [
+          "sym_152",
+          "sym_222",
+          "sym_353",
+          "sym_224",
+          "sym_65",
+          "sym_154",
+          "sym_66",
+          "sym_73",
+          "sym_37",
+          "sym_308",
+          "sym_266",
+          "sym_60",
+          "sym_210",
+          "sym_354",
+          "sym_45"
+        ]
+      },
+      {
+        "id": "ridge_gourd",
+        "en": "Ridge Gourd",
+        "hi": "तोरई",
+        "gu": "તુરીયા",
+        "symptoms": [
+          "sym_222",
+          "sym_152",
+          "sym_224",
+          "sym_34",
+          "sym_154",
+          "sym_66",
+          "sym_69",
+          "sym_355",
+          "sym_297",
+          "sym_354",
+          "sym_60",
+          "sym_59",
+          "sym_73",
+          "sym_37",
+          "sym_266"
+        ]
+      },
+      {
+        "id": "bitter_gourd",
+        "en": "Bitter Gourd",
+        "hi": "करेला",
+        "gu": "કારેલા",
+        "symptoms": [
+          "sym_79",
+          "sym_152",
+          "sym_224",
+          "sym_65",
+          "sym_183",
+          "sym_154",
+          "sym_189",
+          "sym_45",
+          "sym_266",
+          "sym_354",
+          "sym_60",
+          "sym_37",
+          "sym_73",
+          "sym_59",
+          "sym_308"
+        ]
+      },
+      {
+        "id": "sponge_gourd",
+        "en": "Sponge Gourd",
+        "hi": "नेनुआ",
+        "gu": "ગલકા",
+        "symptoms": [
+          "sym_152",
+          "sym_222",
+          "sym_353",
+          "sym_224",
+          "sym_183",
+          "sym_65",
+          "sym_154",
+          "sym_45",
+          "sym_189",
+          "sym_354",
+          "sym_60",
+          "sym_37",
+          "sym_271",
+          "sym_188",
+          "sym_297"
+        ]
+      },
+      {
+        "id": "pumpkin",
+        "en": "Pumpkin",
+        "hi": "कद्दू",
+        "gu": "કોળું",
+        "symptoms": [
+          "sym_152",
+          "sym_222",
+          "sym_224",
+          "sym_90",
+          "sym_65",
+          "sym_154",
+          "sym_43",
+          "sym_45",
+          "sym_353",
+          "sym_319",
+          "sym_60",
+          "sym_37",
+          "sym_210",
+          "sym_188",
+          "sym_308"
+        ]
+      },
+      {
+        "id": "cucumber",
+        "en": "Cucumber",
+        "hi": "खीरा",
+        "gu": "કાકડી",
+        "symptoms": [
+          "sym_356",
+          "sym_152",
+          "sym_222",
+          "sym_353",
+          "sym_224",
+          "sym_73",
+          "sym_65",
+          "sym_154",
+          "sym_189",
+          "sym_69",
+          "sym_60",
+          "sym_37",
+          "sym_266",
+          "sym_59",
+          "sym_354"
+        ]
+      },
+      {
+        "id": "capsicum",
+        "en": "Capsicum",
+        "hi": "शिमला मिर्च",
+        "gu": "કેપ્સીકમ",
+        "symptoms": [
+          "sym_223",
+          "sym_224",
+          "sym_357",
+          "sym_154",
+          "sym_79",
+          "sym_45",
+          "sym_65",
+          "sym_44",
+          "sym_199",
+          "sym_272",
+          "sym_60",
+          "sym_37",
+          "sym_227",
+          "sym_90",
+          "sym_59"
+        ]
+      },
+      {
+        "id": "chilli_v",
+        "en": "Chilli",
+        "hi": "मिर्च",
+        "gu": "મરચું",
+        "symptoms": [
+          "sym_223",
+          "sym_224",
+          "sym_154",
+          "sym_152",
+          "sym_79",
+          "sym_65",
+          "sym_50",
+          "sym_225",
+          "sym_45",
+          "sym_199",
+          "sym_226",
+          "sym_60",
+          "sym_227"
+        ]
+      },
+      {
+        "id": "cluster_bean_v",
+        "en": "Cluster Bean",
+        "hi": "ग्वार",
+        "gu": "ગુવાર",
+        "symptoms": [
+          "sym_213",
+          "sym_152",
+          "sym_154",
+          "sym_45",
+          "sym_183",
+          "sym_65",
+          "sym_189",
+          "sym_198",
+          "sym_188",
+          "sym_51"
+        ]
+      },
+      {
+        "id": "cowpea_v",
+        "en": "Cowpea",
+        "hi": "लोबिया",
+        "gu": "ચોળા",
+        "symptoms": [
+          "sym_211",
+          "sym_73",
+          "sym_152",
+          "sym_45",
+          "sym_154",
+          "sym_212",
+          "sym_65",
+          "sym_71",
+          "sym_189",
+          "sym_199",
+          "sym_51"
+        ]
+      },
+      {
+        "id": "green_peas",
+        "en": "Green Peas",
+        "hi": "हरी मटर",
+        "gu": "લીલા વટાણા",
+        "symptoms": [
+          "sym_152",
+          "sym_154",
+          "sym_45",
+          "sym_183",
+          "sym_65",
+          "sym_66",
+          "sym_79",
+          "sym_204",
+          "sym_197",
+          "sym_199",
+          "sym_60",
+          "sym_196",
+          "sym_73",
+          "sym_37",
+          "sym_188"
+        ]
+      },
+      {
+        "id": "spinach",
+        "en": "Spinach",
+        "hi": "पालक",
+        "gu": "પાલક",
+        "symptoms": [
+          "sym_222",
+          "sym_183",
+          "sym_161",
+          "sym_154",
+          "sym_45",
+          "sym_236",
+          "sym_73",
+          "sym_51",
+          "sym_188",
+          "sym_300",
+          "sym_60",
+          "sym_37",
+          "sym_59",
+          "sym_66"
+        ]
+      },
+      {
+        "id": "coriander_leaves",
+        "en": "Coriander Leaves",
+        "hi": "हरा धनिया",
+        "gu": "ધાણા",
+        "symptoms": [
+          "sym_221",
+          "sym_154",
+          "sym_152",
+          "sym_183",
+          "sym_65",
+          "sym_45",
+          "sym_133",
+          "sym_51",
+          "sym_60",
+          "sym_90",
+          "sym_196",
+          "sym_188",
+          "sym_37"
+        ]
+      },
+      {
+        "id": "fenugreek_leaves",
+        "en": "Fenugreek Leaves",
+        "hi": "हरी मेथी",
+        "gu": "મેથી",
+        "symptoms": [
+          "sym_45",
+          "sym_152",
+          "sym_222",
+          "sym_65",
+          "sym_189",
+          "sym_154",
+          "sym_188",
+          "sym_51",
+          "sym_60",
+          "sym_59",
+          "sym_37",
+          "sym_123"
+        ]
+      },
+      {
+        "id": "radish",
+        "en": "Radish",
+        "hi": "मूली",
+        "gu": "મૂળો",
+        "symptoms": [
+          "sym_183",
+          "sym_45",
+          "sym_349",
+          "sym_65",
+          "sym_358",
+          "sym_154",
+          "sym_300",
+          "sym_51",
+          "sym_359",
+          "sym_188",
+          "sym_60",
+          "sym_37",
+          "sym_59",
+          "sym_360"
+        ]
+      },
+      {
+        "id": "carrot",
+        "en": "Carrot",
+        "hi": "गाजर",
+        "gu": "ગાજર",
+        "symptoms": [
+          "sym_90",
+          "sym_45",
+          "sym_361",
+          "sym_65",
+          "sym_362",
+          "sym_358",
+          "sym_91",
+          "sym_111",
+          "sym_360",
+          "sym_363",
+          "sym_60",
+          "sym_37",
+          "sym_188",
+          "sym_359"
+        ]
+      },
+      {
+        "id": "beetroot",
+        "en": "Beetroot",
+        "hi": "चुकंदर",
+        "gu": "બીટ",
+        "symptoms": [
+          "sym_306",
+          "sym_45",
+          "sym_222",
+          "sym_65",
+          "sym_154",
+          "sym_358",
+          "sym_111",
+          "sym_300",
+          "sym_51",
+          "sym_69",
+          "sym_60",
+          "sym_37",
+          "sym_59",
+          "sym_188"
+        ]
+      },
+      {
+        "id": "turnip",
+        "en": "Turnip",
+        "hi": "शलजम",
+        "gu": "શલગમ",
+        "symptoms": [
+          "sym_349",
+          "sym_45",
+          "sym_183",
+          "sym_65",
+          "sym_154",
+          "sym_358",
+          "sym_300",
+          "sym_60",
+          "sym_37",
+          "sym_188",
+          "sym_196",
+          "sym_364"
+        ]
+      },
+      {
+        "id": "garlic_v",
+        "en": "Garlic",
+        "hi": "लहसुन",
+        "gu": "લસણ",
+        "symptoms": [
+          "sym_140",
+          "sym_228",
+          "sym_229",
+          "sym_65",
+          "sym_230",
+          "sym_45",
+          "sym_154",
+          "sym_123",
+          "sym_231",
+          "sym_232",
+          "sym_60"
+        ]
+      },
+      {
+        "id": "ginger",
+        "en": "Ginger",
+        "hi": "अदरक",
+        "gu": "આદુ",
+        "symptoms": [
+          "sym_300",
+          "sym_340",
+          "sym_365",
+          "sym_183",
+          "sym_161",
+          "sym_66",
+          "sym_69",
+          "sym_366",
+          "sym_197",
+          "sym_367",
+          "sym_60",
+          "sym_196",
+          "sym_269",
+          "sym_368"
+        ]
+      },
+      {
+        "id": "sweet_potato",
+        "en": "Sweet Potato",
+        "hi": "शकरकंद",
+        "gu": "શક્કરીયા",
+        "symptoms": [
+          "sym_183",
+          "sym_45",
+          "sym_154",
+          "sym_65",
+          "sym_189",
+          "sym_300",
+          "sym_334",
+          "sym_188",
+          "sym_337",
+          "sym_111",
+          "sym_60",
+          "sym_37",
+          "sym_59",
+          "sym_359"
+        ]
+      },
+      {
+        "id": "drumstick",
+        "en": "Drumstick",
+        "hi": "सहजन",
+        "gu": "સરગવો",
+        "symptoms": [
+          "sym_183",
+          "sym_154",
+          "sym_152",
+          "sym_45",
+          "sym_44",
+          "sym_65",
+          "sym_224",
+          "sym_188",
+          "sym_50",
+          "sym_51",
+          "sym_60",
+          "sym_37",
+          "sym_196",
+          "sym_248"
+        ]
+      },
+      {
+        "id": "tinda",
+        "en": "Tinda",
+        "hi": "टिंडा",
+        "gu": "ટીંડા",
+        "symptoms": [
+          "sym_152",
+          "sym_222",
+          "sym_353",
+          "sym_224",
+          "sym_65",
+          "sym_154",
+          "sym_45",
+          "sym_189",
+          "sym_266",
+          "sym_354",
+          "sym_60",
+          "sym_37",
+          "sym_210",
+          "sym_308"
+        ]
+      },
+      {
+        "id": "ash_gourd",
+        "en": "Ash Gourd",
+        "hi": "पेठा",
+        "gu": "સફેદ કોળું",
+        "symptoms": [
+          "sym_152",
+          "sym_222",
+          "sym_224",
+          "sym_90",
+          "sym_65",
+          "sym_154",
+          "sym_43",
+          "sym_45",
+          "sym_79",
+          "sym_319",
+          "sym_60",
+          "sym_37",
+          "sym_188",
+          "sym_59"
+        ]
+      },
+      {
+        "id": "green_banana",
+        "en": "Green Banana",
+        "hi": "कच्चा केला",
+        "gu": "કાચું કેળું",
+        "symptoms": [
+          "sym_253",
+          "sym_369",
+          "sym_65",
+          "sym_256",
+          "sym_224",
+          "sym_69",
+          "sym_259",
+          "sym_60",
+          "sym_37",
+          "sym_258",
+          "sym_262",
+          "sym_370",
+          "sym_59",
+          "sym_323"
+        ]
+      }
+    ]
+  },
+  "symptomsList": [
+    {
+      "id": "powdery_coating",
+      "category": "leaf",
+      "en": "Powdery/Downy growth",
+      "hi": "पाउडर/डाउनी जैसी वृद्धि",
+      "gu": "પાવડર/ડાઉની ફૂગ",
+      "isPathogenSign": true
+    },
+    {
+      "id": "rust_pustules",
+      "category": "leaf",
+      "en": "Rust-colored pustules",
+      "hi": "जंग के रंग के फफोले",
+      "gu": "રસ્ટ રંગના ફોલ્લા",
+      "isPathogenSign": true
+    },
+    {
+      "id": "concentric_rings",
+      "category": "leaf",
+      "en": "Concentric rings (Target-board)",
+      "hi": "संकेंद्रित छल्ले (टार्गेट बोर्ड)",
+      "gu": "વર્તુળાકાર ડાઘ (ટાર્ગેટ બોર્ડ)",
+      "isPathogenSign": true
+    },
+    {
+      "id": "water_soaked",
+      "category": "leaf",
+      "en": "Water-soaked lesions (oily)",
+      "hi": "पानी से लथपथ घाव (तैलीय)",
+      "gu": "ભીના ડાઘ (તેલિયા)",
+      "isPathogenSign": true
+    },
+    {
+      "id": "bacterial_ooze",
+      "category": "stem",
+      "en": "Bacterial Ooze (yellow droplets)",
+      "hi": "जीवाणुयुक्त चिपचिपा स्राव",
+      "gu": "બેક્ટેરિયલ ચીકણો સ્ત્રાવ",
+      "isPathogenSign": true
+    },
+    {
+      "id": "mushy_rot",
+      "category": "stem",
+      "en": "Soft mushy stem rot",
+      "hi": "नरम और गूदेदार तना सड़न",
+      "gu": "નરમ પોચો થડનો સડો"
+    },
+    {
+      "id": "v_yellowing",
+      "category": "leaf",
+      "en": "V-shaped leaf yellowing",
+      "hi": "V-आकार का पीलापन",
+      "gu": "V-આકારની પીળાશ"
+    },
+    {
+      "id": "mosaic_mottling",
+      "category": "leaf",
+      "en": "Mosaic (green/yellow patches)",
+      "hi": "मोज़ेक (हरे/पीले धब्बे)",
+      "gu": "મોઝેક (લીલા/પીળા ધબ્બા)"
+    },
+    {
+      "id": "vein_clearing",
+      "category": "leaf",
+      "en": "Vein clearing",
+      "hi": "शिरा का पीला होना",
+      "gu": "નસો પીળી પડવી"
+    },
+    {
+      "id": "vein_banding",
+      "category": "leaf",
+      "en": "Vein banding",
+      "hi": "शिराओं के आसपास रंग बदलना",
+      "gu": "નસોની આસપાસ રંગ બદલાવ"
+    },
+    {
+      "id": "stunting",
+      "category": "stem",
+      "en": "Stunting (poor growth)",
+      "hi": "बौनापन (विकास रुकना)",
+      "gu": "વિકાસ રુંધાવો (સ્ટન્ટીંગ)"
+    },
+    {
+      "id": "enations",
+      "category": "leaf",
+      "en": "Enations (leaf outgrowths)",
+      "hi": "पत्तियों पर अतिवृद्धि",
+      "gu": "પાંદડા પર વધારાની વૃદ્ધિ"
+    },
+    {
+      "id": "witches_broom",
+      "category": "stem",
+      "en": "Witches' broom (clustered shoots)",
+      "hi": "चुड़ैल की झाड़ू (गुच्छेदार अंकुर)",
+      "gu": "સાવરણી જેવો વિકાસ (ગુચ્છાદાર ડાળીઓ)"
+    },
+    {
+      "id": "honeydew",
+      "category": "leaf",
+      "en": "Sticky honeydew residue",
+      "hi": "चिपचिपा हनीड्यू अवशेष",
+      "gu": "ચીકણો પદાર્થ"
+    },
+    {
+      "id": "skeletonized",
+      "category": "leaf",
+      "en": "Skeletonized leaves",
+      "hi": "कंकाल जैसी पत्तियां",
+      "gu": "કંકાલ જેવા પાંદડા",
+      "isPathogenSign": true
+    },
+    {
+      "id": "webbing",
+      "category": "stem",
+      "en": "Webbing between stems",
+      "hi": "तनों के बीच जाले",
+      "gu": "થડ વચ્ચે જાળા"
+    },
+    {
+      "id": "sooty_mold",
+      "category": "leaf",
+      "en": "Sooty mold (black powder)",
+      "hi": "सूटी मोल्ड (काला पाउडर)",
+      "gu": "કાળી ફૂગ (કાળો પાવડર)"
+    },
+    {
+      "id": "stem_holes_frass",
+      "category": "stem",
+      "en": "Stem borer holes with frass",
+      "hi": "तने में छेद और बुरादा (फ्रैस)",
+      "gu": "થડમાં કાણા અને લાકડાનો વેર (ફ્રેસ)",
+      "isPathogenSign": true
+    },
+    {
+      "id": "larvae",
+      "category": "fruit",
+      "en": "Larvae presence",
+      "hi": "इल्लियों की उपस्थिति",
+      "gu": "ઈયળોની હાજરી",
+      "isPathogenSign": true
+    },
+    {
+      "id": "interveinal_chlorosis",
+      "category": "leaf",
+      "en": "Interveinal chlorosis (yellowing)",
+      "hi": "शिराओं के बीच पीलापन",
+      "gu": "શિરાઓ વચ્ચે પીળાશ"
+    },
+    {
+      "id": "purple_edges",
+      "category": "leaf",
+      "en": "Purple leaf edges",
+      "hi": "पत्तियों के किनारों का बैंगनी होना",
+      "gu": "પાંદડાની કિનારીઓ જાંબલી થવી"
+    },
+    {
+      "id": "tip_burn",
+      "category": "leaf",
+      "en": "Tip burn",
+      "hi": "पत्तियों के सिरों का जलना",
+      "gu": "પાંદડાની ટોચ બળવી"
+    },
+    {
+      "id": "salt_crust",
+      "category": "root",
+      "en": "Salt crusting on soil",
+      "hi": "मिट्टी पर नमक की परत",
+      "gu": "જમીન પર ક્ષાર"
+    },
+    {
+      "id": "root_galls",
+      "category": "root",
+      "en": "Root galls",
+      "hi": "जड़ की गांठें",
+      "gu": "મૂળમાં ગાંઠો",
+      "isPathogenSign": true
+    },
+    {
+      "id": "damping_off",
+      "category": "root",
+      "en": "Damping-off (root-rot at soil level)",
+      "hi": "मिट्टी की सतह पर डैम्पिंग-ऑफ (सड़न)",
+      "gu": "છોડનું જમીનથી ખરી પડવું (ડૅમ્પિંગ-ઑફ)",
+      "isPathogenSign": true
+    },
+    {
+      "id": "leaf_curl",
+      "category": "leaf",
+      "en": "Leaf curling & rolling (cup-shaped)",
+      "hi": "पत्तियों का मुड़ना और सिकुड़ना (कप के आकार का)",
+      "gu": "પાંદડા કોકડાઈ જવા (કપ આકાર થવા)"
+    },
+    {
+      "id": "white_woolly",
+      "category": "leaf",
+      "en": "White cottony/woolly deposits (Mealybugs)",
+      "hi": "सफेद कपास जैसी परत (मिलीबग)",
+      "gu": "સફેદ રૂ જેવો પાવડર (મીલીબગ)",
+      "isPathogenSign": true
+    },
+    {
+      "id": "shot_holes",
+      "category": "leaf",
+      "en": "Shot-holes (small circular holes in leaves)",
+      "hi": "पत्तियों में छोटे गोल छेद (शॉट-होल)",
+      "gu": "પાંદડામાં નાના ગોળ કાણા પડવા (શોર્ટહોલ)"
+    },
+    {
+      "id": "dieback",
+      "category": "stem",
+      "en": "Dieback (stem drying from top downwards)",
+      "hi": "डाईबैक (ऊपर से नीचे तना सूखना)",
+      "gu": "ડાયબેક (ઉપરથી નીચે થડ સુકાવું)"
+    },
+    {
+      "id": "gummosis",
+      "category": "stem",
+      "en": "Gummosis (sticky brown sap oozing from bark)",
+      "hi": "गमोसिस (छाल से चिपचिपा गोंद निकलना)",
+      "gu": "ગમોસિસ (છાલમાંથી ગુંદર ઝરવો)"
+    },
+    {
+      "id": "bud_rot",
+      "category": "stem",
+      "en": "Bud/Heart rot (decay of growing tip)",
+      "hi": "कलिका सड़न (बड रॉट)",
+      "gu": "કુમળી ડૂંખનો સડો (બડ રોટ)",
+      "isPathogenSign": true
+    },
+    {
+      "id": "canker_scabs",
+      "category": "fruit",
+      "en": "Corky brown scabs / Citrus Canker",
+      "hi": "खुरदरी भूरी पपड़ी / सिट्रस कैंकर",
+      "gu": "ખરબચડા બદામી ડાઘ / લીંબુના ટપકાં (કેન્કર)",
+      "isPathogenSign": true
+    },
+    {
+      "id": "fruit_cracking",
+      "category": "fruit",
+      "en": "Fruit cracking / splitting",
+      "hi": "फलों का फटना या दरारें",
+      "gu": "ફળોનું ફાટી જવું (ક્રેકિંગ)"
+    },
+    {
+      "id": "sym_34",
+      "category": "leaf",
+      "en": "Leaf yellowing",
+      "hi": "पत्ती का पीला पड़ना",
+      "gu": "પાંદડા પીળા પડવા"
+    },
+    {
+      "id": "sym_35",
+      "category": "leaf",
+      "en": "Small brown spots",
+      "hi": "छोटे भूरे धब्बे",
+      "gu": "નાના ભૂરા ટપકાં"
+    },
+    {
+      "id": "sym_36",
+      "category": "leaf",
+      "en": "Angular black spots",
+      "hi": "कोणीय काले धब्बे",
+      "gu": "કોણીય કાળા ટપકાં"
+    },
+    {
+      "id": "sym_37",
+      "category": "leaf",
+      "en": "Water-soaked lesions",
+      "hi": "पानी से भीगे हुए घाव",
+      "gu": "પાણીથી ભીંજાયેલા જખમ"
+    },
+    {
+      "id": "sym_38",
+      "category": "leaf",
+      "en": "White powder on leaves",
+      "hi": "पत्तियों पर सफेद पाउडर",
+      "gu": "પાંદડા પર સફેદ પાવડર"
+    },
+    {
+      "id": "sym_39",
+      "category": "leaf",
+      "en": "Grey fungal growth",
+      "hi": "भूरी फंगल वृद्धि",
+      "gu": "રાખોડી ફૂગનો વિકાસ"
+    },
+    {
+      "id": "sym_40",
+      "category": "leaf",
+      "en": "Leaf curling upward",
+      "hi": "पत्ती का ऊपर की ओर मुड़ना",
+      "gu": "પાંદડા ઉપરની તરફ વળવા"
+    },
+    {
+      "id": "sym_41",
+      "category": "leaf",
+      "en": "Leaf curling downward",
+      "hi": "पत्ती का नीचे की ओर मुड़ना",
+      "gu": "પાંદડા નીચેની તરફ વળવા"
+    },
+    {
+      "id": "sym_42",
+      "category": "leaf",
+      "en": "Vein blackening",
+      "hi": "शिराओं का काला पड़ना",
+      "gu": "નસો કાળી પડવી"
+    },
+    {
+      "id": "sym_43",
+      "category": "stem",
+      "en": "Stem cracking",
+      "hi": "तने का फटना",
+      "gu": "થડ ફાટવું"
+    },
+    {
+      "id": "sym_44",
+      "category": "stem",
+      "en": "Stem canker",
+      "hi": "तना कैंकर",
+      "gu": "થડનો કેન્કર"
+    },
+    {
+      "id": "sym_45",
+      "category": "root",
+      "en": "Root rot",
+      "hi": "जड़ सड़न",
+      "gu": "મૂળનો સડો"
+    },
+    {
+      "id": "sym_46",
+      "category": "fruit",
+      "en": "Boll rot",
+      "hi": "डोडे का सड़ना",
+      "gu": "ઝીંડવાનો સડો"
+    },
+    {
+      "id": "sym_47",
+      "category": "fruit",
+      "en": "Poor boll opening",
+      "hi": "डोडे का ठीक से न खुलना",
+      "gu": "ઝીંડવા બરાબર ન ખુલવા"
+    },
+    {
+      "id": "sym_48",
+      "category": "leaf",
+      "en": "Premature leaf fall",
+      "hi": "समय से पहले पत्ती झड़ना",
+      "gu": "સમય પહેલા પાંદડા ખરવા"
+    },
+    {
+      "id": "sym_49",
+      "category": "leaf",
+      "en": "Plant wilting",
+      "hi": "पौधे का मुरझाना",
+      "gu": "છોડ સુકાઈ જવો"
+    },
+    {
+      "id": "sym_50",
+      "category": "stem",
+      "en": "Dry branches",
+      "hi": "सूखी शाखाएँ",
+      "gu": "સૂકી ડાળીઓ"
+    },
+    {
+      "id": "sym_51",
+      "category": "leaf",
+      "en": "Stunted growth",
+      "hi": "अविकसित वृद्धि",
+      "gu": "અવિકસિત વૃદ્ધિ"
+    },
+    {
+      "id": "sym_52",
+      "category": "fruit",
+      "en": "Flower shedding",
+      "hi": "फूलों का झड़ना",
+      "gu": "ફૂલો ખરવા"
+    },
+    {
+      "id": "sym_53",
+      "category": "fruit",
+      "en": "Boll shedding",
+      "hi": "डोडे का झड़ना",
+      "gu": "ઝીંડવા ખરવા"
+    },
+    {
+      "id": "sym_54",
+      "category": "leaf",
+      "en": "Mosaic patches",
+      "hi": "मोज़ेक धब्बे",
+      "gu": "મોઝેક ટપકાં"
+    },
+    {
+      "id": "sym_55",
+      "category": "leaf",
+      "en": "Twisted leaves",
+      "hi": "मुड़ी हुई पत्तियाँ",
+      "gu": "વળેલા પાંદડા"
+    },
+    {
+      "id": "sym_56",
+      "category": "stem",
+      "en": "Dark stem lesions",
+      "hi": "तने पर गहरे घाव",
+      "gu": "થડ પર ઘેરા જખમ"
+    },
+    {
+      "id": "sym_57",
+      "category": "fruit",
+      "en": "Seedling blight",
+      "hi": "अंकुर झुलसा रोग",
+      "gu": "રોપાનો સુકારો"
+    },
+    {
+      "id": "sym_58",
+      "category": "leaf",
+      "en": "Black arm symptoms",
+      "hi": "ब्लैक आर्म के लक्षण",
+      "gu": "બ્લેક આર્મ લક્ષણો"
+    },
+    {
+      "id": "sym_59",
+      "category": "leaf",
+      "en": "Necrotic patches",
+      "hi": "नेक्रोटिक धब्बे",
+      "gu": "નેક્રોટિક ટપકાં"
+    },
+    {
+      "id": "sym_60",
+      "category": "leaf",
+      "en": "Chlorosis",
+      "hi": "क्लोरोसिस",
+      "gu": "ક્લોરોસિસ"
+    },
+    {
+      "id": "sym_61",
+      "category": "leaf",
+      "en": "Circular brown leaf spots",
+      "hi": "पत्तियों पर गोलाकार भूरे धब्बे",
+      "gu": "પાંદડા પર ગોળાકાર ભૂરા ટપકાં"
+    },
+    {
+      "id": "sym_62",
+      "category": "leaf",
+      "en": "Dark leaf lesions",
+      "hi": "पत्तियों पर गहरे घाव",
+      "gu": "પાંદડા પર ઘેરા જખમ"
+    },
+    {
+      "id": "sym_63",
+      "category": "leaf",
+      "en": "Yellow halo around spots",
+      "hi": "धब्बों के चारों ओर पीला घेरा",
+      "gu": "ટપકાંની આસપાસ પીળું કુંડાળું"
+    },
+    {
+      "id": "sym_64",
+      "category": "leaf",
+      "en": "Powdery growth under leaves",
+      "hi": "पत्तियों के नीचे चूर्णिल वृद्धि",
+      "gu": "પાંદડા નીચે પાવડરી વૃદ્ધિ"
+    },
+    {
+      "id": "sym_65",
+      "category": "leaf",
+      "en": "Yellow leaves",
+      "hi": "पीली पत्तियाँ",
+      "gu": "પીળા પાંદડા"
+    },
+    {
+      "id": "sym_66",
+      "category": "stem",
+      "en": "Stem rot",
+      "hi": "तना सड़न",
+      "gu": "થડનો સડો"
+    },
+    {
+      "id": "sym_67",
+      "category": "leaf",
+      "en": "Collar rot",
+      "hi": "कॉलर सड़न",
+      "gu": "કોલરનો સડો"
+    },
+    {
+      "id": "sym_68",
+      "category": "stem",
+      "en": "White fungal growth near stem",
+      "hi": "तने के पास सफेद फंगल वृद्धि",
+      "gu": "થડ પાસે સફેદ ફૂગનો વિકાસ"
+    },
+    {
+      "id": "sym_69",
+      "category": "root",
+      "en": "Root decay",
+      "hi": "जड़ का सड़ना",
+      "gu": "મૂળનો સડો"
+    },
+    {
+      "id": "sym_70",
+      "category": "stem",
+      "en": "Wilting branches",
+      "hi": "मुरझाई हुई शाखाएँ",
+      "gu": "સુકાઈ ગયેલી ડાળીઓ"
+    },
+    {
+      "id": "sym_71",
+      "category": "fruit",
+      "en": "Pod rot",
+      "hi": "फली सड़न",
+      "gu": "શીંગનો સડો"
+    },
+    {
+      "id": "sym_72",
+      "category": "fruit",
+      "en": "Seed discoloration",
+      "hi": "बीज का रंग बदलना",
+      "gu": "બીજનો રંગ બદલાવો"
+    },
+    {
+      "id": "sym_73",
+      "category": "leaf",
+      "en": "Leaf curling",
+      "hi": "पत्ती का मुड़ना",
+      "gu": "પાંદડા વળવા"
+    },
+    {
+      "id": "sym_74",
+      "category": "leaf",
+      "en": "Premature defoliation",
+      "hi": "समय से पहले पत्ती झड़ना",
+      "gu": "સમય પહેલા પાંદડા ખરવા"
+    },
+    {
+      "id": "sym_75",
+      "category": "fruit",
+      "en": "Wilted seedlings",
+      "hi": "मुरझाए हुए अंकुर",
+      "gu": "સુકાઈ ગયેલા રોપા"
+    },
+    {
+      "id": "sym_76",
+      "category": "fruit",
+      "en": "Blue damage on seeds",
+      "hi": "बीजों पर नीला नुकसान",
+      "gu": "બીજ પર વાદળી નુકસાન"
+    },
+    {
+      "id": "sym_77",
+      "category": "leaf",
+      "en": "Bud necrosis",
+      "hi": "कली का नेक्रोसिस",
+      "gu": "કળીનો નેક્રોસિસ"
+    },
+    {
+      "id": "sym_78",
+      "category": "stem",
+      "en": "Stem necrosis",
+      "hi": "तने का नेक्रोसिस",
+      "gu": "થડનો નેક્રોસિસ"
+    },
+    {
+      "id": "sym_79",
+      "category": "leaf",
+      "en": "Mosaic symptoms",
+      "hi": "मोज़ेक लक्षण",
+      "gu": "મોઝेક લક્ષણો"
+    },
+    {
+      "id": "sym_80",
+      "category": "leaf",
+      "en": "Yellow stripes on leaves",
+      "hi": "पत्तियों पर पीली धारियाँ",
+      "gu": "પાંદડા પર પીળી પટ્ટીઓ"
+    },
+    {
+      "id": "sym_81",
+      "category": "leaf",
+      "en": "Orange rust pustules",
+      "hi": "नारंगी रस्ट पुस्ट्यूल",
+      "gu": "નારંગી રસ્ટ ફોલ્લા"
+    },
+    {
+      "id": "sym_82",
+      "category": "leaf",
+      "en": "Black rust streaks",
+      "hi": "काली रस्ट धारियाँ",
+      "gu": "કાળી રસ્ટ પટ્ટીઓ"
+    },
+    {
+      "id": "sym_83",
+      "category": "leaf",
+      "en": "White powdery coating",
+      "hi": "सफेद चूर्णिल परत",
+      "gu": "સફેદ પાવડરી આવરણ"
+    },
+    {
+      "id": "sym_84",
+      "category": "leaf",
+      "en": "Dry leaf tips",
+      "hi": "पत्ती के सिरे सूखना",
+      "gu": "પાંદડાની ટોચ સુકાવી"
+    },
+    {
+      "id": "sym_85",
+      "category": "leaf",
+      "en": "Brown blotches",
+      "hi": "भूरे धब्बे",
+      "gu": "બદામી ડાઘા"
+    },
+    {
+      "id": "sym_86",
+      "category": "leaf",
+      "en": "Black ear heads",
+      "hi": "काले बालियां",
+      "gu": "કાળા કણસલા"
+    },
+    {
+      "id": "sym_87",
+      "category": "leaf",
+      "en": "Poor grain formation",
+      "hi": "दाने का खराब बनना",
+      "gu": "દાણાનો નબળો વિકાસ"
+    },
+    {
+      "id": "sym_88",
+      "category": "stem",
+      "en": "Stem weakness",
+      "hi": "तने की कमजोरी",
+      "gu": "થડની નબળાઈ"
+    },
+    {
+      "id": "sym_89",
+      "category": "leaf",
+      "en": "Lodging",
+      "hi": "फसल का गिरना",
+      "gu": "પાકનું ઢળી પડવું"
+    },
+    {
+      "id": "sym_90",
+      "category": "leaf",
+      "en": "Leaf blight",
+      "hi": "पत्ती झुलसा",
+      "gu": "પાનનો સુકારો"
+    },
+    {
+      "id": "sym_91",
+      "category": "leaf",
+      "en": "Wilting",
+      "hi": "मुरझाना",
+      "gu": "કરમાવું"
+    },
+    {
+      "id": "sym_92",
+      "category": "leaf",
+      "en": "Shriveled grains",
+      "hi": "सिकुड़े हुए दाने",
+      "gu": "સંકોચાયેલા દાણા"
+    },
+    {
+      "id": "sym_93",
+      "category": "leaf",
+      "en": "Smut powder",
+      "hi": "कंडुआ पाउडर",
+      "gu": "અંગારિયાનો પાવડર"
+    },
+    {
+      "id": "sym_94",
+      "category": "leaf",
+      "en": "Burned leaf margins",
+      "hi": "पत्ती के किनारे जले हुए",
+      "gu": "પાંદડાની કિનારીઓ બળી ગયેલી"
+    },
+    {
+      "id": "sym_95",
+      "category": "leaf",
+      "en": "Necrosis",
+      "hi": "ऊतकक्षय",
+      "gu": "પેશીઓનો નાશ"
+    },
+    {
+      "id": "sym_96",
+      "category": "leaf",
+      "en": "Spindle-shaped brown spots",
+      "hi": "धुरी के आकार के भूरे धब्बे",
+      "gu": "ત્રાક આકારના બદામી ડાઘા"
+    },
+    {
+      "id": "sym_97",
+      "category": "leaf",
+      "en": "Grey center lesions",
+      "hi": "ग्रे केंद्र वाले घाव",
+      "gu": "રાખોડી કેન્દ્રવાળા જખમ"
+    },
+    {
+      "id": "sym_98",
+      "category": "leaf",
+      "en": "Yellow leaf edges",
+      "hi": "पत्ती के पीले किनारे",
+      "gu": "પાંદડાની પીળી કિનારીઓ"
+    },
+    {
+      "id": "sym_99",
+      "category": "leaf",
+      "en": "Water-soaked streaks",
+      "hi": "पानी से भीगी धारियाँ",
+      "gu": "પાણીથી ભીંજાયેલી પટ્ટીઓ"
+    },
+    {
+      "id": "sym_100",
+      "category": "leaf",
+      "en": "Leaf drying from tip",
+      "hi": "पत्ती का सिरे से सूखना",
+      "gu": "પાંદડાનું ટોચથી સુકાવું"
+    },
+    {
+      "id": "sym_101",
+      "category": "leaf",
+      "en": "Neck rot",
+      "hi": "गर्दन सड़न",
+      "gu": "ગરદનનો સડો"
+    },
+    {
+      "id": "sym_102",
+      "category": "leaf",
+      "en": "Panicle drying",
+      "hi": "बाली का सूखना",
+      "gu": "કણસલાનું સુકાવું"
+    },
+    {
+      "id": "sym_103",
+      "category": "leaf",
+      "en": "White leaf streaks",
+      "hi": "पत्ती पर सफेद धारियाँ",
+      "gu": "પાંદડા પર સફેદ પટ્ટીઓ"
+    },
+    {
+      "id": "sym_104",
+      "category": "leaf",
+      "en": "Brown leaf patches",
+      "hi": "पत्ती पर भूरे धब्बे",
+      "gu": "પાંદડા પર બદામી ડાઘા"
+    },
+    {
+      "id": "sym_105",
+      "category": "fruit",
+      "en": "Seedling mortality",
+      "hi": "अंकुर मृत्यु",
+      "gu": "રોપાનો મૃત્યુદર"
+    },
+    {
+      "id": "sym_106",
+      "category": "leaf",
+      "en": "Empty grains",
+      "hi": "खाली दाने",
+      "gu": "ખાલી દાણા"
+    },
+    {
+      "id": "sym_107",
+      "category": "leaf",
+      "en": "Blackened grains",
+      "hi": "काले पड़े दाने",
+      "gu": "કાળા પડી ગયેલા દાણા"
+    },
+    {
+      "id": "sym_108",
+      "category": "leaf",
+      "en": "Sheath rot",
+      "hi": "पत्ती आवरण सड़न",
+      "gu": "પર્ણ આવરણનો સડો"
+    },
+    {
+      "id": "sym_109",
+      "category": "leaf",
+      "en": "Stunted plants",
+      "hi": "अविकसित पौधे",
+      "gu": "કુંઠિત છોડ"
+    },
+    {
+      "id": "sym_110",
+      "category": "fruit",
+      "en": "Yellow seedlings",
+      "hi": "पीले अंकुर",
+      "gu": "પીળા રોપા"
+    },
+    {
+      "id": "sym_111",
+      "category": "leaf",
+      "en": "Fungal growth",
+      "hi": "फफूंद की वृद्धि",
+      "gu": "ફૂગનો વિકાસ"
+    },
+    {
+      "id": "sym_112",
+      "category": "stem",
+      "en": "Rotten stem base",
+      "hi": "तने का निचला भाग सड़ना",
+      "gu": "થડનો નીચેનો ભાગ સડવો"
+    },
+    {
+      "id": "sym_113",
+      "category": "leaf",
+      "en": "Tall lanky tillers",
+      "hi": "लंबे पतले कल्ले",
+      "gu": "ઊંચા પાતળા કલ્લો"
+    },
+    {
+      "id": "sym_114",
+      "category": "leaf",
+      "en": "Distorted ear heads",
+      "hi": "विकृत बालियां",
+      "gu": "વિકૃત કણસલા"
+    },
+    {
+      "id": "sym_115",
+      "category": "leaf",
+      "en": "Dirty cylindrical panicles",
+      "hi": "गंदे बेलनाकार बालियां",
+      "gu": "ગંદા નળાકાર કણસલા"
+    },
+    {
+      "id": "sym_116",
+      "category": "leaf",
+      "en": "White mycelial growth",
+      "hi": "सफेद माइसीलियाई वृद्धि",
+      "gu": "સફેદ માયસેલિયલ વૃદ્ધિ"
+    },
+    {
+      "id": "sym_117",
+      "category": "leaf",
+      "en": "Brown oval spots",
+      "hi": "भूरे अंडाकार धब्बे",
+      "gu": "બદામી અંડાકાર ડાઘા"
+    },
+    {
+      "id": "sym_118",
+      "category": "leaf",
+      "en": "Chlorotic leaves",
+      "hi": "क्लोरोटिक पत्तियां",
+      "gu": "ક્લોરોટિક પાંદડા"
+    },
+    {
+      "id": "sym_119",
+      "category": "leaf",
+      "en": "Downy white growth",
+      "hi": "रोमिल सफेद वृद्धि",
+      "gu": "રૂંવાટીવાળો સફેદ વિકાસ"
+    },
+    {
+      "id": "sym_120",
+      "category": "leaf",
+      "en": "Yellow streaks",
+      "hi": "पीली धारियाँ",
+      "gu": "પીળી પટ્ટીઓ"
+    },
+    {
+      "id": "sym_121",
+      "category": "leaf",
+      "en": "Black powdery spores",
+      "hi": "काले चूर्णिल बीजाणु",
+      "gu": "કાળા પાવડરવાળા બીજકણ"
+    },
+    {
+      "id": "sym_122",
+      "category": "leaf",
+      "en": "Smut balls",
+      "hi": "कंडुआ गेंदें",
+      "gu": "અંગારિયાના ગોળા"
+    },
+    {
+      "id": "sym_123",
+      "category": "leaf",
+      "en": "Dry leaves",
+      "hi": "सूखी पत्तियां",
+      "gu": "સૂકા પાંદડા"
+    },
+    {
+      "id": "sym_124",
+      "category": "leaf",
+      "en": "Poor ear formation",
+      "hi": "बाली का खराब बनना",
+      "gu": "કણસલાનો નબળો વિકાસ"
+    },
+    {
+      "id": "sym_125",
+      "category": "leaf",
+      "en": "Wilted plants",
+      "hi": "मुरझाए हुए पौधे",
+      "gu": "કરમાયેલા છોડ"
+    },
+    {
+      "id": "sym_126",
+      "category": "leaf",
+      "en": "Brown lesions",
+      "hi": "भूरे घाव",
+      "gu": "બદામી જખમ"
+    },
+    {
+      "id": "sym_127",
+      "category": "leaf",
+      "en": "Green ear symptoms",
+      "hi": "हरी बाली के लक्षण",
+      "gu": "લીલા કણસલાના લક્ષણો"
+    },
+    {
+      "id": "sym_128",
+      "category": "leaf",
+      "en": "Leaf shredding",
+      "hi": "पत्ती का फटना",
+      "gu": "પાંદડાનું ફાટવું"
+    },
+    {
+      "id": "sym_129",
+      "category": "leaf",
+      "en": "Red leaf spots",
+      "hi": "पत्ती पर लाल धब्बे",
+      "gu": "પાંદડા પર લાલ ડાઘા"
+    },
+    {
+      "id": "sym_130",
+      "category": "stem",
+      "en": "Charcoal stem rot",
+      "hi": "चारकोल तना सड़न",
+      "gu": "ચારકોલ થડનો સડો"
+    },
+    {
+      "id": "sym_131",
+      "category": "leaf",
+      "en": "Moldy grains",
+      "hi": "फफूंद लगे दाने",
+      "gu": "ફૂગવાળા દાણા"
+    },
+    {
+      "id": "sym_132",
+      "category": "stem",
+      "en": "Stem discoloration",
+      "hi": "तने का रंग बदलना",
+      "gu": "થડનો રંગ બદલાવો"
+    },
+    {
+      "id": "sym_133",
+      "category": "leaf",
+      "en": "Drying plants",
+      "hi": "सूखते हुए पौधे",
+      "gu": "સુકાતા છોડ"
+    },
+    {
+      "id": "sym_134",
+      "category": "leaf",
+      "en": "Smut sori",
+      "hi": "कंड सोरी",
+      "gu": "કંદ સોરી"
+    },
+    {
+      "id": "sym_135",
+      "category": "stem",
+      "en": "Weak stem",
+      "hi": "कमजोर तना",
+      "gu": "નબળી દાંડી"
+    },
+    {
+      "id": "sym_136",
+      "category": "leaf",
+      "en": "Poor grain filling",
+      "hi": "दाना भराव में कमी",
+      "gu": "દાણા ભરાવામાં નબળાઈ"
+    },
+    {
+      "id": "sym_137",
+      "category": "leaf",
+      "en": "Fungal coating",
+      "hi": "फफूंद की परत",
+      "gu": "ફૂગનું આવરણ"
+    },
+    {
+      "id": "sym_138",
+      "category": "leaf",
+      "en": "Necrotic streaks",
+      "hi": "नेक्रोटिक धारियाँ",
+      "gu": "નેક્રોટિક પટ્ટાઓ"
+    },
+    {
+      "id": "sym_139",
+      "category": "leaf",
+      "en": "Long brown lesions",
+      "hi": "लंबे भूरे घाव",
+      "gu": "લાંબા ભૂરા જખમ"
+    },
+    {
+      "id": "sym_140",
+      "category": "leaf",
+      "en": "Rust pustules",
+      "hi": "रस्ट फुंसी",
+      "gu": "રસ્ટ ફોલ્લા"
+    },
+    {
+      "id": "sym_141",
+      "category": "leaf",
+      "en": "Mosaic pattern",
+      "hi": "मोज़ेक पैटर्न",
+      "gu": "મોઝેક પેટર્ન"
+    },
+    {
+      "id": "sym_142",
+      "category": "leaf",
+      "en": "Ear rot",
+      "hi": "बाली सड़न",
+      "gu": "ડૂંડાનો સડો"
+    },
+    {
+      "id": "sym_143",
+      "category": "leaf",
+      "en": "Kernel decay",
+      "hi": "दाना सड़न",
+      "gu": "દાણાનો સડો"
+    },
+    {
+      "id": "sym_144",
+      "category": "leaf",
+      "en": "Dry leaf margins",
+      "hi": "सूखी पत्ती के किनारे",
+      "gu": "સૂકા પાંદડાની કિનારીઓ"
+    },
+    {
+      "id": "sym_145",
+      "category": "fruit",
+      "en": "Rotten cob",
+      "hi": "सड़ा हुआ भुट्टा",
+      "gu": "સડેલો મકાઈનો ડોડો"
+    },
+    {
+      "id": "sym_146",
+      "category": "leaf",
+      "en": "Water-soaked spots",
+      "hi": "पानी से सने धब्बे",
+      "gu": "પાણીથી ભીના ધબ્બા"
+    },
+    {
+      "id": "sym_147",
+      "category": "leaf",
+      "en": "Ragged leaf holes",
+      "hi": "फटे-पुराने पत्ती के छेद",
+      "gu": "ફાટેલા પાંદડાના છિદ્રો"
+    },
+    {
+      "id": "sym_148",
+      "category": "leaf",
+      "en": "Window-pane scraping",
+      "hi": "खिड़की के शीशे जैसी खुरचन",
+      "gu": "બારીના કાચ જેવું ઘસારો"
+    },
+    {
+      "id": "sym_149",
+      "category": "leaf",
+      "en": "Whorl damage",
+      "hi": "चक्र क्षति",
+      "gu": "વમળને નુકસાન"
+    },
+    {
+      "id": "sym_150",
+      "category": "leaf",
+      "en": "Sawdust-like frass",
+      "hi": "लकड़ी के बुरादे जैसा मल",
+      "gu": "લાકડાના વહેર જેવો મળ"
+    },
+    {
+      "id": "sym_151",
+      "category": "leaf",
+      "en": "Leaf rust",
+      "hi": "पत्ती किट्ट",
+      "gu": "પાંદડાનો રસ્ટ"
+    },
+    {
+      "id": "sym_152",
+      "category": "leaf",
+      "en": "Powdery mildew",
+      "hi": "चूर्णी फफूंद",
+      "gu": "છાશિયા રોગ"
+    },
+    {
+      "id": "sym_153",
+      "category": "leaf",
+      "en": "Net blotch",
+      "hi": "नेट ब्लॉच",
+      "gu": "નેટ બ્લોચ"
+    },
+    {
+      "id": "sym_154",
+      "category": "leaf",
+      "en": "Wilt",
+      "hi": "विल्ट",
+      "gu": "સુકારો"
+    },
+    {
+      "id": "sym_155",
+      "category": "leaf",
+      "en": "Smut symptoms",
+      "hi": "कंड के लक्षण",
+      "gu": "કંદના લક્ષણો"
+    },
+    {
+      "id": "sym_156",
+      "category": "leaf",
+      "en": "Grain discoloration",
+      "hi": "दाना विवर्णता",
+      "gu": "દાણાનો રંગ બદલાવો"
+    },
+    {
+      "id": "sym_157",
+      "category": "stem",
+      "en": "Red stem tissue",
+      "hi": "लाल तना ऊतक",
+      "gu": "લાલ દાંડી પેશી"
+    },
+    {
+      "id": "sym_158",
+      "category": "leaf",
+      "en": "White leaf stripes",
+      "hi": "सफेद पत्ती धारियाँ",
+      "gu": "સફેદ પાંદડાની પટ્ટીઓ"
+    },
+    {
+      "id": "sym_159",
+      "category": "leaf",
+      "en": "Smut whip formation",
+      "hi": "कंड कोड़ा बनना",
+      "gu": "કંદ ચાબુકની રચના"
+    },
+    {
+      "id": "sym_160",
+      "category": "leaf",
+      "en": "Dry top leaves",
+      "hi": "सूखी ऊपरी पत्तियाँ",
+      "gu": "સૂકા ટોચના પાંદડા"
+    },
+    {
+      "id": "sym_161",
+      "category": "leaf",
+      "en": "Yellowing leaves",
+      "hi": "पीली पत्तियाँ",
+      "gu": "પીળા પડતા પાંદડા"
+    },
+    {
+      "id": "sym_162",
+      "category": "leaf",
+      "en": "Wilted canes",
+      "hi": "मुरझाई हुई गन्ने की डंठलें",
+      "gu": "કરમાયેલી શેરડી"
+    },
+    {
+      "id": "sym_163",
+      "category": "stem",
+      "en": "Pineapple smell inside stem",
+      "hi": "तने के अंदर अनानास जैसी गंध",
+      "gu": "દાંડીની અંદર અનાનસ જેવી ગંધ"
+    },
+    {
+      "id": "sym_164",
+      "category": "leaf",
+      "en": "Poor cane growth",
+      "hi": "गन्ने की खराब वृद्धि",
+      "gu": "શેરડીનો નબળો વિકાસ"
+    },
+    {
+      "id": "sym_165",
+      "category": "leaf",
+      "en": "Leaf scorching",
+      "hi": "पत्ती झुलसना",
+      "gu": "પાંદડા બળવા"
+    },
+    {
+      "id": "sym_166",
+      "category": "leaf",
+      "en": "Internal tissue decay",
+      "hi": "आंतरिक ऊतक क्षय",
+      "gu": "આંતરિક પેશીનો સડો"
+    },
+    {
+      "id": "sym_167",
+      "category": "leaf",
+      "en": "Dry clumps",
+      "hi": "सूखे गुच्छे",
+      "gu": "સૂકા ગઠ્ઠા"
+    },
+    {
+      "id": "sym_168",
+      "category": "leaf",
+      "en": "Rotting buds",
+      "hi": "सड़ी हुई कलियाँ",
+      "gu": "સડતી કળીઓ"
+    },
+    {
+      "id": "sym_169",
+      "category": "leaf",
+      "en": "Numerous thin tillers",
+      "hi": "अनेक पतले कल्ले",
+      "gu": "અસંખ્ય પાતળા કલ્લો"
+    },
+    {
+      "id": "sym_170",
+      "category": "leaf",
+      "en": "Grass-like appearance",
+      "hi": "घास जैसा दिखना",
+      "gu": "ઘાસ જેવો દેખાવ"
+    },
+    {
+      "id": "sym_171",
+      "category": "leaf",
+      "en": "Pale yellow leaves",
+      "hi": "हल्के पीले पत्ते",
+      "gu": "આછા પીળા પાંદડા"
+    },
+    {
+      "id": "sym_172",
+      "category": "leaf",
+      "en": "Narrow leaves",
+      "hi": "संकरी पत्तियाँ",
+      "gu": "સાંકડા પાંદડા"
+    },
+    {
+      "id": "sym_173",
+      "category": "leaf",
+      "en": "Bushy growth",
+      "hi": "झाड़ीदार वृद्धि",
+      "gu": "ઝાડી જેવી વૃદ્ધિ"
+    },
+    {
+      "id": "sym_174",
+      "category": "root",
+      "en": "Aerial roots",
+      "hi": "हवाई जड़ें",
+      "gu": "હવાઈ મૂળ"
+    },
+    {
+      "id": "sym_175",
+      "category": "leaf",
+      "en": "Short internodes",
+      "hi": "छोटे इंटर्नोड्स",
+      "gu": "ટૂંકા આંતરગાંઠ"
+    },
+    {
+      "id": "sym_176",
+      "category": "leaf",
+      "en": "Papery buds",
+      "hi": "कागज़ जैसी कलियाँ",
+      "gu": "કાગળ જેવી કળીઓ"
+    },
+    {
+      "id": "sym_177",
+      "category": "leaf",
+      "en": "Pokkah boeng symptoms",
+      "hi": "पोक्का बोइंग के लक्षण",
+      "gu": "પોક્કા બોઇંગના લક્ષણો"
+    },
+    {
+      "id": "sym_178",
+      "category": "leaf",
+      "en": "Ring spots",
+      "hi": "रिंग स्पॉट",
+      "gu": "રીંગ સ્પોટ"
+    },
+    {
+      "id": "sym_179",
+      "category": "leaf",
+      "en": "Grey leaf spots",
+      "hi": "भूरे पत्ती के धब्बे",
+      "gu": "રાખોડી પાંદડાના ડાઘા"
+    },
+    {
+      "id": "sym_180",
+      "category": "leaf",
+      "en": "White powder coating",
+      "hi": "सफेद पाउडर की परत",
+      "gu": "સફેદ પાવડરનું આવરણ"
+    },
+    {
+      "id": "sym_181",
+      "category": "leaf",
+      "en": "Capsule rot",
+      "hi": "कैप्सूल सड़न",
+      "gu": "કેપ્સ્યુલનો સડો"
+    },
+    {
+      "id": "sym_182",
+      "category": "leaf",
+      "en": "Poor capsule formation",
+      "hi": "खराब कैप्सूल निर्माण",
+      "gu": "નબળી કેપ્સ્યુલ રચના"
+    },
+    {
+      "id": "sym_183",
+      "category": "leaf",
+      "en": "Leaf spots",
+      "hi": "पत्ती के धब्बे",
+      "gu": "પાંદડાના ડાઘા"
+    },
+    {
+      "id": "sym_184",
+      "category": "leaf",
+      "en": "Yellow mosaic",
+      "hi": "पीला मोज़ेक",
+      "gu": "પીળો મોઝેક"
+    },
+    {
+      "id": "sym_185",
+      "category": "fruit",
+      "en": "Flower malformation",
+      "hi": "फूल विकृति",
+      "gu": "ફૂલની વિકૃતિ"
+    },
+    {
+      "id": "sym_186",
+      "category": "leaf",
+      "en": "Dry capsules",
+      "hi": "सूखी कैप्सूल",
+      "gu": "સૂકા કેપ્સ્યુલ્સ"
+    },
+    {
+      "id": "sym_187",
+      "category": "fruit",
+      "en": "Poor seed formation",
+      "hi": "खराब बीज निर्माण",
+      "gu": "નબળું બીજ નિર્માણ"
+    },
+    {
+      "id": "sym_188",
+      "category": "leaf",
+      "en": "Defoliation",
+      "hi": "पर्णपातन",
+      "gu": "પર્ણપાત"
+    },
+    {
+      "id": "sym_189",
+      "category": "stem",
+      "en": "Stem lesions",
+      "hi": "तने के घाव",
+      "gu": "થડના જખમ"
+    },
+    {
+      "id": "sym_190",
+      "category": "leaf",
+      "en": "Plant death",
+      "hi": "पौधे की मृत्यु",
+      "gu": "છોડનું મૃત્યુ"
+    },
+    {
+      "id": "sym_191",
+      "category": "leaf",
+      "en": "White rust pustules",
+      "hi": "सफेद रस्ट फुंसियां",
+      "gu": "સફેદ રસ્ટના ફોલ્લા"
+    },
+    {
+      "id": "sym_192",
+      "category": "leaf",
+      "en": "Black leaf spots",
+      "hi": "काले पत्ती के धब्बे",
+      "gu": "કાળા પાંદડાના ટપકાં"
+    },
+    {
+      "id": "sym_193",
+      "category": "leaf",
+      "en": "Powdery coating",
+      "hi": "चूर्णयुक्त परत",
+      "gu": "પાવડરી કોટિંગ"
+    },
+    {
+      "id": "sym_194",
+      "category": "fruit",
+      "en": "Drying pods",
+      "hi": "सूखती फलियाँ",
+      "gu": "સુકાતી શીંગો"
+    },
+    {
+      "id": "sym_195",
+      "category": "leaf",
+      "en": "Chlorotic patches",
+      "hi": "क्लोरोटिक धब्बे",
+      "gu": "ક્લોરોટિક પેચ"
+    },
+    {
+      "id": "sym_196",
+      "category": "leaf",
+      "en": "Necrotic lesions",
+      "hi": "नेक्रोटिक घाव",
+      "gu": "નેક્રોટિક જખમ"
+    },
+    {
+      "id": "sym_197",
+      "category": "leaf",
+      "en": "Dry plants",
+      "hi": "सूखे पौधे",
+      "gu": "સૂકા છોડ"
+    },
+    {
+      "id": "sym_198",
+      "category": "fruit",
+      "en": "Pod discoloration",
+      "hi": "फली का रंग बदलना",
+      "gu": "શીંગનો રંગ બદલાવો"
+    },
+    {
+      "id": "sym_199",
+      "category": "fruit",
+      "en": "Flower drop",
+      "hi": "फूल झड़ना",
+      "gu": "ફૂલ ખરવા"
+    },
+    {
+      "id": "sym_200",
+      "category": "fruit",
+      "en": "Poor seed filling",
+      "hi": "खराब बीज भरना",
+      "gu": "નબળું બીજ ભરણ"
+    },
+    {
+      "id": "sym_201",
+      "category": "leaf",
+      "en": "Fusarium wilt",
+      "hi": "फ्यूजेरियम विल्ट",
+      "gu": "ફ્યુઝેરિયમ વિલ્ટ"
+    },
+    {
+      "id": "sym_202",
+      "category": "root",
+      "en": "Dry root rot",
+      "hi": "सूखा जड़ सड़न",
+      "gu": "સૂકા મૂળનો સડો"
+    },
+    {
+      "id": "sym_203",
+      "category": "leaf",
+      "en": "Ascochyta blight",
+      "hi": "एस्कोकाइट ब्लाइट",
+      "gu": "એસ્કોકાઇટા બ્લાઇટ"
+    },
+    {
+      "id": "sym_204",
+      "category": "fruit",
+      "en": "Poor pod formation",
+      "hi": "खराब फली निर्माण",
+      "gu": "નબળી શીંગ રચના"
+    },
+    {
+      "id": "sym_205",
+      "category": "fruit",
+      "en": "Drying seedlings",
+      "hi": "सूखते अंकुर",
+      "gu": "સુકાતા રોપાઓ"
+    },
+    {
+      "id": "sym_206",
+      "category": "leaf",
+      "en": "Sterility mosaic",
+      "hi": "बांझपन मोज़ेक",
+      "gu": "વંધ્યત્વ મોઝેક"
+    },
+    {
+      "id": "sym_207",
+      "category": "leaf",
+      "en": "Plant drying",
+      "hi": "पौधे का सूखना",
+      "gu": "છોડ સુકાઈ જવો"
+    },
+    {
+      "id": "sym_208",
+      "category": "leaf",
+      "en": "Cercospora spots",
+      "hi": "सर्कोस्पोरा धब्बे",
+      "gu": "સર્કોસ્પોરાના ટપકાં"
+    },
+    {
+      "id": "sym_209",
+      "category": "leaf",
+      "en": "Powdery growth",
+      "hi": "चूर्णयुक्त वृद्धि",
+      "gu": "પાવડરી વૃદ્ધિ"
+    },
+    {
+      "id": "sym_210",
+      "category": "leaf",
+      "en": "Necrotic spots",
+      "hi": "नेक्रोटिक धब्बे",
+      "gu": "નેક્રોટિક ટપકાં"
+    },
+    {
+      "id": "sym_211",
+      "category": "leaf",
+      "en": "Mosaic disease",
+      "hi": "मोज़ेक रोग",
+      "gu": "મોઝેક રોગ"
+    },
+    {
+      "id": "sym_212",
+      "category": "leaf",
+      "en": "Brown spots",
+      "hi": "भूरे धब्बे",
+      "gu": "ભૂરા ટપકાં"
+    },
+    {
+      "id": "sym_213",
+      "category": "leaf",
+      "en": "Bacterial blight",
+      "hi": "बैक्टीरियल ब्लाइट",
+      "gu": "બેક્ટેરિયલ બ્લાઇટ"
+    },
+    {
+      "id": "sym_214",
+      "category": "leaf",
+      "en": "Brown leaf spots",
+      "hi": "भूरे पत्ती के धब्बे",
+      "gu": "ભૂરા પાંદડાના ટપકાં"
+    },
+    {
+      "id": "sym_215",
+      "category": "stem",
+      "en": "Stem blight",
+      "hi": "तना ब्लाइट",
+      "gu": "થડનો બ્લાઇટ"
+    },
+    {
+      "id": "sym_216",
+      "category": "leaf",
+      "en": "Alternaria spots",
+      "hi": "अल्टरनेरिया धब्बे",
+      "gu": "અલ્ટરનેરિયાના ટપકાં"
+    },
+    {
+      "id": "sym_217",
+      "category": "leaf",
+      "en": "Yellow umbels",
+      "hi": "पीले छत्रक",
+      "gu": "પીળા છત્રક"
+    },
+    {
+      "id": "sym_218",
+      "category": "stem",
+      "en": "Drying branches",
+      "hi": "सूखती शाखाएँ",
+      "gu": "સુકાતી શાખાઓ"
+    },
+    {
+      "id": "sym_219",
+      "category": "leaf",
+      "en": "Blight lesions",
+      "hi": "ब्लाइट घाव",
+      "gu": "બ્લાઇટના જખમ"
+    },
+    {
+      "id": "sym_220",
+      "category": "leaf",
+      "en": "Yellowing plants",
+      "hi": "पीले पड़ते पौधे",
+      "gu": "પીળા પડતા છોડ"
+    },
+    {
+      "id": "sym_221",
+      "category": "stem",
+      "en": "Stem gall",
+      "hi": "तना गॉल",
+      "gu": "થડનો ગૉલ"
+    },
+    {
+      "id": "sym_222",
+      "category": "leaf",
+      "en": "Downy mildew",
+      "hi": "डाउनी मिल्ड्यू",
+      "gu": "ડાઉની મિલ્ડ્યુ"
+    },
+    {
+      "id": "sym_223",
+      "category": "leaf",
+      "en": "Leaf curl",
+      "hi": "पत्ती मुड़ना",
+      "gu": "પાંદડા વળી જવા"
+    },
+    {
+      "id": "sym_224",
+      "category": "fruit",
+      "en": "Fruit rot",
+      "hi": "फल सड़न",
+      "gu": "ફળનો સડો"
+    },
+    {
+      "id": "sym_225",
+      "category": "leaf",
+      "en": "Anthracnose lesions",
+      "hi": "एन्थ्रेक्नोज घाव",
+      "gu": "એન્થ્રેકનોઝના જખમ"
+    },
+    {
+      "id": "sym_226",
+      "category": "fruit",
+      "en": "Poor fruit formation",
+      "hi": "खराब फल निर्माण",
+      "gu": "નબળી ફળ રચના"
+    },
+    {
+      "id": "sym_227",
+      "category": "fruit",
+      "en": "Fruit spots",
+      "hi": "फल के धब्बे",
+      "gu": "ફળના ટપકાં"
+    },
+    {
+      "id": "sym_228",
+      "category": "leaf",
+      "en": "Basal rot",
+      "hi": "बेसल सड़न",
+      "gu": "મૂળનો સડો"
+    },
+    {
+      "id": "sym_229",
+      "category": "leaf",
+      "en": "Purple spots",
+      "hi": "बैंगनी धब्बे",
+      "gu": "જાંબલી ટપકાં"
+    },
+    {
+      "id": "sym_230",
+      "category": "leaf",
+      "en": "Bulb decay",
+      "hi": "कंद सड़न",
+      "gu": "કંદનો સડો"
+    },
+    {
+      "id": "sym_231",
+      "category": "stem",
+      "en": "Stem softening",
+      "hi": "तने का नरम पड़ना",
+      "gu": "થડ નરમ પડવું"
+    },
+    {
+      "id": "sym_232",
+      "category": "leaf",
+      "en": "Soft bulb rot",
+      "hi": "नरम कंद सड़न",
+      "gu": "નરમ કંદનો સડો"
+    },
+    {
+      "id": "sym_233",
+      "category": "leaf",
+      "en": "Purple blotches",
+      "hi": "बैंगनी धब्बे",
+      "gu": "જાંબલી ધબ્બા"
+    },
+    {
+      "id": "sym_234",
+      "category": "leaf",
+      "en": "Bulb rot",
+      "hi": "कंद सड़न",
+      "gu": "કંદ સડો"
+    },
+    {
+      "id": "sym_235",
+      "category": "leaf",
+      "en": "Soft bulbs",
+      "hi": "नरम कंद",
+      "gu": "નરમ કંદ"
+    },
+    {
+      "id": "sym_236",
+      "category": "leaf",
+      "en": "White fungal growth",
+      "hi": "सफेद फंगल वृद्धि",
+      "gu": "સફેદ ફૂગનો વિકાસ"
+    },
+    {
+      "id": "sym_237",
+      "category": "leaf",
+      "en": "Yellow leaf spots",
+      "hi": "पीले पत्ती के धब्बे",
+      "gu": "પીળા પાંદડાના ટપકાં"
+    },
+    {
+      "id": "sym_238",
+      "category": "leaf",
+      "en": "Head rot",
+      "hi": "शीर्ष सड़न",
+      "gu": "શીર્ષ સડો"
+    },
+    {
+      "id": "sym_239",
+      "category": "stem",
+      "en": "Black stem lesions",
+      "hi": "काले तने के घाव",
+      "gu": "કાળા થડના જખમ"
+    },
+    {
+      "id": "sym_240",
+      "category": "leaf",
+      "en": "Anthracnose black spots",
+      "hi": "एन्थ्रेक्नोज काले धब्बे",
+      "gu": "એન્થ્રેકનોઝ કાળા ટપકાં"
+    },
+    {
+      "id": "sym_241",
+      "category": "fruit",
+      "en": "Malformed flowers",
+      "hi": "विकृत फूल",
+      "gu": "વિકૃત ફૂલો"
+    },
+    {
+      "id": "sym_242",
+      "category": "leaf",
+      "en": "Sooty mold",
+      "hi": "कालिख फफूंदी",
+      "gu": "કાળી ફૂગ"
+    },
+    {
+      "id": "sym_243",
+      "category": "stem",
+      "en": "Dieback branches",
+      "hi": "शाखाओं का शीर्षारंभी क्षय",
+      "gu": "ડાળીઓનો સુકારો"
+    },
+    {
+      "id": "sym_244",
+      "category": "fruit",
+      "en": "Black fruit lesions",
+      "hi": "काले फल के घाव",
+      "gu": "કાળા ફળના જખમ"
+    },
+    {
+      "id": "sym_245",
+      "category": "leaf",
+      "en": "Leaf drying",
+      "hi": "पत्ती का सूखना",
+      "gu": "પાંદડા સુકાવા"
+    },
+    {
+      "id": "sym_246",
+      "category": "leaf",
+      "en": "Gum oozing",
+      "hi": "गोंद का रिसाव",
+      "gu": "ગુંદરનો સ્ત્રાવ"
+    },
+    {
+      "id": "sym_247",
+      "category": "fruit",
+      "en": "Fruit drop",
+      "hi": "फल का गिरना",
+      "gu": "ફળ ખરવા"
+    },
+    {
+      "id": "sym_248",
+      "category": "stem",
+      "en": "Bark cracking",
+      "hi": "छाल का फटना",
+      "gu": "છાલ ફાટવી"
+    },
+    {
+      "id": "sym_249",
+      "category": "fruit",
+      "en": "Flower blight",
+      "hi": "फूल झुलसा",
+      "gu": "ફૂલનો સુકારો"
+    },
+    {
+      "id": "sym_250",
+      "category": "fruit",
+      "en": "Soft fruit decay",
+      "hi": "नरम फल सड़न",
+      "gu": "નરમ ફળનો સડો"
+    },
+    {
+      "id": "sym_251",
+      "category": "stem",
+      "en": "Twig drying",
+      "hi": "टहनी का सूखना",
+      "gu": "ડાળીઓ સુકાવી"
+    },
+    {
+      "id": "sym_252",
+      "category": "leaf",
+      "en": "Scab lesions",
+      "hi": "खुरंड के घाव",
+      "gu": "ખરજવાના જખમ"
+    },
+    {
+      "id": "sym_253",
+      "category": "leaf",
+      "en": "Panama wilt",
+      "hi": "पनामा विल्ट",
+      "gu": "પનામા વિલ્ટ"
+    },
+    {
+      "id": "sym_254",
+      "category": "leaf",
+      "en": "Sigatoka streaks",
+      "hi": "सिगाटोका धारियाँ",
+      "gu": "સિગાટોકા પટ્ટાઓ"
+    },
+    {
+      "id": "sym_255",
+      "category": "leaf",
+      "en": "Bunchy top",
+      "hi": "गुच्छेदार शीर्ष",
+      "gu": "ગુચ્છાદાર ટોચ"
+    },
+    {
+      "id": "sym_256",
+      "category": "leaf",
+      "en": "Rhizome rot",
+      "hi": "प्रकंद सड़न",
+      "gu": "રાઈઝોમ સડો"
+    },
+    {
+      "id": "sym_257",
+      "category": "stem",
+      "en": "Pseudostem splitting",
+      "hi": "आभासी तने का फटना",
+      "gu": "સ્યુડોસ્ટેમ ફાટવું"
+    },
+    {
+      "id": "sym_258",
+      "category": "leaf",
+      "en": "Leaf tearing",
+      "hi": "पत्ती का फटना",
+      "gu": "પાંદડા ફાટવા"
+    },
+    {
+      "id": "sym_259",
+      "category": "leaf",
+      "en": "Plant collapse",
+      "hi": "पौधे का ढहना",
+      "gu": "છોડનું પડી જવું"
+    },
+    {
+      "id": "sym_260",
+      "category": "leaf",
+      "en": "Black leaf streaks",
+      "hi": "काली पत्ती की धारियाँ",
+      "gu": "કાળા પાંદડાના પટ્ટાઓ"
+    },
+    {
+      "id": "sym_261",
+      "category": "stem",
+      "en": "Soft stem rot",
+      "hi": "नरम तना सड़न",
+      "gu": "નરમ થડનો સડો"
+    },
+    {
+      "id": "sym_262",
+      "category": "leaf",
+      "en": "Crown rot",
+      "hi": "मूलसंधि सड़न",
+      "gu": "ક્રાઉન સડો"
+    },
+    {
+      "id": "sym_263",
+      "category": "leaf",
+      "en": "Distorted bunches",
+      "hi": "विकृत गुच्छे",
+      "gu": "વિકૃત ઝુમખાં"
+    },
+    {
+      "id": "sym_264",
+      "category": "leaf",
+      "en": "Ring spot patterns",
+      "hi": "वलय धब्बे के पैटर्न",
+      "gu": "રીંગ સ્પોટ પેટર્ન"
+    },
+    {
+      "id": "sym_265",
+      "category": "leaf",
+      "en": "Mosaic leaves",
+      "hi": "मोज़ेक पत्तियां",
+      "gu": "મોઝેક પાંદડા"
+    },
+    {
+      "id": "sym_266",
+      "category": "fruit",
+      "en": "Fruit deformation",
+      "hi": "फल का विरूपण",
+      "gu": "ફળનું વિકૃતિ"
+    },
+    {
+      "id": "sym_267",
+      "category": "leaf",
+      "en": "Leaf distortion",
+      "hi": "पत्ती का विरूपण",
+      "gu": "પાંદડાની વિકૃતિ"
+    },
+    {
+      "id": "sym_268",
+      "category": "leaf",
+      "en": "Black spots",
+      "hi": "काले धब्बे",
+      "gu": "કાળા ટપકાં"
+    },
+    {
+      "id": "sym_269",
+      "category": "stem",
+      "en": "Soft stem decay",
+      "hi": "नरम तना क्षय",
+      "gu": "નરમ થડનો સડો"
+    },
+    {
+      "id": "sym_270",
+      "category": "leaf",
+      "en": "Curling petioles",
+      "hi": "मुड़ते हुए पर्णवृंत",
+      "gu": "વાંકા વળેલા પર્ણદંડ"
+    },
+    {
+      "id": "sym_271",
+      "category": "fruit",
+      "en": "Fruit cracking",
+      "hi": "फल का फटना",
+      "gu": "ફળ ફાટવા"
+    },
+    {
+      "id": "sym_272",
+      "category": "fruit",
+      "en": "Poor fruit quality",
+      "hi": "खराब फल गुणवत्ता",
+      "gu": "નબળી ફળ ગુણવત્તા"
+    },
+    {
+      "id": "sym_273",
+      "category": "stem",
+      "en": "Twig blight",
+      "hi": "टहनी झुलसा",
+      "gu": "ડાળીનો સુકારો"
+    },
+    {
+      "id": "sym_274",
+      "category": "fruit",
+      "en": "Fruit discoloration",
+      "hi": "फल का रंग बदलना",
+      "gu": "ફળનો રંગ બદલાવ"
+    },
+    {
+      "id": "sym_275",
+      "category": "fruit",
+      "en": "Premature fruit drop",
+      "hi": "समय से पहले फल का गिरना",
+      "gu": "વહેલા ફળ ખરવા"
+    },
+    {
+      "id": "sym_276",
+      "category": "leaf",
+      "en": "Anthracnose spots",
+      "hi": "एन्थ्रेक्नोज धब्बे",
+      "gu": "એન્થ્રેકનોઝ ટપકાં"
+    },
+    {
+      "id": "sym_277",
+      "category": "fruit",
+      "en": "Fruit canker",
+      "hi": "फल कैंकर",
+      "gu": "ફળ કેન્કર"
+    },
+    {
+      "id": "sym_278",
+      "category": "fruit",
+      "en": "Soft fruit rot",
+      "hi": "नरम फल सड़न",
+      "gu": "નરમ ફળનો સડો"
+    },
+    {
+      "id": "sym_279",
+      "category": "leaf",
+      "en": "Black fungal coating",
+      "hi": "काली फंगल परत",
+      "gu": "કાળી ફૂગનું આવરણ"
+    },
+    {
+      "id": "sym_280",
+      "category": "stem",
+      "en": "Twig dieback",
+      "hi": "टहनी का शीर्षारंभी क्षय",
+      "gu": "ડાળીઓનો સુકારો"
+    },
+    {
+      "id": "sym_281",
+      "category": "fruit",
+      "en": "Poor fruit development",
+      "hi": "खराब फल विकास",
+      "gu": "નબળો ફળ વિકાસ"
+    },
+    {
+      "id": "sym_282",
+      "category": "leaf",
+      "en": "Citrus canker",
+      "hi": "सिट्रस कैंकर",
+      "gu": "સાઇટ્રસ કેન્કર"
+    },
+    {
+      "id": "sym_283",
+      "category": "leaf",
+      "en": "Gummosis",
+      "hi": "गमोसिस",
+      "gu": "ગમોસિસ"
+    },
+    {
+      "id": "sym_284",
+      "category": "leaf",
+      "en": "Greening disease",
+      "hi": "हरापन रोग",
+      "gu": "લીલાશ રોગ"
+    },
+    {
+      "id": "sym_285",
+      "category": "leaf",
+      "en": "Leaf miner damage",
+      "hi": "पर्ण सुरंगक क्षति",
+      "gu": "પર્ણ કોરિયા નુકસાન"
+    },
+    {
+      "id": "sym_286",
+      "category": "leaf",
+      "en": "Yellow shoots",
+      "hi": "पीली कोंपलें",
+      "gu": "પીળા અંકુર"
+    },
+    {
+      "id": "sym_287",
+      "category": "fruit",
+      "en": "Premature fruit coloring",
+      "hi": "असमय फल रंगाई",
+      "gu": "અકાળે ફળ રંગીન થવું"
+    },
+    {
+      "id": "sym_288",
+      "category": "leaf",
+      "en": "Small leaves",
+      "hi": "छोटी पत्तियाँ",
+      "gu": "નાના પાન"
+    },
+    {
+      "id": "sym_289",
+      "category": "leaf",
+      "en": "Vein yellowing",
+      "hi": "शिरा पीलापन",
+      "gu": "નસ પીળાશ"
+    },
+    {
+      "id": "sym_290",
+      "category": "leaf",
+      "en": "Greening symptoms",
+      "hi": "हरापन के लक्षण",
+      "gu": "લીલાશના લક્ષણો"
+    },
+    {
+      "id": "sym_291",
+      "category": "leaf",
+      "en": "Citrus greening",
+      "hi": "सिट्रस ग्रीनिंग",
+      "gu": "સાઇટ્રસ ગ્રીનિંગ"
+    },
+    {
+      "id": "sym_292",
+      "category": "stem",
+      "en": "Bark lesions",
+      "hi": "छाल पर घाव",
+      "gu": "છાલના જખમ"
+    },
+    {
+      "id": "sym_293",
+      "category": "fruit",
+      "en": "Small fruits",
+      "hi": "छोटे फल",
+      "gu": "નાના ફળો"
+    },
+    {
+      "id": "sym_294",
+      "category": "fruit",
+      "en": "Premature fruit ripening",
+      "hi": "असमय फल पकना",
+      "gu": "ફળનું અકાળે પાકવું"
+    },
+    {
+      "id": "sym_295",
+      "category": "leaf",
+      "en": "Black scorch",
+      "hi": "काला झुलसा",
+      "gu": "કાળો સુકારો"
+    },
+    {
+      "id": "sym_296",
+      "category": "leaf",
+      "en": "Dry fronds",
+      "hi": "सूखे पर्ण",
+      "gu": "સૂકા પર્ણ"
+    },
+    {
+      "id": "sym_297",
+      "category": "fruit",
+      "en": "Poor fruit set",
+      "hi": "खराब फल लगना",
+      "gu": "નબળો ફળ બેસારો"
+    },
+    {
+      "id": "sym_298",
+      "category": "leaf",
+      "en": "Soft tissue decay",
+      "hi": "नरम ऊतक सड़न",
+      "gu": "નરમ પેશીનો સડો"
+    },
+    {
+      "id": "sym_299",
+      "category": "fruit",
+      "en": "Dragon Fruit",
+      "hi": "ड्रैगन फ्रूट",
+      "gu": "ડ્રેગન ફ્રુટ"
+    },
+    {
+      "id": "sym_300",
+      "category": "leaf",
+      "en": "Soft rot",
+      "hi": "मृदु सड़न",
+      "gu": "નરમ સડો"
+    },
+    {
+      "id": "sym_301",
+      "category": "stem",
+      "en": "Yellow stems",
+      "hi": "पीले तने",
+      "gu": "પીળા દાંડા"
+    },
+    {
+      "id": "sym_302",
+      "category": "leaf",
+      "en": "Fungal patches",
+      "hi": "कवक के धब्बे",
+      "gu": "ફૂગના ધબ્બા"
+    },
+    {
+      "id": "sym_303",
+      "category": "stem",
+      "en": "Dry stems",
+      "hi": "सूखे तने",
+      "gu": "સૂકા દાંડા"
+    },
+    {
+      "id": "sym_304",
+      "category": "leaf",
+      "en": "Rust",
+      "hi": "गेरुई रोग",
+      "gu": "ગેરુ રોગ"
+    },
+    {
+      "id": "sym_305",
+      "category": "stem",
+      "en": "Dry twigs",
+      "hi": "सूखी टहनियाँ",
+      "gu": "સૂકી ડાળીઓ"
+    },
+    {
+      "id": "sym_306",
+      "category": "leaf",
+      "en": "Leaf spot",
+      "hi": "पर्ण धब्बा",
+      "gu": "પર્ણ ડાઘ"
+    },
+    {
+      "id": "sym_307",
+      "category": "leaf",
+      "en": "Anthracnose",
+      "hi": "एन्थ्रेक्नोज",
+      "gu": "એન્થ્રેકનોઝ"
+    },
+    {
+      "id": "sym_308",
+      "category": "fruit",
+      "en": "Poor fruit growth",
+      "hi": "फलों की खराब वृद्धि",
+      "gu": "ફળની નબળી વૃદ્ધિ"
+    },
+    {
+      "id": "sym_309",
+      "category": "leaf",
+      "en": "Bud rot",
+      "hi": "कली सड़न",
+      "gu": "કળીનો સડો"
+    },
+    {
+      "id": "sym_310",
+      "category": "stem",
+      "en": "Stem bleeding",
+      "hi": "तना रक्तस्राव",
+      "gu": "થડમાંથી રસ ઝરવો"
+    },
+    {
+      "id": "sym_311",
+      "category": "root",
+      "en": "Root wilt",
+      "hi": "मूल विल्ट",
+      "gu": "મૂળ સુકારો"
+    },
+    {
+      "id": "sym_312",
+      "category": "leaf",
+      "en": "Yellow fronds",
+      "hi": "पीले पर्ण",
+      "gu": "પીળા પર્ણ"
+    },
+    {
+      "id": "sym_313",
+      "category": "stem",
+      "en": "Stem decay",
+      "hi": "तना सड़न",
+      "gu": "થડનો સડો"
+    },
+    {
+      "id": "sym_314",
+      "category": "leaf",
+      "en": "Poor nut formation",
+      "hi": "नट का खराब बनना",
+      "gu": "નબળું ફળ નિર્માણ"
+    },
+    {
+      "id": "sym_315",
+      "category": "leaf",
+      "en": "Necrotic leaf spots",
+      "hi": "मृतकोशीय पर्ण धब्बे",
+      "gu": "નેક્રોટિક પાનના ડાઘ"
+    },
+    {
+      "id": "sym_316",
+      "category": "stem",
+      "en": "Soft stem tissue",
+      "hi": "कोमल तना ऊतक",
+      "gu": "નરમ થડની પેશી"
+    },
+    {
+      "id": "sym_317",
+      "category": "leaf",
+      "en": "Premature nut fall",
+      "hi": "असमय नट गिरना",
+      "gu": "અકાળે ફળ ખરવું"
+    },
+    {
+      "id": "sym_318",
+      "category": "leaf",
+      "en": "Grey mold",
+      "hi": "ग्रे मोल्ड",
+      "gu": "ગ્રે મોલ્ડ"
+    },
+    {
+      "id": "sym_319",
+      "category": "fruit",
+      "en": "Soft fruits",
+      "hi": "नरम फल",
+      "gu": "નરમ ફળો"
+    },
+    {
+      "id": "sym_320",
+      "category": "leaf",
+      "en": "Dry runners",
+      "hi": "सूखी लताएँ",
+      "gu": "સૂકા વેલા"
+    },
+    {
+      "id": "sym_321",
+      "category": "leaf",
+      "en": "Dieback",
+      "hi": "डायबैक",
+      "gu": "ડાયબેક"
+    },
+    {
+      "id": "sym_322",
+      "category": "leaf",
+      "en": "Berry rot",
+      "hi": "बेरी सड़न",
+      "gu": "બેરીનો સડો"
+    },
+    {
+      "id": "sym_323",
+      "category": "leaf",
+      "en": "Poor bunch formation",
+      "hi": "खराब गुच्छा निर्माण",
+      "gu": "નબળી ઝૂમખા રચના"
+    },
+    {
+      "id": "sym_324",
+      "category": "fruit",
+      "en": "Fruit shriveling",
+      "hi": "फल सिकुड़न",
+      "gu": "ફળ સંકોચન"
+    },
+    {
+      "id": "sym_325",
+      "category": "leaf",
+      "en": "Black fungal growth",
+      "hi": "काली कवक वृद्धि",
+      "gu": "કાળી ફૂગની વૃદ્ધિ"
+    },
+    {
+      "id": "sym_326",
+      "category": "leaf",
+      "en": "Avocado",
+      "hi": "एवोकैडो",
+      "gu": "એવોકાડો"
+    },
+    {
+      "id": "sym_327",
+      "category": "leaf",
+      "en": "Leaf scorch",
+      "hi": "पर्ण झुलसा",
+      "gu": "પાનનો દાહ"
+    },
+    {
+      "id": "sym_328",
+      "category": "leaf",
+      "en": "Water-soaked leaf spots",
+      "hi": "जलसिक्त पर्ण धब्बे",
+      "gu": "પાણીથી ભીના પાનના ડાઘ"
+    },
+    {
+      "id": "sym_329",
+      "category": "leaf",
+      "en": "Brown concentric rings",
+      "hi": "भूरे संकेंद्रित वलय",
+      "gu": "ભૂરા કેન્દ્રિત વર્તુળો"
+    },
+    {
+      "id": "sym_330",
+      "category": "leaf",
+      "en": "Late blight lesions",
+      "hi": "विलंबित झुलसा घाव",
+      "gu": "મોડા સુકારાના જખમ"
+    },
+    {
+      "id": "sym_331",
+      "category": "leaf",
+      "en": "Early blight spots",
+      "hi": "प्रारंभिक झुलसा धब्बे",
+      "gu": "વહેલા સુકારાના ડાઘ"
+    },
+    {
+      "id": "sym_332",
+      "category": "leaf",
+      "en": "Black scurf",
+      "hi": "काला खुरचन",
+      "gu": "કાળી ખરજ"
+    },
+    {
+      "id": "sym_333",
+      "category": "root",
+      "en": "Tuber rot",
+      "hi": "कंद सड़न",
+      "gu": "કંદનો સડો"
+    },
+    {
+      "id": "sym_334",
+      "category": "root",
+      "en": "Cracked tubers",
+      "hi": "फटे हुए कंद",
+      "gu": "ફાટેલા કંદ"
+    },
+    {
+      "id": "sym_335",
+      "category": "leaf",
+      "en": "Brown vascular tissue",
+      "hi": "भूरे संवहनी ऊतक",
+      "gu": "ભૂરા વાહિની પેશીઓ"
+    },
+    {
+      "id": "sym_336",
+      "category": "stem",
+      "en": "Black stem rot",
+      "hi": "काला तना सड़न",
+      "gu": "કાળો દાંડીનો સડો"
+    },
+    {
+      "id": "sym_337",
+      "category": "root",
+      "en": "Poor tuber formation",
+      "hi": "कंद का खराब गठन",
+      "gu": "કંદનું નબળું નિર્માણ"
+    },
+    {
+      "id": "sym_338",
+      "category": "leaf",
+      "en": "Soft watery decay",
+      "hi": "नरम पानीदार सड़न",
+      "gu": "નરમ પાણીયુક્ત સડો"
+    },
+    {
+      "id": "sym_339",
+      "category": "leaf",
+      "en": "Leaf curl virus",
+      "hi": "पर्ण कुंचन विषाणु",
+      "gu": "પર્ણ કુંચન વાયરસ"
+    },
+    {
+      "id": "sym_340",
+      "category": "leaf",
+      "en": "Bacterial wilt",
+      "hi": "जीवाणु मुरझान",
+      "gu": "બેક્ટેરિયલ સુકારો"
+    },
+    {
+      "id": "sym_341",
+      "category": "stem",
+      "en": "Black stem spots",
+      "hi": "काले तने के धब्बे",
+      "gu": "કાળા દાંડીના ડાઘા"
+    },
+    {
+      "id": "sym_342",
+      "category": "leaf",
+      "en": "Little leaf disease",
+      "hi": "छोटी पत्ती रोग",
+      "gu": "નાનો પર્ણ રોગ"
+    },
+    {
+      "id": "sym_343",
+      "category": "fruit",
+      "en": "Fruit borer holes",
+      "hi": "फल छेदक के छेद",
+      "gu": "ફળ કોરી ખાનારના છિદ્રો"
+    },
+    {
+      "id": "sym_344",
+      "category": "leaf",
+      "en": "Yellow vein mosaic",
+      "hi": "पीला शिरा मोज़ेक",
+      "gu": "પીળી નસ મોઝેક"
+    },
+    {
+      "id": "sym_345",
+      "category": "leaf",
+      "en": "Black rot",
+      "hi": "काला सड़न",
+      "gu": "કાળો સડો"
+    },
+    {
+      "id": "sym_346",
+      "category": "root",
+      "en": "Club root swelling",
+      "hi": "क्लब जड़ सूजन",
+      "gu": "ક્લબ મૂળ સોજો"
+    },
+    {
+      "id": "sym_347",
+      "category": "leaf",
+      "en": "Stunted heads",
+      "hi": "अविकसित सिर",
+      "gu": "અવિકસિત માથા"
+    },
+    {
+      "id": "sym_348",
+      "category": "leaf",
+      "en": "Necrotic leaf margins",
+      "hi": "ऊतकक्षयी पत्ती के किनारे",
+      "gu": "નેક્રોટિક પર્ણ કિનારીઓ"
+    },
+    {
+      "id": "sym_349",
+      "category": "root",
+      "en": "Club root",
+      "hi": "क्लब जड़",
+      "gu": "ક્લબ મૂળ"
+    },
+    {
+      "id": "sym_350",
+      "category": "leaf",
+      "en": "Brown curd spots",
+      "hi": "भूरे कर्ड के धब्बे",
+      "gu": "ભૂરા કર્ડના ડાઘા"
+    },
+    {
+      "id": "sym_351",
+      "category": "root",
+      "en": "Root swelling",
+      "hi": "जड़ सूजन",
+      "gu": "મૂળ સોજો"
+    },
+    {
+      "id": "sym_352",
+      "category": "leaf",
+      "en": "Poor curd formation",
+      "hi": "खराब कर्ड गठन",
+      "gu": "નબળું કર્ડ નિર્માણ"
+    },
+    {
+      "id": "sym_353",
+      "category": "leaf",
+      "en": "Mosaic virus",
+      "hi": "मोज़ेक वायरस",
+      "gu": "મોઝેક વાયરસ"
+    },
+    {
+      "id": "sym_354",
+      "category": "leaf",
+      "en": "Dry vines",
+      "hi": "सूखी बेलें",
+      "gu": "સૂકી વેલા"
+    },
+    {
+      "id": "sym_355",
+      "category": "leaf",
+      "en": "Mosaic patterns",
+      "hi": "मोज़ेक पैटर्न",
+      "gu": "મોઝેક પેટર્ન"
+    },
+    {
+      "id": "sym_356",
+      "category": "leaf",
+      "en": "Angular leaf spots",
+      "hi": "कोणीय पत्ती के धब्बे",
+      "gu": "કોણીય પર્ણ ડાઘા"
+    },
+    {
+      "id": "sym_357",
+      "category": "leaf",
+      "en": "Bacterial spots",
+      "hi": "जीवाणु धब्बे",
+      "gu": "બેક્ટેરિયલ ડાઘા"
+    },
+    {
+      "id": "sym_358",
+      "category": "root",
+      "en": "Cracked roots",
+      "hi": "फटी हुई जड़ें",
+      "gu": "ફાટેલા મૂળ"
+    },
+    {
+      "id": "sym_359",
+      "category": "root",
+      "en": "Root discoloration",
+      "hi": "जड़ का मलिनकिरण",
+      "gu": "મૂળનો રંગ બદલાવો"
+    },
+    {
+      "id": "sym_360",
+      "category": "root",
+      "en": "Poor root development",
+      "hi": "खराब जड़ विकास",
+      "gu": "નબળો મૂળ વિકાસ"
+    },
+    {
+      "id": "sym_361",
+      "category": "leaf",
+      "en": "Black lesions",
+      "hi": "काले घाव",
+      "gu": "કાળા જખમ"
+    },
+    {
+      "id": "sym_362",
+      "category": "root",
+      "en": "Soft roots",
+      "hi": "नरम जड़ें",
+      "gu": "નરમ મૂળ"
+    },
+    {
+      "id": "sym_363",
+      "category": "leaf",
+      "en": "Dry foliage",
+      "hi": "सूखा पत्ता",
+      "gu": "સૂકા પર્ણસમૂહ"
+    },
+    {
+      "id": "sym_364",
+      "category": "root",
+      "en": "Poor root formation",
+      "hi": "खराब जड़ गठन",
+      "gu": "નબળું મૂળ નિર્માણ"
+    },
+    {
+      "id": "sym_365",
+      "category": "leaf",
+      "en": "Rhizome decay",
+      "hi": "प्रकंद सड़न",
+      "gu": "રાઇઝોમ સડો"
+    },
+    {
+      "id": "sym_366",
+      "category": "leaf",
+      "en": "Water-soaked tissues",
+      "hi": "पानी से लथपथ ऊतक",
+      "gu": "પાણીથી ભીંજાયેલી પેશીઓ"
+    },
+    {
+      "id": "sym_367",
+      "category": "leaf",
+      "en": "Poor rhizome formation",
+      "hi": "खराब प्रकंद गठन",
+      "gu": "નબળું રાઇઝોમ નિર્માણ"
+    },
+    {
+      "id": "sym_368",
+      "category": "leaf",
+      "en": "Wilted shoots",
+      "hi": "मुरझाए हुए अंकुर",
+      "gu": "સુકાયેલી કળીઓ"
+    },
+    {
+      "id": "sym_369",
+      "category": "leaf",
+      "en": "Leaf streaks",
+      "hi": "पत्ती की धारियाँ",
+      "gu": "પર્ણની પટ્ટીઓ"
+    },
+    {
+      "id": "sym_370",
+      "category": "stem",
+      "en": "Stem splitting",
+      "hi": "तना फटना",
+      "gu": "દાંડી ફાટવી"
+    }
+  ],
+  "langStore": {
+    "en": {
+      "warning_banner": "This is a decision-support tool. For high-value crops, verify with a visual inspection by an extension officer.",
+      "app_name": "Krishi-Cure",
+      "select_category": "Select Category",
+      "cat_field": "Field Crops",
+      "cat_fruit": "Fruits",
+      "cat_vegetable": "Vegetables",
+      "cat_leaf": "🌿 Leaf Symptoms",
+      "cat_stem": "🎋 Stem Symptoms",
+      "cat_fruit_cat": "🍎 Fruit/Flower Symptoms",
+      "cat_root": "🌱 Root/Soil Symptoms",
+      "back": "← Back",
+      "select_crop": "Select Crop",
+      "search_crop": "Search crop...",
+      "symptoms_for": "Symptoms for",
+      "select_symptoms": "Select all that apply:",
+      "diagnose": "Diagnose Now",
+      "diagnosis_result": "Scientific Diagnosis Result",
+      "confidence": "Confidence",
+      "remedy_organic": "Simple Organic Cure",
+      "remedy_chemical": "Chemical Control (Emergency)",
+      "restart": "Start Over",
+      "conflict_title": "Diagnosis Conflict Detected",
+      "kvk_warning": "Symptoms indicate multiple conflicting issues. Consult your local KVK (Krishi Vigyan Kendra) for lab testing before applying any treatment to protect the crop.",
+      "disease_prefix": "Your crop has:",
+      "speak_btn": "Listen",
+      "status_red": "Extreme Danger (Immediate action needed)",
+      "status_yellow": "Caution (Watch closely/Start organic treatment)",
+      "status_green": "Safe/General Health",
+      "match": "Match",
+      "action_plan_title": "3-Step Organic Action Plan:",
+      "step_prep": "Preparation:",
+      "step_app": "Application:",
+      "step_prev": "Prevention:",
+      "btn_next_symptoms": "Next: Select Symptoms",
+      "select_symptom_alert": "Please select at least one symptom."
+    },
+    "hi": {
+      "warning_banner": "यह एक निर्णय-समर्थन उपकरण है। मूल्यवान फसलों के लिए, कृषि अधिकारी से निरीक्षण कराकर पुष्टि करें।",
+      "app_name": "कृषि-उपचार",
+      "select_category": "श्रेणी चुनें",
+      "cat_field": "खेत की फसलें",
+      "cat_fruit": "फल",
+      "cat_vegetable": "सब्जियां",
+      "cat_leaf": "🌿 पत्ती के लक्षण",
+      "cat_stem": "🎋 तने के लक्षण",
+      "cat_fruit_cat": "🍎 फल/फूल के लक्षण",
+      "cat_root": "🌱 जड़/मिट्टी के लक्षण",
+      "back": "← पीछे",
+      "select_crop": "फसल चुनें",
+      "search_crop": "फसल खोजें...",
+      "symptoms_for": "इसके लक्षण:",
+      "select_symptoms": "जो लागू हों उन्हें चुनें:",
+      "diagnose": "निदान करें",
+      "diagnosis_result": "वैज्ञानिक निदान परिणाम",
+      "confidence": "सटीकता",
+      "remedy_organic": "सरल जैविक उपाय",
+      "remedy_chemical": "रासायनिक नियंत्रण (आपातकालीन)",
+      "restart": "फिर से शुरू करें",
+      "conflict_title": "निदान में विरोधाभास",
+      "kvk_warning": "लक्षण कई परस्पर विरोधी समस्याओं का संकेत देते हैं। फसल को बचाने के लिए कोई भी उपचार करने से पहले अपने स्थानीय KVK (कृषि विज्ञान केंद्र) से लैब परीक्षण के लिए सलाह लें।",
+      "disease_prefix": "आपकी फसल में रोग है:",
+      "speak_btn": "सुने",
+      "status_red": "अत्यधिक खतरे में (तत्काल कार्रवाई करें)",
+      "status_yellow": "सावधान (जैविक उपचार शुरू करें)",
+      "status_green": "सुरक्षित / सामान्य स्वास्थ्य",
+      "match": "सटीकता",
+      "action_plan_title": "3-चरणीय जैविक कार्य योजना:",
+      "step_prep": "तैयारी:",
+      "step_app": "उपयोग:",
+      "step_prev": "रोकथाम:",
+      "btn_next_symptoms": "अगला: लक्षण चुनें",
+      "select_symptom_alert": "कृपया कम से कम एक लक्षण चुनें।"
+    },
+    "gu": {
+      "warning_banner": "આ એક નિર્ણય સહાયક સાધન છે. કિંમતી પાકો માટે, કૃષિ અધિકારી દ્વારા રૂબરૂ નિરીક્ષણ કરાવીને ખાતરી કરો.",
+      "app_name": "કૃષિ-ઉપચાર",
+      "select_category": "શ્રેણી પસંદ કરો",
+      "cat_field": "ખેતરના પાકો",
+      "cat_fruit": "ફળો",
+      "cat_vegetable": "શાકભાજી",
+      "cat_leaf": "🌿 પાંદડાના લક્ષણો",
+      "cat_stem": "🎋 થડના લક્ષણો",
+      "cat_fruit_cat": "🍎 ફળ/ફૂલના લક્ષણો",
+      "cat_root": "🌱 મૂળ/જમીનના લક્ષણો",
+      "back": "← પાછા",
+      "select_crop": "પાક પસંદ કરો",
+      "search_crop": "પાક શોધો...",
+      "symptoms_for": "માટેના લક્ષણો:",
+      "select_symptoms": "લાગુ પડતા તમામ પસંદ કરો:",
+      "diagnose": "નિદાન કરો",
+      "diagnosis_result": "વૈજ્ઞાનિક નિદાન પરિણામ",
+      "confidence": "ચોકસાઈ",
+      "remedy_organic": "સરળ જૈવિક ઉપાય",
+      "remedy_chemical": "રાસાયણિક નિયંત્રણ (ઇમરજન્સી)",
+      "restart": "ફરીથી શરૂ કરો",
+      "conflict_title": "નિદાનમાં વિરોધાભાસ",
+      "kvk_warning": "લક્ષણો બહુવિધ વિરોધાભાસી સમસ્યાઓ સૂચવે છે. પાકના રક્ષણ માટે કોઈપણ ઉપચાર કરતા પહેલા કૃષિ વિજ્ઞાન કેન્દ્ર (KVK) નો લેબ ટેસ્ટિંગ માટે સંપર્ક કરો.",
+      "disease_prefix": "તમારા પાકમાં રોગ છે:",
+      "speak_btn": "સાંભળો",
+      "status_red": "અત્યંત ભયજનક (તાત્કાલિક પગલાં લો)",
+      "status_yellow": "ધ્યાન આપો (જૈવિક સારવાર શરૂ કરો)",
+      "status_green": "સલામત / સામાન્ય સ્વાસ્થ્ય",
+      "match": "ચોકસાઈ",
+      "action_plan_title": "3-પગલાંની જૈવિક કાર્ય યોજના:",
+      "step_prep": "તૈયારી:",
+      "step_app": "ઉપયોગ:",
+      "step_prev": "અટકાવ:",
+      "btn_next_symptoms": "આગળ: લક્ષણો પસંદ કરો",
+      "select_symptom_alert": "કૃપા કરીને ઓછામાં ઓછું એક લક્ષણ પસંદ કરો."
+    }
+  },
+  "cropProfiles": {
+    "cotton": {
+      "scientificName": "Gossypium hirsutum",
+      "diseases": [
+        {
+          "name": "Pink Bollworm",
+          "symptoms": [
+            "larvae",
+            "stem_holes_frass"
+          ],
+          "severity": "RED",
+          "organicRemedies": [
+            "Use Neem Seed Kernel Extract (NSKE) 5%",
+            "Setup pheromone traps",
+            "Destroy infected bolls"
+          ]
+        },
+        {
+          "name": "Whitefly / Leaf Curl Virus",
+          "symptoms": [
+            "honeydew",
+            "mosaic_mottling",
+            "stunting"
+          ],
+          "severity": "RED",
+          "organicRemedies": [
+            "Spray Neem Oil at 5ml/liter",
+            "Install yellow sticky traps",
+            "Uproot and bury infected plants"
+          ]
+        }
+      ]
+    },
+    "groundnut": {
+      "scientificName": "Arachis hypogaea",
+      "diseases": [
+        {
+          "name": "Tikka Disease (Leaf Spot)",
+          "symptoms": [
+            "rust_pustules",
+            "concentric_rings"
+          ],
+          "severity": "YELLOW",
+          "organicRemedies": [
+            "Spray sour buttermilk (500ml/10L water)",
+            "Ensure proper drainage",
+            "Remove affected lower leaves"
+          ]
+        },
+        {
+          "name": "Root Knot Nematode",
+          "symptoms": [
+            "root_galls",
+            "stunting"
+          ],
+          "severity": "YELLOW",
+          "organicRemedies": [
+            "Apply Jivamrut to soil",
+            "Intercrop with Marigold",
+            "Deep summer ploughing"
+          ]
+        }
+      ]
+    },
+    "cumin": {
+      "scientificName": "Cuminum cyminum",
+      "diseases": [
+        {
+          "name": "Powdery Mildew",
+          "symptoms": [
+            "powdery_coating",
+            "v_yellowing"
+          ],
+          "severity": "RED",
+          "organicRemedies": [
+            "Spray whey or sour milk solution",
+            "Avoid excessive irrigation",
+            "Use Agniastra"
+          ]
+        },
+        {
+          "name": "Blight",
+          "symptoms": [
+            "water_soaked",
+            "tip_burn"
+          ],
+          "severity": "RED",
+          "organicRemedies": [
+            "Apply Trichoderma viride",
+            "Use Dashparni Ark",
+            "Ensure crop rotation"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Krishi-Cure-AI
 
 An advanced, AI-powered agricultural diagnostic system designed specifically for farmers.
@@ -39,3 +40,6 @@ An advanced, AI-powered agricultural diagnostic system designed specifically for
    npm start
    ```
 5. Open your browser and navigate to `http://localhost:3000`.
+=======
+# Krishi-Cure-AI
+>>>>>>> 85e26a36d75ca6ef446a157834c6719214209074

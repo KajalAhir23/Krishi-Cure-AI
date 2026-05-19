@@ -86,12 +86,35 @@
 
                 // Render checkboxes
                 symptomsContainer.innerHTML = '';
-                const categories = ['leaf', 'stem', 'fruit', 'root'];
+                const categories = ['leaf', 'stem', 'flower', 'fruit', 'root'];
                 
                 categories.forEach(cat => { 
-                    const catKey = cat === 'fruit' ? 'cat_fruit_cat' : `cat_${cat}`;
-                    const catTitle = langStore[catKey] || cat.toUpperCase();
-                    let catSymptoms = window.appData.symptomsList.filter(s => s.category === cat);
+                    // Dynamic titles with flower support
+                    let catTitle = '';
+                    if (cat === 'flower') {
+                        catTitle = lang === 'gu' ? '🌸 ફૂલના લક્ષણો' : lang === 'hi' ? '🌸 फूल के लक्षण' : '🌸 Flower Symptoms';
+                    } else if (cat === 'fruit') {
+                        catTitle = lang === 'gu' ? '🍎 ફળના લક્ષણો' : lang === 'hi' ? '🍎 फल के लक्षण' : '🍎 Fruit Symptoms';
+                    } else {
+                        const catKey = `cat_${cat}`;
+                        catTitle = langStore[catKey] || cat.toUpperCase();
+                    }
+
+                    // Dynamically separate flower-related symptoms from the fruit category
+                    let catSymptoms = window.appData.symptomsList.filter(s => {
+                        let actualCat = s.category;
+                        const lowerEn = (s.en || '').toLowerCase();
+                        if (actualCat === 'fruit' && (
+                            lowerEn.includes('flower') || 
+                            lowerEn.includes('blossom') || 
+                            lowerEn.includes('curd') || 
+                            lowerEn.includes('bud') ||
+                            lowerEn.includes('boll')
+                        )) {
+                            actualCat = 'flower';
+                        }
+                        return actualCat === cat;
+                    });
                     
                     if (cropSymptomsIds) {
                         catSymptoms = catSymptoms.filter(s => cropSymptomsIds.includes(s.id));
@@ -131,8 +154,15 @@
                 const formData = new FormData(e.target);
                 const symptoms = formData.getAll('symptoms');
                 
+                const langStore = window.appData.langStore[window.currentLang] || {};
+                
                 if (symptoms.length === 0) {
-                    alert(window.appData.langStore[window.currentLang].select_symptom_alert || "Please select at least one symptom.");
+                    alert(langStore.select_symptom_alert || "Please select at least one symptom.");
+                    return;
+                }
+
+                if (symptoms.length < 2) {
+                    alert(langStore.insufficient_symptoms_alert || "Please select at least 2 symptoms for a highly accurate diagnosis.");
                     return;
                 }
 

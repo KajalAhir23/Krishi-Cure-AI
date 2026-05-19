@@ -4476,7 +4476,8 @@
       "step_app": "Application:",
       "step_prev": "Prevention:",
       "btn_next_symptoms": "Next: Select Symptoms",
-      "select_symptom_alert": "Please select at least one symptom."
+      "select_symptom_alert": "Please select at least one symptom.",
+      "insufficient_symptoms_alert": "Please select at least 2 symptoms for a highly accurate diagnosis."
     },
     "hi": {
       "warning_banner": "यह एक निर्णय-समर्थन उपकरण है। मूल्यवान फसलों के लिए, कृषि अधिकारी से निरीक्षण कराकर पुष्टि करें।",
@@ -4513,7 +4514,8 @@
       "step_app": "उपयोग:",
       "step_prev": "रोकथाम:",
       "btn_next_symptoms": "अगला: लक्षण चुनें",
-      "select_symptom_alert": "कृपया कम से कम एक लक्षण चुनें।"
+      "select_symptom_alert": "कृपया कम से कम एक लक्षण चुनें।",
+      "insufficient_symptoms_alert": "कृपया अत्यधिक सटीक निदान के लिए कम से कम 2 लक्षण चुनें।"
     },
     "gu": {
       "warning_banner": "આ એક નિર્ણય સહાયક સાધન છે. કિંમતી પાકો માટે, કૃષિ અધિકારી દ્વારા રૂબરૂ નિરીક્ષણ કરાવીને ખાતરી કરો.",
@@ -4550,7 +4552,8 @@
       "step_app": "ઉપયોગ:",
       "step_prev": "અટકાવ:",
       "btn_next_symptoms": "આગળ: લક્ષણો પસંદ કરો",
-      "select_symptom_alert": "કૃપા કરીને ઓછામાં ઓછું એક લક્ષણ પસંદ કરો."
+      "select_symptom_alert": "કૃપા કરીને ઓછામાં ઓછું એક લક્ષણ પસંદ કરો.",
+      "insufficient_symptoms_alert": "કૃપા કરીને વધુ ચોક્કસ નિદાન માટે ઓછામાં ઓછા ૨ લક્ષણો પસંદ કરો."
     }
   },
   "cropProfiles": {

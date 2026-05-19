@@ -3,9 +3,348 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Krishi-Cure Pro - Result</title>
+    <title>Krishi-Cure - Scientific Diagnosis</title>
     <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Premium Styles for Diagnosis Dashboard */
+        :root {
+            --primary-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --primary-green: #10b981;
+            --primary-green-hover: #059669;
+            --danger-red: #ef4444;
+            --warning-yellow: #f59e0b;
+            --safe-green: #10b981;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            .full-width-card {
+                grid-column: span 2;
+            }
+        }
+
+        /* Severity & Confidence Styling */
+        .meta-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+
+        .badge-red { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+        .badge-yellow { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+        .badge-green { background: #d1fae5; color: #047857; border: 1px solid #a7f3d0; }
+
+        .confidence-section {
+            margin-top: 1rem;
+        }
+
+        .progress-container {
+            background: #f1f5f9;
+            border-radius: 9999px;
+            height: 14px;
+            width: 100%;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.8s ease-in-out;
+        }
+
+        .progress-red { background: var(--danger-red); }
+        .progress-yellow { background: var(--warning-yellow); }
+        .progress-green { background: var(--safe-green); }
+
+        /* Match Comparison Panel */
+        .comparison-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+        }
+
+        .comparison-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comparison-item {
+            margin-bottom: 1rem;
+        }
+
+        .comparison-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .comparison-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Safety logic Banner */
+        .safety-banner {
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .safety-banner-warning {
+            background: #fffbeb;
+            color: #b45309;
+            border: 1px solid #fde68a;
+        }
+
+        .safety-banner-success {
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        /* Structured Tabs for Treatments */
+        .tabs-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .tab-headers {
+            display: flex;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .tab-headers::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 1rem 1.25rem;
+            border: none;
+            background: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            text-align: center;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: #f1f5f9;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-green);
+            background: var(--card-bg);
+            border-bottom: 3px solid var(--primary-green);
+        }
+
+        .tab-content {
+            padding: 1.5rem;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Detail lists */
+        .step-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .step-list li {
+            position: relative;
+            padding-left: 2.25rem;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-main);
+        }
+
+        .step-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.25rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: #d1fae5;
+            color: #059669;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        .step-list.organic li::before { content: "🌿"; background: none; }
+        .step-list.chemical li::before { content: "🧪"; background: none; }
+        .step-list.prevention li::before { content: "🛡️"; background: none; }
+
+        /* Quick Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (min-width: 480px) {
+            .info-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .info-item {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+            letter-spacing: 0.05em;
+        }
+
+        .info-value {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* Action bar */
+        .action-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        .action-bar .primary-btn {
+            margin: 0;
+            flex: 1;
+            min-width: 180px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            padding: 0.9rem 1.5rem;
+            border-radius: 12px;
+        }
+
+        /* Print stylesheet for PDF Prescription Report */
+        @media print {
+            body {
+                background: white;
+                color: black;
+                font-size: 12pt;
+            }
+            .warning-banner, header, footer, .action-bar, .tab-headers, .back-btn {
+                display: none !important;
+            }
+            .tab-content {
+                display: block !important;
+                padding: 0 !important;
+                margin-top: 1.5rem;
+                page-break-inside: avoid;
+            }
+            .step-card {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .meta-card, .comparison-card, .tabs-container {
+                border: 1px solid #ccc !important;
+                box-shadow: none !important;
+                margin-bottom: 1.5rem !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="warning-banner">
@@ -13,7 +352,7 @@
     </div>
 
     <header class="app-header">
-        <div class="logo">🌿 <span id="app_name">Krishi-Cure Pro</span></div>
+        <div class="logo">🌿 <span id="app_name">Krishi-Cure</span></div>
         <div class="lang-selector">
             <button class="lang-btn active" data-lang="en">ENGLISH</button>
             <button class="lang-btn" data-lang="hi">हिन्दी</button>
@@ -25,53 +364,135 @@
         <section class="step-card active">
             <a href="/symptoms.html" class="back-btn" id="back_btn">Back</a>
             
-            <div class="result-header">
-                <h2 id="diagnosis_result_title">Diagnosis Result</h2>
+            <div class="result-header" style="text-align: center; margin-bottom: 1.5rem;">
+                <h2 id="diagnosis_result_title" style="font-size: 2rem; font-weight: 800; color: var(--forest-green);">Scientific Diagnosis Result</h2>
             </div>
 
             <!-- Loading State -->
-            <div id="loading-state" style="text-align: center; padding: 3rem;">
-                <h3 id="loading_text" style="color: var(--forest-green);">Analyzing Symptoms with AI...</h3>
-                <div class="loader" style="margin: 1rem auto; width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--forest-green); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+            <div id="loading-state" style="text-align: center; padding: 4rem 1rem;">
+                <h3 id="loading_text" style="color: var(--forest-green); font-size: 1.4rem; font-weight: 800;">Analyzing Symptoms with ICAR Engine...</h3>
+                <div class="loader" style="margin: 1.5rem auto; width: 45px; height: 45px; border: 4px solid #e2e8f0; border-top: 4px solid var(--forest-green); border-radius: 50%; animation: spin 1s linear infinite;"></div>
             </div>
 
-            <!-- Farmer Action Card -->
+            <!-- Dashboard Result Box -->
             <div class="result-box" id="result-box" style="display: none;">
                 
-                <div id="status-banner" class="status-banner">
-                    <span id="status-icon" class="status-icon"></span>
-                    <span id="status-text" class="status-text"></span>
+                <!-- Safety logic Banner -->
+                <div id="safety-alert-banner" class="safety-banner">
+                    <!-- Loaded dynamically -->
                 </div>
 
-                <div id="standard-result">
-                    <div class="disease-prefix-container">
-                        <span class="disease-prefix" id="disease_prefix_text">Your crop has:</span>
-                        <h3 id="disease-name" class="disease-name"></h3>
-                        <div class="confidence-score">
-                            <span id="confidence-percentage"></span> 
-                            <span id="match_text">Match</span>
+                <div class="dashboard-container">
+                    
+                    <!-- Disease & Severity Info -->
+                    <div class="meta-card">
+                        <div id="severity-badge" class="badge">
+                            <!-- Loaded dynamically -->
+                        </div>
+                        <span class="disease-prefix" id="disease_prefix_text" style="font-size: 1rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Your crop has:</span>
+                        <h3 id="disease-name" class="disease-name" style="font-size: 2.2rem; font-weight: 800; color: var(--text-main); margin: 0.25rem 0 0.5rem 0; line-height: 1.2;"></h3>
+                        <p id="disease-explanation" style="font-size: 1.15rem; color: var(--text-muted); margin-bottom: 1.2rem; font-weight: 500;"></p>
+                        
+                        <div class="confidence-section">
+                            <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.05rem;">
+                                <span id="confidence-label">Prediction Accuracy</span>
+                                <span id="confidence-percentage" style="color: var(--primary-green);"></span>
+                            </div>
+                            <div class="progress-container">
+                                <div id="confidence-bar" class="progress-bar"></div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="action-plan remedy-section organic-bg">
-                        <h4 class="organic-title">
-                            <span class="remedy-icon">🌿</span> 
-                            <span id="action_plan_title">3-Step Organic Action Plan:</span>
+                    <!-- Match Comparison Panel (Avoid false predictions) -->
+                    <div class="comparison-card">
+                        <h4 class="comparison-title" id="comparison_title">
+                            ⚖️ Matched Diseases (Top 3)
                         </h4>
-                        <ol class="action-steps" id="action-steps-list">
-                            <!-- Populated via JS -->
-                        </ol>
+                        <div id="comparison-list">
+                            <!-- Loaded dynamically -->
+                        </div>
                     </div>
-                    
-                    <div style="text-align: center; margin-top: 1.5rem;">
-                        <button class="primary-btn diagnose-btn" id="listen-btn" style="background-color: var(--forest-green); color: white;">
-                            🔊 <span id="speak_btn_text">Listen</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
 
-            <a href="/index.html" class="primary-btn restart-btn" id="restart_btn" style="display: block; text-align: center; text-decoration: none; margin-top: 2rem;">Start Over</a>
+                    <!-- Full-Width Structured Details -->
+                    <div class="full-width-card tabs-container">
+                        <div class="tab-headers">
+                            <button class="tab-btn active" data-tab="organic-tab">🌿 Organic Plan</button>
+                            <button class="tab-btn" data-tab="chemical-tab">🧪 Chemical Emergency</button>
+                            <button class="tab-btn" data-tab="prevention-tab">🛡️ Prevention & Care</button>
+                            <button class="tab-btn" data-tab="forecast-tab">📈 Recovery Forecast</button>
+                        </div>
+
+                        <!-- Tab 1: Organic Plan -->
+                        <div class="tab-content active" id="organic-tab">
+                            <h4 style="font-size: 1.25rem; font-weight: 800; color: var(--primary-green); margin-bottom: 1rem;">🌿 Safe Organic Action Plan</h4>
+                            <ol class="step-list organic" id="organic-steps-list">
+                                <!-- Loaded dynamically -->
+                            </ol>
+                        </div>
+
+                        <!-- Tab 2: Chemical Plan -->
+                        <div class="tab-content" id="chemical-tab">
+                            <h4 style="font-size: 1.25rem; font-weight: 800; color: var(--danger-red); margin-bottom: 1rem;">🧪 Chemical Control (Emergency Only)</h4>
+                            <ul class="step-list chemical" id="chemical-steps-list">
+                                <!-- Loaded dynamically -->
+                            </ul>
+                        </div>
+
+                        <!-- Tab 3: Prevention & Care -->
+                        <div class="tab-content" id="prevention-tab">
+                            <h4 style="font-size: 1.25rem; font-weight: 800; color: var(--warning-yellow); margin-bottom: 1.20rem;">🛡️ Fertilizer, Irrigation & Care</h4>
+                            <div class="info-grid" style="margin-bottom: 1.5rem;">
+                                <div class="info-item">
+                                    <div class="info-label" id="lbl-fertilizer">Compost/Fertilizer</div>
+                                    <div class="info-value" id="val-fertilizer"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label" id="lbl-irrigation">Water/Irrigation</div>
+                                    <div class="info-value" id="val-irrigation"></div>
+                                </div>
+                            </div>
+                            <h5 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem;">💡 Prevention Methods:</h5>
+                            <ul class="step-list prevention" id="prevention-steps-list">
+                                <!-- Loaded dynamically -->
+                            </ul>
+                        </div>
+
+                        <!-- Tab 4: Recovery Forecast -->
+                        <div class="tab-content" id="forecast-tab">
+                            <h4 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-bottom: 1.20rem;">📈 Recovery Estimates & Warnings</h4>
+                            <div class="info-grid" style="margin-bottom: 1.5rem;">
+                                <div class="info-item">
+                                    <div class="info-label" id="lbl-chances">Recovery Chances</div>
+                                    <div class="info-value" id="val-chances"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label" id="lbl-time">Timeframe</div>
+                                    <div class="info-value" id="val-time"></div>
+                                </div>
+                            </div>
+                            <div class="info-item" style="background: #fff5f5; border: 1px solid #feb2b2; margin-bottom: 1rem;">
+                                <div class="info-label" style="color: #c53030;" id="lbl-warning-signs">⚠️ Unrecoverable Sign:</div>
+                                <div class="info-value" style="color: #9b2c2c; font-size: 1.1rem;" id="val-warning-signs"></div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label" id="lbl-weather">Weather Alert/Precaution</div>
+                                <div class="info-value" style="font-size: 1.1rem;" id="val-weather"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer Action Buttons -->
+                <div class="action-bar">
+                    <button class="primary-btn diagnose-btn" id="listen-btn" style="background-color: var(--forest-green); color: white;">
+                        🔊 <span id="speak_btn_text">Listen</span>
+                    </button>
+                    <a href="/index.html" class="primary-btn restart-btn" id="restart_btn" style="text-align: center; text-decoration: none;">Start Over</a>
+                </div>
+
+            </div>
         </section>
     </main>
 
@@ -104,42 +525,173 @@
             document.getElementById('loading-state').style.display = 'none';
             document.getElementById('result-box').style.display = 'block';
 
-            // Populate UI Elements
-            const statusBanner = document.getElementById('status-banner');
-            statusBanner.className = `status-banner ${data.severity_color.toLowerCase()}`;
-            
-            document.getElementById('status-icon').textContent = data.severity_color.toUpperCase() === 'RED' ? '🔴' : (data.severity_color.toUpperCase() === 'YELLOW' ? '🟡' : '🟢');
-            
-            let statusTextKey = data.severity_color.toUpperCase() === 'RED' ? 'status_red' : (data.severity_color.toUpperCase() === 'YELLOW' ? 'status_yellow' : 'status_green');
-            document.getElementById('status-text').textContent = langStore[statusTextKey];
-
-            document.getElementById('disease-name').textContent = data.disease_name;
-            document.getElementById('confidence-percentage').textContent = data.confidence_score + (String(data.confidence_score).includes('%') ? '' : '%');
-            
-            const actionList = document.getElementById('action-steps-list');
-            if (data.organic_remedy && data.organic_remedy.length > 0) {
-                data.organic_remedy.forEach((step, index) => {
-                    const li = document.createElement('li');
-                    const stepLabel = index === 0 ? langStore.step_prep : (index === 1 ? langStore.step_app : langStore.step_prev);
-                    li.innerHTML = `<strong>${stepLabel}</strong> <span>${step}</span>`;
-                    actionList.appendChild(li);
+            // Setup Tab Switching Logic
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabButtons.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById(btn.dataset.tab).classList.add('active');
                 });
-            } else {
-                actionList.innerHTML = '<li>No specific remedy found.</li>';
+            });
+
+            // Localized Dynamic Texts
+            const translateLabels = {
+                'comparison_title': lang === 'gu' ? '⚖️ સરખામણી પદ્ધતિ (ટોચના ૩ રોગ)' : lang === 'hi' ? '⚖️ मिलान सूची (शीर्ष ३ रोग)' : '⚖️ Matched Diseases (Top 3)',
+                'lbl-fertilizer': lang === 'gu' ? 'સેન્દ્રિય ખાતર / પોષણ' : lang === 'hi' ? 'जैविक खाद / पोषक तत्व' : 'Compost / Nutrient Care',
+                'lbl-irrigation': lang === 'gu' ? 'પાણી અને પિયત પદ્ધતિ' : lang === 'hi' ? 'सिंचाई / पानी की सलाह' : 'Water & Irrigation',
+                'lbl-chances': lang === 'gu' ? 'સાજા થવાની સંભાવના' : lang === 'hi' ? 'ठीक होने की संभावना' : 'Recovery Chances',
+                'lbl-time': lang === 'gu' ? 'સમયગાળો' : lang === 'hi' ? 'समय सीमा' : 'Recovery Timeframe',
+                'lbl-warning-signs': lang === 'gu' ? '⚠️ અસાધ્ય લક્ષણ (છોડ ન બચાવી શકાય):' : lang === 'hi' ? '⚠️ लाइलाज संकेत (जब पौधा नहीं बचाया जा सकता):' : '⚠️ Unrecoverable Sign (Plant cannot be saved):',
+                'lbl-weather': lang === 'gu' ? 'હવામાન સંબંધી તકેદારી' : lang === 'hi' ? 'मौसम संबंधी चेतावनी' : 'Weather Precaution'
+            };
+
+            for (const [id, val] of Object.entries(translateLabels)) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = val;
             }
 
-            // Web Speech API Integration
+            // Set up Tabs Headers translated
+            const headers = document.querySelectorAll('.tab-btn');
+            headers[0].innerHTML = `🌿 ${lang === 'gu' ? 'દેશી ઉપાય' : lang === 'hi' ? 'जैविक उपचार' : 'Organic Plan'}`;
+            headers[1].innerHTML = `🧪 ${lang === 'gu' ? 'રાસાયણિક દવા' : lang === 'hi' ? 'रासायनिक दवा' : 'Chemical Emergency'}`;
+            headers[2].innerHTML = `🛡️ ${lang === 'gu' ? 'પિયત અને ખાતર' : lang === 'hi' ? 'सिंचाई और खाद' : 'Prevention & Care'}`;
+            headers[3].innerHTML = `📈 ${lang === 'gu' ? 'સુધારાની આગાહી' : lang === 'hi' ? 'सुधार का पूर्वानुमान' : 'Recovery Forecast'}`;
+
+            // Populate Safety Logic Banner
+            const safetyBanner = document.getElementById('safety-alert-banner');
+            const confidence = data.confidence_score;
+            if (confidence < 70) {
+                safetyBanner.className = "safety-banner safety-banner-warning";
+                safetyBanner.innerHTML = lang === 'gu' 
+                    ? "⚠️ શંકાસ્પદ રોગ જણાય છે — કૃપા કરીને ચોક્કસ સલાહ માટે સ્થાનિક કૃષિ વિજ્ઞાન કેન્દ્ર (KVK) નો સંપર્ક કરો."
+                    : lang === 'hi'
+                        ? "⚠️ संभावित रोग का पता चला — कृपया अधिक जानकारी के लिए स्थानीय कृषि विज्ञान केंद्र (KVK) से सलाह लें।"
+                        : "⚠️ Possible disease detected — consult agricultural expert or local KVK extension center.";
+            } else {
+                safetyBanner.className = "safety-banner safety-banner-success";
+                safetyBanner.innerHTML = lang === 'gu'
+                    ? "✅ સચોટ રોગ નિદાન — સરકારી અને ICAR માર્ગદર્શિકા મુજબ જૈવિક પગલાં લો."
+                    : lang === 'hi'
+                        ? "✅ सटीक रोग निदान — सरकारी एवं ICAR दिशानिर्देशों के अनुसार जैविक कदम उठाएं।"
+                        : "✅ Reliable Match — Validated against trusted ICAR agriculture advisory guides.";
+            }
+
+            // Populate Primary Disease details
+            document.getElementById('disease-name').textContent = data.disease_name;
+            document.getElementById('disease-explanation').textContent = data.disease_explanation || "";
+            document.getElementById('confidence-percentage').textContent = confidence + '%';
+            
+            const confBar = document.getElementById('confidence-bar');
+            confBar.style.width = confidence + '%';
+            
+            const severityColor = (data.severity_color || 'Yellow').toUpperCase();
+            let badgeClass = 'badge-yellow';
+            let barClass = 'progress-yellow';
+            let severityText = langStore.status_yellow;
+
+            if (severityColor === 'RED') {
+                badgeClass = 'badge-red';
+                barClass = 'progress-red';
+                severityText = langStore.status_red;
+            } else if (severityColor === 'GREEN') {
+                badgeClass = 'badge-green';
+                barClass = 'progress-green';
+                severityText = langStore.status_green;
+            }
+
+            confBar.className = `progress-bar ${barClass}`;
+            
+            const sevBadge = document.getElementById('severity-badge');
+            sevBadge.className = `badge ${badgeClass}`;
+            sevBadge.innerHTML = `<span>${severityColor === 'RED' ? '🔴' : (severityColor === 'GREEN' ? '🟢' : '🟡')}</span> <span>${severityText}</span>`;
+
+            // Populate Match Comparison List (Top 3)
+            const compList = document.getElementById('comparison-list');
+            compList.innerHTML = '';
+            if (data.top_diseases && data.top_diseases.length > 0) {
+                data.top_diseases.forEach(d => {
+                    const item = document.createElement('div');
+                    item.className = 'comparison-item';
+                    
+                    const score = d.confidence || d.confidence_score || 30;
+                    let barColor = 'progress-green';
+                    if (score > 80) barColor = severityColor === 'RED' ? 'progress-red' : (severityColor === 'GREEN' ? 'progress-green' : 'progress-yellow');
+                    else if (score > 50) barColor = 'progress-yellow';
+                    else barColor = 'progress-muted';
+
+                    item.innerHTML = `
+                        <div class="comparison-name">
+                            <span>${d.name}</span>
+                            <span>${score}%</span>
+                        </div>
+                        <div class="progress-container" style="height: 8px;">
+                            <div class="progress-bar ${barColor}" style="width: ${score}%;"></div>
+                        </div>
+                    `;
+                    compList.appendChild(item);
+                });
+            } else {
+                compList.innerHTML = `<div class="comparison-name"><span>${data.disease_name}</span><span>${confidence}%</span></div>`;
+            }
+
+            // Populate Tab 1: Organic Plan
+            const organicList = document.getElementById('organic-steps-list');
+            organicList.innerHTML = '';
+            const remedies = data.organic_treatment || data.organic_remedy || [];
+            remedies.forEach((step, index) => {
+                const li = document.createElement('li');
+                const stepLabel = index === 0 ? langStore.step_prep : (index === 1 ? langStore.step_app : langStore.step_prev);
+                li.innerHTML = `<strong>${stepLabel}</strong> <span>${step}</span>`;
+                organicList.appendChild(li);
+            });
+
+            // Populate Tab 2: Chemical Plan
+            const chemicalList = document.getElementById('chemical-steps-list');
+            chemicalList.innerHTML = '';
+            const chemicals = data.chemical_treatment || [];
+            if (chemicals.length > 0) {
+                chemicals.forEach((step, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<strong>${index === 0 ? '⚠️ EMERGENCY:' : '🔒 SAFETY:'}</strong> <span>${step}</span>`;
+                    chemicalList.appendChild(li);
+                });
+            } else {
+                chemicalList.innerHTML = `<li><strong>⚠️ Chemical Option:</strong> <span>Consult agriculture office before using chemicals. Copper Oxychloride spray 2g/L is general safeguard.</span></li>`;
+            }
+
+            // Populate Tab 3: Prevention & Care
+            document.getElementById('val-fertilizer').textContent = data.fertilizer_suggestions || "N/A";
+            document.getElementById('val-irrigation').textContent = data.irrigation_recommendations || "N/A";
+            
+            const prevList = document.getElementById('prevention-steps-list');
+            prevList.innerHTML = '';
+            const prevention = data.prevention_methods || [];
+            prevention.forEach(step => {
+                const li = document.createElement('li');
+                li.innerHTML = `<span>${step}</span>`;
+                prevList.appendChild(li);
+            });
+
+            // Populate Tab 4: Recovery Forecast
+            document.getElementById('val-chances').textContent = data.recovery_details ? data.recovery_details.chances : "Medium";
+            document.getElementById('val-time').textContent = data.recovery_details ? data.recovery_details.time : "7-10 days";
+            document.getElementById('val-warning-signs').textContent = data.recovery_details ? data.recovery_details.unrecoverable_signs : "Wilt";
+            document.getElementById('val-weather').textContent = data.weather_precautions || "Normal";
+
+            // Web Speech API
             const listenBtn = document.getElementById('listen-btn');
             const langCodeMap = { 'en': 'en-IN', 'hi': 'hi-IN', 'gu': 'gu-IN' };
 
             let fullTextToSpeak = "";
-            const remedies = data.organic_remedy || [];
             if (lang === 'gu') {
-                fullTextToSpeak = `રોગ: ${data.disease_name}. ઉપાય: ${remedies.join(". ")}`;
+                fullTextToSpeak = `પાક રોગ છે: ${data.disease_name}. આ રોગ મટાડવા દેશી ઉપાય: ${remedies.join(". ")}`;
             } else if (lang === 'hi') {
-                fullTextToSpeak = `रोग: ${data.disease_name}. उपाय: ${remedies.join(". ")}`;
+                fullTextToSpeak = `फसल में रोग है: ${data.disease_name}. उपाय है: ${remedies.join(". ")}`;
             } else {
-                fullTextToSpeak = `Disease: ${data.disease_name}. Remedy steps: ${remedies.join(". ")}`;
+                fullTextToSpeak = `Predicted Crop Disease: ${data.disease_name}. Organic treatment steps: ${remedies.join(". ")}`;
             }
 
             listenBtn.addEventListener('click', () => {
@@ -147,12 +699,14 @@
                     window.speechSynthesis.cancel();
                     const utterance = new SpeechSynthesisUtterance(fullTextToSpeak);
                     utterance.lang = langCodeMap[lang] || 'en-US';
-                    utterance.rate = 0.9;
+                    utterance.rate = 0.85;
                     window.speechSynthesis.speak(utterance);
                 } else {
-                    alert("Sorry, your browser doesn't support text to speech.");
+                    alert("Speech synthesis is not supported on your device.");
                 }
             });
+
+
 
             // Listen to languageChanged to refresh AI diagnosis dynamically
             const handleLanguageChange = async () => {
@@ -162,11 +716,9 @@
 
                 const symptoms = JSON.parse(symptomsStr);
                 
-                // Show loading state and hide results
                 document.getElementById('loading-state').style.display = 'block';
                 document.getElementById('result-box').style.display = 'none';
 
-                // Re-submit diagnosis in the new language
                 await window.submitDiagnosis(cropId, symptoms, window.currentLang);
             };
 

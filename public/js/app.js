@@ -10,6 +10,7 @@ window.initApp = async () => {
         
         setupLanguageToggles();
         applyTranslations();
+        setupMobileNavbar();
     } catch (err) {
         console.error("Error initializing app:", err);
         document.getElementById('warning_banner').textContent = "Error loading application data. Please refresh.";
@@ -95,3 +96,49 @@ function applyTranslations() {
     // Dynamic document title
     document.title = langStore.app_name || 'Krishi-Cure Pro';
 }
+
+function setupMobileNavbar() {
+    const header = document.querySelector('.app-header');
+    if (!header) return;
+
+    // Create hamburger button if it doesn't exist
+    let toggle = document.getElementById('nav-toggle');
+    if (!toggle) {
+        toggle = document.createElement('button');
+        toggle.id = 'nav-toggle';
+        toggle.className = 'nav-toggle';
+        toggle.setAttribute('aria-label', 'Toggle Navigation');
+        toggle.innerHTML = '<span class="hamburger"></span>';
+        header.appendChild(toggle);
+    }
+
+    const langSelector = document.querySelector('.lang-selector');
+    if (langSelector) {
+        // Remove any existing listeners by cloning
+        const newToggle = toggle.cloneNode(true);
+        toggle.parentNode.replaceChild(newToggle, toggle);
+        toggle = newToggle;
+
+        toggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggle.classList.toggle('active');
+            langSelector.classList.toggle('open');
+        });
+
+        // Close menu when clicking outside or selecting a language
+        document.addEventListener('click', (e) => {
+            if (!toggle.contains(e.target) && !langSelector.contains(e.target)) {
+                toggle.classList.remove('active');
+                langSelector.classList.remove('open');
+            }
+        });
+
+        langSelector.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                toggle.classList.remove('active');
+                langSelector.classList.remove('open');
+            });
+        });
+    }
+}
+

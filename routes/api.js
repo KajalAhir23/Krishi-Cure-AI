@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { diagnoseWithAI } from '../controllers/aiController.js';
 
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const router = express.Router();
@@ -60,19 +61,18 @@ router.post('/diagnose', async (req, res) => {
             }
         }
 
-        // Get symptom descriptions
+        // Generate symptom descriptions in selected language
         const symptomDescriptions = selectedSymptoms.map(symId => {
             const symptom = cropsData.symptomsList.find(s => s.id === symId);
             return symptom ? (symptom[selectedLang] || symptom['en']) : symId;
         });
 
-        // Get crop profile if available
+        // Retrieve crop profile if available for AI context
         const cropProfile = cropsData.cropProfiles[cropId] || null;
 
+        // Direct AI diagnosis (trusted sources via Gemini/Groq)
         const aiResponse = await diagnoseWithAI(cropName, symptomDescriptions, cropProfile, selectedLang);
-        
         res.json(aiResponse);
-
     } catch (error) {
         console.error("Diagnosis error:", error);
         res.status(500).json({ error: "Error generating diagnosis." });

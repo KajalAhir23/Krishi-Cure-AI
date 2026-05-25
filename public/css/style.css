@@ -782,3 +782,233 @@ html, body {
         margin-top: 1.2rem !important;
     }
 }
+
+/* Logout Button Styling */
+.logout-btn {
+    background: transparent;
+    border: 2px solid var(--forest-green);
+    color: var(--forest-green);
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition: var(--transition-smooth);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logout-btn:hover {
+    background: var(--forest-green);
+    color: white;
+    box-shadow: 0 4px 12px rgba(45, 90, 39, 0.2);
+}
+
+@media (max-width: 768px) {
+    .logout-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.8rem;
+        border-radius: 20px;
+    }
+}
+
+/* Google Login Button & Divider Styles */
+.google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    width: 100%;
+    background: white;
+    border: 2px solid var(--glass-border);
+    color: var(--text-main);
+    padding: 1rem 1.5rem;
+    border-radius: 14px;
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    margin-top: 1rem;
+}
+.google-btn:hover {
+    background: #f7f9fa;
+    border-color: var(--forest-green);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(45, 90, 39, 0.1);
+}
+.google-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+.google-icon {
+    width: 20px;
+    height: 20px;
+}
+.or-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: var(--text-light);
+    margin: 1.5rem 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+.or-divider::before, .or-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1.5px solid var(--glass-border);
+}
+.or-divider:not(:empty)::before {
+    margin-right: .75em;
+}
+.or-divider:not(:empty)::after {
+    margin-left: .75em;
+}
+
+/* User Profile Widget in Header */
+.user-profile-widget {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(45, 90, 39, 0.05);
+    border: 1px solid var(--glass-border);
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    transition: var(--transition-smooth);
+}
+.user-profile-widget:hover {
+    background: rgba(45, 90, 39, 0.1);
+    border-color: var(--leaf-green);
+}
+.user-profile-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--forest-green);
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+.user-profile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.user-profile-name {
+    font-weight: 700;
+    color: var(--forest-green);
+    font-size: 0.9rem;
+    line-height: 1.2;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.user-profile-email {
+    font-weight: 500;
+    color: var(--text-light);
+    font-size: 0.75rem;
+    line-height: 1.1;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Dashboard Welcome Card */
+.welcome-card {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.08), rgba(45, 90, 39, 0.03));
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.8s ease-out;
+}
+.welcome-card-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+.welcome-avatar-wrapper {
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+.welcome-avatar, .welcome-avatar-fallback {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--forest-green);
+    background: white;
+    box-shadow: 0 4px 15px rgba(45, 90, 39, 0.15);
+}
+.welcome-avatar-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+}
+.welcome-details {
+    display: flex;
+    flex-direction: column;
+}
+.welcome-greeting {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.welcome-name {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--forest-green);
+    margin: 0.1rem 0;
+}
+.welcome-email {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .user-profile-info {
+        display: none;
+    }
+    .user-profile-widget {
+        padding: 0.4rem;
+    }
+}
+@media (max-width: 480px) {
+    .welcome-card {
+        padding: 1.2rem;
+    }
+    .welcome-card-content {
+        gap: 1rem;
+    }
+    .welcome-avatar, .welcome-avatar-fallback {
+        width: 50px;
+        height: 50px;
+    }
+    .welcome-avatar-wrapper {
+        width: 50px;
+        height: 50px;
+    }
+    .welcome-avatar-fallback {
+        font-size: 1.8rem;
+    }
+    .welcome-name {
+        font-size: 1.3rem;
+    }
+    .welcome-email {
+        font-size: 0.85rem;
+    }
+}

@@ -6,22 +6,55 @@
     <title>Krishi-Cure Pro</title>
     <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK (Compat Version) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    
+    <!-- Auth helper -->
+    <script src="/js/auth.js"></script>
 </head>
-<body>
+<body style="display: none;">
+    <!-- Prevent UI flickering if logged in -->
+    <script>
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            document.body.style.display = 'block';
+        }
+    </script>
+
     <div class="warning-banner">
         <marquee scrollamount="5" id="warning_banner">Loading...</marquee>
     </div>
 
     <header class="app-header">
         <div class="logo">🌿 <span id="app_name">Krishi-Cure Pro</span></div>
-        <div class="lang-selector">
-            <button class="lang-btn active" data-lang="en">ENGLISH</button>
-            <button class="lang-btn" data-lang="hi">हिन्दी</button>
-            <button class="lang-btn" data-lang="gu">ગુજરાતી</button>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="lang-selector">
+                <button class="lang-btn active" data-lang="en">ENGLISH</button>
+                <button class="lang-btn" data-lang="hi">हिन्दी</button>
+                <button class="lang-btn" data-lang="gu">ગુજરાતી</button>
+            </div>
+            <button id="logout_btn" class="logout-btn" onclick="window.logoutUser()">Logout</button>
         </div>
     </header>
 
+
     <main class="container">
+        <!-- Farmer Profile Welcome Card -->
+        <div id="dashboard-welcome-card" class="welcome-card" style="display: none; margin-bottom: 2rem;">
+            <div class="welcome-card-content">
+                <div class="welcome-avatar-wrapper">
+                    <div id="welcome-avatar-fallback" class="welcome-avatar-fallback">🧑‍🌾</div>
+                    <img id="welcome-avatar" class="welcome-avatar" src="" alt="Profile Image" style="display: none;">
+                </div>
+                <div class="welcome-details">
+                    <span class="welcome-greeting" id="welcome_greeting">Welcome back,</span>
+                    <h3 class="welcome-name" id="welcome-name">Farmer</h3>
+                    <span class="welcome-email" id="welcome-email"></span>
+                </div>
+            </div>
+        </div>
+
         <!-- Step 1: Select Category -->
         <section class="step-card active" id="step-category">
             <h2 id="select_category_title">Select Crop Category</h2>

@@ -32,91 +32,133 @@
         </div>
     </header>
 
-    <main class="container" style="max-width: 480px; margin-top: 5rem;">
-        <section class="step-card active" style="padding: 2.5rem 2rem;">
-            <h2 id="login_title" style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem; font-weight: 800;">
-                Farmer Login</h2>
-
-            <!-- Message Container for Errors & Success -->
-            <div id="error-message"
-                style="display: none; margin-bottom: 1.5rem; padding: 0.8rem 1rem; border-radius: 12px; background: #fff5f5; color: #c53030; border: 1px solid #fed7d7; font-weight: 600; font-size: 0.95rem;">
-            </div>
-            <div id="success-message"
-                style="display: none; margin-bottom: 1.5rem; padding: 0.8rem 1rem; border-radius: 12px; background: #f0fff4; color: #276749; border: 1px solid #c6f6d5; font-weight: 600; font-size: 0.95rem;">
-            </div>
-
-            <!-- Phase 1: Mobile Number Input -->
-            <div id="phone-section">
-                <div class="form-group" style="margin-bottom: 2rem;">
-                    <label id="phone_label"
-                        style="display: block; font-weight: 700; color: var(--forest-green); margin-bottom: 0.6rem; font-size: 1rem;">Mobile
-                        Number</label>
-                    <div style="display: flex; gap: 0.6rem; align-items: center;">
-                        <span
-                            style="background: rgba(45, 90, 39, 0.05); border: 2px solid var(--glass-border); padding: 1rem 0.9rem; border-radius: 14px; font-weight: 700; color: var(--text-light); font-size: 1.1rem; line-height: 1;">+91</span>
-                        <input type="tel" id="phone_input" placeholder="Enter 10-digit mobile number" maxlength="10"
-                            style="flex: 1; padding: 1rem 1.2rem; border-radius: 14px; border: 2px solid var(--glass-border); font-family: inherit; font-size: 1.1rem; outline: none; background: white; transition: var(--transition-smooth); font-weight: 600; color: var(--text-main);">
+    <main class="container" style="max-width: 1000px; margin-top: 4rem;">
+        <div class="login-layout-wrapper" style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: stretch; justify-content: center;">
+            
+            <!-- Left: How It Works -->
+            <section class="step-card active" style="flex: 1.2; min-width: 320px; max-width: 520px; padding: 2.5rem; display: flex; flex-direction: column; justify-content: flex-start; background: rgba(255, 255, 255, 0.9);">
+                <h3 id="how_works_title" style="color: var(--forest-green); font-size: 1.6rem; font-weight: 800; margin-bottom: 2rem; border-bottom: 2.5px solid rgba(76,175,80,0.15); padding-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem;">
+                    How Krishi-Cure Works ⚙️
+                </h3>
+                
+                <div style="display: flex; flex-direction: column; gap: 1.8rem;">
+                    <!-- Step 1 -->
+                    <div style="display: flex; gap: 1.2rem; align-items: flex-start;">
+                        <div style="background: rgba(45, 90, 39, 0.08); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; border: 1.5px solid var(--glass-border);">🌾</div>
+                        <div>
+                            <h4 id="step1_title" style="font-weight: 800; color: var(--forest-green); font-size: 1.15rem; margin-bottom: 0.35rem;">1. Select Your Crop</h4>
+                            <p id="step1_desc" style="color: var(--text-light); font-size: 0.95rem; line-height: 1.5; font-weight: 500;">Choose the crop category and find your specific crop from the selection matrix.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div style="display: flex; gap: 1.2rem; align-items: flex-start;">
+                        <div style="background: rgba(45, 90, 39, 0.08); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; border: 1.5px solid var(--glass-border);">🔍</div>
+                        <div>
+                            <h4 id="step2_title" style="font-weight: 800; color: var(--forest-green); font-size: 1.15rem; margin-bottom: 0.35rem;">2. Check Symptoms</h4>
+                            <p id="step2_desc" style="color: var(--text-light); font-size: 0.95rem; line-height: 1.5; font-weight: 500;">Identify and select the symptoms you see on your plant's leaves, stems, or fruits.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div style="display: flex; gap: 1.2rem; align-items: flex-start;">
+                        <div style="background: rgba(45, 90, 39, 0.08); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; border: 1.5px solid var(--glass-border);">🩺</div>
+                        <div>
+                            <h4 id="step3_title" style="font-weight: 800; color: var(--forest-green); font-size: 1.15rem; margin-bottom: 0.35rem;">3. Get Remedy Plan</h4>
+                            <p id="step3_desc" style="color: var(--text-light); font-size: 0.95rem; line-height: 1.5; font-weight: 500;">Instantly receive a customized scientific diagnosis and step-by-step organic recovery plan.</p>
+                        </div>
                     </div>
                 </div>
+            </section>
 
-                <button class="primary-btn" id="send_otp_btn"
-                    style="width: 100%; display: flex; justify-content: center; padding: 1rem 1.5rem; font-size: 1.05rem; border-radius: 14px;">Send
-                    OTP</button>
+            <!-- Right: Farmer Login -->
+            <section class="step-card active" style="flex: 1; min-width: 320px; max-width: 440px; padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: center;">
+                <h2 id="login_title" style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem; font-weight: 800;">
+                    Farmer Login</h2>
 
-                <!-- OR Divider -->
-                <div class="or-divider" id="or_divider">OR</div>
-
-                <!-- Google Login Button -->
-                <button class="google-btn" id="google_login_btn">
-                    <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                            fill="#4285F4" />
-                        <path
-                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                            fill="#34A853" />
-                        <path
-                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-                            fill="#FBBC05" />
-                        <path
-                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
-                            fill="#EA4335" />
-                    </svg>
-                    <span id="google_login_text">Continue with Google</span>
-                </button>
-            </div>
-
-            <!-- Phase 2: OTP Verification -->
-            <div id="otp-section" style="display: none;">
-                <div class="form-group" style="margin-bottom: 1.5rem;">
-                    <label id="otp_label"
-                        style="display: block; font-weight: 700; color: var(--forest-green); margin-bottom: 0.6rem; font-size: 1rem;">Enter
-                        OTP</label>
-                    <input type="text" id="otp_input" placeholder="Enter 6-digit OTP" maxlength="6"
-                        style="width: 100%; padding: 1rem 1.2rem; border-radius: 14px; border: 2px solid var(--glass-border); font-family: inherit; font-size: 1.2rem; outline: none; background: white; transition: var(--transition-smooth); font-weight: 800; text-align: center; letter-spacing: 0.4rem; color: var(--text-main);">
+                <!-- Message Container for Errors & Success -->
+                <div id="error-message"
+                    style="display: none; margin-bottom: 1.5rem; padding: 0.8rem 1rem; border-radius: 12px; background: #fff5f5; color: #c53030; border: 1px solid #fed7d7; font-weight: 600; font-size: 0.95rem;">
+                </div>
+                <div id="success-message"
+                    style="display: none; margin-bottom: 1.5rem; padding: 0.8rem 1rem; border-radius: 12px; background: #f0fff4; color: #276749; border: 1px solid #c6f6d5; font-weight: 600; font-size: 0.95rem;">
                 </div>
 
-                <div
-                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; font-size: 0.95rem;">
-                    <span id="timer-display" style="font-weight: 600; color: var(--text-light);"></span>
-                    <button id="resend-btn"
-                        style="background: none; border: none; font-family: inherit; color: var(--forest-green); font-weight: 800; cursor: pointer; display: none; text-decoration: underline;">Resend
-                        OTP</button>
+                <!-- Phase 1: Mobile Number Input (Hidden) -->
+                <div id="phone-section">
+                    <div style="display: none !important;">
+                        <div class="form-group" style="margin-bottom: 2rem;">
+                            <label id="phone_label"
+                                style="display: block; font-weight: 700; color: var(--forest-green); margin-bottom: 0.6rem; font-size: 1rem;">Mobile
+                                Number</label>
+                            <div style="display: flex; gap: 0.6rem; align-items: center;">
+                                <span
+                                    style="background: rgba(45, 90, 39, 0.05); border: 2px solid var(--glass-border); padding: 1rem 0.9rem; border-radius: 14px; font-weight: 700; color: var(--text-light); font-size: 1.1rem; line-height: 1;">+91</span>
+                                <input type="tel" id="phone_input" placeholder="Enter 10-digit mobile number" maxlength="10"
+                                    style="flex: 1; padding: 1rem 1.2rem; border-radius: 14px; border: 2px solid var(--glass-border); font-family: inherit; font-size: 1.1rem; outline: none; background: white; transition: var(--transition-smooth); font-weight: 600; color: var(--text-main);">
+                            </div>
+                        </div>
+
+                        <button class="primary-btn" id="send_otp_btn"
+                            style="width: 100%; display: flex; justify-content: center; padding: 1rem 1.5rem; font-size: 1.05rem; border-radius: 14px;">Send
+                            OTP</button>
+
+                        <!-- OR Divider -->
+                        <div class="or-divider" id="or_divider">OR</div>
+                    </div>
+
+                    <!-- Google Login Button -->
+                    <button class="google-btn" id="google_login_btn" style="margin-top: 1rem; width: 100%;">
+                        <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                fill="#4285F4" />
+                            <path
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                fill="#34A853" />
+                            <path
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+                                fill="#FBBC05" />
+                            <path
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+                                fill="#EA4335" />
+                        </svg>
+                        <span id="google_login_text">Continue with Google</span>
+                    </button>
                 </div>
 
-                <button class="primary-btn" id="verify_otp_btn"
-                    style="width: 100%; display: flex; justify-content: center; padding: 1rem 1.5rem; font-size: 1.05rem; border-radius: 14px;">Verify
-                    & Login</button>
+                <!-- Phase 2: OTP Verification (Hidden) -->
+                <div id="otp-section" style="display: none;">
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label id="otp_label"
+                            style="display: block; font-weight: 700; color: var(--forest-green); margin-bottom: 0.6rem; font-size: 1rem;">Enter
+                            OTP</label>
+                        <input type="text" id="otp_input" placeholder="Enter 6-digit OTP" maxlength="6"
+                            style="width: 100%; padding: 1rem 1.2rem; border-radius: 14px; border: 2px solid var(--glass-border); font-family: inherit; font-size: 1.2rem; outline: none; background: white; transition: var(--transition-smooth); font-weight: 800; text-align: center; letter-spacing: 0.4rem; color: var(--text-main);">
+                    </div>
 
-                <button id="change-number-btn"
-                    style="width: 100%; text-align: center; margin-top: 1.2rem; background: none; border: none; font-family: inherit; color: var(--text-light); font-weight: 600; cursor: pointer; text-decoration: underline; font-size: 0.9rem;">Change
-                    Phone Number</button>
-            </div>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; font-size: 0.95rem;">
+                        <span id="timer-display" style="font-weight: 600; color: var(--text-light);"></span>
+                        <button id="resend-btn"
+                            style="background: none; border: none; font-family: inherit; color: var(--forest-green); font-weight: 800; cursor: pointer; display: none; text-decoration: underline;">Resend
+                            OTP</button>
+                    </div>
 
-            <!-- reCAPTCHA Widget -->
-            <div id="recaptcha-container" style="margin-top: 1rem; display: flex; justify-content: center;"></div>
-        </section>
+                    <button class="primary-btn" id="verify_otp_btn"
+                        style="width: 100%; display: flex; justify-content: center; padding: 1rem 1.5rem; font-size: 1.05rem; border-radius: 14px;">Verify
+                        & Login</button>
+
+                    <button id="change-number-btn"
+                        style="width: 100%; text-align: center; margin-top: 1.2rem; background: none; border: none; font-family: inherit; color: var(--text-light); font-weight: 600; cursor: pointer; text-decoration: underline; font-size: 0.9rem;">Change
+                        Phone Number</button>
+                </div>
+
+                <!-- reCAPTCHA Widget -->
+                <div id="recaptcha-container" style="margin-top: 1rem; display: flex; justify-content: center;"></div>
+            </section>
+        </div>
     </main>
 
     <footer>
@@ -147,8 +189,8 @@
             const restrictToDigits = (e) => {
                 e.target.value = e.target.value.replace(/\D/g, '');
             };
-            phoneInput.addEventListener('input', restrictToDigits);
-            otpInput.addEventListener('input', restrictToDigits);
+            if (phoneInput) phoneInput.addEventListener('input', restrictToDigits);
+            if (otpInput) otpInput.addEventListener('input', restrictToDigits);
 
             // Toast helper utilities
             const showError = (msg) => {
@@ -200,22 +242,60 @@
                 }, 1000);
             };
 
+            const stepsTranslations = {
+                en: {
+                    title: "How Krishi-Cure Works ⚙️",
+                    step1_title: "1. Select Your Crop",
+                    step1_desc: "Choose the crop category and find your specific crop from the selection matrix.",
+                    step2_title: "2. Check Symptoms",
+                    step2_desc: "Identify and select the symptoms you see on your plant's leaves, stems, or fruits.",
+                    step3_title: "3. Get Remedy Plan",
+                    step3_desc: "Instantly receive a customized scientific diagnosis and step-by-step organic recovery plan."
+                },
+                hi: {
+                    title: "कृषि-उपचार कैसे काम करता है ⚙️",
+                    step1_title: "1. अपनी फसल चुनें",
+                    step1_desc: "फसल की श्रेणी चुनें और चयन सूची से अपनी विशिष्ट फसल खोजें।",
+                    step2_title: "2. लक्षणों का चयन करें",
+                    step2_desc: "अपने पौधे की पत्तियों, तनों या फलों पर दिखने वाले लक्षणों को पहचानें और चुनें।",
+                    step3_title: "3. उपचार योजना प्राप्त करें",
+                    step3_desc: "तुरंत एक अनुकूलित वैज्ञानिक निदान और चरण-दर-चरण जैविक सुधार योजना प्राप्त करें।"
+                },
+                gu: {
+                    title: "કૃષિ-ઉપચાર કેવી રીતે કાર્ય કરે છે ⚙️",
+                    step1_title: "1. તમારો પાક પસંદ કરો",
+                    step1_desc: "પાકની શ્રેણી પસંદ કરો અને લિસ્ટમાંથી તમારો વિશિષ્ટ પાક શોધો.",
+                    step2_title: "2. લક્ષણો પસંદ કરો",
+                    step2_desc: "છોડના પાંદડા, થડ અથવા ફળો પર દેખાતા લક્ષણો ઓળખો અને પસંદ કરો.",
+                    step3_title: "3. સારવાર પ્લાન મેળવો",
+                    step3_desc: "તરત જ કસ્ટમાઇઝ્ડ વૈજ્ઞાનિક નિદાન અને પગલાં-દર-પગલાં જૈવિક સુધારણા પ્લાન મેળવો."
+                }
+            };
+
             // Apply translations to layout
             const applyLoginTranslations = () => {
                 if (!window.appData) return;
                 const langStore = window.appData.langStore[window.currentLang] || window.appData.langStore['en'];
 
-                document.getElementById('login_title').textContent = langStore.login_title || "Farmer Login";
-                document.getElementById('phone_label').textContent = window.currentLang === 'gu' ? "મોબાઈલ નંબર" : window.currentLang === 'hi' ? "मोबाइल नंबर" : "Mobile Number";
-                phoneInput.placeholder = langStore.mobile_placeholder || "Enter 10-digit mobile number";
-                sendOtpBtn.textContent = langStore.send_otp || "Send OTP";
+                const loginTitleEl = document.getElementById('login_title');
+                if (loginTitleEl) loginTitleEl.textContent = langStore.login_title || "Farmer Login";
 
-                document.getElementById('otp_label').textContent = window.currentLang === 'gu' ? "ઓટીપી દાખલ કરો" : window.currentLang === 'hi' ? "ओटीपी दर्ज करें" : "Enter OTP";
-                otpInput.placeholder = langStore.otp_placeholder || "Enter 6-digit OTP";
-                verifyOtpBtn.textContent = langStore.verify_otp || "Verify & Login";
+                const phoneLabelEl = document.getElementById('phone_label');
+                if (phoneLabelEl) phoneLabelEl.textContent = window.currentLang === 'gu' ? "મોબાઈલ નંબર" : window.currentLang === 'hi' ? "मोबाइल नंबर" : "Mobile Number";
 
-                document.getElementById('change-number-btn').textContent = window.currentLang === 'gu' ? "મોબાઈલ નંબર બદલો" : window.currentLang === 'hi' ? "मोबाइल नंबर बदलें" : "Change Phone Number";
-                resendBtn.textContent = window.currentLang === 'gu' ? "ફરી ઓટીપી મોકલો" : window.currentLang === 'hi' ? "पुनः ओटीपी भेजें" : "Resend OTP";
+                if (phoneInput) phoneInput.placeholder = langStore.mobile_placeholder || "Enter 10-digit mobile number";
+                if (sendOtpBtn) sendOtpBtn.textContent = langStore.send_otp || "Send OTP";
+
+                const otpLabelEl = document.getElementById('otp_label');
+                if (otpLabelEl) otpLabelEl.textContent = window.currentLang === 'gu' ? "ઓટીપી દાખલ કરો" : window.currentLang === 'hi' ? "ओटीपी दर्ज करें" : "Enter OTP";
+
+                if (otpInput) otpInput.placeholder = langStore.otp_placeholder || "Enter 6-digit OTP";
+                if (verifyOtpBtn) verifyOtpBtn.textContent = langStore.verify_otp || "Verify & Login";
+
+                const changeNumberBtnEl = document.getElementById('change-number-btn');
+                if (changeNumberBtnEl) changeNumberBtnEl.textContent = window.currentLang === 'gu' ? "મોબાઈલ નંબર બદલો" : window.currentLang === 'hi' ? "मोबाइल नंबर बदलें" : "Change Phone Number";
+
+                if (resendBtn) resendBtn.textContent = window.currentLang === 'gu' ? "ફરી ઓટીપી મોકલો" : window.currentLang === 'hi' ? "पुनः ओटीपी भेजें" : "Resend OTP";
 
                 const orDividerText = langStore.or_divider || (window.currentLang === 'gu' ? "અથવા" : window.currentLang === 'hi' ? "या" : "OR");
                 const googleLoginText = langStore.google_login || (window.currentLang === 'gu' ? "ગુગલ સાથે ચાલુ રાખો" : window.currentLang === 'hi' ? "गूगल के साथ जारी रखें" : "Continue with Google");
@@ -224,124 +304,149 @@
                 const googleLoginEl = document.getElementById('google_login_text');
                 if (orDividerEl) orDividerEl.textContent = orDividerText;
                 if (googleLoginEl) googleLoginEl.textContent = googleLoginText;
+
+                // Update "How It Works" steps (Safe check with checks on element presence)
+                const steps = stepsTranslations[window.currentLang] || stepsTranslations['en'];
+                const howWorksTitleEl = document.getElementById('how_works_title');
+                const step1TitleEl = document.getElementById('step1_title');
+                const step1DescEl = document.getElementById('step1_desc');
+                const step2TitleEl = document.getElementById('step2_title');
+                const step2DescEl = document.getElementById('step2_desc');
+                const step3TitleEl = document.getElementById('step3_title');
+                const step3DescEl = document.getElementById('step3_desc');
+
+                if (howWorksTitleEl) howWorksTitleEl.textContent = steps.title;
+                if (step1TitleEl) step1TitleEl.textContent = steps.step1_title;
+                if (step1DescEl) step1DescEl.textContent = steps.step1_desc;
+                if (step2TitleEl) step2TitleEl.textContent = steps.step2_title;
+                if (step2DescEl) step2DescEl.textContent = steps.step2_desc;
+                if (step3TitleEl) step3TitleEl.textContent = steps.step3_title;
+                if (step3DescEl) step3DescEl.textContent = steps.step3_desc;
             };
 
             window.addEventListener('languageChanged', applyLoginTranslations);
             if (window.appData) applyLoginTranslations();
 
             // Send OTP action handler
-            sendOtpBtn.addEventListener('click', async () => {
-                clearMessages();
-                const rawPhone = phoneInput.value.trim();
-                const langStore = window.appData ? window.appData.langStore[window.currentLang] : {};
+            if (sendOtpBtn) {
+                sendOtpBtn.addEventListener('click', async () => {
+                    clearMessages();
+                    const rawPhone = phoneInput.value.trim();
+                    const langStore = window.appData ? window.appData.langStore[window.currentLang] : {};
 
-                if (rawPhone.length !== 10) {
-                    showError(langStore.invalid_phone_error || "Please enter a valid 10-digit mobile number.");
-                    return;
-                }
-
-                const formattedPhone = `+91${rawPhone}`;
-                sendOtpBtn.disabled = true;
-                sendOtpBtn.textContent = langStore.sending_otp_btn || "Sending...";
-
-                try {
-                    // Create recaptcha element
-                    if (!window.recaptchaVerifier) {
-                        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                            'size': 'invisible',
-                            'callback': (response) => { }
-                        });
+                    if (rawPhone.length !== 10) {
+                        showError(langStore.invalid_phone_error || "Please enter a valid 10-digit mobile number.");
+                        return;
                     }
 
-                    const confirmation = await window.firebaseAuth.signInWithPhoneNumber(formattedPhone, window.recaptchaVerifier);
-                    window.confirmationResult = confirmation;
+                    const formattedPhone = `+91${rawPhone}`;
+                    sendOtpBtn.disabled = true;
+                    sendOtpBtn.textContent = langStore.sending_otp_btn || "Sending...";
 
-                    showSuccess(langStore.otp_sent_success || "OTP sent successfully!");
-                    document.getElementById('phone-section').style.display = 'none';
-                    document.getElementById('otp-section').style.display = 'block';
-                    startTimer();
-                } catch (error) {
-                    console.error("Error sending OTP:", error);
-                    let errMsg = langStore.error_sending_otp || "Error sending OTP. Please try again.";
-                    if (error && error.message) {
-                        errMsg += " - " + error.message;
-                    }
-                    showError(errMsg);
+                    try {
+                        if (!window.recaptchaVerifier) {
+                            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                                'size': 'invisible',
+                                'callback': (response) => { }
+                            });
+                        }
 
-                    if (window.recaptchaVerifier) {
-                        window.recaptchaVerifier.clear();
-                        window.recaptchaVerifier = null;
+                        const confirmation = await window.firebaseAuth.signInWithPhoneNumber(formattedPhone, window.recaptchaVerifier);
+                        window.confirmationResult = confirmation;
+
+                        showSuccess(langStore.otp_sent_success || "OTP sent successfully!");
+                        document.getElementById('phone-section').style.display = 'none';
+                        document.getElementById('otp-section').style.display = 'block';
+                        startTimer();
+                    } catch (error) {
+                        console.error("Error sending OTP:", error);
+                        let errMsg = langStore.error_sending_otp || "Error sending OTP. Please try again.";
+                        if (error && error.message) {
+                            errMsg += " - " + error.message;
+                        }
+                        showError(errMsg);
+
+                        if (window.recaptchaVerifier) {
+                            window.recaptchaVerifier.clear();
+                            window.recaptchaVerifier = null;
+                        }
+                    } finally {
+                        sendOtpBtn.disabled = false;
+                        sendOtpBtn.textContent = langStore.send_otp || "Send OTP";
                     }
-                } finally {
-                    sendOtpBtn.disabled = false;
-                    sendOtpBtn.textContent = langStore.send_otp || "Send OTP";
-                }
-            });
+                });
+            }
 
             // Resend OTP action handler
-            resendBtn.addEventListener('click', async () => {
-                clearMessages();
-                const rawPhone = phoneInput.value.trim();
-                const formattedPhone = `+91${rawPhone}`;
-                const langStore = window.appData ? window.appData.langStore[window.currentLang] : {};
+            if (resendBtn) {
+                resendBtn.addEventListener('click', async () => {
+                    clearMessages();
+                    const rawPhone = phoneInput.value.trim();
+                    const formattedPhone = `+91${rawPhone}`;
+                    const langStore = window.appData ? window.appData.langStore[window.currentLang] : {};
 
-                try {
-                    if (window.recaptchaVerifier) {
-                        window.recaptchaVerifier.clear();
-                        window.recaptchaVerifier = null;
+                    try {
+                        if (window.recaptchaVerifier) {
+                            window.recaptchaVerifier.clear();
+                            window.recaptchaVerifier = null;
+                        }
+
+                        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                            'size': 'invisible'
+                        });
+
+                        const confirmation = await window.firebaseAuth.signInWithPhoneNumber(formattedPhone, window.recaptchaVerifier);
+                        window.confirmationResult = confirmation;
+
+                        showSuccess(langStore.otp_sent_success || "OTP sent successfully!");
+                        startTimer();
+                    } catch (error) {
+                        console.error("Error resending OTP:", error);
+                        showError(langStore.error_sending_otp || "Error sending OTP. Please try again.");
                     }
-
-                    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                        'size': 'invisible'
-                    });
-
-                    const confirmation = await window.firebaseAuth.signInWithPhoneNumber(formattedPhone, window.recaptchaVerifier);
-                    window.confirmationResult = confirmation;
-
-                    showSuccess(langStore.otp_sent_success || "OTP sent successfully!");
-                    startTimer();
-                } catch (error) {
-                    console.error("Error resending OTP:", error);
-                    showError(langStore.error_sending_otp || "Error sending OTP. Please try again.");
-                }
-            });
+                });
+            }
 
             // Verify OTP handler
-            verifyOtpBtn.addEventListener('click', async () => {
-                clearMessages();
-                const code = otpInput.value.trim();
-                const langStore = window.appData ? window.appData.langStore[window.currentLang] : {};
+            if (verifyOtpBtn) {
+                verifyOtpBtn.addEventListener('click', async () => {
+                    clearMessages();
+                    const code = otpInput.value.trim();
+                    const langStore = window.appData ? window.appData.langStore[window.currentLang] : {};
 
-                if (code.length !== 6) {
-                    showError(langStore.invalid_otp_error || "Invalid OTP. Please check the code and try again.");
-                    return;
-                }
-
-                verifyOtpBtn.disabled = true;
-                verifyOtpBtn.textContent = langStore.verifying_otp_btn || "Verifying...";
-
-                try {
-                    await window.confirmationResult.confirm(code);
-                    localStorage.setItem('isLoggedIn', 'true');
-                    window.location.href = '/index.html';
-                } catch (error) {
-                    console.error("Error verifying OTP:", error);
-                    let errMsg = langStore.invalid_otp_error || "Invalid OTP. Please check the code and try again.";
-                    if (error && error.message) {
-                        errMsg += " - " + error.message;
+                    if (code.length !== 6) {
+                        showError(langStore.invalid_otp_error || "Invalid OTP. Please check the code and try again.");
+                        return;
                     }
-                    showError(errMsg);
-                    verifyOtpBtn.disabled = false;
-                    verifyOtpBtn.textContent = langStore.verify_otp || "Verify & Login";
-                }
-            });
+
+                    verifyOtpBtn.disabled = true;
+                    verifyOtpBtn.textContent = langStore.verifying_otp_btn || "Verifying...";
+
+                    try {
+                        await window.confirmationResult.confirm(code);
+                        localStorage.setItem('isLoggedIn', 'true');
+                        window.location.href = '/index.html';
+                    } catch (error) {
+                        console.error("Error verifying OTP:", error);
+                        let errMsg = langStore.invalid_otp_error || "Invalid OTP. Please check the code and try again.";
+                        if (error && error.message) {
+                            errMsg += " - " + error.message;
+                        }
+                        showError(errMsg);
+                        verifyOtpBtn.disabled = false;
+                        verifyOtpBtn.textContent = langStore.verify_otp || "Verify & Login";
+                    }
+                });
+            }
 
             // Change number click handler
-            changeNumberBtn.addEventListener('click', () => {
-                document.getElementById('otp-section').style.display = 'none';
-                document.getElementById('phone-section').style.display = 'block';
-                clearMessages();
-            });
+            if (changeNumberBtn) {
+                changeNumberBtn.addEventListener('click', () => {
+                    document.getElementById('otp-section').style.display = 'none';
+                    document.getElementById('phone-section').style.display = 'block';
+                    clearMessages();
+                });
+            }
 
             // Google Sign-In click handler
             const googleBtn = document.getElementById('google_login_btn');

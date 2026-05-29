@@ -91,12 +91,20 @@ router.post('/diagnose', async (req, res) => {
     }
 });
 
+// ── Helper: create an AbortSignal that times out after `ms` milliseconds ──
+function fetchWithTimeout(url, options = {}, ms = 8000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), ms);
+    return fetch(url, { ...options, signal: controller.signal })
+        .finally(() => clearTimeout(timer));
+}
+
 // ── Helper: reverse geocode a lat/lon to a localized city name via Nominatim (server-side, no CORS) ──
 async function reverseGeocodeBackend(lat, lon, lang) {
     const langMap = { en: 'en', hi: 'hi', gu: 'gu' };
     const nominatimLang = langMap[lang] || 'en';
     try {
-        const geoRes = await fetch(
+        const geoRes = await fetchWithTimeout(
             `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=${nominatimLang}`,
             { headers: { 'User-Agent': 'Krishi-Cure-AI-App', 'Accept-Language': nominatimLang } }
         );
@@ -123,7 +131,7 @@ router.get('/geocode', async (req, res) => {
     try {
         // Nominatim search with language support — free, no API key needed
         const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=5&accept-language=${nominatimLang}&addressdetails=1`;
-        const response = await fetch(url, {
+        const response = await fetchWithTimeout(url, {
             headers: {
                 'User-Agent': 'Krishi-Cure-AI-App',
                 'Accept-Language': nominatimLang
@@ -144,11 +152,15 @@ router.get('/geocode', async (req, res) => {
         return res.json(results);
     } catch (err) {
         console.error('Geocoding (Nominatim) error:', err);
-        // Fallback: try OpenWeatherMap geocoding
+        // Fallback: try OpenWeatherMap geocoding (only if WEATHER_API_KEY is configured)
+        const apiKey = process.env.WEATHER_API_KEY;
+        if (!apiKey) {
+            console.warn('WEATHER_API_KEY not set — skipping OWM geocode fallback.');
+            return res.status(500).json({ error: 'Failed to geocode location' });
+        }
         try {
-            const apiKey = process.env.OPENWEATHER_API_KEY || '05bef0ddde7927953d2c5d0c661b576a';
             const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(q)}&limit=5&appid=${apiKey}`;
-            const response = await fetch(url);
+            const response = await fetchWithTimeout(url);
             if (!response.ok) throw new Error(`OWM Geocoding error: ${response.status}`);
             const data = await response.json();
             const results = data.map(item => ({
@@ -173,32 +185,36 @@ router.get('/weather', async (req, res) => {
 
     const langMap = { en: 'en', hi: 'hi', gu: 'gu' };
     const nominatimLang = langMap[lang] || 'en';
-    const apiKey = process.env.OPENWEATHER_API_KEY || "05bef0ddde7927953d2c5d0c661b576a";
+    const apiKey = process.env.WEATHER_API_KEY;
 
-    // Try OpenWeatherMap first
-    try {
-        const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=${nominatimLang}`;
-        const response = await fetch(url);
+    // Try OpenWeatherMap first (only if API key is configured)
+    if (apiKey) {
+        try {
+            const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=${nominatimLang}`;
+            const response = await fetchWithTimeout(url);
 
-        if (response.ok) {
-            const data = await response.json();
-            // Override city name with localized version from Nominatim (server-side)
-            const localizedCity = await reverseGeocodeBackend(lat, lon, lang || 'en');
-            if (localizedCity) {
-                data.city = data.city || {};
-                data.city.name = localizedCity;
+            if (response.ok) {
+                const data = await response.json();
+                // Override city name with localized version from Nominatim (server-side)
+                const localizedCity = await reverseGeocodeBackend(lat, lon, lang || 'en');
+                if (localizedCity) {
+                    data.city = data.city || {};
+                    data.city.name = localizedCity;
+                }
+                return res.json(data);
             }
-            return res.json(data);
+            console.warn(`OpenWeather API returned error status ${response.status}. Falling back to Open-Meteo.`);
+        } catch (err) {
+            console.warn("OpenWeatherMap fetch failed, falling back to Open-Meteo:", err);
         }
-        console.warn(`OpenWeather API returned error status ${response.status}. Falling back to Open-Meteo.`);
-    } catch (err) {
-        console.warn("OpenWeatherMap fetch failed, falling back to Open-Meteo:", err);
+    } else {
+        console.warn('WEATHER_API_KEY not set — using Open-Meteo (free fallback) directly.');
     }
 
     // Fallback: Open-Meteo (completely free, no API key)
     try {
         const openMeteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=precipitation_probability_max&timezone=auto`;
-        const omRes = await fetch(openMeteoUrl);
+        const omRes = await fetchWithTimeout(openMeteoUrl);
         if (!omRes.ok) throw new Error("Open-Meteo API returned error status");
         const omData = await omRes.json();
 

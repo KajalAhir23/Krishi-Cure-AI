@@ -90,11 +90,29 @@ body::after {
     padding: 0.6rem 1rem;
     font-weight: 600;
     font-size: 0.88rem;
-    text-align: center;
     letter-spacing: 0.01em;
     box-shadow: 0 2px 12px rgba(45, 90, 39, 0.2);
     position: relative;
     z-index: 1001;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* CSS ticker replacing deprecated <marquee> */
+.warning-ticker-wrap {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+}
+.warning-ticker {
+    display: inline-block;
+    white-space: nowrap;
+    animation: tickerScroll 30s linear infinite;
+    padding-left: 100%;
+}
+@keyframes tickerScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
 }
 
 @keyframes bannerFlow {
@@ -1446,7 +1464,9 @@ footer { position: relative; z-index: 1; }
     margin: 0;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0.6rem;
+    min-width: 0;
 }
 
 .weather-subtitle {

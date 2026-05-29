@@ -124,6 +124,7 @@
     let leafletMap      = null;       // Leaflet map instance
     let leafletMarker   = null;       // Selected marker on map
     let pendingCoords   = null;       // Coords chosen on map but not yet confirmed
+    let leafletReady    = !!window.L; // true if Leaflet already loaded
 
     const DEFAULT_COORDS = { latitude: 22.5644, longitude: 72.9289 };
 
@@ -260,8 +261,21 @@
         `;
         document.body.appendChild(overlay);
 
-        // Init Leaflet map
-        setTimeout(() => initLeafletMap(t), 100);
+        // Init Leaflet map — wait until Leaflet JS is fully loaded
+        if (leafletReady) {
+            setTimeout(() => initLeafletMap(t), 50);
+        } else {
+            // Show a brief loading indicator inside the map div while Leaflet loads
+            const mapDiv = overlay.querySelector('#wlp-map');
+            if (mapDiv) mapDiv.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-light);font-size:0.95rem;">🗺️ Loading map...</div>';
+            const waitForLeaflet = setInterval(() => {
+                if (window.L) {
+                    leafletReady = true;
+                    clearInterval(waitForLeaflet);
+                    if (document.getElementById('wlp-map')) initLeafletMap(t);
+                }
+            }, 100);
+        }
 
         // Event bindings
         document.getElementById('wlp-close').addEventListener('click', closeLocationPicker);
@@ -558,7 +572,10 @@
     function initWeather() {
         if (!document.getElementById('weather-section')) return;
 
-        // Load Leaflet CSS + JS dynamically
+        // Show loading spinner immediately — don't wait for GPS
+        renderWeatherCard();
+
+        // Load Leaflet CSS + JS dynamically (non-blocking, tracked via leafletReady flag)
         if (!document.getElementById('leaflet-css')) {
             const link = document.createElement('link');
             link.id = 'leaflet-css';
@@ -566,9 +583,11 @@
             link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
             document.head.appendChild(link);
         }
-        if (!window.L) {
+        if (!window.L && !document.getElementById('leaflet-js')) {
             const script = document.createElement('script');
+            script.id = 'leaflet-js';
             script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+            script.onload = () => { leafletReady = true; };
             document.head.appendChild(script);
         }
 
@@ -582,7 +601,7 @@
                     locationStatus = 'fallback';
                     fetchWeatherForCoords(DEFAULT_COORDS.latitude, DEFAULT_COORDS.longitude);
                 },
-                { timeout: 7000 }
+                { timeout: 7000, maximumAge: 60000 }
             );
         } else {
             locationStatus = 'fallback';

@@ -15,6 +15,7 @@ Avoid any complex scientific, technical, or academic terms. Use only common loca
 
     const taskPrompt = `Task: Carefully analyze these symptoms for ${cropName} and accurately identify the top 3 possible diseases, pests, or deficiencies.
 Symptoms: ${symptoms.join(", ")}
+Note: ${symptoms.length === 1 ? "Only ONE symptom is provided. Still give the best possible diagnosis based on this single symptom. Be confident but note that accuracy improves with more symptoms." : "Multiple symptoms provided — cross-reference for maximum accuracy."}
 Language Requested: ${lang === 'hi' ? 'Hindi' : lang === 'gu' ? 'Gujarati' : 'English'}
 
 Output Requirement: You MUST respond ONLY with a valid JSON object (no markdown, no code blocks).
@@ -66,33 +67,7 @@ Format of the JSON object:
 
 The treatments and descriptions must be highly practical, trusted, and based on ICAR, agricultural university, or KVK books. All array sentences must be under 12 words.`;
 
-    // 1. Try Gemini first
-    if (process.env.GEMINI_API_KEY) {
-        try {
-            console.log("Attempting diagnosis with Gemini API...");
-            const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-            const response = await ai.models.generateContent({
-                model: 'gemini-2.5-flash',
-                contents: taskPrompt,
-                config: {
-                    systemInstruction: systemInstruction,
-                    responseMimeType: "application/json",
-                    temperature: 0.2
-                }
-            });
-
-            const jsonText = response.text;
-            const result = JSON.parse(jsonText);
-            
-            // Cache the result
-            diagnosisCache[cacheKey] = result;
-            return result;
-        } catch (error) {
-            console.warn("Gemini API Error, checking for Groq fallback:", error.message || error);
-        }
-    }
-
-    // 2. Try Groq as a fallback
+    // 1. Try Groq first (fast & free tier available)
     if (process.env.GROQ_API_KEY) {
         try {
             console.log("Attempting diagnosis with Groq API (llama-3.3-70b-versatile)...");
@@ -113,7 +88,33 @@ The treatments and descriptions must be highly practical, trusted, and based on 
             diagnosisCache[cacheKey] = result;
             return result;
         } catch (groqError) {
-            console.error("Groq API Error:", groqError.message || groqError);
+            console.warn("Groq API Error, falling back to Gemini:", groqError.message || groqError);
+        }
+    }
+
+    // 2. Fallback to Gemini
+    if (process.env.GEMINI_API_KEY) {
+        try {
+            console.log("Attempting diagnosis with Gemini API (fallback)...");
+            const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+            const response = await ai.models.generateContent({
+                model: 'gemini-2.5-flash',
+                contents: taskPrompt,
+                config: {
+                    systemInstruction: systemInstruction,
+                    responseMimeType: "application/json",
+                    temperature: 0.2
+                }
+            });
+
+            const jsonText = response.text;
+            const result = JSON.parse(jsonText);
+
+            // Cache the result
+            diagnosisCache[cacheKey] = result;
+            return result;
+        } catch (error) {
+            console.error("Gemini API Error:", error.message || error);
         }
     }
 

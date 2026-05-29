@@ -179,11 +179,6 @@
                     return;
                 }
 
-                if (symptoms.length < 2) {
-                    alert(langStore.insufficient_symptoms_alert || "Please select at least 2 symptoms for a highly accurate diagnosis.");
-                    return;
-                }
-
                 // Store selected symptoms and call API
                 localStorage.setItem('selectedSymptoms', JSON.stringify(symptoms));
                 window.submitDiagnosis(cropId, symptoms, window.currentLang);

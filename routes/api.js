@@ -101,11 +101,17 @@ function fetchWithTimeout(url, options = {}, ms = 8000) {
 
 // ── Helper: reverse geocode a lat/lon to a localized city name via Nominatim (server-side, no CORS) ──
 async function reverseGeocodeBackend(lat, lon, lang) {
-    const langMap = { en: 'en', hi: 'hi', gu: 'gu' };
-    const nominatimLang = langMap[lang] || 'en';
+    // Use a priority language chain: if localized name isn't available in OSM data,
+    // Nominatim will fall back to the next language in the list.
+    const langChainMap = {
+        en: 'en',
+        hi: 'hi,en',
+        gu: 'gu,hi,en'
+    };
+    const nominatimLang = langChainMap[lang] || 'en';
     try {
         const geoRes = await fetchWithTimeout(
-            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=${nominatimLang}`,
+            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=${encodeURIComponent(nominatimLang)}`,
             { headers: { 'User-Agent': 'Krishi-Cure-AI-App', 'Accept-Language': nominatimLang } }
         );
         if (!geoRes.ok) return '';
@@ -125,12 +131,15 @@ router.get('/geocode', async (req, res) => {
     const { q, lang } = req.query;
     if (!q) return res.status(400).json({ error: 'Missing city query parameter' });
 
-    const langMap = { en: 'en', hi: 'hi', gu: 'gu' };
-    const nominatimLang = langMap[lang] || 'en';
+    // Use a priority language chain so results show in best available script
+    const langChainMap = { en: 'en', hi: 'hi,en', gu: 'gu,hi,en' };
+    const nominatimLang = langChainMap[lang] || 'en';
+    // Short lang code for OWM fallback (only supports 2-letter codes)
+    const owmLang = lang || 'en';
 
     try {
         // Nominatim search with language support — free, no API key needed
-        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=5&accept-language=${nominatimLang}&addressdetails=1`;
+        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=5&accept-language=${encodeURIComponent(nominatimLang)}&addressdetails=1`;
         const response = await fetchWithTimeout(url, {
             headers: {
                 'User-Agent': 'Krishi-Cure-AI-App',
@@ -150,6 +159,7 @@ router.get('/geocode', async (req, res) => {
         }));
 
         return res.json(results);
+
     } catch (err) {
         console.error('Geocoding (Nominatim) error:', err);
         // Fallback: try OpenWeatherMap geocoding (only if WEATHER_API_KEY is configured)
@@ -166,7 +176,7 @@ router.get('/geocode', async (req, res) => {
             const results = data.map(item => ({
                 lat: item.lat, lon: item.lon,
                 display_name: `${item.name}, ${item.country}`,
-                name: item.name, localName: item.local_names?.[nominatimLang] || item.name
+                name: item.name, localName: item.local_names?.[owmLang] || item.name
             }));
             return res.json(results);
         } catch (fallbackErr) {
@@ -183,14 +193,14 @@ router.get('/weather', async (req, res) => {
         return res.status(400).json({ error: "Missing lat or lon query parameters" });
     }
 
-    const langMap = { en: 'en', hi: 'hi', gu: 'gu' };
-    const nominatimLang = langMap[lang] || 'en';
+    // OWM only supports 2-letter lang codes; city name is always overridden by Nominatim anyway
+    const owmLang = (lang === 'hi') ? 'hi' : 'en';
     const apiKey = process.env.WEATHER_API_KEY;
 
     // Try OpenWeatherMap first (only if API key is configured)
     if (apiKey) {
         try {
-            const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=${nominatimLang}`;
+            const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=${owmLang}`;
             const response = await fetchWithTimeout(url);
 
             if (response.ok) {

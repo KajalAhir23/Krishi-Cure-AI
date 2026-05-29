@@ -91,4 +91,156 @@ router.post('/diagnose', async (req, res) => {
     }
 });
 
+// ── Helper: reverse geocode a lat/lon to a localized city name via Nominatim (server-side, no CORS) ──
+async function reverseGeocodeBackend(lat, lon, lang) {
+    const langMap = { en: 'en', hi: 'hi', gu: 'gu' };
+    const nominatimLang = langMap[lang] || 'en';
+    try {
+        const geoRes = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=${nominatimLang}`,
+            { headers: { 'User-Agent': 'Krishi-Cure-AI-App', 'Accept-Language': nominatimLang } }
+        );
+        if (!geoRes.ok) return '';
+        const geoData = await geoRes.json();
+        return geoData.address?.village ||
+               geoData.address?.town    ||
+               geoData.address?.city    ||
+               geoData.address?.county  ||
+               geoData.address?.state   || '';
+    } catch {
+        return '';
+    }
+}
+
+// ── /api/geocode — Forward geocode (text search) via Nominatim (proxied to avoid CORS) ──
+router.get('/geocode', async (req, res) => {
+    const { q, lang } = req.query;
+    if (!q) return res.status(400).json({ error: 'Missing city query parameter' });
+
+    const langMap = { en: 'en', hi: 'hi', gu: 'gu' };
+    const nominatimLang = langMap[lang] || 'en';
+
+    try {
+        // Nominatim search with language support — free, no API key needed
+        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=5&accept-language=${nominatimLang}&addressdetails=1`;
+        const response = await fetch(url, {
+            headers: {
+                'User-Agent': 'Krishi-Cure-AI-App',
+                'Accept-Language': nominatimLang
+            }
+        });
+        if (!response.ok) throw new Error(`Nominatim error: ${response.status}`);
+        const data = await response.json();
+
+        // Map to a simple { lat, lon, display_name, name, localName } format
+        const results = data.map(item => ({
+            lat: parseFloat(item.lat),
+            lon: parseFloat(item.lon),
+            display_name: item.display_name,
+            name: item.address?.village || item.address?.town || item.address?.city || item.name || '',
+            localName: item.name || ''
+        }));
+
+        return res.json(results);
+    } catch (err) {
+        console.error('Geocoding (Nominatim) error:', err);
+        // Fallback: try OpenWeatherMap geocoding
+        try {
+            const apiKey = process.env.OPENWEATHER_API_KEY || '05bef0ddde7927953d2c5d0c661b576a';
+            const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(q)}&limit=5&appid=${apiKey}`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`OWM Geocoding error: ${response.status}`);
+            const data = await response.json();
+            const results = data.map(item => ({
+                lat: item.lat, lon: item.lon,
+                display_name: `${item.name}, ${item.country}`,
+                name: item.name, localName: item.local_names?.[nominatimLang] || item.name
+            }));
+            return res.json(results);
+        } catch (fallbackErr) {
+            console.error('Geocoding fallback also failed:', fallbackErr);
+            return res.status(500).json({ error: 'Failed to geocode location' });
+        }
+    }
+});
+
+// ── /api/weather — Proxy weather with localized city name (server-side reverse geocode) ──
+router.get('/weather', async (req, res) => {
+    const { lat, lon, lang } = req.query;
+    if (!lat || !lon) {
+        return res.status(400).json({ error: "Missing lat or lon query parameters" });
+    }
+
+    const langMap = { en: 'en', hi: 'hi', gu: 'gu' };
+    const nominatimLang = langMap[lang] || 'en';
+    const apiKey = process.env.OPENWEATHER_API_KEY || "05bef0ddde7927953d2c5d0c661b576a";
+
+    // Try OpenWeatherMap first
+    try {
+        const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=${nominatimLang}`;
+        const response = await fetch(url);
+
+        if (response.ok) {
+            const data = await response.json();
+            // Override city name with localized version from Nominatim (server-side)
+            const localizedCity = await reverseGeocodeBackend(lat, lon, lang || 'en');
+            if (localizedCity) {
+                data.city = data.city || {};
+                data.city.name = localizedCity;
+            }
+            return res.json(data);
+        }
+        console.warn(`OpenWeather API returned error status ${response.status}. Falling back to Open-Meteo.`);
+    } catch (err) {
+        console.warn("OpenWeatherMap fetch failed, falling back to Open-Meteo:", err);
+    }
+
+    // Fallback: Open-Meteo (completely free, no API key)
+    try {
+        const openMeteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=precipitation_probability_max&timezone=auto`;
+        const omRes = await fetch(openMeteoUrl);
+        if (!omRes.ok) throw new Error("Open-Meteo API returned error status");
+        const omData = await omRes.json();
+
+        // Localized city name via Nominatim (server-side — no CORS)
+        let cityName = await reverseGeocodeBackend(lat, lon, lang || 'en');
+        if (!cityName && Math.abs(lat - 22.5644) < 0.1 && Math.abs(lon - 72.9289) < 0.1) {
+            const fallbackNames = { en: 'Anand', hi: 'आणंद', gu: 'આણંદ' };
+            cityName = fallbackNames[lang] || 'Anand';
+        }
+
+        const mapWmoToOwm = (code) => {
+            if (code === 0) return 800;
+            if (code >= 1 && code <= 3) return 802;
+            if (code === 45 || code === 48) return 741;
+            if (code >= 51 && code <= 57) return 300;
+            if ((code >= 61 && code <= 67) || (code >= 80 && code <= 82)) return 500;
+            if ((code >= 71 && code <= 77) || (code >= 85 && code <= 86)) return 600;
+            if (code >= 95 && code <= 99) return 211;
+            return 800;
+        };
+
+        const pop = (omData.daily.precipitation_probability_max[0] ?? 0) / 100;
+        const mappedCode = mapWmoToOwm(omData.current.weather_code);
+
+        const adaptedData = {
+            list: [{
+                main: {
+                    temp: omData.current.temperature_2m,
+                    humidity: omData.current.relative_humidity_2m
+                },
+                weather: [{ id: mappedCode }],
+                wind: { speed: omData.current.wind_speed_10m / 3.6 },
+                pop
+            }],
+            city: { name: cityName }
+        };
+
+        return res.json(adaptedData);
+    } catch (fallbackErr) {
+        console.error("Both OpenWeatherMap and Open-Meteo failed:", fallbackErr);
+        return res.status(500).json({ error: "Failed to fetch weather forecast from all sources" });
+    }
+});
+
 export default router;

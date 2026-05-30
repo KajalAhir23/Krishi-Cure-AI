@@ -281,6 +281,48 @@
     box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
 
+/* Mic button styling */
+.mic-btn {
+    background: var(--grad-primary);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(45, 90, 39, 0.2);
+    transition: var(--transition-bounce);
+    flex-shrink: 0;
+    margin-right: 0.5rem;
+}
+
+.mic-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 16px rgba(45, 90, 39, 0.3);
+}
+
+.mic-btn:active {
+    transform: scale(0.95);
+}
+
+.mic-btn.active {
+    animation: pulseMic 1.5s infinite;
+}
+
+@keyframes pulseMic {
+    0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+}
+
+.mic-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: white;
+}
+
 .chatbot-send-btn {
     background: var(--grad-primary);
     border: none;

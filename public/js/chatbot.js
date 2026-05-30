@@ -113,6 +113,21 @@
         const sendBtn = document.getElementById('chatbot-ui-send');
         const input = document.getElementById('chatbot-ui-input');
         const messagesContainer = document.getElementById('chatbot-ui-messages');
+        // Create microphone button for voice input
+        const micBtn = document.createElement('button');
+        micBtn.id = 'chatbot-mic-btn';
+        micBtn.className = 'mic-btn';
+        micBtn.type = 'button';
+        micBtn.title = 'Voice Input';
+        micBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 14 0h-2z"/>
+            </svg>`;
+        // Insert mic button before send button within footer
+        const footer = document.querySelector('.chatbot-footer');
+        if (footer) {
+            footer.insertBefore(micBtn, sendBtn);
+        }
 
         // Toggle Modal
         trigger.addEventListener('click', () => {
@@ -136,6 +151,115 @@
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 sendMessage();
+            }
+        });
+        // Voice input handling
+        let recognition = null;
+        let isListening = false;
+
+        // Friendly localized error messages (no raw alert)
+        const voiceErrors = {
+            en: {
+                network:     'Network error. Please check your internet connection.',
+                'no-speech': 'No speech detected. Please try again.',
+                denied:      'Microphone access denied. Please allow microphone in browser settings.',
+                unsupported: 'Voice input is not supported in this browser. Please use Chrome.',
+                generic:     'Voice input error. Please try again.'
+            },
+            hi: {
+                network:     'नेटवर्क त्रुटि। कृपया अपना इंटरनेट कनेक्शन जांचें।',
+                'no-speech': 'कोई आवाज़ नहीं मिली। कृपया पुनः प्रयास करें।',
+                denied:      'माइक्रोफ़ोन की अनुमति नहीं है। ब्राउज़र सेटिंग में माइक्रोफ़ोन चालू करें।',
+                unsupported: 'यह ब्राउज़र वॉयस इनपुट को सपोर्ट नहीं करता। कृपया Chrome उपयोग करें।',
+                generic:     'वॉयस इनपुट में त्रुटि हुई। कृपया पुनः प्रयास करें।'
+            },
+            gu: {
+                network:     'નેટવર્ક ભૂલ. કૃપા કરીને ઇન્ટરનેટ કનેક્શન તપાસો.',
+                'no-speech': 'કોઈ અવાજ મળ્યો નહીં. કૃપા કરીને ફરી પ્રયાસ કરો.',
+                denied:      'માઇક્રોફોન ઍક્સેસ નકારવામાં આવ્યો. બ્રાઉઝર સેટિંગ્સમાં માઇક્રોફોન મંજૂર કરો.',
+                unsupported: 'આ બ્રાઉઝર વૉઇસ ઇનપુટ સપોર્ટ કરતું નથી. Chrome વાપરો.',
+                generic:     'વૉઇસ ઇનપુટ ભૂલ. ફરી પ્રયાસ કરો.'
+            }
+        };
+
+        function showVoiceError(errorKey) {
+            const lang = window.currentLang || 'en';
+            const msgs = voiceErrors[lang] || voiceErrors.en;
+            const msg = msgs[errorKey] || msgs.generic;
+            // Show in placeholder briefly, then restore
+            input.value = '';
+            input.placeholder = msg;
+            setTimeout(() => {
+                input.placeholder = localizations[lang]?.placeholder || localizations.en.placeholder;
+            }, 3500);
+        }
+
+        micBtn.addEventListener('click', () => {
+            const lang = window.currentLang || 'en';
+            if (!('SpeechRecognition' in window) && !('webkitSpeechRecognition' in window)) {
+                showVoiceError('unsupported');
+                return;
+            }
+            if (isListening) {
+                if (recognition) recognition.stop();
+                return;
+            }
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+
+            // Map app language to BCP-47 locale; also allow multilingual detection
+            const langMap = { en: 'en-IN', hi: 'hi-IN', gu: 'gu-IN' };
+            recognition.lang = langMap[lang] || 'en-IN';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 3;
+            recognition.continuous = false;
+
+            isListening = true;
+            micBtn.classList.add('active');
+            const listeningLabel = { en: '🎙️ Listening...', hi: '🎙️ सुन रहा है...', gu: '🎙️ સાંભળી રહ્યો છું...' };
+            input.placeholder = listeningLabel[lang] || '🎙️ Listening...';
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                input.value = transcript;
+                input.focus();
+            };
+
+            recognition.onerror = (event) => {
+                console.warn('Speech recognition error:', event.error);
+                if (event.error === 'no-speech') {
+                    // No speech — silently restore, do not show error
+                    return;
+                }
+                if (event.error === 'network') {
+                    showVoiceError('network');
+                } else if (event.error === 'not-allowed' || event.error === 'permission-denied') {
+                    showVoiceError('denied');
+                } else {
+                    showVoiceError('generic');
+                }
+            };
+
+            recognition.onend = () => {
+                isListening = false;
+                micBtn.classList.remove('active');
+                // Restore placeholder only if not already set by onresult or error
+                if (!input.value) {
+                    const t = localizations[lang] || localizations.en;
+                    input.placeholder = t.placeholder;
+                } else {
+                    const t = localizations[lang] || localizations.en;
+                    input.placeholder = t.placeholder;
+                }
+            };
+
+            try {
+                recognition.start();
+            } catch (e) {
+                console.error('Could not start recognition:', e);
+                isListening = false;
+                micBtn.classList.remove('active');
+                showVoiceError('generic');
             }
         });
 

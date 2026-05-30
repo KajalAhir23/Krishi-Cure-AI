@@ -32,48 +32,95 @@
         </div>
     </header>
 
-    <main class="container" style="max-width: 1000px; margin-top: 4rem;">
-        <div class="login-layout-wrapper" style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: stretch; justify-content: center;">
-            
-            <!-- Left: How It Works -->
-            <section class="step-card active" style="flex: 1.2; min-width: 320px; max-width: 520px; padding: 2.5rem; display: flex; flex-direction: column; justify-content: flex-start; background: rgba(255, 255, 255, 0.9);">
-                <h3 id="how_works_title" style="color: var(--forest-green); font-size: 1.6rem; font-weight: 800; margin-bottom: 2rem; border-bottom: 2.5px solid rgba(76,175,80,0.15); padding-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem;">
-                    How Krishi-Cure Works ⚙️
-                </h3>
-                
-                <div style="display: flex; flex-direction: column; gap: 1.8rem;">
-                    <!-- Step 1 -->
-                    <div style="display: flex; gap: 1.2rem; align-items: flex-start;">
-                        <div style="background: rgba(45, 90, 39, 0.08); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; border: 1.5px solid var(--glass-border);">🌾</div>
-                        <div>
-                            <h4 id="step1_title" style="font-weight: 800; color: var(--forest-green); font-size: 1.15rem; margin-bottom: 0.35rem;">1. Select Your Crop</h4>
-                            <p id="step1_desc" style="color: var(--text-light); font-size: 0.95rem; line-height: 1.5; font-weight: 500;">Choose the crop category and find your specific crop from the selection matrix.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Step 2 -->
-                    <div style="display: flex; gap: 1.2rem; align-items: flex-start;">
-                        <div style="background: rgba(45, 90, 39, 0.08); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; border: 1.5px solid var(--glass-border);">🔍</div>
-                        <div>
-                            <h4 id="step2_title" style="font-weight: 800; color: var(--forest-green); font-size: 1.15rem; margin-bottom: 0.35rem;">2. Check Symptoms</h4>
-                            <p id="step2_desc" style="color: var(--text-light); font-size: 0.95rem; line-height: 1.5; font-weight: 500;">Identify and select the symptoms you see on your plant's leaves, stems, or fruits.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Step 3 -->
-                    <div style="display: flex; gap: 1.2rem; align-items: flex-start;">
-                        <div style="background: rgba(45, 90, 39, 0.08); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; border: 1.5px solid var(--glass-border);">🩺</div>
-                        <div>
-                            <h4 id="step3_title" style="font-weight: 800; color: var(--forest-green); font-size: 1.15rem; margin-bottom: 0.35rem;">3. Get Remedy Plan</h4>
-                            <p id="step3_desc" style="color: var(--text-light); font-size: 0.95rem; line-height: 1.5; font-weight: 500;">Instantly receive a customized scientific diagnosis and step-by-step organic recovery plan.</p>
-                        </div>
-                    </div>
+    <main class="container" style="max-width: 1350px; margin-top: 4rem;">
+        <div class="login-layout-wrapper"
+            style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: stretch; justify-content: center;">
+
+            <section class="step-card active"
+                style="flex: 1; min-width: 260px; max-width: 340px; padding: 2rem 1.8rem; display: flex; flex-direction: column; justify-content: flex-start; background: rgba(255,255,255,0.92);">
+                <div
+                    style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid rgba(76,175,80,0.15);">
+                    <div
+                        style="background: linear-gradient(135deg,#2d5a27,#4caf50); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; box-shadow: 0 4px 14px rgba(45,90,39,0.22);">
+                        🌾</div>
+                    <h3 id="card_crop_title"
+                        style="color: var(--forest-green); font-size: 1.2rem; font-weight: 800; margin: 0; line-height: 1.3;">
+                        Crop Disease Prediction</h3>
                 </div>
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1rem;">
+                    <li style="display: flex; align-items: center; gap: 0.85rem;">
+                        <span style="font-size: 1.3rem;">🌱</span>
+                        <span id="card_crop_li1"
+                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">Select
+                            Crop</span>
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 0.85rem;">
+                        <span style="font-size: 1.3rem;">🔍</span>
+                        <span id="card_crop_li2"
+                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">Select
+                            Symptoms</span>
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 0.85rem;">
+                        <span style="font-size: 1.3rem;">🩺</span>
+                        <span id="card_crop_li3"
+                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">Get
+                            AI Diagnosis</span>
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 0.85rem;">
+                        <span style="font-size: 1.3rem;">💊</span>
+                        <span id="card_crop_li4"
+                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">View
+                            Recovery Suggestions</span>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Info Card: AI Agriculture Chatbot -->
+            <section class="step-card active"
+                style="flex: 1; min-width: 260px; max-width: 340px; padding: 2rem 1.8rem; display: flex; flex-direction: column; justify-content: flex-start; background: rgba(255,255,255,0.92);">
+                <div
+                    style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid rgba(76,175,80,0.15);">
+                    <div
+                        style="background: linear-gradient(135deg,#2d5a27,#4caf50); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; box-shadow: 0 4px 14px rgba(45,90,39,0.22);">
+                        🤖</div>
+                    <h3 id="card_chat_title"
+                        style="color: var(--forest-green); font-size: 1.2rem; font-weight: 800; margin: 0; line-height: 1.3;">
+                        AI Agriculture Chatbot</h3>
+                </div>
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1rem;">
+                    <li style="display: flex; align-items: center; gap: 0.85rem;">
+                        <span style="font-size: 1.3rem;">💬</span>
+                        <span id="card_chat_li1"
+                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">Open
+                            Chatbot</span>
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 0.85rem;">
+                        <span style="font-size: 1.3rem;">🎤</span>
+                        <span id="card_chat_li2"
+                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">Type
+                            or Speak</span>
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 0.85rem;">
+                        <span style="font-size: 1.3rem;">🌐</span>
+                        <span id="card_chat_li3"
+                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">English,
+                            Hindi, or Gujarati</span>
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 0.85rem;">
+                        <span style="font-size: 1.3rem;">⚡</span>
+                        <span id="card_chat_li4"
+                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">Get
+                            Instant Farming Advice</span>
+                    </li>
+                </ul>
             </section>
 
             <!-- Right: Farmer Login -->
-            <section class="step-card active" style="flex: 1; min-width: 320px; max-width: 440px; padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: center;">
-                <h2 id="login_title" style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem; font-weight: 800;">
+
+            <section class="step-card active"
+                style="flex: 1; min-width: 320px; max-width: 440px; padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: center;">
+                <h2 id="login_title"
+                    style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem; font-weight: 800;">
                     Farmer Login</h2>
 
                 <!-- Message Container for Errors & Success -->
@@ -94,7 +141,8 @@
                             <div style="display: flex; gap: 0.6rem; align-items: center;">
                                 <span
                                     style="background: rgba(45, 90, 39, 0.05); border: 2px solid var(--glass-border); padding: 1rem 0.9rem; border-radius: 14px; font-weight: 700; color: var(--text-light); font-size: 1.1rem; line-height: 1;">+91</span>
-                                <input type="tel" id="phone_input" placeholder="Enter 10-digit mobile number" maxlength="10"
+                                <input type="tel" id="phone_input" placeholder="Enter 10-digit mobile number"
+                                    maxlength="10"
                                     style="flex: 1; padding: 1rem 1.2rem; border-radius: 14px; border: 2px solid var(--glass-border); font-family: inherit; font-size: 1.1rem; outline: none; background: white; transition: var(--transition-smooth); font-weight: 600; color: var(--text-main);">
                             </div>
                         </div>
@@ -272,6 +320,123 @@
                 }
             };
 
+            const chatbotTranslations = {
+                en: {
+                    title: "🤖 AI Agriculture Chatbot",
+                    step1_title: "1. Open the AI Chatbot",
+                    step1_desc: "Open the AI Chatbot from the homepage.",
+                    step2_title: "2. Ask in Your Language",
+                    step2_desc: "Ask agriculture-related questions in English, Hindi, or Gujarati.",
+                    step3_title: "3. Get Instant Guidance",
+                    step3_desc: "Get instant farming guidance about:",
+                    step3_li1: "Crop diseases",
+                    step3_li2: "Pest management",
+                    step3_li3: "Fertilizers",
+                    step3_li4: "Irrigation",
+                    step3_li5: "Weather-based advice",
+                    step3_li6: "Crop care",
+                    step4_title: "4. Receive Recommendations",
+                    step4_desc: "Receive simple farmer-friendly recommendations.",
+                    // Voice Chat Feature
+                    voice_chat_title: "🎤 Voice Chat Feature",
+                    voice_chat_subtitle: "Speak your question — no typing needed!",
+                    voice_step1_title: "Step 1: Open AI Chatbot",
+                    voice_step1_desc: "Open the AI Agriculture Chatbot from the homepage.",
+                    voice_step2_title: "Step 2: Tap the Microphone",
+                    voice_step2_desc: "Tap the microphone icon inside the chatbot input area.",
+                    voice_step3_title: "Step 3: Speak Your Question",
+                    voice_step3_desc: "Speak your farming question in:",
+                    voice_lang_en: "🇬🇧 English",
+                    voice_lang_hi: "🇮🇳 Hindi",
+                    voice_lang_gu: "🇮🇳 Gujarati",
+                    voice_step4_title: "Step 4: Speech → Text",
+                    voice_step4_desc: "Your speech is converted to text automatically. You can edit before sending.",
+                    voice_step5_title: "Step 5: Get AI Guidance",
+                    voice_step5_desc: "AI analyzes your question and provides agriculture guidance instantly.",
+                    voice_examples_title: "💬 Example Questions:",
+                    voice_ex1: "Why are cotton leaves turning yellow?",
+                    voice_ex2: "Which fertilizer is best for wheat?",
+                    voice_ex3: "How much water does chilli need?",
+                    voice_ex4: "How to control pests in groundnut?"
+                },
+                hi: {
+                    title: "🤖 AI कृषि चैटबॉट",
+                    step1_title: "1. एआई चैटबॉट खोलें",
+                    step1_desc: "होमपेज से एआई चैटबॉट खोलें।",
+                    step2_title: "2. अपनी भाषा में पूछें",
+                    step2_desc: "अंग्रेजी, हिंदी या गुजराती में कृषि से संबंधित प्रश्न पूछें।",
+                    step3_title: "3. तत्काल मार्गदर्शन पाएं",
+                    step3_desc: "इन विषयों पर तुरंत खेती से संबंधित मार्गदर्शन प्राप्त करें:",
+                    step3_li1: "फसल के रोग",
+                    step3_li2: "कीट प्रबंधन",
+                    step3_li3: "उर्वरक",
+                    step3_li4: "सिंचाई",
+                    step3_li5: "मौसम आधारित सलाह",
+                    step3_li6: "फसल की देखभाल",
+                    step4_title: "4. सरल सिफारिशें प्राप्त करें",
+                    step4_desc: "किसानों के अनुकूल सरल सिफारिशें प्राप्त करें।",
+                    // Voice Chat Feature
+                    voice_chat_title: "🎤 वॉयस चैट फ़ीचर",
+                    voice_chat_subtitle: "अपना सवाल बोलें — टाइप करने की ज़रूरत नहीं!",
+                    voice_step1_title: "चरण 1: एआई चैटबॉट खोलें",
+                    voice_step1_desc: "होमपेज से एआई एग्रीकल्चर चैटबॉट खोलें।",
+                    voice_step2_title: "चरण 2: माइक्रोफ़ोन दबाएं",
+                    voice_step2_desc: "चैटबॉट इनपुट क्षेत्र में माइक्रोफ़ोन आइकन दबाएं।",
+                    voice_step3_title: "चरण 3: अपना सवाल बोलें",
+                    voice_step3_desc: "अपना कृषि प्रश्न इस भाषा में बोलें:",
+                    voice_lang_en: "🇬🇧 अंग्रेजी",
+                    voice_lang_hi: "🇮🇳 हिंदी",
+                    voice_lang_gu: "🇮🇳 गुजराती",
+                    voice_step4_title: "चरण 4: भाषण → पाठ",
+                    voice_step4_desc: "आपकी बोली स्वचालित रूप से टेक्स्ट में बदल जाती है। भेजने से पहले संपादित कर सकते हैं।",
+                    voice_step5_title: "चरण 5: AI मार्गदर्शन प्राप्त करें",
+                    voice_step5_desc: "AI आपके प्रश्न का विश्लेषण करता है और तुरंत कृषि मार्गदर्शन प्रदान करता है।",
+                    voice_examples_title: "💬 उदाहरण प्रश्न:",
+                    voice_ex1: "कपास की पत्तियाँ पीली क्यों हो रही हैं?",
+                    voice_ex2: "गेहूं के लिए सबसे अच्छा उर्वरक कौन सा है?",
+                    voice_ex3: "मिर्च को कितना पानी चाहिए?",
+                    voice_ex4: "मूंगफली में कीटों को कैसे नियंत्रित करें?"
+                },
+                gu: {
+                    title: "🤖 AI કૃષિ ચેટબોટ",
+                    step1_title: "1. AI ચેટબોટ ખોલો",
+                    step1_desc: "હોમપેજ પરથી AI ચેટબોટ ખોલો.",
+                    step2_title: "2. તમારી ભાષામાં પૂછો",
+                    step2_desc: "અંગ્રેજી, હિન્દી અથવા ગુજરાતીમાં કૃષિ સંબંધિત પ્રશ્નો પૂછો.",
+                    step3_title: "3. ત્વરિત માર્ગદર્શન મેળવો",
+                    step3_desc: "આના વિશે ત્વરિત ખેતી માર્ગદર્શન મેળવો:",
+                    step3_li1: "પાકના રોગો",
+                    step3_li2: "જીવાત નિયંત્રણ",
+                    step3_li3: "ખાતરો",
+                    step3_li4: "સિંચાઈ",
+                    step3_li5: "હવામાન આધારિત સલાહ",
+                    step3_li6: "પાકની સંભાળ",
+                    step4_title: "4. સરળ ભલામણો મેળવો",
+                    step4_desc: "ખેડૂતોને સમજાય તેવી સરળ ભલામણો મેળવો.",
+                    // Voice Chat Feature
+                    voice_chat_title: "🎤 વૉઇસ ચેટ ફીચર",
+                    voice_chat_subtitle: "તમારો પ્રશ્ન બોલો — ટાઈપ કરવાની જરૂર નથી!",
+                    voice_step1_title: "પગલું 1: AI ચેટબોટ ખોલો",
+                    voice_step1_desc: "હોમપેજ પરથી AI એગ્રીકલ્ચર ચેટબોટ ખોલો.",
+                    voice_step2_title: "પગલું 2: માઇક્રોફોન દબાવો",
+                    voice_step2_desc: "ચેટબોટ ઇનપુટ ક્ષેત્રમાં માઇક્રોફોન આઇકોન દબાવો.",
+                    voice_step3_title: "પગલું 3: તમારો પ્રશ્ન બોલો",
+                    voice_step3_desc: "તમારો ખેતી પ્રશ્ન આ ભાષામાં બોલો:",
+                    voice_lang_en: "🇬🇧 અંગ્રેજી",
+                    voice_lang_hi: "🇮🇳 હિન્દી",
+                    voice_lang_gu: "🇮🇳 ગુજરાતી",
+                    voice_step4_title: "પગલું 4: ભાષણ → ટેક્સ્ટ",
+                    voice_step4_desc: "તમારી વાણી આપોઆપ ટેક્સ્ટમાં ફેરવાય છે. મોકલતા પહેલાં સંપાદિત કરી શકો છો.",
+                    voice_step5_title: "પગલું 5: AI માર્ગદર્શન મેળવો",
+                    voice_step5_desc: "AI તમારા પ્રશ્નનું વિશ્લેષણ કરે છે અને તરત કૃષિ માર્ગદર્શન આપે છે.",
+                    voice_examples_title: "💬 ઉદાહરણ પ્રશ્નો:",
+                    voice_ex1: "કપાસના પાન પીળા કેમ થઈ રહ્યા છે?",
+                    voice_ex2: "ઘઉં માટે સૌથી સારો ખાતર કયો છે?",
+                    voice_ex3: "મરચીને કેટલું પાણી જોઈએ?",
+                    voice_ex4: "મગફળીમાં જીવાત કેવી રીતે નિયંત્રિત કરવી?"
+                }
+            };
+
             // Apply translations to layout
             const applyLoginTranslations = () => {
                 if (!window.appData) return;
@@ -322,6 +487,63 @@
                 if (step2DescEl) step2DescEl.textContent = steps.step2_desc;
                 if (step3TitleEl) step3TitleEl.textContent = steps.step3_title;
                 if (step3DescEl) step3DescEl.textContent = steps.step3_desc;
+
+                // Update Chatbot steps
+                const chatbot = chatbotTranslations[window.currentLang] || chatbotTranslations['en'];
+                const cbTitleEl = document.getElementById('chatbot_title');
+                const cbStep1TitleEl = document.getElementById('chatbot_step1_title');
+                const cbStep1DescEl = document.getElementById('chatbot_step1_desc');
+                const cbStep2TitleEl = document.getElementById('chatbot_step2_title');
+                const cbStep2DescEl = document.getElementById('chatbot_step2_desc');
+                const cbStep3TitleEl = document.getElementById('chatbot_step3_title');
+                const cbStep3DescEl = document.getElementById('chatbot_step3_desc');
+                const cbStep3Li1El = document.getElementById('chatbot_step3_li1');
+                const cbStep3Li2El = document.getElementById('chatbot_step3_li2');
+                const cbStep3Li3El = document.getElementById('chatbot_step3_li3');
+                const cbStep3Li4El = document.getElementById('chatbot_step3_li4');
+                const cbStep3Li5El = document.getElementById('chatbot_step3_li5');
+                const cbStep3Li6El = document.getElementById('chatbot_step3_li6');
+                const cbStep4TitleEl = document.getElementById('chatbot_step4_title');
+                const cbStep4DescEl = document.getElementById('chatbot_step4_desc');
+
+                if (cbTitleEl) cbTitleEl.textContent = chatbot.title;
+                if (cbStep1TitleEl) cbStep1TitleEl.textContent = chatbot.step1_title;
+                if (cbStep1DescEl) cbStep1DescEl.textContent = chatbot.step1_desc;
+                if (cbStep2TitleEl) cbStep2TitleEl.textContent = chatbot.step2_title;
+                if (cbStep2DescEl) cbStep2DescEl.textContent = chatbot.step2_desc;
+                if (cbStep3TitleEl) cbStep3TitleEl.textContent = chatbot.step3_title;
+                if (cbStep3DescEl) cbStep3DescEl.textContent = chatbot.step3_desc;
+                if (cbStep3Li1El) cbStep3Li1El.textContent = chatbot.step3_li1;
+                if (cbStep3Li2El) cbStep3Li2El.textContent = chatbot.step3_li2;
+                if (cbStep3Li3El) cbStep3Li3El.textContent = chatbot.step3_li3;
+                if (cbStep3Li4El) cbStep3Li4El.textContent = chatbot.step3_li4;
+                if (cbStep3Li5El) cbStep3Li5El.textContent = chatbot.step3_li5;
+                if (cbStep3Li6El) cbStep3Li6El.textContent = chatbot.step3_li6;
+                if (cbStep4TitleEl) cbStep4TitleEl.textContent = chatbot.step4_title;
+                if (cbStep4DescEl) cbStep4DescEl.textContent = chatbot.step4_desc;
+
+                // Update Voice Chat Feature subsection
+                const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+                setTxt('voice_chat_title', chatbot.voice_chat_title);
+                setTxt('voice_chat_subtitle', chatbot.voice_chat_subtitle);
+                setTxt('voice_step1_title', chatbot.voice_step1_title);
+                setTxt('voice_step1_desc', chatbot.voice_step1_desc);
+                setTxt('voice_step2_title', chatbot.voice_step2_title);
+                setTxt('voice_step2_desc', chatbot.voice_step2_desc);
+                setTxt('voice_step3_title', chatbot.voice_step3_title);
+                setTxt('voice_step3_desc', chatbot.voice_step3_desc);
+                setTxt('voice_lang_en', chatbot.voice_lang_en);
+                setTxt('voice_lang_hi', chatbot.voice_lang_hi);
+                setTxt('voice_lang_gu', chatbot.voice_lang_gu);
+                setTxt('voice_step4_title', chatbot.voice_step4_title);
+                setTxt('voice_step4_desc', chatbot.voice_step4_desc);
+                setTxt('voice_step5_title', chatbot.voice_step5_title);
+                setTxt('voice_step5_desc', chatbot.voice_step5_desc);
+                setTxt('voice_examples_title', chatbot.voice_examples_title);
+                setTxt('voice_ex1', chatbot.voice_ex1);
+                setTxt('voice_ex2', chatbot.voice_ex2);
+                setTxt('voice_ex3', chatbot.voice_ex3);
+                setTxt('voice_ex4', chatbot.voice_ex4);
             };
 
             window.addEventListener('languageChanged', applyLoginTranslations);

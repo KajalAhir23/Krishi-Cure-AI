@@ -2,7 +2,7 @@ import express from 'express';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { diagnoseWithAI } from '../controllers/aiController.js';
+import { diagnoseWithAI, chatWithAI } from '../controllers/aiController.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -88,6 +88,24 @@ router.post('/diagnose', async (req, res) => {
     } catch (error) {
         console.error("Diagnosis error:", error);
         res.status(500).json({ error: "Error generating diagnosis." });
+    }
+});
+
+// Endpoint for general agriculture Q&A chatbot
+router.post('/chatbot', async (req, res) => {
+    try {
+        const { question, lang, history } = req.body;
+        if (!question) {
+            return res.status(400).json({ error: "Question is required." });
+        }
+        const selectedLang = lang || 'en';
+        const conversationHistory = history || [];
+
+        const aiResponse = await chatWithAI(question, selectedLang, conversationHistory);
+        res.json(aiResponse);
+    } catch (error) {
+        console.error("Chatbot error:", error);
+        res.status(500).json({ error: "Error processing chat message." });
     }
 });
 

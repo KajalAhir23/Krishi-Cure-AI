@@ -154,3 +154,83 @@ The treatments and descriptions must be highly practical, trusted, and based on 
         ]
     };
 }
+
+// ─── Chatbot: free-form agriculture Q&A ───────────────────────────────────────
+
+const CHATBOT_SYSTEM_PROMPT = `You are Krishi Cure AI Agriculture Assistant. Answer only agriculture and farming related questions. Use simple farmer-friendly language. Give practical and accurate advice. Prefer information based on government agriculture recommendations, agricultural universities, KVK guidance, ICAR practices, and standard agriculture references. Avoid difficult technical language. If unsure, clearly state limitations instead of guessing. Keep answers concise and practical. Use numbered steps when giving instructions. Never generate harmful farming advice. Never make up facts. If a question is not related to agriculture or farming, politely decline to answer and explain that you can only help with farming topics.`;
+
+const langNames = { en: 'English', hi: 'Hindi', gu: 'Gujarati' };
+
+export async function chatWithAI(question, lang = 'en', history = []) {
+    const systemPrompt = `${CHATBOT_SYSTEM_PROMPT}\n\nIMPORTANT: Always respond in ${langNames[lang] || 'English'}. Use simple, farmer-friendly words in that language.`;
+
+    const messages = [
+        { role: 'system', content: systemPrompt },
+        ...history,
+        { role: 'user', content: question }
+    ];
+
+    // 1. Try Groq first (fast & free tier)
+    if (process.env.GROQ_API_KEY) {
+        try {
+            const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+            const completion = await groq.chat.completions.create({
+                messages,
+                model: 'llama-3.3-70b-versatile',
+                max_tokens: 512,
+                temperature: 0.4
+            });
+            return {
+                success: true,
+                reply: completion.choices[0].message.content.trim(),
+                provider: 'groq'
+            };
+        } catch (groqError) {
+            console.warn('[Chatbot] Groq failed, trying Gemini:', groqError.message || groqError);
+        }
+    }
+
+    // 2. Fallback to Gemini
+    if (process.env.GEMINI_API_KEY) {
+        try {
+            const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+            // Build combined conversation text for Gemini
+            const conversationText = history
+                .map(m => `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`)
+                .join('\n');
+            const fullPrompt = conversationText
+                ? `${conversationText}\nUser: ${question}`
+                : question;
+
+            const response = await ai.models.generateContent({
+                model: 'gemini-2.5-flash',
+                contents: fullPrompt,
+                config: {
+                    systemInstruction: systemPrompt,
+                    maxOutputTokens: 512,
+                    temperature: 0.4
+                }
+            });
+            return {
+                success: true,
+                reply: response.text.trim(),
+                provider: 'gemini'
+            };
+        } catch (geminiError) {
+            console.error('[Chatbot] Gemini also failed:', geminiError.message || geminiError);
+        }
+    }
+
+    // 3. Both failed — return friendly error in the requested language
+    const errorMsg = {
+        en: 'Sorry, the AI service is temporarily unavailable. Please try again in a few minutes.',
+        hi: 'क्षमा करें, AI सेवा अभी उपलब्ध नहीं है। कृपया कुछ मिनट बाद पुनः प्रयास करें।',
+        gu: 'માફ કરશો, AI સેવા હાલ ઉપલબ્ધ નથી. કૃપા કરીને થોડી મિનિટ પછી ફરી પ્રयाс કरो।'
+    };
+    return {
+        success: false,
+        reply: errorMsg[lang] || errorMsg.en,
+        provider: 'none'
+    };
+}

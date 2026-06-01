@@ -5,6 +5,8 @@ Krishi Cure AI is an AI-powered smart agriculture web application designed to he
 ## 🚀 Features
 
 * 🌱 Crop disease symptom detection
+* 📷 Crop image upload support
+* 🔍 AI image-based disease detection
 * 🤖 AI-powered disease prediction
 * 📊 Risk percentage analysis
 * 🧪 Organic treatment suggestions
@@ -84,6 +86,33 @@ Krishi Cure AI is an AI-powered smart agriculture web application designed to he
 * Ginger
 * and more...
 
+## 📷 Image-Based Disease Detection
+
+Farmers can identify crop diseases by uploading images of affected plants.
+
+### How It Works
+
+1. Select Crop
+2. Upload 1–4 Images
+3. (Optional) Select Symptoms
+4. AI Analyzes Images
+5. Get Disease Prediction
+6. View Recovery Suggestions
+
+### Supported Uploads
+
+* Mobile Camera Capture
+* Mobile Gallery Upload
+* Desktop Image Upload
+
+### AI Analysis
+
+* Disease Detection
+* Pest Identification
+* Nutrient Deficiency Detection
+* Recovery Recommendations
+* Prevention Guidance
+
 ## 🤖 AI Agriculture Chatbot
 
 Farmers can ask agriculture-related questions and receive instant AI-powered guidance.
@@ -121,13 +150,14 @@ Provides:
 1. Sign in with Google
 2. Select Crop Category
 3. Select Crop
-4. Select Symptoms
-5. Get AI Disease Prediction
-6. View Risk Analysis
-7. Receive Treatment Suggestions
-8. Check Weather Conditions
-9. Ask Questions using AI Chatbot
-10. Type or Speak using Voice Input
+4. Upload 1–4 Images
+5. (Optional) Select Symptoms
+6. Get AI Disease Prediction
+7. View Risk Analysis
+8. Receive Treatment Suggestions
+9. Check Weather Conditions
+10. Ask Questions using AI Chatbot
+11. Type or Speak using Voice Input
 
 ## 🛠️ Technologies Used
 
@@ -141,13 +171,15 @@ Provides:
 * OpenWeather API
 * Groq API
 * Gemini AI
+* Gemini Vision API
 * Speech Recognition API
+* Camera/Image Upload System
 * AI-based Crop Diagnosis System
 * Git & GitHub
 
 ## 🎯 Project Goal
 
-The goal of Krishi Cure AI is to help farmers quickly identify crop diseases using symptoms and provide accurate treatment recommendations in an easy, fast, and accessible way for farmers in regional languages.
+The goal of Krishi Cure AI is to help farmers quickly identify crop diseases using symptoms and images, and provide accurate treatment recommendations in an easy, fast, and accessible way for farmers in regional languages.
 
 ## 🌐 Language Support
 
@@ -157,7 +189,6 @@ The goal of Krishi Cure AI is to help farmers quickly identify crop diseases usi
 
 ## 🔮 Future Enhancements
 
-* Image-Based Disease Detection
 * Live Market Prices
 * Crop Recommendation System
 * Soil Health Analysis

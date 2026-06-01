@@ -207,7 +207,7 @@
                         
                         // Show and update Next button
                         nextBtn.style.display = 'block';
-                        nextBtn.textContent = window.appData.langStore[window.currentLang].btn_next_symptoms;
+                        nextBtn.textContent = window.appData.langStore[window.currentLang].btn_next_choice || "Next";
                     });
                     
                     grid.appendChild(item);
@@ -222,7 +222,7 @@
             });
 
             nextBtn.addEventListener('click', () => {
-                window.location.href = '/symptoms.html';
+                window.location.href = '/diagnosis-choice.html';
             });
         });
     </script>

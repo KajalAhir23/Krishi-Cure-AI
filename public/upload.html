@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishi-Cure Pro - Upload Photos</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK (Compat Version) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    
+    <!-- Auth helper -->
+    <script src="/js/auth.js"></script>
+    <style>
+        .slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .slot-card {
+            aspect-ratio: 1;
+            border: 2px dashed var(--glass-border);
+            border-radius: var(--radius-lg);
+            background: rgba(255, 255, 255, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition-bounce);
+            text-align: center;
+            overflow: hidden;
+        }
+        .slot-card:hover {
+            border-color: var(--leaf-green);
+            background: #fcfdfc;
+            transform: translateY(-4px);
+        }
+        .slot-card.filled {
+            border: 2px solid var(--leaf-green);
+            background: white;
+            cursor: default;
+        }
+        .slot-card.filled:hover {
+            transform: none;
+        }
+        .slot-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: calc(var(--radius-lg) - 4px);
+        }
+        .slot-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--text-light);
+        }
+        .slot-placeholder .icon {
+            font-size: 2.6rem;
+        }
+        .slot-placeholder .label {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--forest-green);
+        }
+        .slot-placeholder .desc {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            line-height: 1.3;
+        }
+        .slot-card .remove-btn {
+            position: absolute;
+            top: 0.6rem;
+            right: 0.6rem;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: var(--transition-fast);
+            z-index: 10;
+            font-size: 0.9rem;
+        }
+        .slot-card .remove-btn:hover {
+            background: rgb(220, 38, 38);
+            transform: scale(1.1);
+        }
+
+        /* Camera & Quick actions bar */
+        .upload-actions-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .upload-actions-bar .secondary-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            border: 1.5px solid var(--forest-green);
+            background: transparent;
+            color: var(--forest-green);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            font-family: inherit;
+        }
+
+        .upload-actions-bar .secondary-btn:hover {
+            background: var(--forest-green);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Drop overlay when drag-and-drop is active */
+        .drop-highlight {
+            border-color: var(--leaf-green) !important;
+            background: rgba(76, 175, 80, 0.08) !important;
+        }
+
+        /* Collapsible symptoms styles */
+        .accordion-header {
+            background: none;
+            border: 1.5px solid var(--glass-border);
+            padding: 1.2rem;
+            border-radius: var(--radius-md);
+            font-weight: 800;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            color: var(--forest-green);
+            font-family: inherit;
+            font-size: 1.1rem;
+            transition: var(--transition-fast);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            margin-bottom: 1.5rem;
+        }
+        .accordion-header:hover {
+            border-color: var(--leaf-green);
+            background: rgba(76,175,80,0.02);
+        }
+        .accordion-content {
+            display: none;
+            padding: 1rem;
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.4);
+            margin-bottom: 2rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Analyzing modal/overlay */
+        .analyzing-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(252, 251, 244, 0.95);
+            z-index: 2000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .spinner-wrapper {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 2rem;
+        }
+
+        .spinner-ring {
+            width: 80px;
+            height: 80px;
+            border: 6px solid rgba(76, 175, 80, 0.1);
+            border-top: 6px solid var(--forest-green);
+            border-radius: 50%;
+            animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        }
+
+        .spinner-icon {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.2rem;
+        }
+
+        .analyzing-progress-bar {
+            width: 100%;
+            max-width: 320px;
+            height: 6px;
+            background: rgba(45, 90, 39, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+
+        .analyzing-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--forest-green), var(--leaf-green));
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .tips-carousel {
+            max-width: 480px;
+            font-style: italic;
+            color: var(--text-light);
+            margin-top: 1rem;
+            font-size: 1.05rem;
+            min-height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body style="display: none;">
+    <!-- Prevent UI flickering if logged in -->
+    <script>
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            document.body.style.display = 'block';
+        }
+    </script>
+
+    <div class="warning-banner">
+        <div class="warning-ticker-wrap"><span class="warning-ticker" id="warning_banner">Loading...</span></div>
+    </div>
+
+    <header class="app-header">
+        <div class="logo">🌿 <span id="app_name">Krishi-Cure Pro</span></div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="lang-selector">
+                <button class="lang-btn active" data-lang="en">ENGLISH</button>
+                <button class="lang-btn" data-lang="hi">हिन्दी</button>
+                <button class="lang-btn" data-lang="gu">ગુજરાતી</button>
+            </div>
+            <button id="logout_btn" class="logout-btn" onclick="window.logoutUser()">Logout</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="step-card active">
+            <a href="/diagnosis-choice.html" class="back-btn" id="back_btn">Back</a>
+            
+            <h2><span id="upload_title">AI Crop Disease Detection</span></h2>
+            <p id="upload_subtitle" style="color: var(--text-light); margin-bottom: 2rem; font-weight: 500;">
+                Select Crop and upload 1-4 images for analysis
+            </p>
+
+            <p style="font-size: 1.2rem; font-weight: 700; color: var(--text-light); margin-bottom: 1.5rem;">
+                <span id="select_crop_label">Selected Crop:</span> <span id="selected-crop-name" class="highlight">...</span>
+            </p>
+
+            <!-- Quick mobile capture buttons -->
+            <div class="upload-actions-bar">
+                <button class="secondary-btn" id="camera-btn">
+                    📷 <span id="btn-camera-text">Take Photo (Camera)</span>
+                </button>
+                <button class="secondary-btn" id="gallery-btn">
+                    🖼️ <span id="btn-gallery-text">Choose from Gallery</span>
+                </button>
+            </div>
+
+            <!-- Hidden Inputs -->
+            <input type="file" id="general-file-input" accept="image/png, image/jpeg, image/jpg" multiple style="display: none;">
+            <input type="file" id="camera-file-input" accept="image/*" capture="environment" style="display: none;">
+            <input type="file" id="specific-slot-file-input" accept="image/png, image/jpeg, image/jpg" style="display: none;">
+
+            <!-- Slots Grid -->
+            <h3 id="recommended_images_title" style="color: var(--forest-green); font-size: 1.25rem; font-weight: 800; margin-bottom: 1rem;">
+                Recommended Photos:
+            </h3>
+
+            <div class="slots-grid" id="slots-grid">
+                <!-- Slot 1 -->
+                <div class="slot-card" data-slot="0" id="slot-0">
+                    <div class="slot-placeholder">
+                        <span class="icon">🌱</span>
+                        <span class="label" id="lbl-rec-1">Slot 1: Full Plant</span>
+                        <span class="desc" id="desc-rec-1">Capture the entire plant view</span>
+                    </div>
+                </div>
+                <!-- Slot 2 -->
+                <div class="slot-card" data-slot="1" id="slot-1">
+                    <div class="slot-placeholder">
+                        <span class="icon">🍃</span>
+                        <span class="label" id="lbl-rec-2">Slot 2: Leaf Close-up</span>
+                        <span class="desc" id="desc-rec-2">Close-up of the leaf surface</span>
+                    </div>
+                </div>
+                <!-- Slot 3 -->
+                <div class="slot-card" data-slot="2" id="slot-2">
+                    <div class="slot-placeholder">
+                        <span class="icon">🌾</span>
+                        <span class="label" id="lbl-rec-3">Slot 3: Stem/Fruit/Flower</span>
+                        <span class="desc" id="desc-rec-3">Close-up of other affected parts</span>
+                    </div>
+                </div>
+                <!-- Slot 4 -->
+                <div class="slot-card" data-slot="3" id="slot-3">
+                    <div class="slot-placeholder">
+                        <span class="icon">🔍</span>
+                        <span class="label" id="lbl-rec-4">Slot 4: Other Area</span>
+                        <span class="desc" id="desc-rec-4">Another symptom view</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Optional Symptoms checklist -->
+            <div class="symptoms-accordion">
+                <button class="accordion-header" id="toggle-symptoms-btn">
+                    <span id="optional_symptoms_title">Select Symptoms (Optional)</span>
+                    <span id="accordion-arrow">➕</span>
+                </button>
+                <div class="accordion-content" id="symptoms-accordion-content">
+                    <p id="optional_symptoms_desc" style="color: var(--text-light); font-size: 0.95rem; margin-bottom: 1.25rem;">
+                        Adding manual symptoms helps the AI make a more accurate diagnosis.
+                    </p>
+                    <div class="symptoms-container" id="symptoms-container">
+                        <!-- Checklist loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <button class="primary-btn diagnose-btn" id="analyze-btn" style="width: 100%; margin-top: 1.5rem;">
+                <span id="btn_analyze">Analyze Images</span>
+            </button>
+        </section>
+    </main>
+
+    <!-- Analyzing Overlay Screen -->
+    <div class="analyzing-overlay" id="analyzing-overlay">
+        <div class="spinner-wrapper">
+            <div class="spinner-ring"></div>
+            <div class="spinner-icon">🔬</div>
+        </div>
+        <h2 id="analyzing_title" style="color: var(--forest-green); font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem;">
+            Analyzing Images...
+        </h2>
+        <p id="analyzing_desc" style="color: var(--text-light); font-size: 1.1rem; max-width: 400px; margin: 0 auto;">
+            Analyzing photos with Multimodal AI and cross-referencing observations.
+        </p>
+        <div class="analyzing-progress-bar">
+            <div class="analyzing-progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="tips-carousel" id="tips-carousel">
+            Tip: Fungal infections thrive in humid soil.
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer">
+            <div class="footer-bottom"></div>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window.initApp();
+
+            const cropId = localStorage.getItem('selectedCrop');
+            if (!cropId) {
+                window.location.href = '/index.html';
+                return;
+            }
+
+            // Global State for uploaded images
+            // Array of 4 slots: each slot can be null or { file, base64Data, mimeType }
+            const uploadedSlots = [null, null, null, null];
+            let activeSlotTarget = null; // tracks which slot card was clicked to target uploads
+
+            const cropNameSpan = document.getElementById('selected-crop-name');
+            const generalFileInput = document.getElementById('general-file-input');
+            const cameraFileInput = document.getElementById('camera-file-input');
+            const specificSlotFileInput = document.getElementById('specific-slot-file-input');
+            
+            const cameraBtn = document.getElementById('camera-btn');
+            const galleryBtn = document.getElementById('gallery-btn');
+            const analyzeBtn = document.getElementById('analyze-btn');
+            
+            const toggleSymptomsBtn = document.getElementById('toggle-symptoms-btn');
+            const symptomsContent = document.getElementById('symptoms-accordion-content');
+            const symptomsContainer = document.getElementById('symptoms-container');
+            const accordionArrow = document.getElementById('accordion-arrow');
+
+            // Apply translations dynamically
+            const applyUploadTranslations = () => {
+                if (!window.appData) return;
+                const lang = window.currentLang;
+                const langStore = window.appData.langStore[lang];
+                if (!langStore) return;
+
+                document.getElementById('upload_title').textContent = langStore.upload_title || "AI Crop Disease Detection";
+                document.getElementById('upload_subtitle').textContent = langStore.upload_subtitle || "Select Crop and upload 1-4 images for analysis";
+                document.getElementById('select_crop_label').textContent = langStore.select_crop_label || "Selected Crop:";
+                
+                document.getElementById('btn-camera-text').textContent = lang === 'gu' ? "મોબાઈલ કેમેરા" : lang === 'hi' ? "मोबाइल कैमरा" : "Take Photo (Camera)";
+                document.getElementById('btn-gallery-text').textContent = lang === 'gu' ? "ગેલેરીમાંથી પસંદ કરો" : lang === 'hi' ? "गैलरी से चुनें" : "Choose from Gallery";
+                
+                document.getElementById('recommended_images_title').textContent = langStore.recommended_images_title || "Recommended Photos:";
+                document.getElementById('optional_symptoms_title').textContent = langStore.optional_symptoms_title || "Select Symptoms (Optional)";
+                document.getElementById('optional_symptoms_desc').textContent = langStore.optional_symptoms_desc || "Adding symptoms can help the AI give a more accurate diagnosis.";
+                document.getElementById('btn_analyze').textContent = langStore.btn_analyze || "Analyze Images";
+
+                // Slot labels & descriptions
+                document.getElementById('lbl-rec-1').textContent = langStore.rec_img_1 || "Slot 1: Full Plant";
+                document.getElementById('lbl-rec-2').textContent = langStore.rec_img_2 || "Slot 2: Leaf Close-up";
+                document.getElementById('lbl-rec-3').textContent = langStore.rec_img_3 || "Slot 3: Stem/Fruit/Flower";
+                document.getElementById('lbl-rec-4').textContent = langStore.rec_img_4 || "Slot 4: Other Area";
+
+                const desc_1 = lang === 'gu' ? "છોડનો આખો ભાગ દેખાય તેવો ફોટો" : lang === 'hi' ? "पूरे पौधे की तस्वीर" : "Capture the entire plant view";
+                const desc_2 = lang === 'gu' ? "બગડેલા પાંદડાનો નજીકનો ફોટો" : lang === 'hi' ? "प्रभावित पत्ती का क्लोज़-अप" : "Close-up of the leaf surface";
+                const desc_3 = lang === 'gu' ? "થડ, ફળ કે ફૂલનો નજીકનો ફોટો" : lang === 'hi' ? "तना, फल या फूल की तस्वीर" : "Close-up of other affected parts";
+                const desc_4 = lang === 'gu' ? "અન્ય કોઈ નુકસાન દેખાતો ભાગ" : lang === 'hi' ? "अन्य प्रभावित हिस्से की तस्वीर" : "Another symptom view";
+
+                document.getElementById('desc-rec-1').textContent = desc_1;
+                document.getElementById('desc-rec-2').textContent = desc_2;
+                document.getElementById('desc-rec-3').textContent = desc_3;
+                document.getElementById('desc-rec-4').textContent = desc_4;
+
+                // Look up selected crop name
+                let cropName = cropId;
+                for (const cat in window.appData.cropsList) {
+                    const crop = window.appData.cropsList[cat].find(c => c.id === cropId);
+                    if (crop) {
+                        cropName = crop[lang] || crop['en'];
+                        break;
+                    }
+                }
+                cropNameSpan.textContent = cropName;
+
+                // Render option checklist
+                renderSymptomsChecklist(lang, langStore);
+            };
+
+            // Render Collapsible Optional Symptoms Checklist
+            const renderSymptomsChecklist = (lang, langStore) => {
+                symptomsContainer.innerHTML = '';
+                let cropSymptomsIds = null;
+                for (const cat in window.appData.cropsList) {
+                    const cropList = window.appData.cropsList[cat];
+                    const crop = cropList.find(c => c.id === cropId);
+                    if (crop) {
+                        cropSymptomsIds = crop.symptoms || null;
+                        break;
+                    }
+                }
+
+                if (!cropSymptomsIds || cropSymptomsIds.length === 0) {
+                    symptomsContainer.innerHTML = `<p style="color: var(--text-light); text-align: center; padding: 1rem;">No symptoms defined for this crop.</p>`;
+                    return;
+                }
+
+                const grid = document.createElement('div');
+                grid.className = 'symptoms-grid';
+
+                cropSymptomsIds.forEach(symId => {
+                    const sym = window.appData.symptomsList.find(s => s.id === symId);
+                    if (sym) {
+                        const label = document.createElement('label');
+                        label.className = 'symptom-label';
+                        label.innerHTML = `
+                            <input type="checkbox" name="symptoms" value="${sym.id}">
+                            <span class="symptom-text" style="font-weight: 500;">${sym[lang] || sym['en']}</span>
+                        `;
+                        grid.appendChild(label);
+                    }
+                });
+                symptomsContainer.appendChild(grid);
+            };
+
+            // Toggle Symptoms Accordion
+            toggleSymptomsBtn.addEventListener('click', () => {
+                const isOpen = symptomsContent.style.display === 'block';
+                if (isOpen) {
+                    symptomsContent.style.display = 'none';
+                    accordionArrow.textContent = '➕';
+                } else {
+                    symptomsContent.style.display = 'block';
+                    accordionArrow.textContent = '➖';
+                }
+            });
+
+            // Browser image compressor to 1200px max width and JPEG quality 0.7
+            const compressAndConvertImage = (file) => {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const img = new Image();
+                        img.onload = () => {
+                            const canvas = document.createElement('canvas');
+                            const MAX_WIDTH = 1200;
+                            const MAX_HEIGHT = 1200;
+                            let width = img.width;
+                            let height = img.height;
+
+                            if (width > height) {
+                                if (width > MAX_WIDTH) {
+                                    height *= MAX_WIDTH / width;
+                                    width = MAX_WIDTH;
+                                }
+                            } else {
+                                if (height > MAX_HEIGHT) {
+                                    width *= MAX_HEIGHT / height;
+                                    height = MAX_HEIGHT;
+                                }
+                            }
+
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+
+                            const base64Data = canvas.toDataURL('image/jpeg', 0.7);
+                            resolve({
+                                base64Data,
+                                mimeType: 'image/jpeg'
+                            });
+                        };
+                        img.onerror = reject;
+                        img.src = e.target.result;
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            };
+
+            // Process image file and load it into a specific slot index
+            const processFileIntoSlot = async (file, slotIdx) => {
+                const langStore = window.appData.langStore[window.currentLang] || {};
+                
+                // Verify image file type
+                const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+                if (!validTypes.includes(file.type)) {
+                    alert(langStore.error_image_type || "Only JPG, JPEG, and PNG images are allowed.");
+                    return;
+                }
+
+                try {
+                    const slotCard = document.getElementById(`slot-${slotIdx}`);
+                    slotCard.innerHTML = `
+                        <div class="loader" style="width: 30px; height: 30px; border: 3px solid #e2e8f0; border-top: 3px solid var(--forest-green); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    `;
+
+                    const compressed = await compressAndConvertImage(file);
+                    
+                    uploadedSlots[slotIdx] = {
+                        file,
+                        base64Data: compressed.base64Data,
+                        mimeType: compressed.mimeType
+                    };
+
+                    renderSlot(slotIdx);
+                } catch (e) {
+                    console.error("Compression error:", e);
+                    renderSlotEmpty(slotIdx);
+                }
+            };
+
+            // Render slot filled state
+            const renderSlot = (idx) => {
+                const slotCard = document.getElementById(`slot-${idx}`);
+                const data = uploadedSlots[idx];
+                if (!data) return;
+
+                slotCard.className = 'slot-card filled';
+                slotCard.innerHTML = `
+                    <button class="remove-btn" data-slot="${idx}" title="Remove image">✕</button>
+                    <img src="${data.base64Data}" alt="Uploaded image ${idx + 1}">
+                `;
+
+                // Add remove listener
+                slotCard.querySelector('.remove-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removeSlotImage(idx);
+                });
+            };
+
+            // Render slot empty state
+            const renderSlotEmpty = (idx) => {
+                const slotCard = document.getElementById(`slot-${idx}`);
+                uploadedSlots[idx] = null;
+                
+                slotCard.className = 'slot-card';
+                
+                // Reconstruct template based on slot number
+                let icon = '🌱';
+                let defaultLabel = `Slot ${idx + 1}`;
+                let defaultDesc = '';
+                if (idx === 0) { icon = '🌱'; defaultLabel = 'Slot 1: Full Plant'; }
+                else if (idx === 1) { icon = '🍃'; defaultLabel = 'Slot 2: Leaf Close-up'; }
+                else if (idx === 2) { icon = '🌾'; defaultLabel = 'Slot 3: Stem/Fruit/Flower'; }
+                else if (idx === 3) { icon = '🔍'; defaultLabel = 'Slot 4: Other Area'; }
+
+                const lang = window.currentLang;
+                const langStore = window.appData.langStore[lang] || {};
+                const labelText = idx === 0 ? langStore.rec_img_1 : idx === 1 ? langStore.rec_img_2 : idx === 2 ? langStore.rec_img_3 : langStore.rec_img_4;
+
+                const desc_1 = lang === 'gu' ? "છોડનો આખો ભાગ દેખાય તેવો ફોટો" : lang === 'hi' ? "पूरे पौधे की तस्वीर" : "Capture the entire plant view";
+                const desc_2 = lang === 'gu' ? "બગડેલા પાંદડાનો નજીકનો ફોટો" : lang === 'hi' ? "प्रभावित पत्ती का क्लोज़-अप" : "Close-up of the leaf surface";
+                const desc_3 = lang === 'gu' ? "થડ, ફળ કે ફૂલનો નજીકનો ફોટો" : lang === 'hi' ? "तना, फल या फूल की तस्वीर" : "Close-up of other affected parts";
+                const desc_4 = lang === 'gu' ? "અન્ય કોઈ નુકસાન દેખાતો ભાગ" : lang === 'hi' ? "अन्य प्रभावित हिस्से की तस्वीर" : "Another symptom view";
+                const descText = idx === 0 ? desc_1 : idx === 1 ? desc_2 : idx === 2 ? desc_3 : desc_4;
+
+                slotCard.innerHTML = `
+                    <div class="slot-placeholder">
+                        <span class="icon">${icon}</span>
+                        <span class="label" id="lbl-rec-${idx + 1}">${labelText || defaultLabel}</span>
+                        <span class="desc" id="desc-rec-${idx + 1}">${descText || defaultDesc}</span>
+                    </div>
+                `;
+            };
+
+            const removeSlotImage = (idx) => {
+                renderSlotEmpty(idx);
+            };
+
+            // Setup card clicking logic
+            document.querySelectorAll('.slot-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const idx = parseInt(card.dataset.slot);
+                    // Only trigger upload if slot is empty
+                    if (!uploadedSlots[idx]) {
+                        activeSlotTarget = idx;
+                        specificSlotFileInput.value = '';
+                        specificSlotFileInput.click();
+                    }
+                });
+            });
+
+            // Handle specific slot select
+            specificSlotFileInput.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files[0] && activeSlotTarget !== null) {
+                    processFileIntoSlot(e.target.files[0], activeSlotTarget);
+                }
+            });
+
+            // Setup camera actions
+            cameraBtn.addEventListener('click', () => {
+                // Find first empty slot
+                const emptyIdx = uploadedSlots.indexOf(null);
+                const langStore = window.appData.langStore[window.currentLang] || {};
+                if (emptyIdx === -1) {
+                    alert(langStore.error_max_images || "You can upload a maximum of 4 images.");
+                    return;
+                }
+                activeSlotTarget = emptyIdx;
+                cameraFileInput.value = '';
+                cameraFileInput.click();
+            });
+
+            cameraFileInput.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files[0] && activeSlotTarget !== null) {
+                    processFileIntoSlot(e.target.files[0], activeSlotTarget);
+                }
+            });
+
+            // Setup gallery/multiple action
+            galleryBtn.addEventListener('click', () => {
+                generalFileInput.value = '';
+                generalFileInput.click();
+            });
+
+            generalFileInput.addEventListener('change', async (e) => {
+                if (e.target.files) {
+                    const files = Array.from(e.target.files);
+                    const langStore = window.appData.langStore[window.currentLang] || {};
+                    
+                    let emptySlotsCount = uploadedSlots.filter(s => s === null).length;
+                    if (files.length > emptySlotsCount) {
+                        alert(langStore.error_max_images || "You can upload a maximum of 4 images.");
+                    }
+
+                    // Populate first empty slots
+                    for (const file of files) {
+                        const nextEmptyIdx = uploadedSlots.indexOf(null);
+                        if (nextEmptyIdx !== -1) {
+                            await processFileIntoSlot(file, nextEmptyIdx);
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            });
+
+            // Drag and Drop support on desktop
+            const dropZone = document.querySelector('.step-card');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => {
+                    document.querySelectorAll('.slot-card').forEach(card => {
+                        const idx = parseInt(card.dataset.slot);
+                        if (!uploadedSlots[idx]) card.classList.add('drop-highlight');
+                    });
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => {
+                    document.querySelectorAll('.slot-card').forEach(card => card.classList.remove('drop-highlight'));
+                }, false);
+            });
+
+            dropZone.addEventListener('drop', async (e) => {
+                const dt = e.dataTransfer;
+                const files = Array.from(dt.files);
+                const langStore = window.appData.langStore[window.currentLang] || {};
+
+                let emptySlotsCount = uploadedSlots.filter(s => s === null).length;
+                if (files.length > emptySlotsCount) {
+                    alert(langStore.error_max_images || "You can upload a maximum of 4 images.");
+                }
+
+                for (const file of files) {
+                    const nextEmptyIdx = uploadedSlots.indexOf(null);
+                    if (nextEmptyIdx !== -1) {
+                        await processFileIntoSlot(file, nextEmptyIdx);
+                    } else {
+                        break;
+                    }
+                }
+            });
+
+            // Analyzing Overlay UI controller
+            const startAnalyzingOverlay = () => {
+                const overlay = document.getElementById('analyzing-overlay');
+                const title = document.getElementById('analyzing_title');
+                const desc = document.getElementById('analyzing_desc');
+                const fill = document.getElementById('progress-fill');
+                const carousel = document.getElementById('tips-carousel');
+                
+                const lang = window.currentLang;
+                const langStore = window.appData.langStore[lang] || {};
+
+                title.textContent = lang === 'gu' ? "ચિત્રોનું વિશ્લેષણ..." : lang === 'hi' ? "छवियों का विश्लेषण..." : "Analyzing Images...";
+                desc.textContent = langStore.analyzing_images_text || "Analyzing images with Multimodal AI and cross-referencing observations.";
+                
+                overlay.style.display = 'flex';
+
+                // Progress mock slider
+                let pct = 0;
+                const timer = setInterval(() => {
+                    if (pct < 90) {
+                        pct += Math.random() * 8;
+                        if (pct > 90) pct = 90;
+                        fill.style.width = pct + '%';
+                    }
+                }, 400);
+
+                // Localized agricultural advice loop
+                const tips = {
+                    en: [
+                        "Tip: Fungal infections thrive in humid soil. Maintain proper drainage.",
+                        "Tip: Sucking pests usually gather under leaves. Inspect leaves closely.",
+                        "Tip: Water stagnation can suffocate roots and cause root rot.",
+                        "Tip: Spraying pesticides during hot afternoons can burn leaves.",
+                        "Tip: Adding compost improves soil nutrition and crop immunity."
+                    ],
+                    hi: [
+                        "सुझाव: फंगस के रोग नम मिट्टी में पनपते हैं। जल निकासी सही रखें।",
+                        "सुझाव: रस चूसने वाले कीट आमतौर पर पत्तों के नीचे होते हैं।",
+                        "सुझाव: जलभराव से जड़ें सड़ सकती हैं। पानी जमा न होने दें।",
+                        "सुझाव: दोपहर के समय कीटनाशक का छिड़काव पत्तियों को जला सकता है।",
+                        "सुझाव: जैविक खाद डालने से मिट्टी उपजाऊ होती है और रोग प्रतिरोधक क्षमता बढ़ती है।"
+                    ],
+                    gu: [
+                        "ભલામણ: ફૂગના રોગો ભેજવાળી જમીનમાં વધે છે. નિકાલ યોગ્ય રાખો.",
+                        "ભલામણ: રસ ચૂસતી જીવાતો મોટે ભાગે પાનની નીચે હોય છે.",
+                        "ભલામણ: મૂળ પાસે પાણી ભરાઈ રહેવાથી મૂળ સડવા લાગે છે.",
+                        "ભલામણ: બપોરે તડકામાં દવા છાંટવાથી પાંદડા બળી શકે છે.",
+                        "ભલામણ: દેશી ખાતર જમીનની ફળદ્રુપતા અને રોગ પ્રતિકારક શક્તિ વધારે છે."
+                    ]
+                };
+
+                const activeTips = tips[lang] || tips.en;
+                let tipIdx = 0;
+                carousel.textContent = activeTips[tipIdx];
+                const tipTimer = setInterval(() => {
+                    tipIdx = (tipIdx + 1) % activeTips.length;
+                    carousel.textContent = activeTips[tipIdx];
+                }, 4000);
+
+                return {
+                    stop: () => {
+                        clearInterval(timer);
+                        clearInterval(tipTimer);
+                        fill.style.width = '100%';
+                        setTimeout(() => {
+                            overlay.style.display = 'none';
+                        }, 200);
+                    }
+                };
+            };
+
+            // Submit Diagnosis Action
+            analyzeBtn.addEventListener('click', async () => {
+                const langStore = window.appData.langStore[window.currentLang] || {};
+                
+                // Get all uploaded image objects (filtering out nulls)
+                const activeImages = uploadedSlots.filter(s => s !== null);
+                
+                if (activeImages.length === 0) {
+                    alert(langStore.error_no_images || "Please upload at least 1 image for diagnosis.");
+                    return;
+                }
+
+                // Get selected symptoms (if any)
+                const checkedSymptoms = Array.from(document.querySelectorAll('input[name="symptoms"]:checked'))
+                    .map(el => el.value);
+
+                // Prepare payloads
+                const base64Payload = activeImages.map(img => ({
+                    base64Data: img.base64Data,
+                    mimeType: img.mimeType
+                }));
+
+                const overlayController = startAnalyzingOverlay();
+
+                try {
+                    const response = await fetch('/api/diagnose-image', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            cropId,
+                            images: base64Payload,
+                            symptoms: checkedSymptoms,
+                            lang: window.currentLang
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Server returned status code ${response.status}`);
+                    }
+
+                    const resultData = await response.json();
+                    
+                    // Save results to session storage
+                    sessionStorage.setItem('diagnosisResult', JSON.stringify(resultData));
+                    
+                    // Save base64 preview images (only the first 4 for display in results)
+                    const previewDataUrls = activeImages.map(img => img.base64Data);
+                    sessionStorage.setItem('analyzedImages', JSON.stringify(previewDataUrls));
+
+                    overlayController.stop();
+                    
+                    // Redirect to result dashboard
+                    window.location.href = '/result.html';
+
+                } catch (e) {
+                    console.error("Image diagnosis error:", e);
+                    overlayController.stop();
+                    alert(window.currentLang === 'gu' ? "નિદાનમાં ભૂલ આવી છે. કૃપા કરીને ફરી પ્રયાસ કરો." : window.currentLang === 'hi' ? "निदान में त्रुटि। कृपया पुनः प्रयास करें।" : "Error generating diagnosis. Please try again.");
+                }
+            });
+
+            // Initialize Page
+            window.addEventListener('languageChanged', applyUploadTranslations);
+            if (window.appData) applyUploadTranslations();
+        });
+    </script>
+</body>
+</html>

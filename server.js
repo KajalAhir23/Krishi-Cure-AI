@@ -12,8 +12,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // Middleware
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.json({ limit: '50mb' }));
 
 // Serve static frontend files
 app.use(express.static(path.join(__dirname, 'public')));

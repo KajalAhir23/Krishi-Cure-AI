@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishi-Cure Pro - Choose Method</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK (Compat Version) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    
+    <!-- Auth helper -->
+    <script src="/js/auth.js"></script>
+    <style>
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .choice-card {
+            background: white;
+            border: 2px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: var(--shadow-card);
+            text-decoration: none;
+            color: inherit;
+        }
+        .choice-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--leaf-green);
+            box-shadow: var(--shadow-hover);
+        }
+        .choice-card .icon {
+            font-size: 4rem;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .choice-card:hover .icon {
+            transform: scale(1.15);
+        }
+        .choice-card h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--forest-green);
+        }
+        .choice-card p {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body style="display: none;">
+    <!-- Prevent UI flickering if logged in -->
+    <script>
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            document.body.style.display = 'block';
+        }
+    </script>
+
+    <div class="warning-banner">
+        <div class="warning-ticker-wrap"><span class="warning-ticker" id="warning_banner">Loading...</span></div>
+    </div>
+
+    <header class="app-header">
+        <div class="logo">🌿 <span id="app_name">Krishi-Cure Pro</span></div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="lang-selector">
+                <button class="lang-btn active" data-lang="en">ENGLISH</button>
+                <button class="lang-btn" data-lang="hi">हिन्दी</button>
+                <button class="lang-btn" data-lang="gu">ગુજરાતી</button>
+            </div>
+            <button id="logout_btn" class="logout-btn" onclick="window.logoutUser()">Logout</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="step-card active">
+            <a href="/index.html" class="back-btn" id="back_btn">Back</a>
+            
+            <h2 style="margin-bottom: 0.5rem;"><span id="choose_method_title">Choose Diagnosis Method</span></h2>
+            <p style="font-size: 1.2rem; font-weight: 700; color: var(--text-light); margin-bottom: 2.5rem;">
+                <span id="select_crop_label">Selected Crop:</span> <span id="selected-crop-name" class="highlight">...</span>
+            </p>
+
+            <div class="choice-grid">
+                <!-- Option 1: Symptom-Based -->
+                <a href="/symptoms.html" class="choice-card">
+                    <span class="icon">📋</span>
+                    <h3 id="btn_symptom_mode">Symptom-Based Diagnosis</h3>
+                    <p id="desc_symptom_mode">Identify diseases by selecting plant symptoms manually.</p>
+                </a>
+
+                <!-- Option 2: Camera-Based -->
+                <a href="/upload.html" class="choice-card">
+                    <span class="icon">📸</span>
+                    <h3 id="btn_camera_mode">Camera/Image-Based Diagnosis</h3>
+                    <p id="desc_camera_mode">Upload up to 4 photos of the plant for AI visual analysis.</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer">
+            <div class="footer-bottom"></div>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window.initApp();
+
+            const cropId = localStorage.getItem('selectedCrop');
+            if (!cropId) {
+                window.location.href = '/index.html';
+                return;
+            }
+
+            const cropNameSpan = document.getElementById('selected-crop-name');
+
+            const applyChoiceTranslations = () => {
+                if (!window.appData) return;
+                const lang = window.currentLang;
+                const langStore = window.appData.langStore[lang];
+                if (!langStore) return;
+
+                // Set text translations
+                document.getElementById('choose_method_title').textContent = langStore.choose_mode_title || "Choose Diagnosis Method";
+                document.getElementById('select_crop_label').textContent = langStore.select_crop_label || "Selected Crop:";
+                document.getElementById('btn_symptom_mode').textContent = langStore.btn_symptom_mode || "Symptom-Based Diagnosis";
+                document.getElementById('desc_symptom_mode').textContent = langStore.desc_symptom_mode || "Identify diseases by selecting plant symptoms manually.";
+                document.getElementById('btn_camera_mode').textContent = langStore.btn_camera_mode || "Camera/Image-Based Diagnosis";
+                document.getElementById('desc_camera_mode').textContent = langStore.desc_camera_mode || "Upload up to 4 photos of the plant for AI visual analysis.";
+
+                // Look up selected crop name
+                let cropName = cropId;
+                for (const cat in window.appData.cropsList) {
+                    const crop = window.appData.cropsList[cat].find(c => c.id === cropId);
+                    if (crop) {
+                        cropName = crop[lang] || crop['en'];
+                        break;
+                    }
+                }
+                cropNameSpan.textContent = cropName;
+            };
+
+            window.addEventListener('languageChanged', applyChoiceTranslations);
+            if (window.appData) applyChoiceTranslations();
+        });
+    </script>
+</body>
+</html>

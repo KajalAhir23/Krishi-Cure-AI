@@ -2,7 +2,7 @@ import express from 'express';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { diagnoseWithAI, chatWithAI } from '../controllers/aiController.js';
+import { diagnoseWithAI, chatWithAI, diagnoseImageWithAI } from '../controllers/aiController.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -88,6 +88,51 @@ router.post('/diagnose', async (req, res) => {
     } catch (error) {
         console.error("Diagnosis error:", error);
         res.status(500).json({ error: "Error generating diagnosis." });
+    }
+});
+
+// Endpoint for image-based diagnosis
+router.post('/diagnose-image', async (req, res) => {
+    try {
+        const cropsData = await getCropsData();
+        if (!cropsData) {
+            return res.status(500).json({ error: "Failed to load master crops data." });
+        }
+
+        const { cropId, images, symptoms, lang } = req.body;
+
+        if (!cropId || !images || images.length === 0) {
+            return res.status(400).json({ error: "Missing cropId or images" });
+        }
+
+        const selectedLang = lang || 'en';
+
+        // Find crop name
+        let cropName = "Unknown Crop";
+        for (const cat in cropsData.cropsList) {
+            const crop = cropsData.cropsList[cat].find(c => c.id === cropId);
+            if (crop) {
+                cropName = crop[selectedLang] || crop['en'];
+                break;
+            }
+        }
+
+        // Generate symptom descriptions in selected language if symptoms are provided
+        let symptomDescriptions = [];
+        if (symptoms && symptoms.length > 0) {
+            const selectedSymptoms = Array.isArray(symptoms) ? symptoms : [symptoms];
+            symptomDescriptions = selectedSymptoms.map(symId => {
+                const symptom = cropsData.symptomsList.find(s => s.id === symId);
+                return symptom ? (symptom[selectedLang] || symptom['en']) : symId;
+            });
+        }
+
+        // Call image AI diagnosis (Gemini multimodal)
+        const aiResponse = await diagnoseImageWithAI(cropName, images, symptomDescriptions, selectedLang);
+        res.json(aiResponse);
+    } catch (error) {
+        console.error("Image diagnosis error:", error);
+        res.status(500).json({ error: "Error generating image diagnosis." });
     }
 });
 

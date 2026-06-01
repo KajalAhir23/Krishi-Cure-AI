@@ -410,6 +410,18 @@
                         <h3 id="disease-name" class="disease-name" style="font-size: 2.2rem; font-weight: 800; color: var(--text-main); margin: 0.25rem 0 0.5rem 0; line-height: 1.2;"></h3>
                         <p id="disease-explanation" style="font-size: 1.15rem; color: var(--text-muted); margin-bottom: 1.2rem; font-weight: 500;"></p>
                         
+                        <!-- Image Diagnosis Extra Meta -->
+                        <div id="image-diagnosis-extra" style="display: none; border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: 0.5rem; margin-bottom: 1.2rem; font-size: 1rem;">
+                            <div style="margin-bottom: 0.75rem;">
+                                <strong id="lbl-observed-symptoms" style="color: var(--text-main); font-weight: 800;">Observed Symptoms:</strong>
+                                <span id="val-observed-symptoms" style="color: var(--text-light); margin-left: 0.3rem;"></span>
+                            </div>
+                            <div>
+                                <strong id="lbl-possible-causes" style="color: var(--text-main); font-weight: 800;">Possible Causes:</strong>
+                                <span id="val-possible-causes" style="color: var(--text-light); margin-left: 0.3rem;"></span>
+                            </div>
+                        </div>
+                        
                         <div class="confidence-section">
                             <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.05rem;">
                                 <span id="confidence-label">Prediction Accuracy</span>
@@ -428,6 +440,16 @@
                         </h4>
                         <div id="comparison-list">
                             <!-- Loaded dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Analyzed Photos Gallery Card -->
+                    <div class="full-width-card" id="analyzed-photos-card" style="display: none; background: white; border-radius: var(--radius-lg); padding: 1.5rem; border: 1px solid var(--glass-border); box-shadow: var(--shadow-card);">
+                        <h4 style="font-size: 1.25rem; font-weight: 800; color: var(--forest-green); margin-bottom: 1rem;" id="analyzed_photos_title">
+                            Analyzed Photos
+                        </h4>
+                        <div id="analyzed-photos-gallery" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem;">
+                            <!-- Base64 previews injected here -->
                         </div>
                     </div>
 
@@ -554,17 +576,89 @@
                 });
             });
 
-            // Localized Dynamic Texts — all from langStore
-            const setTxt = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
-            setTxt('loading_text',         langStore.loading_text);
-            setTxt('confidence-label',     langStore.confidence_label);
-            setTxt('comparison_title',     langStore.comparison_title);
-            setTxt('lbl-fertilizer',       langStore.lbl_fertilizer);
-            setTxt('lbl-irrigation',       langStore.lbl_irrigation);
-            setTxt('lbl-chances',          langStore.lbl_chances);
-            setTxt('lbl-time',             langStore.lbl_time);
-            setTxt('lbl-warning-signs',    langStore.lbl_warning_signs);
-            setTxt('lbl-weather',          langStore.lbl_weather);
+             // Localized Dynamic Texts — all from langStore
+             const setTxt = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+             setTxt('loading_text',         langStore.loading_text);
+             setTxt('confidence-label',     langStore.confidence_label);
+             setTxt('comparison_title',     langStore.comparison_title);
+             setTxt('lbl-fertilizer',       langStore.lbl_fertilizer);
+             setTxt('lbl-irrigation',       langStore.lbl_irrigation);
+             setTxt('lbl-chances',          langStore.lbl_chances);
+             setTxt('lbl-time',             langStore.lbl_time);
+             setTxt('lbl-warning-signs',    langStore.lbl_warning_signs);
+             setTxt('lbl-weather',          langStore.lbl_weather);
+             setTxt('lbl-observed-symptoms', langStore.lbl_observed_symptoms || "Observed Symptoms:");
+             setTxt('lbl-possible-causes',   langStore.lbl_possible_causes || "Possible Causes:");
+             setTxt('analyzed_photos_title', langStore.analyzed_photos_title || "Analyzed Photos");
+ 
+             // Populate analyzed image gallery if saved in session storage
+             const analyzedImagesStr = sessionStorage.getItem('analyzedImages');
+             const galleryCard = document.getElementById('analyzed-photos-card');
+             const galleryGrid = document.getElementById('analyzed-photos-gallery');
+             if (analyzedImagesStr) {
+                 const images = JSON.parse(analyzedImagesStr);
+                 if (images && images.length > 0) {
+                     galleryCard.style.display = 'block';
+                     galleryGrid.innerHTML = '';
+                     images.forEach((imgSrc, idx) => {
+                         const imgContainer = document.createElement('div');
+                         imgContainer.style.aspectRatio = '1';
+                         imgContainer.style.borderRadius = 'var(--radius-md)';
+                         imgContainer.style.border = '1px solid var(--glass-border)';
+                         imgContainer.style.overflow = 'hidden';
+                         imgContainer.style.cursor = 'pointer';
+                         
+                         imgContainer.innerHTML = `
+                             <img src="${imgSrc}" alt="Analyzed Plant Photo ${idx + 1}" style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition-fast);">
+                         `;
+ 
+                         const imgEl = imgContainer.querySelector('img');
+                         imgContainer.addEventListener('mouseenter', () => { imgEl.style.transform = 'scale(1.08)'; });
+                         imgContainer.addEventListener('mouseleave', () => { imgEl.style.transform = 'scale(1)'; });
+ 
+                         imgContainer.addEventListener('click', () => {
+                             const overlay = document.createElement('div');
+                             overlay.style.position = 'fixed';
+                             overlay.style.inset = '0';
+                             overlay.style.background = 'rgba(0,0,0,0.85)';
+                             overlay.style.zIndex = '3000';
+                             overlay.style.display = 'flex';
+                             overlay.style.alignItems = 'center';
+                             overlay.style.justifyContent = 'center';
+                             overlay.style.cursor = 'zoom-out';
+                             overlay.innerHTML = `<img src="${imgSrc}" style="max-width:90%; max-height:90%; border-radius:var(--radius-md); box-shadow:0 8px 32px rgba(0,0,0,0.4);">`;
+                             overlay.onclick = () => overlay.remove();
+                             document.body.appendChild(overlay);
+                         });
+ 
+                         galleryGrid.appendChild(imgContainer);
+                     });
+                 } else {
+                     galleryCard.style.display = 'none';
+                 }
+             } else {
+                 galleryCard.style.display = 'none';
+             }
+ 
+             // Populate Image-based diagnosis metadata if available
+             const extraMetaDiv = document.getElementById('image-diagnosis-extra');
+             if (data.observed_symptoms || data.possible_causes) {
+                 extraMetaDiv.style.display = 'block';
+                 document.getElementById('val-observed-symptoms').textContent = data.observed_symptoms || "N/A";
+                 document.getElementById('val-possible-causes').textContent = data.possible_causes || "N/A";
+             } else {
+                 extraMetaDiv.style.display = 'none';
+             }
+ 
+             // Dynamically set back button target based on how the diagnosis was run
+             const backBtn = document.getElementById('back_btn');
+             if (backBtn) {
+                 if (analyzedImagesStr) {
+                     backBtn.href = '/upload.html';
+                 } else {
+                     backBtn.href = '/symptoms.html';
+                 }
+             }
 
             // Tab headers from langStore
             const headers = document.querySelectorAll('.tab-btn');
@@ -721,21 +815,53 @@
 
 
 
-            // Listen to languageChanged to refresh AI diagnosis dynamically
-            const handleLanguageChange = async () => {
-                const cropId = localStorage.getItem('selectedCrop');
-                const symptomsStr = localStorage.getItem('selectedSymptoms');
-                if (!cropId || !symptomsStr) return;
-
-                const symptoms = JSON.parse(symptomsStr);
-                
-                document.getElementById('loading-state').style.display = 'block';
-                document.getElementById('result-box').style.display = 'none';
-
-                await window.submitDiagnosis(cropId, symptoms, window.currentLang);
-            };
-
-            window.addEventListener('languageChanged', handleLanguageChange);
+             // Listen to languageChanged to refresh AI diagnosis dynamically
+             const handleLanguageChange = async () => {
+                 const cropId = localStorage.getItem('selectedCrop');
+                 if (!cropId) return;
+ 
+                 document.getElementById('loading-state').style.display = 'block';
+                 document.getElementById('result-box').style.display = 'none';
+ 
+                 const analyzedImagesStr = sessionStorage.getItem('analyzedImages');
+                 if (analyzedImagesStr) {
+                     try {
+                         const imagesList = JSON.parse(analyzedImagesStr);
+                         const payloadImages = imagesList.map(src => ({
+                             base64Data: src,
+                             mimeType: 'image/jpeg'
+                         }));
+                         
+                         const symptomsStr = localStorage.getItem('selectedSymptoms') || '[]';
+                         const symptoms = JSON.parse(symptomsStr);
+ 
+                         const response = await fetch('/api/diagnose-image', {
+                             method: 'POST',
+                             headers: { 'Content-Type': 'application/json' },
+                             body: JSON.stringify({
+                                 cropId,
+                                 images: payloadImages,
+                                 symptoms,
+                                 lang: window.currentLang
+                             })
+                         });
+                         if (!response.ok) throw new Error("Image re-diagnosis failed");
+                         const data = await response.json();
+                         sessionStorage.setItem('diagnosisResult', JSON.stringify(data));
+                         window.location.reload();
+                     } catch (err) {
+                         console.error("Language switch image diagnosis error:", err);
+                         window.location.href = '/index.html';
+                     }
+                 } else {
+                     const symptomsStr = localStorage.getItem('selectedSymptoms');
+                     if (!symptomsStr) return;
+                     const symptoms = JSON.parse(symptomsStr);
+                     await window.submitDiagnosis(cropId, symptoms, window.currentLang);
+                 }
+             };
+ 
+             window.addEventListener('languageChanged', handleLanguageChange);
         });
     </script>
 </body>

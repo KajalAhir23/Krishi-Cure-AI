@@ -23,6 +23,10 @@ Krishi Cure AI is an AI-powered smart agriculture web application designed to he
 * 🤖 AI Agriculture Chatbot
 * 🎤 Voice-enabled Chatbot Support
 * 🔊 AI Voice Assistant
+* 🌱 Fertilizer Calculator
+* 📏 Support for Bigha, Acre, and Hectare
+* 🧮 Crop and Area-Based Fertilizer Recommendations
+* 📅 Fertilizer Application Schedule
 * 📱 Fully Responsive Design
 * ⚡ Fast and User-Friendly Interface
 
@@ -145,6 +149,38 @@ Provides:
 * Manual location selection
 * Weather-based farming insights
 
+## 🌱 Fertilizer Calculator
+
+The Fertilizer Calculator helps farmers estimate fertilizer requirements based on crop type and farm area.
+
+### Features
+
+* Crop-wise fertilizer recommendations
+* Support for:
+
+  * Bigha
+  * Acre
+  * Hectare
+* Area-based fertilizer calculation
+* Recommended fertilizer quantities
+* Application schedule guidance
+
+### How It Works
+
+1. Select Crop
+2. Select Area Unit (Bigha/Acre/Hectare)
+3. Enter Area
+4. Calculate Fertilizer Requirement
+5. Get Recommendations
+
+### Output
+
+* Urea Requirement
+* DAP Requirement
+* Potash Requirement
+* Application Schedule
+* Farming Recommendations
+
 ## 📈 How Krishi Cure AI Works
 
 1. Sign in with Google
@@ -158,6 +194,9 @@ Provides:
 9. Check Weather Conditions
 10. Ask Questions using AI Chatbot
 11. Type or Speak using Voice Input
+12. Open Fertilizer Calculator
+13. Enter Crop and Area Details
+14. Get Fertilizer Recommendations
 
 ## 🛠️ Technologies Used
 

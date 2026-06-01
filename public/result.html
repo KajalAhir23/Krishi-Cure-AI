@@ -554,28 +554,24 @@
                 });
             });
 
-            // Localized Dynamic Texts
-            const translateLabels = {
-                'comparison_title': lang === 'gu' ? '⚖️ સરખામણી પદ્ધતિ (ટોચના ૩ રોગ)' : lang === 'hi' ? '⚖️ मिलान सूची (शीर्ष ३ रोग)' : '⚖️ Matched Diseases (Top 3)',
-                'lbl-fertilizer': lang === 'gu' ? 'સેન્દ્રિય ખાતર / પોષણ' : lang === 'hi' ? 'जैविक खाद / पोषक तत्व' : 'Compost / Nutrient Care',
-                'lbl-irrigation': lang === 'gu' ? 'પાણી અને પિયત પદ્ધતિ' : lang === 'hi' ? 'सिंचाई / पानी की सलाह' : 'Water & Irrigation',
-                'lbl-chances': lang === 'gu' ? 'સાજા થવાની સંભાવના' : lang === 'hi' ? 'ठीक होने की संभावना' : 'Recovery Chances',
-                'lbl-time': lang === 'gu' ? 'સમયગાળો' : lang === 'hi' ? 'समय सीमा' : 'Recovery Timeframe',
-                'lbl-warning-signs': lang === 'gu' ? '⚠️ અસાધ્ય લક્ષણ (છોડ ન બચાવી શકાય):' : lang === 'hi' ? '⚠️ लाइलाज संकेत (जब पौधा नहीं बचाया जा सकता):' : '⚠️ Unrecoverable Sign (Plant cannot be saved):',
-                'lbl-weather': lang === 'gu' ? 'હવામાન સંબંધી તકેદારી' : lang === 'hi' ? 'मौसम संबंधी चेतावनी' : 'Weather Precaution'
-            };
+            // Localized Dynamic Texts — all from langStore
+            const setTxt = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+            setTxt('loading_text',         langStore.loading_text);
+            setTxt('confidence-label',     langStore.confidence_label);
+            setTxt('comparison_title',     langStore.comparison_title);
+            setTxt('lbl-fertilizer',       langStore.lbl_fertilizer);
+            setTxt('lbl-irrigation',       langStore.lbl_irrigation);
+            setTxt('lbl-chances',          langStore.lbl_chances);
+            setTxt('lbl-time',             langStore.lbl_time);
+            setTxt('lbl-warning-signs',    langStore.lbl_warning_signs);
+            setTxt('lbl-weather',          langStore.lbl_weather);
 
-            for (const [id, val] of Object.entries(translateLabels)) {
-                const el = document.getElementById(id);
-                if (el) el.textContent = val;
-            }
-
-            // Set up Tabs Headers translated
+            // Tab headers from langStore
             const headers = document.querySelectorAll('.tab-btn');
-            headers[0].innerHTML = `🌿 ${lang === 'gu' ? 'દેશી ઉપાય' : lang === 'hi' ? 'जैविक उपचार' : 'Organic Plan'}`;
-            headers[1].innerHTML = `🧪 ${lang === 'gu' ? 'રાસાયણિક દવા' : lang === 'hi' ? 'रासायनिक दवा' : 'Chemical Emergency'}`;
-            headers[2].innerHTML = `🛡️ ${lang === 'gu' ? 'પિયત અને ખાતર' : lang === 'hi' ? 'सिंचाई और खाद' : 'Prevention & Care'}`;
-            headers[3].innerHTML = `📈 ${lang === 'gu' ? 'સુધારાની આગાહી' : lang === 'hi' ? 'सुधार का पूर्वानुमान' : 'Recovery Forecast'}`;
+            if (headers[0]) headers[0].textContent = langStore.tab_organic      || '🌿 Organic Plan';
+            if (headers[1]) headers[1].textContent = langStore.tab_chemical     || '🧪 Chemical Emergency';
+            if (headers[2]) headers[2].textContent = langStore.tab_prevention   || '🛡️ Prevention & Care';
+            if (headers[3]) headers[3].textContent = langStore.tab_forecast     || '📈 Recovery Forecast';
 
             // Populate Safety Logic Banner
             const safetyBanner = document.getElementById('safety-alert-banner');

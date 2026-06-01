@@ -68,7 +68,8 @@ function applyTranslations() {
         'action_plan_title': 'action_plan_title',
         'speak_btn_text': 'speak_btn',
         'restart_btn': 'restart',
-        'logout_btn': 'logout'
+        'logout_btn': 'logout',
+        'welcome_greeting': 'welcome_back'
     };
 
     for (const [id, key] of Object.entries(elementsToTranslate)) {

@@ -470,6 +470,20 @@
                 if (orDividerEl) orDividerEl.textContent = orDividerText;
                 if (googleLoginEl) googleLoginEl.textContent = googleLoginText;
 
+                // Translate Crop Disease Prediction card
+                const setTxtIfExists = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+                setTxtIfExists('card_crop_title', langStore.card_crop_title);
+                setTxtIfExists('card_crop_li1',   langStore.card_crop_li1);
+                setTxtIfExists('card_crop_li2',   langStore.card_crop_li2);
+                setTxtIfExists('card_crop_li3',   langStore.card_crop_li3);
+                setTxtIfExists('card_crop_li4',   langStore.card_crop_li4);
+                // Translate AI Agriculture Chatbot card
+                setTxtIfExists('card_chat_title', langStore.card_chat_title);
+                setTxtIfExists('card_chat_li1',   langStore.card_chat_li1);
+                setTxtIfExists('card_chat_li2',   langStore.card_chat_li2);
+                setTxtIfExists('card_chat_li3',   langStore.card_chat_li3);
+                setTxtIfExists('card_chat_li4',   langStore.card_chat_li4);
+
                 // Update "How It Works" steps (Safe check with checks on element presence)
                 const steps = stepsTranslations[window.currentLang] || stepsTranslations['en'];
                 const howWorksTitleEl = document.getElementById('how_works_title');

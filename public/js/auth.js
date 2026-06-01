@@ -11,7 +11,10 @@
         path.endsWith('/') || 
         path.includes('index.html') || 
         path.includes('symptoms.html') || 
-        path.includes('result.html')
+        path.includes('result.html') ||
+        path.includes('diagnosis-choice.html') ||
+        path.includes('upload.html') ||
+        path.includes('fertilizer-calculator.html')
     );
 
     if (isProtectedPage && !isLoggedIn) {

@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishi-Cure Pro - Fertilizer Calculator</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK (Compat Version) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    
+    <!-- Auth helper -->
+    <script src="/js/auth.js"></script>
+
+    <style>
+        .calc-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
+            align-items: start;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .calc-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            color: var(--forest-green);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border-radius: var(--radius-md);
+            border: 2px solid var(--glass-border);
+            font-family: inherit;
+            font-size: 1.05rem;
+            outline: none;
+            background: white;
+            transition: var(--transition-smooth);
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .form-control:focus {
+            border-color: var(--leaf-green);
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.12);
+        }
+
+        /* Results panel styling */
+        .results-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--radius-lg);
+            padding: 2.2rem 2rem;
+            border: 1.5px solid var(--glass-border);
+            box-shadow: var(--shadow-card);
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .results-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            text-align: center;
+            color: var(--text-light);
+            padding: 3rem 1rem;
+        }
+
+        .results-empty .icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-card {
+            background: linear-gradient(145deg, #ffffff, #f9fbf8);
+            border: 1.5px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            text-align: center;
+            transition: var(--transition-bounce);
+            box-shadow: 0 4px 12px rgba(45, 90, 39, 0.03);
+        }
+
+        .result-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--leaf-green);
+            box-shadow: 0 8px 24px rgba(45, 90, 39, 0.08);
+        }
+
+        .result-card .fert-name {
+            font-weight: 800;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-card .fert-val {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--forest-green);
+            line-height: 1.2;
+        }
+
+        .result-card .fert-unit {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 600;
+            margin-top: 0.2rem;
+        }
+
+        /* Collapsible accordion */
+        .fert-accordion-header {
+            background: rgba(45, 90, 39, 0.03);
+            border: 1.5px solid var(--glass-border);
+            padding: 1rem 1.2rem;
+            border-radius: var(--radius-md);
+            font-weight: 800;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            color: var(--forest-green);
+            font-family: inherit;
+            font-size: 1.05rem;
+            transition: var(--transition-fast);
+            margin-top: 1rem;
+        }
+
+        .fert-accordion-header:hover {
+            border-color: var(--leaf-green);
+            background: rgba(76,175,80,0.02);
+        }
+
+        .fert-accordion-content {
+            display: none;
+            padding: 1.2rem;
+            border: 1.5px solid var(--glass-border);
+            border-top: none;
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            background: white;
+            animation: fadeIn 0.3s ease;
+            font-size: 0.95rem;
+            line-height: 1.5rem;
+            color: var(--text-main);
+            margin-top: -6px;
+            margin-bottom: 1rem;
+        }
+
+        .fert-accordion-content ul {
+            padding-left: 1.2rem;
+            margin: 0;
+        }
+
+        .fert-accordion-content li {
+            margin-bottom: 0.6rem;
+        }
+
+        .fert-accordion-content li:last-child {
+            margin-bottom: 0;
+        }
+
+        .error-msg {
+            color: #c53030;
+            font-size: 0.88rem;
+            font-weight: 700;
+            margin-top: 0.4rem;
+            display: none;
+        }
+
+        .alert-box {
+            display: none;
+            margin-bottom: 1.5rem;
+            padding: 0.8rem 1rem;
+            border-radius: var(--radius-md);
+            background: #fff5f5;
+            color: #c53030;
+            border: 1px solid #fed7d7;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body style="display: none;">
+    <!-- Prevent UI flickering if logged in -->
+    <script>
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            document.body.style.display = 'block';
+        }
+    </script>
+
+    <div class="warning-banner">
+        <div class="warning-ticker-wrap"><span class="warning-ticker" id="warning_banner">Loading...</span></div>
+    </div>
+
+    <header class="app-header">
+        <div class="logo">🌿 <span id="app_name">Krishi-Cure Pro</span></div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <a href="/index.html" class="logout-btn" style="background: transparent; color: var(--forest-green); border: 1.5px solid var(--forest-green); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; padding: 0.6rem 1.2rem; border-radius: var(--radius-md); font-weight: 700; transition: var(--transition-fast);" id="back_home_btn">Back to Home</a>
+            <div class="lang-selector">
+                <button class="lang-btn active" data-lang="en">ENGLISH</button>
+                <button class="lang-btn" data-lang="hi">हिन्दी</button>
+                <button class="lang-btn" data-lang="gu">ગુજરાતી</button>
+            </div>
+            <button id="logout_btn" class="logout-btn" onclick="window.logoutUser()">Logout</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="calc-layout">
+            <!-- Left Card: Inputs -->
+            <section class="step-card active" style="margin: 0; padding: 2.2rem 2rem;">
+                <h2 id="fert_title">Fertilizer Calculator 🧮</h2>
+                <p id="fert_subtitle" style="color: var(--text-light); margin-bottom: 2rem; font-weight: 500; font-size: 0.95rem; line-height: 1.45;">
+                    Calculate accurate Urea, DAP, and Potash requirements for your crop based on land area.
+                </p>
+
+                <div id="validation-alert" class="alert-box"></div>
+
+                <div class="form-group">
+                    <label for="crop_select" id="lbl_crop">Select Crop:</label>
+                    <select id="crop_select" class="form-control">
+                        <!-- Loaded dynamically -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="state_select" id="lbl_state">Select State:</label>
+                    <select id="state_select" class="form-control">
+                        <!-- Handled below -->
+                    </select>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="unit_select" id="lbl_unit">Select Area Unit:</label>
+                        <select id="unit_select" class="form-control">
+                            <!-- Handled below -->
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="area_input" id="lbl_value">Enter Area Value:</label>
+                        <input type="number" id="area_input" class="form-control" placeholder="e.g. 5" min="0.01" step="any">
+                    </div>
+                </div>
+
+                <button class="primary-btn diagnose-btn" id="calc-btn" style="width: 100%; margin-top: 1rem; border-radius: var(--radius-md); font-weight: 700; padding: 1rem; box-shadow: var(--shadow-btn);">
+                    <span id="btn_calc">Calculate Requirements ⚡</span>
+                </button>
+            </section>
+
+            <!-- Right Card: Results -->
+            <div class="results-panel" id="results-panel">
+                <div class="results-empty" id="results-empty">
+                    <span class="icon">🌾</span>
+                    <h3 id="empty_title" style="color: var(--forest-green); font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem;">Ready to Calculate</h3>
+                    <p id="empty_desc" style="font-size: 0.95rem; line-height: 1.4; max-width: 320px;">Fill in the crop details and farm area on the left to see fertilizer recommendations.</p>
+                </div>
+
+                <div class="results-content" id="results-content" style="display: none;">
+                    <h3 id="res_title" style="color: var(--forest-green); font-size: 1.4rem; font-weight: 800; margin-bottom: 0.25rem;">Recommended Fertilizer Quantities</h3>
+                    <p id="res_area_desc" style="color: var(--text-light); font-size: 0.95rem; font-weight: 600; margin-bottom: 1.5rem;"></p>
+
+                    <div class="result-grid">
+                        <!-- Urea Card -->
+                        <div class="result-card">
+                            <div class="fert-name" id="res_lbl_urea">Urea</div>
+                            <div class="fert-val" id="val_urea">0</div>
+                            <div class="fert-unit">kg</div>
+                        </div>
+                        <!-- DAP Card -->
+                        <div class="result-card">
+                            <div class="fert-name" id="res_lbl_dap">DAP</div>
+                            <div class="fert-val" id="val_dap">0</div>
+                            <div class="fert-unit">kg</div>
+                        </div>
+                        <!-- Potash Card -->
+                        <div class="result-card">
+                            <div class="fert-name" id="res_lbl_potash">Potash (MOP)</div>
+                            <div class="fert-val" id="val_potash">0</div>
+                            <div class="fert-unit">kg</div>
+                        </div>
+                    </div>
+
+                    <!-- Other Nutrient Recommendation (Dynamically toggled) -->
+                    <div id="other-nutrients-section" style="display: none; margin-bottom: 1.5rem; padding: 1rem 1.2rem; background: rgba(212, 175, 55, 0.06); border: 1.5px dashed var(--accent-gold); border-radius: var(--radius-md);">
+                        <strong id="res_lbl_other" style="color: var(--text-main); font-size: 0.95rem; display: block; margin-bottom: 0.3rem;">Other Recommended Nutrients:</strong>
+                        <span id="val_other" style="font-weight: 600; font-size: 0.95rem; color: var(--text-light);"></span>
+                    </div>
+
+                    <!-- Accordion: Schedule -->
+                    <div class="sitem">
+                        <button class="fert-accordion-header" id="btn-accordion-schedule">
+                            <span id="res_lbl_schedule">📆 Application Schedule</span>
+                            <span id="arrow-schedule">➕</span>
+                        </button>
+                        <div class="fert-accordion-content" id="content-schedule">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Accordion: Notes -->
+                    <div class="sitem">
+                        <button class="fert-accordion-header" id="btn-accordion-notes">
+                            <span id="res_lbl_notes">⚠️ Precautions & Tips</span>
+                            <span id="arrow-notes">➕</span>
+                        </button>
+                        <div class="fert-accordion-content" id="content-notes">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer">
+            <div class="footer-bottom"></div>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+    <script>
+        // Crop fertilizer database in kg/Acre
+        const fertDatabase = {
+            cotton: {
+                urea: 100,
+                dap: 40,
+                potash: 40,
+                other: { en: "Magnesium Sulphate: 10 kg/Acre", hi: "मैग्नीशियम सल्फेट: 10 किलोग्राम/एकड़", gu: "મેગ્નેશિયમ સલ્ફેટ: 10 કિગ્રા/એકર" },
+                schedule: {
+                    en: "1. Basal dose: Full DAP + Full Potash + 1/3 Urea at sowing.\n2. First top dressing: 1/3 Urea at 30-35 days after sowing.\n3. Second top dressing: Remaining 1/3 Urea at flowering stage.",
+                    hi: "1. प्रारंभिक खुराक: बुआई के समय पूरी डीएपी + पूरी पोटाश + 1/3 यूरिया।\n2. पहली टॉप ड्रेसिंग: बुआई के 30-35 दिन बाद 1/3 यूरिया।\n3. दूसरी टॉप ड्रेसिंग: फूल आने की अवस्था में शेष 1/3 यूरिया।",
+                    gu: "1. પાયાનો ડોઝ: વાવણી સમયે આખી ડીએપી + આખી પોટાશ + 1/3 યુરિયા.\n2. પ્રથમ પૂર્તિ ડોઝ: વાવણીના 30-35 દિવસ પછી 1/3 યુરિયા.\n3. બીજો પૂર્તિ ડોઝ: ફૂલ આવવાની અવસ્થામાં બાકીનું 1/3 યુરિયા."
+                },
+                notes: {
+                    en: "Ensure adequate moisture in the soil before applying top-dressed Urea. Foliar spray of 2% Urea or DAP can be applied during dry spells.",
+                    hi: "यूरिया छिड़कने से पहले मिट्टी में पर्याप्त नमी सुनिश्चित करें। सूखे के दौरान 2% यूरिया या डीएपी का छिड़काव किया जा सकता है।",
+                    gu: "યુરિયા આપતા પહેલા જમીનમાં પૂરતો ભેજ હોવો જરૂરી છે. સૂકા ગાળામાં 2% યુરિયા અથવા ડીએપીનો પર્ણિય છંટકાવ કરી શકાય છે."
+                }
+            },
+            groundnut: {
+                urea: 20,
+                dap: 50,
+                potash: 25,
+                other: { en: "Gypsum: 200 kg/Acre (applied at pegging stage)", hi: "जिप्सम: 200 किलोग्राम/एकड़ (पेगिंग अवस्था में)", gu: "જીપ્સમ: 200 કિગ્રા/એકર (સૂય બેસવાની અવસ્થામાં)" },
+                schedule: {
+                    en: "1. Basal dose: Full DAP + Full Potash + Full Urea + 100 kg Gypsum at sowing.\n2. Pegging stage (40-45 days): Top dress remaining 100 kg Gypsum.",
+                    hi: "1. प्रारंभिक खुराक: बुआई के समय पूरी डीएपी + पूरी पोटाश + पूरी यूरिया + 100 किलोग्राम जिप्सम।\n2. पेगिंग अवस्था (40-45 दिन): शेष 100 किलोग्राम जिप्सम मिट्टी में मिलाएं।",
+                    gu: "1. પાયાનો ડોઝ: વાવણી સમયે આખી ડીએપી + આખી પોટાશ + આખી યુરિયા + 100 કિગ્રા જીપ્સમ.\n2. સૂય બેસવાની અવસ્થા (40-45 દિવસ): બાકીનું 100 કિગ્રા જીપ્સમ આપવું."
+                },
+                notes: {
+                    en: "Gypsum is critical for Groundnut shell development and oil content. Do not apply heavy nitrogen as groundnut is a legume.",
+                    hi: "मूंगफली के छिलके के विकास और तेल की मात्रा के लिए जिप्सम महत्वपूर्ण है। अधिक नाइट्रोजन न डालें क्योंकि मूंगफली एक फलीदार फसल है।",
+                    gu: "મગફળીમાં ફોતરાના વિકાસ અને તેલના ટકા માટે જીપ્સમ ખૂબ જ જરૂરી છે. મગફળી કઠોળ વર્ગનો પાક હોવાથી વધુ નાઇટ્રોજન આપવું નહીં."
+                }
+            },
+            wheat: {
+                urea: 80,
+                dap: 50,
+                potash: 30,
+                other: { en: "Zinc Sulphate: 10 kg/Acre", hi: "जिंक सल्फेट: 10 किलोग्राम/एकड़", gu: "ઝીંક સલ્ફેટ: 10 કિગ્રા/એકર" },
+                schedule: {
+                    en: "1. Basal dose: Full DAP + Full Potash + 1/2 Urea at sowing.\n2. First irrigation (CRI stage, 21-25 days): 1/2 of remaining Urea.\n3. Second irrigation (late jointing stage, 40-45 days): Remaining Urea.",
+                    hi: "1. प्रारंभिक खुराक: बुआई के समय पूरी डीएपी + पूरी पोटाश + 1/2 यूरिया।\n2. पहली सिंचाई (CRI अवस्था, 21-25 दिन): शेष यूरिया का आधा भाग।\n3. दूसरी सिंचाई (गांठ बनने की अवस्था, 40-45 दिन): बची हुई पूरी यूरिया।",
+                    gu: "1. પાયાનો ડોઝ: વાવણી સમયે આખી ડીએપી + આખી પોટાશ + 1/2 યુરિયા.\n2. પ્રથમ પિયત (સંકુચિત મૂળ અવસ્થા, 21-25 દિવસ): બાકીના યુરિયાનો અડધો ભાગ.\n3. દ્વિતીય પિયત (ગાંઠ બનવાની અવસ્થા, 40-45 દિવસ): બાકીનું બધું યુરિયા."
+                },
+                notes: {
+                    en: "Apply Zinc Sulphate separately from DAP to avoid chemical binding. CRI stage is the most critical stage for irrigation.",
+                    hi: "रासायनिक बंधन से बचने के लिए डीएपी से अलग जिंक सल्फेट डालें। सिंचाई के लिए CRI (ताज मूल) अवस्था सबसे महत्वपूर्ण है।",
+                    gu: "રાસાયણિક પ્રતિક્રિયાથી બચવા ડીએપી સાથે ઝીંક સલ્ફેટ મિક્સ કરવું નહીં. પિયત માટે મૂળ ફૂટવાની અવસ્થા સૌથી મહત્વની છે."
+                }
+            },
+            rice: {
+                urea: 90,
+                dap: 50,
+                potash: 30,
+                other: { en: "Zinc Sulphate: 10 kg/Acre", hi: "जिंक सल्फेट: 10 किलोग्राम/एकड़", gu: "ઝીંક સલ્ફેટ: 10 કિગ્રા/એકર" },
+                schedule: {
+                    en: "1. Basal dose: Full DAP + Full Potash + 1/3 Urea at transplanting.\n2. Tillering stage (3 weeks after transplanting): 1/3 Urea.\n3. Panicle initiation stage (6 weeks after transplanting): Remaining 1/3 Urea.",
+                    hi: "1. प्रारंभिक खुराक: रोपाई के समय पूरी डीएपी + पूरी पोटाश + 1/3 यूरिया।\n2. कल्ले निकलने की अवस्था (रोपाई के 3 सप्ताह बाद): 1/3 यूरिया।\n3. बाली बनने की अवस्था (रोपाई के 6 सप्ताह बाद): शेष 1/3 यूरिया।",
+                    gu: "1. પાયાનો ડોઝ: ફેરરોપણી સમયે આખી ડીએપી + આખી પોટાશ + 1/3 યુરિયા.\n2. ફૂટ અવસ્થા (રોપણીના 3 અઠવાડિયા પછી): 1/3 યુરિયા.\n3. ડુંડીઓ બેસવાની અવસ્થા (રોપણીના 6 અઠવાડિયા પછી): બાકીનું 1/3 યુરિયા."
+                },
+                notes: {
+                    en: "Apply Nitrogen only after draining out excess water from fields. Keep fields flooded during critical growth stages.",
+                    hi: "खेतों से अतिरिक्त पानी निकालने के बाद ही नाइट्रोजन डालें। विकास के महत्वपूर्ण चरणों के दौरान खेतों में पानी भरकर रखें।",
+                    gu: "ખેતરમાંથી વધારાનું પાણી બહાર કાઢ્યા પછી જ નાઇટ્રોજન આપવો. વૃદ્ધિના મહત્વના તબક્કે ખેતરમાં પાણી ભરેલું રાખવું."
+                }
+            },
+            potato: {
+                urea: 100,
+                dap: 60,
+                potash: 60,
+                other: { en: "Micronutrient Mixture: 5 kg/Acre", hi: "सूक्ष्म पोषक तत्व मिश्रण: 5 किलोग्राम/एकड़", gu: "માઈક્રોન્યુટ્રીયન્ટ મિશ્રણ: 5 કિગ્રા/એકર" },
+                schedule: {
+                    en: "1. Basal dose: Full DAP + 1/2 Potash + 1/2 Urea at planting.\n2. Earthing-up stage (30-35 days): Remaining 1/2 Urea + 1/2 Potash.",
+                    hi: "1. प्रारंभिक खुराक: रोपाई के समय पूरी डीएपी + 1/2 पोटाश + 1/2 यूरिया।\n2. मिट्टी चढाने की अवस्था (30-35 दिन): शेष 1/2 यूरिया + 1/2 पोटाश।",
+                    gu: "1. પાયાનો ડોઝ: વાવણી સમયે આખી ડીએપી + 1/2 પોટાશ + 1/2 યુરિયા.\n2. પાળા ચડાવવાની અવસ્થા (30-35 દિવસ): બાકીનું 1/2 યુરિયા + 1/2 પોટાશ."
+                },
+                notes: {
+                    en: "Potato is highly responsive to potassium. Sufficient potash ensures big tuber size and better storage life.",
+                    hi: "आलू पोटाश के प्रति अत्यधिक संवेदनशील है। पर्याप्त पोटाश कंद के बड़े आकार और बेहतर भंडारण जीवन को सुनिश्चित करता है।",
+                    gu: "બટાકાના પાકને પોટાશની વધુ જરૂર હોય છે. પૂરતો પોટાશ કંદની સારી સાઈઝ અને લાંબો સંગ્રહ સમય આપે છે."
+                }
+            },
+            tomato: {
+                urea: 75,
+                dap: 50,
+                potash: 45,
+                other: { en: "Calcium Nitrate: 15 kg/Acre (applied at flowering stage to prevent blossom-end rot)", hi: "कैल्शियम नाइट्रेट: 15 किलोग्राम/एकड़ (ब्लॉसम-एंड रॉट से बचाव के लिए फूल आने के समय)", gu: "કેલ્શિયમ નાઈટ્રેટ: 15 કિગ્રા/એકર (ફૂલ આવવાના સમયે બ્લોસમ-એન્ડ રોટ અટકાવવા)" },
+                schedule: {
+                    en: "1. Basal dose: Full DAP + 1/3 Potash + 1/3 Urea at transplanting.\n2. Vegetative growth (20-25 days after transplanting): 1/3 Urea + 1/3 Potash.\n3. Fruit setting stage (45-50 days after transplanting): Remaining Urea and Potash.",
+                    hi: "1. प्रारंभिक खुराक: रोपाई के समय पूरी डीएपी + 1/3 पोटाश + 1/3 यूरिया।\n2. वानस्पतिक वृद्धि (रोपाई के 20-25 दिन बाद): 1/3 यूरिया + 1/3 पोटाश।\n3. फल बनने की अवस्था (रोपाई के 45-50 दिन बाद): शेष यूरिया और पोटाश।",
+                    gu: "1. પાયાનો ડોઝ: ફેરરોપણી સમયે આખી ડીએપી + 1/3 પોટાશ + 1/3 યુરિયા.\n2. વાનસ્પતિક વૃદ્ધિ (રોપણી પછી 20-25 દિવસે): 1/3 યુરિયા + 1/3 પોટાશ.\n3. ફળ બેસવાના સમયે (રોપણી પછી 45-50 દિવસે): બાકીનું યુરિયા અને પોટાશ."
+                },
+                notes: {
+                    en: "Ensure calcium availability to prevent blossom-end rot. Avoid excess Urea as it leads to excessive foliage and less fruit.",
+                    hi: "ब्लॉसम-एंड रॉट से बचाव के लिए कैल्शियम की उपलब्धता सुनिश्चित करें। अधिक यूरिया से बचें क्योंकि इससे अधिक पत्तियां और कम फल आते हैं।",
+                    gu: "કેલ્શિયમની ખામીથી ફળ સડવાનો રોગ (Blossom-end rot) ન થાય તેનું ધ્યાન રાખો. વધુ યુરિયા આપવાથી ડાળીઓ વધુ વધશે પણ ફળ ઓછા બેસશે."
+                }
+            },
+            mustard: {
+                urea: 60,
+                dap: 40,
+                potash: 20,
+                other: { en: "Bentonite Sulphur: 10 kg/Acre (crucial for oil content)", hi: "बेंटोनाइट सल्फर: 10 किलोग्राम/एकड़ (तेल की मात्रा बढ़ाने के लिए महत्वपूर्ण)", gu: "બેન્ટોનાઈટ સલ્ફર: 10 કિગ્રા/એકર (તેલનું પ્રમાણ વધારવા માટે જરૂરી)" },
+                schedule: {
+                    en: "1. Basal dose: Full DAP + Full Potash + Full Sulphur + 1/2 Urea at sowing.\n2. First irrigation (30-35 days): Remaining 1/2 Urea.",
+                    hi: "1. प्रारंभिक खुराक: बुआई के समय पूरी डीएपी + पूरी पोटाश + पूरा सल्फर + 1/2 यूरिया।\n2. पहली सिंचाई (30-35 दिन): शेष 1/2 यूरिया।",
+                    gu: "1. પાયાનો ડોઝ: વાવણી સમયે આખી ડીએપી + આખી પોટાશ + આખું સલ્ફર + 1/2 યુરિયા.\n2. પ્રથમ પિયત સમયે (30-35 દિવસ): બાકીનું 1/2 યુરિયા."
+                },
+                notes: {
+                    en: "Sulphur is crucial for oilseeds. It increases oil percentage and pungency of mustard.",
+                    hi: "तिलहन के लिए सल्फर अत्यंत महत्वपूर्ण है। यह तेल के प्रतिशत और सरसों के तीखेपन को बढ़ाता है।",
+                    gu: "તેલીબિયાં પાકો માટે સલ્ફર ખૂબ જ જરૂરી છે. તે તેલની ટકાવારી અને સરસવની તીખાશ વધારે છે."
+                }
+            },
+            onion: {
+                urea: 80,
+                dap: 50,
+                potash: 40,
+                other: { en: "Sulphur: 15 kg/Acre", hi: "सल्फर: 15 किलोग्राम/एकड़", gu: "સલ્ફર: 15 કિગ્રા/એકર" },
+                schedule: {
+                    en: "1. Basal dose: Full DAP + Full Potash + Full Sulphur + 1/2 Urea at transplanting.\n2. 30 days after transplanting: 1/4 Urea.\n3. 45 days after transplanting: Remaining 1/4 Urea.",
+                    hi: "1. प्रारंभिक खुराक: रोपाई के समय पूरी डीएपी + पूरी पोटाश + पूरा सल्फर + 1/2 यूरिया।\n2. रोपाई के 30 दिन बाद: 1/4 यूरिया।\n3. रोपाई के 45 दिन बाद: शेष 1/4 यूरिया।",
+                    gu: "1. પાયાનો ડોઝ: ફેરરોપણી સમયે આખી ડીએપી + આખી પોટાશ + આખું સલ્ફર + 1/2 યુરિયા.\n2. રોપણીના 30 દિવસ પછી: 1/4 યુરિયા.\n3. રોપણીના 45 દિવસ પછી: બાકીનું 1/4 યુરિયા."
+                },
+                notes: {
+                    en: "Do not apply nitrogen after 60 days of transplanting, as it can cause thick neck and poor storage quality.",
+                    hi: "रोपाई के 60 दिनों के बाद नाइट्रोजन न डालें, क्योंकि इससे प्याज का गला मोटा हो सकता है और भंडारण क्षमता कम हो सकती है।",
+                    gu: "રોપણીના 60 દિવસ પછી નાઇટ્રોજન આપવો નહીં, નહીંતર ડુંગળીનો ગળનો ભાગ જાડો થશે અને લાંબો સમય સંગ્રહ નહીં થઈ શકે."
+                }
+            },
+            cumin: {
+                urea: 30,
+                dap: 30,
+                potash: 15,
+                other: { en: "Organic Compost: 2-3 tons/Acre", hi: "जैविक खाद: 2-3 टन/एकड़", gu: "સેન્દ્રિય ખાતર: ૨-૩ ટન/એકર" },
+                schedule: {
+                    en: "1. Basal dose: Full DAP + Full Potash + 1/2 Urea at sowing.\n2. Vegetative stage (30-35 days after sowing): Remaining 1/2 Urea.",
+                    hi: "1. प्रारंभिक खुराक: बुआई के समय पूरी डीएपी + पूरी पोटाश + 1/2 यूरिया।\n2. वानस्पतिक वृद्धि चरण (बुआई के 30-35 दिन बाद): शेष 1/2 यूरिया।",
+                    gu: "1. પાયાનો ડોઝ: વાવણી સમયે આખી ડીએપી + આખી પોટાશ + 1/2 યુરિયા.\n2. વાનસ્પતિક વૃદ્ધિ સમયે (વાવણી પછી 30-35 દિવસે): બાકીનું 1/2 યુરિયા."
+                },
+                notes: {
+                    en: "Cumin requires light but timely fertilizer application. Excess Nitrogen makes the crop susceptible to blight and wilt.",
+                    hi: "जीरे को हल्की लेकिन समय पर उर्वरक की आवश्यकता होती है। अधिक नाइट्रोजन फसल को झुलसा (blight) और उकठा (wilt) रोगों के प्रति संवेदनशील बनाता है।",
+                    gu: "જીરૂના પાકને ઓછું પણ સમયસર ખાતર જોઈએ. વધુ નાઇટ્રોજન આપવાથી સુકારો અને ચરમીનો રોગ આવવાની શક્યતા વધી જાય છે."
+                }
+            },
+            chilli: {
+                urea: 60,
+                dap: 40,
+                potash: 30,
+                other: { en: "Micro-nutrients: 5 kg/Acre", hi: "सूक्ष्म पोषक तत्व: 5 किलोग्राम/एकड़", gu: "સૂક્ષ્મ પોષકતત્વો: 5 કિગ્રા/એકર" },
+                schedule: {
+                    en: "1. Basal dose: Full DAP + 1/3 Potash + 1/3 Urea at transplanting.\n2. Flowering stage (30 days after transplanting): 1/3 Urea + 1/3 Potash.\n3. Fruit development stage (60 days after transplanting): Remaining Urea and Potash.",
+                    hi: "1. प्रारंभिक खुराक: रोपाई के समय पूरी डीएपी + 1/3 पोटाश + 1/3 यूरिया।\n2. फूल आने के समय (रोपाई के 30 दिन बाद): 1/3 यूरिया + 1/3 पोटाश।\n3. फल विकास चरण (रोपाई के 60 दिन बाद): शेष यूरिया और पोटाश।",
+                    gu: "1. પાયાનો ડોઝ: ફેરરોપણી સમયે આખી ડીએપી + 1/3 પોટાશ + 1/3 યુરિયા.\n2. ફૂલ આવવાની શરૂઆતે (રોપણીના 30 દિવસ પછી): 1/3 યુરિયા + 1/3 પોટાશ.\n3. મરચા બેસવાના સમયે (રોપણીના 60 દિવસ પછી): બાકીનું યુરિયા અને પોટાશ."
+                },
+                notes: {
+                    en: "Chilli is susceptible to leaf curl. Ensure potash is applied to build immunity. Keep soil moist but not soggy.",
+                    hi: "मिर्च में पर्ण कुंचन (leaf curl) का खतरा अधिक रहता है। रोग प्रतिरोधक क्षमता बढ़ाने के लिए पोटाश का उपयोग अवश्य करें।",
+                    gu: "મરચીમાં કોકડવા (લીફ કર્લ) આવવાની શક્યતા વધુ છે. રોગ પ્રતિકારક શક્તિ માટે પોટાશ આપવો જરૂરી છે."
+                }
+            },
+            default: {
+                urea: 70,
+                dap: 45,
+                potash: 35,
+                other: { en: "Micro-nutrient Mixture: 5 kg/Acre", hi: "सूक्ष्म पोषक तत्व मिश्रण: 5 किलोग्राम/एकड़", gu: "માઈક્રોન્યુટ્રીયન્ટ મિશ્રણ: 5 કિગ્રા/એકર" },
+                schedule: {
+                    en: "1. Basal dose: Full DAP + Full Potash + 1/2 Urea at sowing/transplanting.\n2. Top dressing: Remaining 1/2 Urea at active vegetative growth stage (30-40 days).",
+                    hi: "1. प्रारंभिक खुराक: बुआई/रोपाई के समय पूरी डीएपी + पूरी पोटाश + 1/2 यूरिया।\n2. टॉप ड्रेसिंग: सक्रिय वानस्पतिक वृद्धि चरण (30-40 दिन) पर शेष 1/2 यूरिया।",
+                    gu: "1. પાયાનો ડોઝ: વાવણી કે રોપણી સમયે આખી ડીએપી + આખી પોટાશ + 1/2 યુરિયા.\n2. પૂર્તિ ડોઝ: પાકની વૃદ્ધિ સમયે (૩૦-૪૦ દિવસે) બાકીનું 1/2 યુરિયા આપવું."
+                },
+                notes: {
+                    en: "Verify fertilizer dosage based on local soil health card recommendations if available.",
+                    hi: "यदि उपलब्ध हो, तो स्थानीय मृदा स्वास्थ्य कार्ड की सिफारिशों के आधार पर उर्वरक की मात्रा को सत्यापित करें।",
+                    gu: "જો ઉપલબ્ધ હોય તો જમીન હેલ્થ કાર્ડની ભલામણ મુજબ ખાતરની માત્રામાં ફેરફાર કરી શકાય."
+                }
+            }
+        };
+
+        // State Bigha conversion sizes in Acres
+        const stateConversions = {
+            gujarat: 0.40,
+            up: 0.25,
+            rajasthan: 0.40,
+            bihar: 0.625,
+            westbengal: 0.33,
+            punjab: 0.20,
+            mp: 0.40,
+            haryana: 0.25,
+            maharashtra: 0.40,
+            other: 0.40
+        };
+
+        const stateTranslations = {
+            en: {
+                gujarat: "Gujarat",
+                up: "Uttar Pradesh",
+                rajasthan: "Rajasthan",
+                bihar: "Bihar",
+                westbengal: "West Bengal",
+                punjab: "Punjab",
+                mp: "Madhya Pradesh",
+                haryana: "Haryana",
+                maharashtra: "Maharashtra",
+                other: "Other States / Standard"
+            },
+            hi: {
+                gujarat: "गुजरात",
+                up: "उत्तर प्रदेश",
+                rajasthan: "राजस्थान",
+                bihar: "बिहार",
+                westbengal: "पश्चिम बंगाल",
+                punjab: "पंजाब",
+                mp: "मध्य प्रदेश",
+                haryana: "हरियाणा",
+                maharashtra: "महाराष्ट्र",
+                other: "अन्य राज्य / मानक"
+            },
+            gu: {
+                gujarat: "ગુજરાત",
+                up: "ઉત્તર પ્રદેશ",
+                rajasthan: "રાજસ્થાન",
+                bihar: "બિહાર",
+                westbengal: "પશ્ચિમ બંગાળ",
+                punjab: "પંજાબ",
+                mp: "મધ્ય પ્રદેશ",
+                haryana: "હરિયાણા",
+                maharashtra: "મહારાષ્ટ્ર",
+                other: "અન્ય રાજ્યો / પ્રમાણભૂત"
+            }
+        };
+
+        const unitTranslations = {
+            en: { bigha: "Bigha", acre: "Acre", hectare: "Hectare" },
+            hi: { bigha: "बीघा (Bigha)", acre: "एकड़ (Acre)", hectare: "हेक्टेयर (Hectare)" },
+            gu: { bigha: "વીઘા (Bigha)", acre: "એકર (Acre)", hectare: "હેક્ટર (Hectare)" }
+        };
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Fetch master data using standard initApp
+            await window.initApp();
+
+            const cropSelect = document.getElementById('crop_select');
+            const stateSelect = document.getElementById('state_select');
+            const unitSelect = document.getElementById('unit_select');
+            const areaInput = document.getElementById('area_input');
+            const calcBtn = document.getElementById('calc-btn');
+            
+            const resultsEmpty = document.getElementById('results-empty');
+            const resultsContent = document.getElementById('results-content');
+            const alertBox = document.getElementById('validation-alert');
+
+            // Render Accordion clicks
+            const setupAccordion = (btnId, contentId, arrowId) => {
+                const btn = document.getElementById(btnId);
+                const content = document.getElementById(contentId);
+                const arrow = document.getElementById(arrowId);
+                if (btn && content && arrow) {
+                    btn.addEventListener('click', () => {
+                        const isOpen = content.style.display === 'block';
+                        content.style.display = isOpen ? 'none' : 'block';
+                        arrow.textContent = isOpen ? '➕' : '➖';
+                    });
+                }
+            };
+            setupAccordion('btn-accordion-schedule', 'content-schedule', 'arrow-schedule');
+            setupAccordion('btn-accordion-notes', 'content-notes', 'arrow-notes');
+
+            // Populate static select lists
+            const populateStaticSelectors = () => {
+                const lang = window.currentLang;
+                
+                // Populate State List
+                const prevSelectedState = stateSelect.value;
+                stateSelect.innerHTML = '';
+                const stateTrans = stateTranslations[lang] || stateTranslations['en'];
+                for (const [key, name] of Object.entries(stateTrans)) {
+                    const opt = document.createElement('option');
+                    opt.value = key;
+                    opt.textContent = name;
+                    stateSelect.appendChild(opt);
+                }
+                if (prevSelectedState) stateSelect.value = prevSelectedState;
+
+                // Populate Unit List
+                const prevSelectedUnit = unitSelect.value;
+                unitSelect.innerHTML = '';
+                const unitTrans = unitTranslations[lang] || unitTranslations['en'];
+                for (const [key, name] of Object.entries(unitTrans)) {
+                    const opt = document.createElement('option');
+                    opt.value = key;
+                    opt.textContent = name;
+                    unitSelect.appendChild(opt);
+                }
+                if (prevSelectedUnit) unitSelect.value = prevSelectedUnit;
+            };
+
+            // Populate Crops dynamically from master list
+            const populateCropsList = () => {
+                const lang = window.currentLang;
+                const prevSelectedCrop = cropSelect.value || localStorage.getItem('selectedCrop') || '';
+                
+                cropSelect.innerHTML = '';
+                const placeholder = document.createElement('option');
+                placeholder.value = '';
+                placeholder.textContent = lang === 'gu' ? "પાક પસંદ કરો..." : lang === 'hi' ? "फसल चुनें..." : "Select Crop...";
+                cropSelect.appendChild(placeholder);
+
+                if (window.appData && window.appData.cropsList) {
+                    for (const cat in window.appData.cropsList) {
+                        window.appData.cropsList[cat].forEach(crop => {
+                            const opt = document.createElement('option');
+                            opt.value = crop.id;
+                            opt.textContent = crop[lang] || crop['en'];
+                            cropSelect.appendChild(opt);
+                        });
+                    }
+                }
+                if (prevSelectedCrop) {
+                    cropSelect.value = prevSelectedCrop;
+                }
+            };
+
+            // Translate page content dynamically
+            const applyCalculatorTranslations = () => {
+                if (!window.appData) return;
+                const lang = window.currentLang;
+                const langStore = window.appData.langStore[lang];
+                if (!langStore) return;
+
+                document.title = (langStore.nav_fertilizer || "Fertilizer Calculator") + " - Krishi-Cure Pro";
+                
+                // Header buttons
+                const backBtn = document.getElementById('back_home_btn');
+                if (backBtn) backBtn.textContent = langStore.fert_btn_back || "Back to Home";
+
+                // Labels
+                document.getElementById('fert_title').textContent = langStore.fert_title || "Fertilizer Calculator 🧮";
+                document.getElementById('fert_subtitle').textContent = langStore.fert_subtitle || "Calculate accurate Urea, DAP, and Potash requirements for your crop based on land area.";
+                document.getElementById('lbl_crop').textContent = langStore.fert_lbl_crop || "Select Crop:";
+                document.getElementById('lbl_state').textContent = langStore.fert_lbl_state || "Select State:";
+                document.getElementById('lbl_unit').textContent = langStore.fert_lbl_unit || "Select Area Unit:";
+                document.getElementById('lbl_value').textContent = langStore.fert_lbl_value || "Enter Area Value:";
+                document.getElementById('btn_calc').textContent = langStore.fert_btn_calc || "Calculate Requirements ⚡";
+
+                // Empty States
+                document.getElementById('empty_title').textContent = lang === 'gu' ? "ગણતરી કરવા તૈયાર" : lang === 'hi' ? "गणना के लिए तैयार" : "Ready to Calculate";
+                document.getElementById('empty_desc').textContent = lang === 'gu' ? "ડાબી બાજુએ પાકની વિગતો અને ખેતરનું માપ ભરો." : lang === 'hi' ? "गणना करने के लिए बाईं ओर फसल की जानकारी और खेत का क्षेत्रफल भरें।" : "Fill in the crop details and farm area on the left to see fertilizer recommendations.";
+
+                // Result Outputs
+                document.getElementById('res_title').textContent = langStore.fert_res_title || "Recommended Fertilizer Quantities";
+                document.getElementById('res_lbl_urea').textContent = langStore.fert_lbl_urea || "Urea";
+                document.getElementById('res_lbl_dap').textContent = langStore.fert_lbl_dap || "DAP";
+                document.getElementById('res_lbl_potash').textContent = langStore.fert_lbl_potash || "Potash (MOP)";
+                document.getElementById('res_lbl_other').textContent = langStore.fert_lbl_other || "Other Recommended Nutrients:";
+                document.getElementById('res_lbl_schedule').textContent = langStore.fert_lbl_schedule || "📆 Application Schedule";
+                document.getElementById('res_lbl_notes').textContent = langStore.fert_lbl_notes || "⚠️ Precautions & Tips";
+
+                // Populate selects with translated text
+                populateStaticSelectors();
+                populateCropsList();
+
+                // If calculation has been run, recalculate to refresh language texts in results
+                if (resultsContent.style.display === 'block') {
+                    calculateRequirements();
+                }
+            };
+
+            // Setup listeners
+            window.addEventListener('languageChanged', applyCalculatorTranslations);
+            
+            // Initial render
+            populateStaticSelectors();
+            populateCropsList();
+            if (window.appData) applyCalculatorTranslations();
+
+            // Calculation Core Logic
+            const calculateRequirements = () => {
+                alertBox.style.display = 'none';
+                
+                const lang = window.currentLang;
+                const langStore = window.appData ? window.appData.langStore[lang] : {};
+
+                const selectedCrop = cropSelect.value;
+                const selectedState = stateSelect.value;
+                const selectedUnit = unitSelect.value;
+                const areaValue = parseFloat(areaInput.value);
+
+                // Validations
+                if (!selectedCrop) {
+                    showAlert(langStore.fert_err_select_crop || "Please select a crop.");
+                    return;
+                }
+                if (!selectedState) {
+                    showAlert(langStore.fert_err_select_state || "Please select a state.");
+                    return;
+                }
+                if (isNaN(areaValue) || areaValue <= 0) {
+                    showAlert(langStore.fert_err_invalid_area || "Please enter a valid area value (greater than 0).");
+                    return;
+                }
+
+                // 1. Calculate Area conversion factor to Acre
+                let factor = 1.0;
+                if (selectedUnit === 'hectare') {
+                    factor = 2.471;
+                } else if (selectedUnit === 'bigha') {
+                    factor = stateConversions[selectedState] || 0.40;
+                }
+
+                const totalAcres = areaValue * factor;
+
+                // 2. Fetch recommended dose
+                const dose = fertDatabase[selectedCrop] || fertDatabase.default;
+
+                // 3. Compute values
+                const ureaTotal = Math.round(dose.urea * totalAcres);
+                const dapTotal = Math.round(dose.dap * totalAcres);
+                const potashTotal = Math.round(dose.potash * totalAcres);
+
+                // 4. Update UI outputs
+                document.getElementById('val_urea').textContent = ureaTotal;
+                document.getElementById('val_dap').textContent = dapTotal;
+                document.getElementById('val_potash').textContent = potashTotal;
+
+                // Area description info label
+                const stateTrans = stateTranslations[lang] || stateTranslations['en'];
+                const unitTrans = unitTranslations[lang] || unitTranslations['en'];
+                const stateName = stateTrans[selectedState];
+                const unitName = unitTrans[selectedUnit];
+                
+                const areaLabel = lang === 'gu'
+                    ? `કુલ ગણતરી કરેલ જમીન વિસ્તાર: ${totalAcres.toFixed(2)} એકર (${areaValue} ${unitName}, ${stateName})`
+                    : lang === 'hi'
+                        ? `कुल गणना किया गया क्षेत्रफल: ${totalAcres.toFixed(2)} एकड़ (${areaValue} ${unitName}, ${stateName})`
+                        : `Total calculated area: ${totalAcres.toFixed(2)} Acres (${areaValue} ${unitName}, ${stateName})`;
+
+                document.getElementById('res_area_desc').textContent = areaLabel;
+
+                // 5. Handle other nutrients
+                const otherSection = document.getElementById('other-nutrients-section');
+                if (dose.other) {
+                    const otherVal = dose.other[lang] || dose.other['en'];
+                    // Scale other dose value if it has numbers
+                    let scaledText = otherVal;
+                    // Try to scale numbers in format "X kg/Acre"
+                    try {
+                        scaledText = otherVal.replace(/(\d+(\.\d+)?)\s*kg/g, (match, p1) => {
+                            const val = parseFloat(p1);
+                            return Math.round(val * totalAcres) + " kg";
+                        });
+                    } catch (e) {
+                        console.warn("Failed to scale other nutrient values:", e);
+                    }
+                    
+                    document.getElementById('val_other').textContent = scaledText;
+                    otherSection.style.display = 'block';
+                } else {
+                    otherSection.style.display = 'none';
+                }
+
+                // 6. Handle Schedule list
+                const scheduleContent = document.getElementById('content-schedule');
+                const scheduleText = dose.schedule[lang] || dose.schedule['en'];
+                scheduleContent.innerHTML = '';
+                const scheduleList = document.createElement('ul');
+                scheduleText.split('\n').forEach(step => {
+                    const li = document.createElement('li');
+                    li.textContent = step;
+                    scheduleList.appendChild(li);
+                });
+                scheduleContent.appendChild(scheduleList);
+
+                // 7. Handle Notes list
+                const notesContent = document.getElementById('content-notes');
+                const notesText = dose.notes[lang] || dose.notes['en'];
+                notesContent.innerHTML = '';
+                const notesList = document.createElement('ul');
+                notesText.split('\n').forEach(note => {
+                    const li = document.createElement('li');
+                    li.textContent = note;
+                    notesList.appendChild(li);
+                });
+                notesContent.appendChild(notesList);
+
+                // Show results card, hide empty card
+                resultsEmpty.style.display = 'none';
+                resultsContent.style.display = 'block';
+            };
+
+            const showAlert = (msg) => {
+                alertBox.textContent = msg;
+                alertBox.style.display = 'block';
+                // Scroll to top of form
+                document.querySelector('.step-card').scrollIntoView({ behavior: 'smooth' });
+            };
+
+            calcBtn.addEventListener('click', calculateRequirements);
+        });
+    </script>
+</body>
+</html>

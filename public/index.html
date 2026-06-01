@@ -35,6 +35,7 @@
     <header class="app-header">
         <div class="logo">🌿 <span id="app_name">Krishi-Cure Pro</span></div>
         <div style="display: flex; align-items: center; gap: 1rem;">
+            <a href="/fertilizer-calculator.html" id="nav_fertilizer_btn" class="logout-btn" style="background: var(--forest-green); color: white; border: none; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; padding: 0.6rem 1.2rem; border-radius: var(--radius-md); font-weight: 700; transition: var(--transition-fast);">🧮 Fertilizer Calculator</a>
             <div class="lang-selector">
                 <button class="lang-btn active" data-lang="en">ENGLISH</button>
                 <button class="lang-btn" data-lang="hi">हिन्दी</button>
@@ -78,6 +79,18 @@
                     <span class="icon" style="font-size: 3.5rem;">🥕</span>
                     <span id="cat_vegetable_text" style="font-size: 1.2rem; font-weight: 700;">Vegetables</span>
                 </div>
+            </div>
+
+            <!-- Fertilizer Calculator Promo Card -->
+            <div class="fertilizer-promo-card" style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(76,175,80,0.08) 0%, rgba(212,175,55,0.06) 100%); border: 1.5px dashed var(--leaf-green); border-radius: var(--radius-lg); display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap; transition: var(--transition-smooth);">
+                <div style="display: flex; align-items: center; gap: 1.2rem;">
+                    <span style="font-size: 2.8rem; background: rgba(76,175,80,0.1); width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">🧪</span>
+                    <div>
+                        <h4 id="promo_fert_title" style="color: var(--forest-green); font-size: 1.25rem; font-weight: 800; margin-bottom: 0.25rem; margin-top: 0;">Smart Fertilizer Calculator</h4>
+                        <p id="promo_fert_desc" style="color: var(--text-light); font-size: 0.95rem; font-weight: 500; margin: 0; line-height: 1.4;">Calculate accurate Urea, DAP, and Potash requirements for your farm area.</p>
+                    </div>
+                </div>
+                <a href="/fertilizer-calculator.html" class="primary-btn" id="promo_fert_btn" style="text-decoration: none; padding: 0.8rem 1.5rem; font-size: 0.95rem; font-weight: 700; white-space: nowrap; border-radius: var(--radius-md); box-shadow: var(--shadow-btn); text-align: center;">Open Calculator 🧮</a>
             </div>
         </section>
 
@@ -131,6 +144,20 @@
                 document.getElementById('cat_field_text').textContent = langStore.cat_field;
                 document.getElementById('cat_fruit_text').textContent = langStore.cat_fruit;
                 document.getElementById('cat_vegetable_text').textContent = langStore.cat_vegetable;
+
+                // Translate header button
+                const navFertBtn = document.getElementById('nav_fertilizer_btn');
+                if (navFertBtn) {
+                    navFertBtn.textContent = langStore.nav_fertilizer || "Fertilizer Calculator";
+                }
+
+                // Translate promo card
+                const promoTitle = document.getElementById('promo_fert_title');
+                const promoDesc = document.getElementById('promo_fert_desc');
+                const promoBtn = document.getElementById('promo_fert_btn');
+                if (promoTitle) promoTitle.textContent = langStore.promo_fert_title || "Smart Fertilizer Calculator";
+                if (promoDesc) promoDesc.textContent = langStore.promo_fert_desc || "Calculate accurate Urea, DAP, and Potash requirements for your farm area.";
+                if (promoBtn) promoBtn.textContent = langStore.promo_fert_btn || "Open Calculator 🧮";
             };
 
             window.addEventListener('languageChanged', applyCategoryTranslations);

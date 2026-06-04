@@ -549,7 +549,6 @@
             const currentForecast = data.list?.[0];
             if (!currentForecast) throw new Error('Invalid forecast data');
 
-            // Use city name from backend (already reverse-geocoded in selected language)
             const cityName = data.city?.name || currentCityName || tr().localFallbackCityName;
 
             cachedWeather = {
@@ -560,6 +559,13 @@
                 rainChance:  Math.round((currentForecast.pop ?? 0) * 100),
                 cityName
             };
+
+            // Save to sessionStorage
+            sessionStorage.setItem('krishiCachedWeather', JSON.stringify({
+                cachedWeather,
+                lastCoords,
+                locationStatus
+            }));
         } catch (e) {
             console.error('Weather fetch error:', e);
             cachedWeather = { error: true };
@@ -571,9 +577,6 @@
     // ── Initialization ───────────────────────────────────────────────────────
     function initWeather() {
         if (!document.getElementById('weather-section')) return;
-
-        // Show loading spinner immediately — don't wait for GPS
-        renderWeatherCard();
 
         // Load Leaflet CSS + JS dynamically (non-blocking, tracked via leafletReady flag)
         if (!document.getElementById('leaflet-css')) {
@@ -590,6 +593,26 @@
             script.onload = () => { leafletReady = true; };
             document.head.appendChild(script);
         }
+
+        // Try restoring from sessionStorage
+        try {
+            const saved = sessionStorage.getItem('krishiCachedWeather');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (parsed && parsed.cachedWeather && !parsed.cachedWeather.error) {
+                    cachedWeather = parsed.cachedWeather;
+                    lastCoords = parsed.lastCoords;
+                    locationStatus = parsed.locationStatus;
+                    renderWeatherCard();
+                    return; // Skip GPS detection since we have active cache
+                }
+            }
+        } catch (e) {
+            console.error("Failed to restore weather from sessionStorage:", e);
+        }
+
+        // Show loading spinner immediately — don't wait for GPS
+        renderWeatherCard();
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(

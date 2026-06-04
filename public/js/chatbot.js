@@ -39,8 +39,61 @@
 
     let chatHistory = [];
     let isModalOpen = false;
+    let activeSpeakBtn = null;
 
-    // Load history from sessionStorage to persist during the browser session
+    // Speech Synthesis Helper
+    window.speakText = (text, lang) => {
+        if (!('speechSynthesis' in window)) {
+            console.warn("Speech synthesis is not supported in this browser.");
+            return;
+        }
+        window.speechSynthesis.cancel();
+        
+        const cleanText = text
+            .replace(/<\/?[^>]+(>|$)/g, "")
+            .replace(/[\*\_#`~]/g, "")
+            .replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF]/g, "");
+            
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        const localeMap = { en: 'en-IN', hi: 'hi-IN', gu: 'gu-IN' };
+        utterance.lang = localeMap[lang] || 'en-IN';
+        
+        const voices = window.speechSynthesis.getVoices();
+        const voice = voices.find(v => v.lang.includes(utterance.lang) || v.lang.startsWith(lang));
+        if (voice) {
+            utterance.voice = voice;
+        }
+        
+        utterance.rate = 0.9;
+        
+        utterance.onstart = () => {
+            window.dispatchEvent(new CustomEvent('speechStarted'));
+        };
+        utterance.onend = () => {
+            window.dispatchEvent(new CustomEvent('speechEnded'));
+        };
+        utterance.onerror = () => {
+            window.dispatchEvent(new CustomEvent('speechEnded'));
+        };
+        
+        window.speechSynthesis.speak(utterance);
+    };
+
+    window.addEventListener('speechStarted', () => {
+        if (activeSpeakBtn) {
+            activeSpeakBtn.innerHTML = `⏹️ <span class="voice-indicator"><span></span><span></span><span></span></span>`;
+            activeSpeakBtn.classList.add('speaking');
+        }
+    });
+
+    window.addEventListener('speechEnded', () => {
+        if (activeSpeakBtn) {
+            activeSpeakBtn.innerHTML = `🔊 <span>${window.t('speak_btn') || 'Listen'}</span>`;
+            activeSpeakBtn.classList.remove('speaking');
+            activeSpeakBtn = null;
+        }
+    });
+
     function loadHistory() {
         try {
             const saved = sessionStorage.getItem('krishiChatHistory');
@@ -59,9 +112,7 @@
         }
     }
 
-    // Initialize UI when DOM is ready
     function initChatbotUI() {
-        // Create Floating Button
         const trigger = document.createElement('button');
         trigger.id = 'krishi-chatbot-trigger';
         trigger.setAttribute('aria-label', 'Open Agriculture Chatbot');
@@ -72,7 +123,6 @@
         `;
         document.body.appendChild(trigger);
 
-        // Create Chatbot Modal
         const modal = document.createElement('div');
         modal.id = 'krishi-chatbot-modal';
         modal.innerHTML = `
@@ -105,15 +155,13 @@
         `;
         document.body.appendChild(modal);
 
-        // Load existing session history
         chatHistory = loadHistory();
 
-        // Register DOM elements
         const closeBtn = document.getElementById('chatbot-ui-close');
         const sendBtn = document.getElementById('chatbot-ui-send');
         const input = document.getElementById('chatbot-ui-input');
         const messagesContainer = document.getElementById('chatbot-ui-messages');
-        // Create microphone button for voice input
+        
         const micBtn = document.createElement('button');
         micBtn.id = 'chatbot-mic-btn';
         micBtn.className = 'mic-btn';
@@ -123,13 +171,12 @@
             <svg viewBox="0 0 24 24" width="24" height="24">
                 <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 14 0h-2z"/>
             </svg>`;
-        // Insert mic button before send button within footer
+            
         const footer = document.querySelector('.chatbot-footer');
         if (footer) {
             footer.insertBefore(micBtn, sendBtn);
         }
 
-        // Toggle Modal
         trigger.addEventListener('click', () => {
             isModalOpen = !isModalOpen;
             if (isModalOpen) {
@@ -138,26 +185,28 @@
                 renderMessages();
             } else {
                 modal.classList.remove('active');
+                window.speechSynthesis.cancel();
+                window.dispatchEvent(new Event('speechEnded'));
             }
         });
 
         closeBtn.addEventListener('click', () => {
             isModalOpen = false;
             modal.classList.remove('active');
+            window.speechSynthesis.cancel();
+            window.dispatchEvent(new Event('speechEnded'));
         });
 
-        // Send logic
         sendBtn.addEventListener('click', sendMessage);
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 sendMessage();
             }
         });
-        // Voice input handling
+
         let recognition = null;
         let isListening = false;
 
-        // Friendly localized error messages (no raw alert)
         const voiceErrors = {
             en: {
                 network:     'Network error. Please check your internet connection.',
@@ -186,7 +235,6 @@
             const lang = window.currentLang || 'en';
             const msgs = voiceErrors[lang] || voiceErrors.en;
             const msg = msgs[errorKey] || msgs.generic;
-            // Show in placeholder briefly, then restore
             input.value = '';
             input.placeholder = msg;
             setTimeout(() => {
@@ -207,7 +255,6 @@
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             recognition = new SpeechRecognition();
 
-            // Map app language to BCP-47 locale; also allow multilingual detection
             const langMap = { en: 'en-IN', hi: 'hi-IN', gu: 'gu-IN' };
             recognition.lang = langMap[lang] || 'en-IN';
             recognition.interimResults = false;
@@ -228,7 +275,6 @@
             recognition.onerror = (event) => {
                 console.warn('Speech recognition error:', event.error);
                 if (event.error === 'no-speech') {
-                    // No speech — silently restore, do not show error
                     return;
                 }
                 if (event.error === 'network') {
@@ -243,14 +289,8 @@
             recognition.onend = () => {
                 isListening = false;
                 micBtn.classList.remove('active');
-                // Restore placeholder only if not already set by onresult or error
-                if (!input.value) {
-                    const t = localizations[lang] || localizations.en;
-                    input.placeholder = t.placeholder;
-                } else {
-                    const t = localizations[lang] || localizations.en;
-                    input.placeholder = t.placeholder;
-                }
+                const t = localizations[lang] || localizations.en;
+                input.placeholder = t.placeholder;
             };
 
             try {
@@ -263,13 +303,11 @@
             }
         });
 
-        // Handle language changes dynamically
         window.addEventListener('languageChanged', updateUIStrings);
         updateUIStrings();
         renderMessages();
     }
 
-    // Update UI placeholder and headers
     function updateUIStrings() {
         const lang = window.currentLang || 'en';
         const t = localizations[lang] || localizations.en;
@@ -283,19 +321,14 @@
         if (statusEl) statusEl.textContent = t.online;
     }
 
-    // Helper: simple regex-based markdown formatter for farmers to read easily
     function parseMarkdown(text) {
-        // Safe string escapes
         let html = text
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;");
 
-        // Format bold (**text** or __text__)
         html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         html = html.replace(/__(.*?)__/g, '<strong>$1</strong>');
-
-        // Format italic (*text* or _text_)
         html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
         html = html.replace(/_(.*?)_/g, '<em>$1</em>');
 
@@ -340,7 +373,6 @@
         return result.join('\n');
     }
 
-    // Render message logs
     function renderMessages() {
         const messagesContainer = document.getElementById('chatbot-ui-messages');
         if (!messagesContainer) return;
@@ -350,26 +382,73 @@
         const lang = window.currentLang || 'en';
         const t = localizations[lang] || localizations.en;
 
-        // If history is empty, push initial greeting
         if (chatHistory.length === 0) {
             const greetingBubble = document.createElement('div');
             greetingBubble.className = 'chat-bubble bot';
-            greetingBubble.textContent = t.greeting;
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.textContent = t.greeting;
+            greetingBubble.appendChild(contentDiv);
+            
+            const speakBtn = document.createElement('button');
+            speakBtn.className = 'chat-speak-btn';
+            speakBtn.innerHTML = `🔊 <span>${window.t('speak_btn') || 'Listen'}</span>`;
+            
+            speakBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (activeSpeakBtn === speakBtn) {
+                    window.speechSynthesis.cancel();
+                    window.dispatchEvent(new Event('speechEnded'));
+                } else {
+                    if (activeSpeakBtn) {
+                        window.speechSynthesis.cancel();
+                        window.dispatchEvent(new Event('speechEnded'));
+                    }
+                    activeSpeakBtn = speakBtn;
+                    window.speakText(t.greeting, lang);
+                }
+            });
+
+            greetingBubble.appendChild(speakBtn);
             messagesContainer.appendChild(greetingBubble);
         } else {
             chatHistory.forEach(msg => {
                 const bubble = document.createElement('div');
                 bubble.className = `chat-bubble ${msg.role === 'user' ? 'user' : 'bot'}`;
-                bubble.innerHTML = parseMarkdown(msg.content);
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.innerHTML = parseMarkdown(msg.content);
+                bubble.appendChild(contentDiv);
+                
+                if (msg.role === 'assistant') {
+                    const speakBtn = document.createElement('button');
+                    speakBtn.className = 'chat-speak-btn';
+                    speakBtn.innerHTML = `🔊 <span>${window.t('speak_btn') || 'Listen'}</span>`;
+                    
+                    speakBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (activeSpeakBtn === speakBtn) {
+                            window.speechSynthesis.cancel();
+                            window.dispatchEvent(new Event('speechEnded'));
+                        } else {
+                            if (activeSpeakBtn) {
+                                window.speechSynthesis.cancel();
+                                window.dispatchEvent(new Event('speechEnded'));
+                            }
+                            activeSpeakBtn = speakBtn;
+                            window.speakText(msg.content, lang);
+                        }
+                    });
+
+                    bubble.appendChild(speakBtn);
+                }
                 messagesContainer.appendChild(bubble);
             });
         }
 
-        // Auto scroll to bottom
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
-    // Send Message
     async function sendMessage() {
         const input = document.getElementById('chatbot-ui-input');
         const typingIndicator = document.getElementById('chatbot-ui-typing');
@@ -380,16 +459,22 @@
         const text = input.value.trim();
         if (!text) return;
 
-        // Check if user is logged in
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         if (!isLoggedIn) {
             const lang = window.currentLang || 'en';
             const t = localizations[lang] || localizations.en;
-            alert(t.unauthorized);
+            if (window.showToast) {
+                window.showToast(t.unauthorized, 'error');
+            } else {
+                alert(t.unauthorized);
+            }
             return;
         }
 
-        // Add user message to history
+        // Cancel any active speech when sending a new message
+        window.speechSynthesis.cancel();
+        window.dispatchEvent(new Event('speechEnded'));
+
         chatHistory.push({ role: 'user', content: text });
         renderMessages();
 
@@ -405,7 +490,7 @@
                 body: JSON.stringify({
                     question: text,
                     lang: lang,
-                    history: chatHistory.slice(0, -1).slice(-6) // Send last 6 messages excluding the current question
+                    history: chatHistory.slice(0, -1).slice(-6)
                 })
             });
 
@@ -438,7 +523,6 @@
         }
     }
 
-    // Start loading chatbot when document is loaded
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initChatbotUI);
     } else {

@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { diagnoseWithAI, chatWithAI, diagnoseImageWithAI } from '../controllers/aiController.js';
-
+import { calculateFertilizer } from '../controllers/fertilizerController.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,26 +11,71 @@ const router = express.Router();
 
 // Load crops data dynamically
 const cropsDataPath = path.join(__dirname, '../data/crops.json');
+let cropsData = null;
+
 async function getCropsData() {
+    if (cropsData) return cropsData;
     try {
         const data = await fs.readFile(cropsDataPath, 'utf8');
-        return JSON.parse(data);
+        cropsData = JSON.parse(data);
+        return cropsData;
     } catch (e) {
         console.error("Error loading crops.json", e);
         return null;
     }
 }
 
+// Pre-load on startup
+getCropsData().catch(err => console.error("Initial load of crops data failed:", err));
+
+// Validation Middlewares
+function validateDiagnose(req, res, next) {
+    const { cropId, symptoms } = req.body;
+    if (!cropId) return res.status(400).json({ error: "Missing cropId" });
+    if (!symptoms || (Array.isArray(symptoms) && symptoms.length === 0)) {
+        return res.status(400).json({ error: "Missing symptoms" });
+    }
+    next();
+}
+
+function validateDiagnoseImage(req, res, next) {
+    const { cropId, images } = req.body;
+    if (!cropId) return res.status(400).json({ error: "Missing cropId" });
+    if (!images || !Array.isArray(images) || images.length === 0) {
+        return res.status(400).json({ error: "Missing or invalid images" });
+    }
+    next();
+}
+
+function validateChatbot(req, res, next) {
+    const { question } = req.body;
+    if (!question || typeof question !== 'string' || question.trim() === '') {
+        return res.status(400).json({ error: "Question is required." });
+    }
+    next();
+}
+
+function validateFertilizer(req, res, next) {
+    const { cropId, fertilizerId, areaUnit, areaValue } = req.body;
+    if (!cropId) return res.status(400).json({ error: "Missing cropId" });
+    if (!fertilizerId) return res.status(400).json({ error: "Missing fertilizerId" });
+    if (!areaUnit) return res.status(400).json({ error: "Missing areaUnit" });
+    if (areaValue === undefined || isNaN(parseFloat(areaValue)) || parseFloat(areaValue) <= 0) {
+        return res.status(400).json({ error: "Invalid areaValue" });
+    }
+    next();
+}
+
 // Endpoint to fetch master data for the frontend
 router.get('/data', async (req, res) => {
-    const cropsData = await getCropsData();
-    if (!cropsData) {
+    const data = await getCropsData();
+    if (!data) {
         return res.status(500).json({ error: "Failed to load master crops data." });
     }
     res.json({
-        cropsList: cropsData.cropsList,
-        symptomsList: cropsData.symptomsList,
-        langStore: cropsData.langStore
+        cropsList: data.cropsList,
+        symptomsList: data.symptomsList,
+        langStore: data.langStore
     });
 });
 
@@ -47,42 +92,32 @@ router.get('/firebase-config', (req, res) => {
 });
 
 // Endpoint for diagnosis
-router.post('/diagnose', async (req, res) => {
+router.post('/diagnose', validateDiagnose, async (req, res) => {
     try {
-        const cropsData = await getCropsData();
-        if (!cropsData) {
+        const data = await getCropsData();
+        if (!data) {
             return res.status(500).json({ error: "Failed to load master crops data." });
         }
 
         const { cropId, symptoms, lang } = req.body;
-
-        if (!cropId || !symptoms || symptoms.length === 0) {
-            return res.status(400).json({ error: "Missing cropId or symptoms" });
-        }
-
         const selectedSymptoms = Array.isArray(symptoms) ? symptoms : [symptoms];
         const selectedLang = lang || 'en';
         
-        // Find crop name
         let cropName = "Unknown Crop";
-        for (const cat in cropsData.cropsList) {
-            const crop = cropsData.cropsList[cat].find(c => c.id === cropId);
+        for (const cat in data.cropsList) {
+            const crop = data.cropsList[cat].find(c => c.id === cropId);
             if (crop) {
                 cropName = crop[selectedLang] || crop['en'];
                 break;
             }
         }
 
-        // Generate symptom descriptions in selected language
         const symptomDescriptions = selectedSymptoms.map(symId => {
-            const symptom = cropsData.symptomsList.find(s => s.id === symId);
+            const symptom = data.symptomsList.find(s => s.id === symId);
             return symptom ? (symptom[selectedLang] || symptom['en']) : symId;
         });
 
-        // Retrieve crop profile if available for AI context
-        const cropProfile = cropsData.cropProfiles[cropId] || null;
-
-        // Direct AI diagnosis (trusted sources via Gemini/Groq)
+        const cropProfile = data.cropProfiles[cropId] || null;
         const aiResponse = await diagnoseWithAI(cropName, symptomDescriptions, cropProfile, selectedLang);
         res.json(aiResponse);
     } catch (error) {
@@ -92,42 +127,34 @@ router.post('/diagnose', async (req, res) => {
 });
 
 // Endpoint for image-based diagnosis
-router.post('/diagnose-image', async (req, res) => {
+router.post('/diagnose-image', validateDiagnoseImage, async (req, res) => {
     try {
-        const cropsData = await getCropsData();
-        if (!cropsData) {
+        const data = await getCropsData();
+        if (!data) {
             return res.status(500).json({ error: "Failed to load master crops data." });
         }
 
         const { cropId, images, symptoms, lang } = req.body;
-
-        if (!cropId || !images || images.length === 0) {
-            return res.status(400).json({ error: "Missing cropId or images" });
-        }
-
         const selectedLang = lang || 'en';
 
-        // Find crop name
         let cropName = "Unknown Crop";
-        for (const cat in cropsData.cropsList) {
-            const crop = cropsData.cropsList[cat].find(c => c.id === cropId);
+        for (const cat in data.cropsList) {
+            const crop = data.cropsList[cat].find(c => c.id === cropId);
             if (crop) {
                 cropName = crop[selectedLang] || crop['en'];
                 break;
             }
         }
 
-        // Generate symptom descriptions in selected language if symptoms are provided
         let symptomDescriptions = [];
         if (symptoms && symptoms.length > 0) {
             const selectedSymptoms = Array.isArray(symptoms) ? symptoms : [symptoms];
             symptomDescriptions = selectedSymptoms.map(symId => {
-                const symptom = cropsData.symptomsList.find(s => s.id === symId);
+                const symptom = data.symptomsList.find(s => s.id === symId);
                 return symptom ? (symptom[selectedLang] || symptom['en']) : symId;
             });
         }
 
-        // Call image AI diagnosis (Gemini multimodal)
         const aiResponse = await diagnoseImageWithAI(cropName, images, symptomDescriptions, selectedLang);
         res.json(aiResponse);
     } catch (error) {
@@ -137,12 +164,9 @@ router.post('/diagnose-image', async (req, res) => {
 });
 
 // Endpoint for general agriculture Q&A chatbot
-router.post('/chatbot', async (req, res) => {
+router.post('/chatbot', validateChatbot, async (req, res) => {
     try {
         const { question, lang, history } = req.body;
-        if (!question) {
-            return res.status(400).json({ error: "Question is required." });
-        }
         const selectedLang = lang || 'en';
         const conversationHistory = history || [];
 
@@ -154,7 +178,19 @@ router.post('/chatbot', async (req, res) => {
     }
 });
 
-// ── Helper: create an AbortSignal that times out after `ms` milliseconds ──
+// Endpoint for fertilizer calculation
+router.post('/fertilizer/calculate', validateFertilizer, (req, res) => {
+    try {
+        const { cropId, fertilizerId, areaUnit, areaValue, lang } = req.body;
+        const result = calculateFertilizer(cropId, fertilizerId, areaUnit, areaValue, lang);
+        res.json(result);
+    } catch (error) {
+        console.error("Fertilizer calculate route error:", error);
+        res.status(500).json({ error: "Error calculating fertilizer requirements." });
+    }
+});
+
+// Helper: create an AbortSignal that times out after ms
 function fetchWithTimeout(url, options = {}, ms = 8000) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), ms);
@@ -162,10 +198,8 @@ function fetchWithTimeout(url, options = {}, ms = 8000) {
         .finally(() => clearTimeout(timer));
 }
 
-// ── Helper: reverse geocode a lat/lon to a localized city name via Nominatim (server-side, no CORS) ──
+// Helper: reverse geocode a lat/lon to a localized city name via Nominatim (server-side)
 async function reverseGeocodeBackend(lat, lon, lang) {
-    // Use a priority language chain: if localized name isn't available in OSM data,
-    // Nominatim will fall back to the next language in the list.
     const langChainMap = {
         en: 'en',
         hi: 'hi,en',
@@ -189,19 +223,16 @@ async function reverseGeocodeBackend(lat, lon, lang) {
     }
 }
 
-// ── /api/geocode — Forward geocode (text search) via Nominatim (proxied to avoid CORS) ──
+// /api/geocode — Forward geocode via Nominatim
 router.get('/geocode', async (req, res) => {
     const { q, lang } = req.query;
     if (!q) return res.status(400).json({ error: 'Missing city query parameter' });
 
-    // Use a priority language chain so results show in best available script
     const langChainMap = { en: 'en', hi: 'hi,en', gu: 'gu,hi,en' };
     const nominatimLang = langChainMap[lang] || 'en';
-    // Short lang code for OWM fallback (only supports 2-letter codes)
     const owmLang = lang || 'en';
 
     try {
-        // Nominatim search with language support — free, no API key needed
         const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=5&accept-language=${encodeURIComponent(nominatimLang)}&addressdetails=1`;
         const response = await fetchWithTimeout(url, {
             headers: {
@@ -212,7 +243,6 @@ router.get('/geocode', async (req, res) => {
         if (!response.ok) throw new Error(`Nominatim error: ${response.status}`);
         const data = await response.json();
 
-        // Map to a simple { lat, lon, display_name, name, localName } format
         const results = data.map(item => ({
             lat: parseFloat(item.lat),
             lon: parseFloat(item.lon),
@@ -222,13 +252,10 @@ router.get('/geocode', async (req, res) => {
         }));
 
         return res.json(results);
-
     } catch (err) {
-        console.error('Geocoding (Nominatim) error:', err);
-        // Fallback: try OpenWeatherMap geocoding (only if WEATHER_API_KEY is configured)
+        console.warn('Geocoding (Nominatim) warning, trying OWM:', err.message);
         const apiKey = process.env.WEATHER_API_KEY;
         if (!apiKey) {
-            console.warn('WEATHER_API_KEY not set — skipping OWM geocode fallback.');
             return res.status(500).json({ error: 'Failed to geocode location' });
         }
         try {
@@ -249,18 +276,16 @@ router.get('/geocode', async (req, res) => {
     }
 });
 
-// ── /api/weather — Proxy weather with localized city name (server-side reverse geocode) ──
+// /api/weather — Proxy weather with localized city name
 router.get('/weather', async (req, res) => {
     const { lat, lon, lang } = req.query;
     if (!lat || !lon) {
         return res.status(400).json({ error: "Missing lat or lon query parameters" });
     }
 
-    // OWM only supports 2-letter lang codes; city name is always overridden by Nominatim anyway
     const owmLang = (lang === 'hi') ? 'hi' : 'en';
     const apiKey = process.env.WEATHER_API_KEY;
 
-    // Try OpenWeatherMap first (only if API key is configured)
     if (apiKey) {
         try {
             const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=${owmLang}`;
@@ -268,7 +293,6 @@ router.get('/weather', async (req, res) => {
 
             if (response.ok) {
                 const data = await response.json();
-                // Override city name with localized version from Nominatim (server-side)
                 const localizedCity = await reverseGeocodeBackend(lat, lon, lang || 'en');
                 if (localizedCity) {
                     data.city = data.city || {};
@@ -276,22 +300,17 @@ router.get('/weather', async (req, res) => {
                 }
                 return res.json(data);
             }
-            console.warn(`OpenWeather API returned error status ${response.status}. Falling back to Open-Meteo.`);
         } catch (err) {
-            console.warn("OpenWeatherMap fetch failed, falling back to Open-Meteo:", err);
+            console.warn("OpenWeatherMap fetch failed, falling back to Open-Meteo:", err.message);
         }
-    } else {
-        console.warn('WEATHER_API_KEY not set — using Open-Meteo (free fallback) directly.');
     }
 
-    // Fallback: Open-Meteo (completely free, no API key)
     try {
         const openMeteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=precipitation_probability_max&timezone=auto`;
         const omRes = await fetchWithTimeout(openMeteoUrl);
         if (!omRes.ok) throw new Error("Open-Meteo API returned error status");
         const omData = await omRes.json();
 
-        // Localized city name via Nominatim (server-side — no CORS)
         let cityName = await reverseGeocodeBackend(lat, lon, lang || 'en');
         if (!cityName && Math.abs(lat - 22.5644) < 0.1 && Math.abs(lon - 72.9289) < 0.1) {
             const fallbackNames = { en: 'Anand', hi: 'आणंद', gu: 'આણંદ' };

@@ -370,3 +370,54 @@
         right: 1.5rem;
     }
 }
+
+/* Voice Read / Speak Button styles inside Chat Bubble */
+.chat-speak-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 0.4rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: var(--transition-fast);
+    border: 1px solid var(--glass-border);
+}
+.chat-speak-btn:hover {
+    background: rgba(0,0,0,0.05);
+    color: var(--forest-green);
+}
+.chat-bubble.user .chat-speak-btn {
+    color: rgba(255,255,255,0.8);
+    border-color: rgba(255,255,255,0.2);
+}
+.chat-bubble.user .chat-speak-btn:hover {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+/* Voice indicator animation */
+.voice-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: 0.5rem;
+}
+.voice-indicator span {
+    display: inline-block;
+    width: 2px;
+    height: 8px;
+    background-color: var(--leaf-green);
+    animation: bounceVoice 1.0s infinite alternate;
+}
+.voice-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.voice-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounceVoice {
+    0% { height: 2px; }
+    100% { height: 14px; }
+}

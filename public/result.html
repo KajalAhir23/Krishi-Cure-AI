@@ -366,7 +366,13 @@
     </div>
 
     <header class="app-header">
-        <div class="logo">🌿 <span id="app_name">Krishi-Cure</span></div>
+        <div class="logo">🌾 <span id="app_name">Krishi Cure AI</span></div>
+        <nav class="nav-menu">
+            <a href="/index.html" class="nav-link" id="nav_home">Home</a>
+            <a href="/fertilizer-calculator.html" class="nav-link" id="nav_fertilizer">Fertilizer Calculator</a>
+
+            <a href="javascript:void(0)" class="nav-link" id="nav_chatbot" onclick="document.getElementById('krishi-chatbot-trigger')?.click()">AI Chatbot</a>
+        </nav>
         <div style="display: flex; align-items: center; gap: 1rem;">
             <div class="lang-selector">
                 <button class="lang-btn active" data-lang="en">ENGLISH</button>
@@ -528,6 +534,9 @@
                     <button class="primary-btn diagnose-btn" id="listen-btn" style="background-color: var(--forest-green); color: white;">
                         🔊 <span id="speak_btn_text">Listen</span>
                     </button>
+                    <button class="primary-btn" id="download-pdf-btn" data-i18n="btn_download_pdf" style="background-color: var(--forest-green); color: white;">
+                        Download PDF Report
+                    </button>
                     <a href="/index.html" class="primary-btn restart-btn" id="restart_btn" style="text-align: center; text-decoration: none;">Start Over</a>
                 </div>
 
@@ -535,9 +544,34 @@
         </section>
     </main>
 
-    <footer>
-        <div class="footer">
-            <div class="footer-bottom"></div>
+    <!-- Professional Footer -->
+    <footer class="app-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>About Krishi Cure AI</h4>
+                <p>A state-of-the-art smart agriculture platform designed to help farmers diagnose crop diseases, calculate fertilizer requirements, check local weather, and consult our AI expert.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/index.html">Disease Detection</a></li>
+                    <li><a href="/fertilizer-calculator.html">Fertilizer Calculator</a></li>
+
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="https://icar.org.in/" target="_blank" rel="noopener">ICAR Official</a></li>
+                    <li><a href="https://www.india.gov.in/" target="_blank" rel="noopener">India Gov Portal</a></li>
+                    <li><a href="https://farmer.gov.in/" target="_blank" rel="noopener">Farmers' Portal</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Krishi Cure AI. All Rights Reserved.</p>
+            <p>Developed by Bhatiya Kajal</p>
         </div>
     </footer>
 
@@ -545,11 +579,33 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/pdf-report.js"></script>
     <script src="/js/diagnostic.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             await window.initApp();
+
+            // Wire Download PDF button
+            const pdfBtn = document.getElementById('download-pdf-btn');
+            if (pdfBtn) {
+                pdfBtn.addEventListener('click', () => {
+                    const cropId = localStorage.getItem('selectedCrop');
+                    let cropName = "Crop";
+                    if (cropId && window.appData && window.appData.cropsList) {
+                        for (const cat in window.appData.cropsList) {
+                            const found = window.appData.cropsList[cat].find(c => c.id === cropId);
+                            if (found) {
+                                cropName = found[window.currentLang] || found['en'] || cropId;
+                                break;
+                            }
+                        }
+                    }
+                    const userName = localStorage.getItem('farmerName') || '';
+                    window.downloadDiseaseReportPDF(data, cropName, userName);
+                });
+            }
             
             const diagnosisDataStr = sessionStorage.getItem('diagnosisResult');
             if (!diagnosisDataStr) {

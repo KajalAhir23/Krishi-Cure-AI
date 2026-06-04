@@ -1,687 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Krishi-Cure - Login</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
-
-    <!-- Firebase SDK (Compat Version for clean browser integration) -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Firebase SDK (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-
     <!-- Auth helper -->
     <script src="/js/auth.js"></script>
 </head>
-
 <body>
     <div class="warning-banner">
-        <marquee scrollamount="5" id="warning_banner">Loading...</marquee>
+        <div class="warning-ticker-wrap">
+            <span id="warning_banner" class="warning-ticker">Loading...</span>
+        </div>
     </div>
 
     <header class="app-header">
-        <div class="logo">🌿 <span id="app_name">Krishi-Cure Pro</span></div>
-        <div class="lang-selector">
-            <button class="lang-btn active" data-lang="en">ENGLISH</button>
-            <button class="lang-btn" data-lang="hi">हिन्दी</button>
-            <button class="lang-btn" data-lang="gu">ગુજરાતી</button>
+        <div class="logo">🌾 <span id="app_name">Krishi Cure AI</span></div>
+        <div class="header-right" style="display: flex; align-items: center; gap: 1rem;">
+            <div class="lang-selector">
+                <button class="lang-btn" data-lang="en">ENGLISH</button>
+                <button class="lang-btn" data-lang="hi">हिन्दी</button>
+                <button class="lang-btn" data-lang="gu">ગુજરાતી</button>
+            </div>
         </div>
     </header>
 
-    <main class="container" style="max-width: 1350px; margin-top: 4rem;">
-        <div class="login-layout-wrapper"
-            style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: stretch; justify-content: center;">
+    <main class="container" style="margin-top: 2rem;">
+        <!-- 3 cards forced into one row; stack on mobile via CSS -->
+        <div style="display: flex; flex-wrap: nowrap; gap: 1.5rem; justify-content: center; align-items: stretch; width: 100%;">
 
-            <section class="step-card active"
-                style="flex: 1; min-width: 260px; max-width: 340px; padding: 2rem 1.8rem; display: flex; flex-direction: column; justify-content: flex-start; background: rgba(255,255,255,0.92);">
-                <div
-                    style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid rgba(76,175,80,0.15);">
-                    <div
-                        style="background: linear-gradient(135deg,#2d5a27,#4caf50); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; box-shadow: 0 4px 14px rgba(45,90,39,0.22);">
-                        🌾</div>
-                    <h3 id="card_crop_title"
-                        style="color: var(--forest-green); font-size: 1.2rem; font-weight: 800; margin: 0; line-height: 1.3;">
-                        Crop Disease Prediction</h3>
+            <!-- Card 1: Google Login -->
+            <section class="step-card active login-card" style="flex: 1 1 0; min-width: 0; padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: center; background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);">
+                <h2 id="login_title" style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem; font-weight: 800; color: var(--forest-green);">Farmer Login</h2>
+
+                <div id="error-message" style="display: none; margin-bottom: 1.5rem; padding: 0.8rem 1rem; border-radius: 12px; background: #fff5f5; color: #c53030; border: 1px solid #fed7d7; font-weight: 600; font-size: 0.95rem;"></div>
+
+                <button class="google-btn" id="google_login_btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 0.9rem 1.5rem; border-radius: 14px; font-weight: 700; border: 2px solid var(--glass-border); cursor: pointer; transition: var(--transition-bounce); background: white;">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+                    </svg>
+                    <span id="google_login_text" data-i18n="google_login">Continue with Google</span>
+                </button>
+            </section>
+
+            <!-- Card 2: How It Works -->
+            <section class="step-card active login-card" style="flex: 1 1 0; min-width: 0; padding: 2rem 1.8rem; background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid rgba(76,175,80,0.15);">
+                    <h3 id="card_crop_title" style="color: var(--forest-green); font-size: 1.2rem; font-weight: 800; margin: 0;">Crop Disease Prediction</h3>
                 </div>
-                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1rem;">
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1.2rem;">
                     <li style="display: flex; align-items: center; gap: 0.85rem;">
                         <span style="font-size: 1.3rem;">🌱</span>
-                        <span id="card_crop_li1"
-                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">Select Crop</span>
+                        <span id="card_crop_li1" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Select Crop</span>
                     </li>
                     <li style="display: flex; align-items: center; gap: 0.85rem;">
                         <span style="font-size: 1.3rem;">📷</span>
-                        <span id="card_crop_li2"
-                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">Upload 1–4 Images 📷</span>
+                        <span id="card_crop_li2" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Upload 1–4 Images</span>
                     </li>
                     <li style="display: flex; align-items: center; gap: 0.85rem;">
                         <span style="font-size: 1.3rem;">🔍</span>
-                        <span id="card_crop_li3"
-                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">(Optional) Select Symptoms</span>
+                        <span id="card_crop_li3" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">(Optional) Select Symptoms</span>
                     </li>
                     <li style="display: flex; align-items: center; gap: 0.85rem;">
                         <span style="font-size: 1.3rem;">🩺</span>
-                        <span id="card_crop_li4"
-                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">Get AI Result</span>
+                        <span id="card_crop_li4" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Get AI Result</span>
                     </li>
                 </ul>
             </section>
 
-            <!-- Info Card: AI Agriculture Chatbot -->
-            <section class="step-card active"
-                style="flex: 1; min-width: 260px; max-width: 340px; padding: 2rem 1.8rem; display: flex; flex-direction: column; justify-content: flex-start; background: rgba(255,255,255,0.92);">
-                <div
-                    style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid rgba(76,175,80,0.15);">
-                    <div
-                        style="background: linear-gradient(135deg,#2d5a27,#4caf50); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; box-shadow: 0 4px 14px rgba(45,90,39,0.22);">
-                        🤖</div>
-                    <h3 id="card_chat_title"
-                        style="color: var(--forest-green); font-size: 1.2rem; font-weight: 800; margin: 0; line-height: 1.3;">
-                        AI Agriculture Chatbot</h3>
+            <!-- Card 3: AI Chatbot -->
+            <section class="step-card active login-card" style="flex: 1 1 0; min-width: 0; padding: 2rem 1.8rem; background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid rgba(76,175,80,0.15);">
+                    <h3 id="card_chat_title" style="color: var(--forest-green); font-size: 1.2rem; font-weight: 800; margin: 0;">AI Agriculture Chatbot</h3>
                 </div>
-                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1rem;">
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1.2rem;">
                     <li style="display: flex; align-items: center; gap: 0.85rem;">
                         <span style="font-size: 1.3rem;">💬</span>
-                        <span id="card_chat_li1"
-                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">Open
-                            Chatbot</span>
+                        <span id="card_chat_li1" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Open Chatbot</span>
                     </li>
                     <li style="display: flex; align-items: center; gap: 0.85rem;">
                         <span style="font-size: 1.3rem;">🎤</span>
-                        <span id="card_chat_li2"
-                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">Type
-                            or Speak</span>
+                        <span id="card_chat_li2" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Type or Speak</span>
                     </li>
                     <li style="display: flex; align-items: center; gap: 0.85rem;">
                         <span style="font-size: 1.3rem;">🌐</span>
-                        <span id="card_chat_li3"
-                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">English,
-                            Hindi, or Gujarati</span>
+                        <span id="card_chat_li3" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">English, Hindi, or Gujarati</span>
                     </li>
                     <li style="display: flex; align-items: center; gap: 0.85rem;">
                         <span style="font-size: 1.3rem;">⚡</span>
-                        <span id="card_chat_li4"
-                            style="color: var(--text-light); font-size: 0.97rem; font-weight: 600; line-height: 1.4;">Get
-                            Instant Farming Advice</span>
+                        <span id="card_chat_li4" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Get Instant Farming Advice</span>
                     </li>
                 </ul>
-            </section>
-
-            <!-- Right: Farmer Login -->
-
-            <section class="step-card active"
-                style="flex: 1; min-width: 320px; max-width: 440px; padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: center;">
-                <h2 id="login_title"
-                    style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem; font-weight: 800;">
-                    Farmer Login</h2>
-
-                <!-- Message Container for Errors & Success -->
-                <div id="error-message"
-                    style="display: none; margin-bottom: 1.5rem; padding: 0.8rem 1rem; border-radius: 12px; background: #fff5f5; color: #c53030; border: 1px solid #fed7d7; font-weight: 600; font-size: 0.95rem;">
-                </div>
-                <div id="success-message"
-                    style="display: none; margin-bottom: 1.5rem; padding: 0.8rem 1rem; border-radius: 12px; background: #f0fff4; color: #276749; border: 1px solid #c6f6d5; font-weight: 600; font-size: 0.95rem;">
-                </div>
-
-                <!-- Phase 1: Mobile Number Input (Hidden) -->
-                <div id="phone-section">
-                    <div style="display: none !important;">
-                        <div class="form-group" style="margin-bottom: 2rem;">
-                            <label id="phone_label"
-                                style="display: block; font-weight: 700; color: var(--forest-green); margin-bottom: 0.6rem; font-size: 1rem;">Mobile
-                                Number</label>
-                            <div style="display: flex; gap: 0.6rem; align-items: center;">
-                                <span
-                                    style="background: rgba(45, 90, 39, 0.05); border: 2px solid var(--glass-border); padding: 1rem 0.9rem; border-radius: 14px; font-weight: 700; color: var(--text-light); font-size: 1.1rem; line-height: 1;">+91</span>
-                                <input type="tel" id="phone_input" placeholder="Enter 10-digit mobile number"
-                                    maxlength="10"
-                                    style="flex: 1; padding: 1rem 1.2rem; border-radius: 14px; border: 2px solid var(--glass-border); font-family: inherit; font-size: 1.1rem; outline: none; background: white; transition: var(--transition-smooth); font-weight: 600; color: var(--text-main);">
-                            </div>
-                        </div>
-
-                        <button class="primary-btn" id="send_otp_btn"
-                            style="width: 100%; display: flex; justify-content: center; padding: 1rem 1.5rem; font-size: 1.05rem; border-radius: 14px;">Send
-                            OTP</button>
-
-                        <!-- OR Divider -->
-                        <div class="or-divider" id="or_divider">OR</div>
-                    </div>
-
-                    <!-- Google Login Button -->
-                    <button class="google-btn" id="google_login_btn" style="margin-top: 1rem; width: 100%;">
-                        <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                                fill="#4285F4" />
-                            <path
-                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                                fill="#34A853" />
-                            <path
-                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-                                fill="#FBBC05" />
-                            <path
-                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
-                                fill="#EA4335" />
-                        </svg>
-                        <span id="google_login_text">Continue with Google</span>
-                    </button>
-                </div>
-
-                <!-- Phase 2: OTP Verification (Hidden) -->
-                <div id="otp-section" style="display: none;">
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label id="otp_label"
-                            style="display: block; font-weight: 700; color: var(--forest-green); margin-bottom: 0.6rem; font-size: 1rem;">Enter
-                            OTP</label>
-                        <input type="text" id="otp_input" placeholder="Enter 6-digit OTP" maxlength="6"
-                            style="width: 100%; padding: 1rem 1.2rem; border-radius: 14px; border: 2px solid var(--glass-border); font-family: inherit; font-size: 1.2rem; outline: none; background: white; transition: var(--transition-smooth); font-weight: 800; text-align: center; letter-spacing: 0.4rem; color: var(--text-main);">
-                    </div>
-
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; font-size: 0.95rem;">
-                        <span id="timer-display" style="font-weight: 600; color: var(--text-light);"></span>
-                        <button id="resend-btn"
-                            style="background: none; border: none; font-family: inherit; color: var(--forest-green); font-weight: 800; cursor: pointer; display: none; text-decoration: underline;">Resend
-                            OTP</button>
-                    </div>
-
-                    <button class="primary-btn" id="verify_otp_btn"
-                        style="width: 100%; display: flex; justify-content: center; padding: 1rem 1.5rem; font-size: 1.05rem; border-radius: 14px;">Verify
-                        & Login</button>
-
-                    <button id="change-number-btn"
-                        style="width: 100%; text-align: center; margin-top: 1.2rem; background: none; border: none; font-family: inherit; color: var(--text-light); font-weight: 600; cursor: pointer; text-decoration: underline; font-size: 0.9rem;">Change
-                        Phone Number</button>
-                </div>
-
-                <!-- reCAPTCHA Widget -->
-                <div id="recaptcha-container" style="margin-top: 1rem; display: flex; justify-content: center;"></div>
             </section>
         </div>
     </main>
 
-    <footer>
-        <div class="footer">
-            <div class="footer-bottom"></div>
+    <!-- Mobile responsive: stack cards on small screens -->
+    <style>
+        @media (max-width: 768px) {
+            .login-card { flex: 1 1 100% !important; }
+            main .container > div { flex-wrap: wrap !important; }
+        }
+    </style>
+
+    <!-- Professional Footer -->
+    <footer class="app-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 id="footer_about_title">About Krishi Cure AI</h4>
+                <p id="footer_about_desc">A state-of-the-art smart agriculture platform designed to help farmers diagnose crop diseases, calculate fertilizer requirements, check local weather, and consult our AI expert.</p>
+            </div>
+            <div class="footer-col">
+                <h4 id="footer_quick_links">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="/index.html" id="nav_home">Home</a></li>
+                    <li><a href="/index.html" id="nav_disease">Disease Detection</a></li>
+                    <li><a href="/fertilizer-calculator.html" id="nav_fertilizer">Fertilizer Calculator</a></li>
+
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 id="footer_resources">Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="https://icar.org.in/" target="_blank">ICAR Official</a></li>
+                    <li><a href="https://www.india.gov.in/" target="_blank">India Gov Portal</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p id="footer_rights">© 2026 Krishi Cure AI. All Rights Reserved.</p>
+            <p id="footer_dev_by">Developed by Bhatiya Kajal</p>
         </div>
     </footer>
 
     <script src="/js/app.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            // Load application translations master data
             await window.initApp();
 
-            const phoneInput = document.getElementById('phone_input');
-            const otpInput = document.getElementById('otp_input');
-            const sendOtpBtn = document.getElementById('send_otp_btn');
-            const verifyOtpBtn = document.getElementById('verify_otp_btn');
-            const changeNumberBtn = document.getElementById('change-number-btn');
-            const resendBtn = document.getElementById('resend-btn');
-
+            const googleBtn = document.getElementById('google_login_btn');
             const errorDiv = document.getElementById('error-message');
-            const successDiv = document.getElementById('success-message');
 
-            let countdownInterval = null;
-
-            // Restrict input field characters to digits only
-            const restrictToDigits = (e) => {
-                e.target.value = e.target.value.replace(/\D/g, '');
-            };
-            if (phoneInput) phoneInput.addEventListener('input', restrictToDigits);
-            if (otpInput) otpInput.addEventListener('input', restrictToDigits);
-
-            // Toast helper utilities
             const showError = (msg) => {
                 errorDiv.textContent = msg;
                 errorDiv.style.display = 'block';
-                successDiv.style.display = 'none';
-            };
-
-            const showSuccess = (msg) => {
-                successDiv.textContent = msg;
-                successDiv.style.display = 'block';
-                errorDiv.style.display = 'none';
             };
 
             const clearMessages = () => {
                 errorDiv.style.display = 'none';
-                successDiv.style.display = 'none';
             };
 
-            // OTP Countdown management
-            const startTimer = () => {
-                let seconds = 60;
-                resendBtn.style.display = 'none';
-
-                const timerDisplay = document.getElementById('timer-display');
-                timerDisplay.style.display = 'inline';
-
-                const updateText = () => {
-                    const lang = window.currentLang;
-                    timerDisplay.textContent = lang === 'gu'
-                        ? `ફરી મોકલો: ${seconds} સેકન્ડ`
-                        : lang === 'hi'
-                            ? `पुनः भेजें: ${seconds} सेकंड`
-                            : `Resend in ${seconds}s`;
-                };
-
-                updateText();
-
-                if (countdownInterval) clearInterval(countdownInterval);
-                countdownInterval = setInterval(() => {
-                    seconds--;
-                    updateText();
-
-                    if (seconds <= 0) {
-                        clearInterval(countdownInterval);
-                        timerDisplay.style.display = 'none';
-                        resendBtn.style.display = 'inline';
-                    }
-                }, 1000);
-            };
-
-            const stepsTranslations = {
-                en: {
-                    title: "How Krishi-Cure Works ⚙️",
-                    step1_title: "1. Select Your Crop",
-                    step1_desc: "Choose the crop category and find your specific crop from the selection matrix.",
-                    step2_title: "2. Check Symptoms",
-                    step2_desc: "Identify and select the symptoms you see on your plant's leaves, stems, or fruits.",
-                    step3_title: "3. Get Remedy Plan",
-                    step3_desc: "Instantly receive a customized scientific diagnosis and step-by-step organic recovery plan."
-                },
-                hi: {
-                    title: "कृषि-उपचार कैसे काम करता है ⚙️",
-                    step1_title: "1. अपनी फसल चुनें",
-                    step1_desc: "फसल की श्रेणी चुनें और चयन सूची से अपनी विशिष्ट फसल खोजें।",
-                    step2_title: "2. लक्षणों का चयन करें",
-                    step2_desc: "अपने पौधे की पत्तियों, तनों या फलों पर दिखने वाले लक्षणों को पहचानें और चुनें।",
-                    step3_title: "3. उपचार योजना प्राप्त करें",
-                    step3_desc: "तुरंत एक अनुकूलित वैज्ञानिक निदान और चरण-दर-चरण जैविक सुधार योजना प्राप्त करें।"
-                },
-                gu: {
-                    title: "કૃષિ-ઉપચાર કેવી રીતે કાર્ય કરે છે ⚙️",
-                    step1_title: "1. તમારો પાક પસંદ કરો",
-                    step1_desc: "પાકની શ્રેણી પસંદ કરો અને લિસ્ટમાંથી તમારો વિશિષ્ટ પાક શોધો.",
-                    step2_title: "2. લક્ષણો પસંદ કરો",
-                    step2_desc: "છોડના પાંદડા, થડ અથવા ફળો પર દેખાતા લક્ષણો ઓળખો અને પસંદ કરો.",
-                    step3_title: "3. સારવાર પ્લાન મેળવો",
-                    step3_desc: "તરત જ કસ્ટમાઇઝ્ડ વૈજ્ઞાનિક નિદાન અને પગલાં-દર-પગલાં જૈવિક સુધારણા પ્લાન મેળવો."
-                }
-            };
-
-            const chatbotTranslations = {
-                en: {
-                    title: "🤖 AI Agriculture Chatbot",
-                    step1_title: "1. Open the AI Chatbot",
-                    step1_desc: "Open the AI Chatbot from the homepage.",
-                    step2_title: "2. Ask in Your Language",
-                    step2_desc: "Ask agriculture-related questions in English, Hindi, or Gujarati.",
-                    step3_title: "3. Get Instant Guidance",
-                    step3_desc: "Get instant farming guidance about:",
-                    step3_li1: "Crop diseases",
-                    step3_li2: "Pest management",
-                    step3_li3: "Fertilizers",
-                    step3_li4: "Irrigation",
-                    step3_li5: "Weather-based advice",
-                    step3_li6: "Crop care",
-                    step4_title: "4. Receive Recommendations",
-                    step4_desc: "Receive simple farmer-friendly recommendations.",
-                    // Voice Chat Feature
-                    voice_chat_title: "🎤 Voice Chat Feature",
-                    voice_chat_subtitle: "Speak your question — no typing needed!",
-                    voice_step1_title: "Step 1: Open AI Chatbot",
-                    voice_step1_desc: "Open the AI Agriculture Chatbot from the homepage.",
-                    voice_step2_title: "Step 2: Tap the Microphone",
-                    voice_step2_desc: "Tap the microphone icon inside the chatbot input area.",
-                    voice_step3_title: "Step 3: Speak Your Question",
-                    voice_step3_desc: "Speak your farming question in:",
-                    voice_lang_en: "🇬🇧 English",
-                    voice_lang_hi: "🇮🇳 Hindi",
-                    voice_lang_gu: "🇮🇳 Gujarati",
-                    voice_step4_title: "Step 4: Speech → Text",
-                    voice_step4_desc: "Your speech is converted to text automatically. You can edit before sending.",
-                    voice_step5_title: "Step 5: Get AI Guidance",
-                    voice_step5_desc: "AI analyzes your question and provides agriculture guidance instantly.",
-                    voice_examples_title: "💬 Example Questions:",
-                    voice_ex1: "Why are cotton leaves turning yellow?",
-                    voice_ex2: "Which fertilizer is best for wheat?",
-                    voice_ex3: "How much water does chilli need?",
-                    voice_ex4: "How to control pests in groundnut?"
-                },
-                hi: {
-                    title: "🤖 AI कृषि चैटबॉट",
-                    step1_title: "1. एआई चैटबॉट खोलें",
-                    step1_desc: "होमपेज से एआई चैटबॉट खोलें।",
-                    step2_title: "2. अपनी भाषा में पूछें",
-                    step2_desc: "अंग्रेजी, हिंदी या गुजराती में कृषि से संबंधित प्रश्न पूछें।",
-                    step3_title: "3. तत्काल मार्गदर्शन पाएं",
-                    step3_desc: "इन विषयों पर तुरंत खेती से संबंधित मार्गदर्शन प्राप्त करें:",
-                    step3_li1: "फसल के रोग",
-                    step3_li2: "कीट प्रबंधन",
-                    step3_li3: "उर्वरक",
-                    step3_li4: "सिंचाई",
-                    step3_li5: "मौसम आधारित सलाह",
-                    step3_li6: "फसल की देखभाल",
-                    step4_title: "4. सरल सिफारिशें प्राप्त करें",
-                    step4_desc: "किसानों के अनुकूल सरल सिफारिशें प्राप्त करें।",
-                    // Voice Chat Feature
-                    voice_chat_title: "🎤 वॉयस चैट फ़ीचर",
-                    voice_chat_subtitle: "अपना सवाल बोलें — टाइप करने की ज़रूरत नहीं!",
-                    voice_step1_title: "चरण 1: एआई चैटबॉट खोलें",
-                    voice_step1_desc: "होमपेज से एआई एग्रीकल्चर चैटबॉट खोलें।",
-                    voice_step2_title: "चरण 2: माइक्रोफ़ोन दबाएं",
-                    voice_step2_desc: "चैटबॉट इनपुट क्षेत्र में माइक्रोफ़ोन आइकन दबाएं।",
-                    voice_step3_title: "चरण 3: अपना सवाल बोलें",
-                    voice_step3_desc: "अपना कृषि प्रश्न इस भाषा में बोलें:",
-                    voice_lang_en: "🇬🇧 अंग्रेजी",
-                    voice_lang_hi: "🇮🇳 हिंदी",
-                    voice_lang_gu: "🇮🇳 गुजराती",
-                    voice_step4_title: "चरण 4: भाषण → पाठ",
-                    voice_step4_desc: "आपकी बोली स्वचालित रूप से टेक्स्ट में बदल जाती है। भेजने से पहले संपादित कर सकते हैं।",
-                    voice_step5_title: "चरण 5: AI मार्गदर्शन प्राप्त करें",
-                    voice_step5_desc: "AI आपके प्रश्न का विश्लेषण करता है और तुरंत कृषि मार्गदर्शन प्रदान करता है।",
-                    voice_examples_title: "💬 उदाहरण प्रश्न:",
-                    voice_ex1: "कपास की पत्तियाँ पीली क्यों हो रही हैं?",
-                    voice_ex2: "गेहूं के लिए सबसे अच्छा उर्वरक कौन सा है?",
-                    voice_ex3: "मिर्च को कितना पानी चाहिए?",
-                    voice_ex4: "मूंगफली में कीटों को कैसे नियंत्रित करें?"
-                },
-                gu: {
-                    title: "🤖 AI કૃષિ ચેટબોટ",
-                    step1_title: "1. AI ચેટબોટ ખોલો",
-                    step1_desc: "હોમપેજ પરથી AI ચેટબોટ ખોલો.",
-                    step2_title: "2. તમારી ભાષામાં પૂછો",
-                    step2_desc: "અંગ્રેજી, હિન્દી અથવા ગુજરાતીમાં કૃષિ સંબંધિત પ્રશ્નો પૂછો.",
-                    step3_title: "3. ત્વરિત માર્ગદર્શન મેળવો",
-                    step3_desc: "આના વિશે ત્વરિત ખેતી માર્ગદર્શન મેળવો:",
-                    step3_li1: "પાકના રોગો",
-                    step3_li2: "જીવાત નિયંત્રણ",
-                    step3_li3: "ખાતરો",
-                    step3_li4: "સિંચાઈ",
-                    step3_li5: "હવામાન આધારિત સલાહ",
-                    step3_li6: "પાકની સંભાળ",
-                    step4_title: "4. સરળ ભલામણો મેળવો",
-                    step4_desc: "ખેડૂતોને સમજાય તેવી સરળ ભલામણો મેળવો.",
-                    // Voice Chat Feature
-                    voice_chat_title: "🎤 વૉઇસ ચેટ ફીચર",
-                    voice_chat_subtitle: "તમારો પ્રશ્ન બોલો — ટાઈપ કરવાની જરૂર નથી!",
-                    voice_step1_title: "પગલું 1: AI ચેટબોટ ખોલો",
-                    voice_step1_desc: "હોમપેજ પરથી AI એગ્રીકલ્ચર ચેટબોટ ખોલો.",
-                    voice_step2_title: "પગલું 2: માઇક્રોફોન દબાવો",
-                    voice_step2_desc: "ચેટબોટ ઇનપુટ ક્ષેત્રમાં માઇક્રોફોન આઇકોન દબાવો.",
-                    voice_step3_title: "પગલું 3: તમારો પ્રશ્ન બોલો",
-                    voice_step3_desc: "તમારો ખેતી પ્રશ્ન આ ભાષામાં બોલો:",
-                    voice_lang_en: "🇬🇧 અંગ્રેજી",
-                    voice_lang_hi: "🇮🇳 હિન્દી",
-                    voice_lang_gu: "🇮🇳 ગુજરાતી",
-                    voice_step4_title: "પગલું 4: ભાષણ → ટેક્સ્ટ",
-                    voice_step4_desc: "તમારી વાણી આપોઆપ ટેક્સ્ટમાં ફેરવાય છે. મોકલતા પહેલાં સંપાદિત કરી શકો છો.",
-                    voice_step5_title: "પગલું 5: AI માર્ગદર્શન મેળવો",
-                    voice_step5_desc: "AI તમારા પ્રશ્નનું વિશ્લેષણ કરે છે અને તરત કૃષિ માર્ગદર્શન આપે છે.",
-                    voice_examples_title: "💬 ઉદાહરણ પ્રશ્નો:",
-                    voice_ex1: "કપાસના પાન પીળા કેમ થઈ રહ્યા છે?",
-                    voice_ex2: "ઘઉં માટે સૌથી સારો ખાતર કયો છે?",
-                    voice_ex3: "મરચીને કેટલું પાણી જોઈએ?",
-                    voice_ex4: "મગફળીમાં જીવાત કેવી રીતે નિયંત્રિત કરવી?"
-                }
-            };
-
-            // Apply translations to layout
-            const applyLoginTranslations = () => {
-                if (!window.appData) return;
-                const langStore = window.appData.langStore[window.currentLang] || window.appData.langStore['en'];
-
-                const loginTitleEl = document.getElementById('login_title');
-                if (loginTitleEl) loginTitleEl.textContent = langStore.login_title || "Farmer Login";
-
-                const phoneLabelEl = document.getElementById('phone_label');
-                if (phoneLabelEl) phoneLabelEl.textContent = window.currentLang === 'gu' ? "મોબાઈલ નંબર" : window.currentLang === 'hi' ? "मोबाइल नंबर" : "Mobile Number";
-
-                if (phoneInput) phoneInput.placeholder = langStore.mobile_placeholder || "Enter 10-digit mobile number";
-                if (sendOtpBtn) sendOtpBtn.textContent = langStore.send_otp || "Send OTP";
-
-                const otpLabelEl = document.getElementById('otp_label');
-                if (otpLabelEl) otpLabelEl.textContent = window.currentLang === 'gu' ? "ઓટીપી દાખલ કરો" : window.currentLang === 'hi' ? "ओटीपी दर्ज करें" : "Enter OTP";
-
-                if (otpInput) otpInput.placeholder = langStore.otp_placeholder || "Enter 6-digit OTP";
-                if (verifyOtpBtn) verifyOtpBtn.textContent = langStore.verify_otp || "Verify & Login";
-
-                const changeNumberBtnEl = document.getElementById('change-number-btn');
-                if (changeNumberBtnEl) changeNumberBtnEl.textContent = window.currentLang === 'gu' ? "મોબાઈલ નંબર બદલો" : window.currentLang === 'hi' ? "मोबाइल नंबर बदलें" : "Change Phone Number";
-
-                if (resendBtn) resendBtn.textContent = window.currentLang === 'gu' ? "ફરી ઓટીપી મોકલો" : window.currentLang === 'hi' ? "पुनः ओटीपी भेजें" : "Resend OTP";
-
-                const orDividerText = langStore.or_divider || (window.currentLang === 'gu' ? "અથવા" : window.currentLang === 'hi' ? "या" : "OR");
-                const googleLoginText = langStore.google_login || (window.currentLang === 'gu' ? "ગુગલ સાથે ચાલુ રાખો" : window.currentLang === 'hi' ? "गूगल के साथ जारी रखें" : "Continue with Google");
-
-                const orDividerEl = document.getElementById('or_divider');
-                const googleLoginEl = document.getElementById('google_login_text');
-                if (orDividerEl) orDividerEl.textContent = orDividerText;
-                if (googleLoginEl) googleLoginEl.textContent = googleLoginText;
-
-                // Translate Crop Disease Prediction card
-                const setTxtIfExists = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
-                setTxtIfExists('card_crop_title', langStore.card_crop_title);
-                setTxtIfExists('card_crop_li1',   langStore.card_crop_li1);
-                setTxtIfExists('card_crop_li2',   langStore.card_crop_li2);
-                setTxtIfExists('card_crop_li3',   langStore.card_crop_li3);
-                setTxtIfExists('card_crop_li4',   langStore.card_crop_li4);
-                // Translate AI Agriculture Chatbot card
-                setTxtIfExists('card_chat_title', langStore.card_chat_title);
-                setTxtIfExists('card_chat_li1',   langStore.card_chat_li1);
-                setTxtIfExists('card_chat_li2',   langStore.card_chat_li2);
-                setTxtIfExists('card_chat_li3',   langStore.card_chat_li3);
-                setTxtIfExists('card_chat_li4',   langStore.card_chat_li4);
-
-                // Update "How It Works" steps (Safe check with checks on element presence)
-                const steps = stepsTranslations[window.currentLang] || stepsTranslations['en'];
-                const howWorksTitleEl = document.getElementById('how_works_title');
-                const step1TitleEl = document.getElementById('step1_title');
-                const step1DescEl = document.getElementById('step1_desc');
-                const step2TitleEl = document.getElementById('step2_title');
-                const step2DescEl = document.getElementById('step2_desc');
-                const step3TitleEl = document.getElementById('step3_title');
-                const step3DescEl = document.getElementById('step3_desc');
-
-                if (howWorksTitleEl) howWorksTitleEl.textContent = steps.title;
-                if (step1TitleEl) step1TitleEl.textContent = steps.step1_title;
-                if (step1DescEl) step1DescEl.textContent = steps.step1_desc;
-                if (step2TitleEl) step2TitleEl.textContent = steps.step2_title;
-                if (step2DescEl) step2DescEl.textContent = steps.step2_desc;
-                if (step3TitleEl) step3TitleEl.textContent = steps.step3_title;
-                if (step3DescEl) step3DescEl.textContent = steps.step3_desc;
-
-                // Update Chatbot steps
-                const chatbot = chatbotTranslations[window.currentLang] || chatbotTranslations['en'];
-                const cbTitleEl = document.getElementById('chatbot_title');
-                const cbStep1TitleEl = document.getElementById('chatbot_step1_title');
-                const cbStep1DescEl = document.getElementById('chatbot_step1_desc');
-                const cbStep2TitleEl = document.getElementById('chatbot_step2_title');
-                const cbStep2DescEl = document.getElementById('chatbot_step2_desc');
-                const cbStep3TitleEl = document.getElementById('chatbot_step3_title');
-                const cbStep3DescEl = document.getElementById('chatbot_step3_desc');
-                const cbStep3Li1El = document.getElementById('chatbot_step3_li1');
-                const cbStep3Li2El = document.getElementById('chatbot_step3_li2');
-                const cbStep3Li3El = document.getElementById('chatbot_step3_li3');
-                const cbStep3Li4El = document.getElementById('chatbot_step3_li4');
-                const cbStep3Li5El = document.getElementById('chatbot_step3_li5');
-                const cbStep3Li6El = document.getElementById('chatbot_step3_li6');
-                const cbStep4TitleEl = document.getElementById('chatbot_step4_title');
-                const cbStep4DescEl = document.getElementById('chatbot_step4_desc');
-
-                if (cbTitleEl) cbTitleEl.textContent = chatbot.title;
-                if (cbStep1TitleEl) cbStep1TitleEl.textContent = chatbot.step1_title;
-                if (cbStep1DescEl) cbStep1DescEl.textContent = chatbot.step1_desc;
-                if (cbStep2TitleEl) cbStep2TitleEl.textContent = chatbot.step2_title;
-                if (cbStep2DescEl) cbStep2DescEl.textContent = chatbot.step2_desc;
-                if (cbStep3TitleEl) cbStep3TitleEl.textContent = chatbot.step3_title;
-                if (cbStep3DescEl) cbStep3DescEl.textContent = chatbot.step3_desc;
-                if (cbStep3Li1El) cbStep3Li1El.textContent = chatbot.step3_li1;
-                if (cbStep3Li2El) cbStep3Li2El.textContent = chatbot.step3_li2;
-                if (cbStep3Li3El) cbStep3Li3El.textContent = chatbot.step3_li3;
-                if (cbStep3Li4El) cbStep3Li4El.textContent = chatbot.step3_li4;
-                if (cbStep3Li5El) cbStep3Li5El.textContent = chatbot.step3_li5;
-                if (cbStep3Li6El) cbStep3Li6El.textContent = chatbot.step3_li6;
-                if (cbStep4TitleEl) cbStep4TitleEl.textContent = chatbot.step4_title;
-                if (cbStep4DescEl) cbStep4DescEl.textContent = chatbot.step4_desc;
-
-                // Update Voice Chat Feature subsection
-                const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-                setTxt('voice_chat_title', chatbot.voice_chat_title);
-                setTxt('voice_chat_subtitle', chatbot.voice_chat_subtitle);
-                setTxt('voice_step1_title', chatbot.voice_step1_title);
-                setTxt('voice_step1_desc', chatbot.voice_step1_desc);
-                setTxt('voice_step2_title', chatbot.voice_step2_title);
-                setTxt('voice_step2_desc', chatbot.voice_step2_desc);
-                setTxt('voice_step3_title', chatbot.voice_step3_title);
-                setTxt('voice_step3_desc', chatbot.voice_step3_desc);
-                setTxt('voice_lang_en', chatbot.voice_lang_en);
-                setTxt('voice_lang_hi', chatbot.voice_lang_hi);
-                setTxt('voice_lang_gu', chatbot.voice_lang_gu);
-                setTxt('voice_step4_title', chatbot.voice_step4_title);
-                setTxt('voice_step4_desc', chatbot.voice_step4_desc);
-                setTxt('voice_step5_title', chatbot.voice_step5_title);
-                setTxt('voice_step5_desc', chatbot.voice_step5_desc);
-                setTxt('voice_examples_title', chatbot.voice_examples_title);
-                setTxt('voice_ex1', chatbot.voice_ex1);
-                setTxt('voice_ex2', chatbot.voice_ex2);
-                setTxt('voice_ex3', chatbot.voice_ex3);
-                setTxt('voice_ex4', chatbot.voice_ex4);
-            };
-
-            window.addEventListener('languageChanged', applyLoginTranslations);
-            if (window.appData) applyLoginTranslations();
-
-            // Send OTP action handler
-            if (sendOtpBtn) {
-                sendOtpBtn.addEventListener('click', async () => {
-                    clearMessages();
-                    const rawPhone = phoneInput.value.trim();
-                    const langStore = window.appData ? window.appData.langStore[window.currentLang] : {};
-
-                    if (rawPhone.length !== 10) {
-                        showError(langStore.invalid_phone_error || "Please enter a valid 10-digit mobile number.");
-                        return;
-                    }
-
-                    const formattedPhone = `+91${rawPhone}`;
-                    sendOtpBtn.disabled = true;
-                    sendOtpBtn.textContent = langStore.sending_otp_btn || "Sending...";
-
-                    try {
-                        if (!window.recaptchaVerifier) {
-                            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                                'size': 'invisible',
-                                'callback': (response) => { }
-                            });
-                        }
-
-                        const confirmation = await window.firebaseAuth.signInWithPhoneNumber(formattedPhone, window.recaptchaVerifier);
-                        window.confirmationResult = confirmation;
-
-                        showSuccess(langStore.otp_sent_success || "OTP sent successfully!");
-                        document.getElementById('phone-section').style.display = 'none';
-                        document.getElementById('otp-section').style.display = 'block';
-                        startTimer();
-                    } catch (error) {
-                        console.error("Error sending OTP:", error);
-                        let errMsg = langStore.error_sending_otp || "Error sending OTP. Please try again.";
-                        if (error && error.message) {
-                            errMsg += " - " + error.message;
-                        }
-                        showError(errMsg);
-
-                        if (window.recaptchaVerifier) {
-                            window.recaptchaVerifier.clear();
-                            window.recaptchaVerifier = null;
-                        }
-                    } finally {
-                        sendOtpBtn.disabled = false;
-                        sendOtpBtn.textContent = langStore.send_otp || "Send OTP";
-                    }
-                });
-            }
-
-            // Resend OTP action handler
-            if (resendBtn) {
-                resendBtn.addEventListener('click', async () => {
-                    clearMessages();
-                    const rawPhone = phoneInput.value.trim();
-                    const formattedPhone = `+91${rawPhone}`;
-                    const langStore = window.appData ? window.appData.langStore[window.currentLang] : {};
-
-                    try {
-                        if (window.recaptchaVerifier) {
-                            window.recaptchaVerifier.clear();
-                            window.recaptchaVerifier = null;
-                        }
-
-                        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                            'size': 'invisible'
-                        });
-
-                        const confirmation = await window.firebaseAuth.signInWithPhoneNumber(formattedPhone, window.recaptchaVerifier);
-                        window.confirmationResult = confirmation;
-
-                        showSuccess(langStore.otp_sent_success || "OTP sent successfully!");
-                        startTimer();
-                    } catch (error) {
-                        console.error("Error resending OTP:", error);
-                        showError(langStore.error_sending_otp || "Error sending OTP. Please try again.");
-                    }
-                });
-            }
-
-            // Verify OTP handler
-            if (verifyOtpBtn) {
-                verifyOtpBtn.addEventListener('click', async () => {
-                    clearMessages();
-                    const code = otpInput.value.trim();
-                    const langStore = window.appData ? window.appData.langStore[window.currentLang] : {};
-
-                    if (code.length !== 6) {
-                        showError(langStore.invalid_otp_error || "Invalid OTP. Please check the code and try again.");
-                        return;
-                    }
-
-                    verifyOtpBtn.disabled = true;
-                    verifyOtpBtn.textContent = langStore.verifying_otp_btn || "Verifying...";
-
-                    try {
-                        await window.confirmationResult.confirm(code);
-                        localStorage.setItem('isLoggedIn', 'true');
-                        window.location.href = '/index.html';
-                    } catch (error) {
-                        console.error("Error verifying OTP:", error);
-                        let errMsg = langStore.invalid_otp_error || "Invalid OTP. Please check the code and try again.";
-                        if (error && error.message) {
-                            errMsg += " - " + error.message;
-                        }
-                        showError(errMsg);
-                        verifyOtpBtn.disabled = false;
-                        verifyOtpBtn.textContent = langStore.verify_otp || "Verify & Login";
-                    }
-                });
-            }
-
-            // Change number click handler
-            if (changeNumberBtn) {
-                changeNumberBtn.addEventListener('click', () => {
-                    document.getElementById('otp-section').style.display = 'none';
-                    document.getElementById('phone-section').style.display = 'block';
-                    clearMessages();
-                });
-            }
-
-            // Google Sign-In click handler
-            const googleBtn = document.getElementById('google_login_btn');
             if (googleBtn) {
                 googleBtn.addEventListener('click', async () => {
                     clearMessages();
@@ -723,5 +199,4 @@
         });
     </script>
 </body>
-
 </html>

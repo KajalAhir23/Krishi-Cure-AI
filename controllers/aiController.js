@@ -2,11 +2,67 @@ import { GoogleGenAI } from '@google/genai';
 import Groq from 'groq-sdk';
 
 const diagnosisCache = {};
+const CACHE_TTL = 3600000; // 1 hour
+
+export function classifyConfidence(score) {
+    const numericScore = typeof score === 'number' ? score : parseInt(score, 10) || 0;
+    if (numericScore < 30) {
+        return { level: "Low", label: "Low Confidence", color: "Red" };
+    } else if (numericScore <= 70) {
+        return { level: "Medium", label: "Medium Confidence", color: "Yellow" };
+    } else {
+        return { level: "High", label: "High Confidence", color: "Green" };
+    }
+}
+
+function buildFallbackResponse(lang) {
+    const isGu = lang === 'gu';
+    const isHi = lang === 'hi';
+    return {
+        disease_name: isGu ? "અજ્ઞાત સમસ્યા" : isHi ? "अज्ञात समस्या" : "Unknown Issue",
+        confidence_level: "Low",
+        confidence_score: 0,
+        crop_health_score: 50,
+        risk_level: "Medium",
+        yield_impact: isGu ? "મધ્યમ" : isHi ? "मध्यम" : "Medium",
+        severity_color: "Yellow",
+        disease_explanation: isGu ? "તમારા પાકમાં કોઈ અજ્ઞાત રોગ જોવા મળ્યો છે." : isHi ? "आपकी फसल में कोई अज्ञात बीमारी देखी गई है।" : "An unknown issue was detected on your crop.",
+        observed_symptoms: isGu ? "ચિત્રો અથવા લક્ષણો અસ્પષ્ટ છે." : isHi ? "चित्र या लक्षण अस्पष्ट हैं।" : "Images or symptoms are unclear.",
+        possible_causes: isGu ? "નબળી રોશની અથવા અપૂરતી માહિતી." : isHi ? "कम रोशनी या अपर्याप्त जानकारी।" : "Poor lighting or insufficient information.",
+        recovery_details: {
+            chances: "Medium",
+            time: isGu ? "૭-૧૦ દિવસ" : isHi ? "७-१० दिन" : "7-10 days",
+            unrecoverable_signs: isGu ? "જો આખો છોડ સુકાઈ જાય" : isHi ? "यदि पूरा पौधा सूख जाए" : "If the entire plant dries up completely"
+        },
+        organic_treatment: [
+            isGu ? "કડો લીમડાના તેલનું મિશ્રણ બનાવો." : isHi ? "नीम के तेल का मिश्रण बनाएं।" : "Make a bitter neem oil mixture.",
+            isGu ? "આ દવા છોડ પર વહેલી સવારે છાંટો." : isHi ? "यह दवा सुबह पौधों पर छिड़कें।" : "Spray it on plants early in the morning.",
+            isGu ? "બીમાર પાંદડા તોડીને જમીનમાં દાટો." : isHi ? "बीमार पत्तियों को तोड़कर जमीन में गाड़ें।" : "Uproot diseased leaves and bury them."
+        ],
+        chemical_treatment: [
+            isGu ? "કોપર ઓક્સિક્લોરાઇડ (૨ ગ્રામ/લીટર) વાપરો." : isHi ? "कॉपर ऑक्सीक्लोराइड (२ ग्राम/लीटर) का प्रयोग करें।" : "Use Copper Oxychloride (2g/liter).",
+            isGu ? "સાંજના સમયે માસ્ક પહેરીને દવા છાંટો." : isHi ? "शाम के समय मास्क पहनकर छिड़काव करें।" : "Spray in the evening wearing a protective mask."
+        ],
+        prevention_methods: [
+            isGu ? "પાક ફેરબદલી પદ્ધતિ અપનાવો." : isHi ? "फसल चक्र अपनाएं।" : "Adopt crop rotation methods.",
+            isGu ? "બીજ વાવતા પહેલા તેની માવજત કરો." : isHi ? "बीज बोने से पहले उपचार करें।" : "Treat seeds before sowing."
+        ],
+        fertilizer_suggestions: isGu ? "જમીન ચકાસણી મુજબ દેશી સેન્દ્રિય ખાતર આપો." : isHi ? "मिट्टी की जांच के अनुसार जैविक खाद डालें।" : "Apply organic manure based on soil test results.",
+        irrigation_recommendations: isGu ? "ટપક પદ્ધતિનો ઉપયોગ કરો અને પાણી ભરાવા ન દો." : isHi ? "टपक सिंचाई अपनाएं और खेतों में पानी जमा न होने दें।" : "Use drip irrigation and prevent water stagnation.",
+        weather_precautions: isGu ? "વાદળછાયા વાતાવરણમાં છંટકાવ કરવાનું ટાળો." : isHi ? "बादल छाए रहने पर छिड़काव न करें।" : "Avoid spraying during cloudy weather.",
+        early_warning_signs: isGu ? "નીચલા પાંદડા પીળા પડવા." : isHi ? "निचले पत्तों का पीला पड़ना।" : "Yellowing of the bottom-most leaves.",
+        nearest_action: isGu ? "નજીકના કૃષિ વિજ્ઞાન કેન્દ્ર (KVK) નો સંપર્ક કરો." : isHi ? "निकटतम कृषि विज्ञान केंद्र (KVK) से संपर्क करें।" : "Contact your nearest KVK extension center.",
+        top_diseases: [
+            { "name": isGu ? "અજ્ઞાત રોગ" : isHi ? "अज्ञात रोग" : "Unknown Issue", "confidence": 40 }
+        ]
+    };
+}
 
 export async function diagnoseWithAI(cropName, symptoms, cropProfile, lang) {
     const cacheKey = `${cropName}_${symptoms.sort().join(',')}_${lang}`;
-    if (diagnosisCache[cacheKey]) {
-        return diagnosisCache[cacheKey];
+    const cached = diagnosisCache[cacheKey];
+    if (cached && (Date.now() - cached.timestamp < CACHE_TTL)) {
+        return cached.data;
     }
 
     const systemInstruction = `You are an elite Agricultural Scientist from ICAR (Indian Council of Agricultural Research) helping rural, uneducated farmers.
@@ -33,6 +89,10 @@ Format of the JSON object:
 {
     "disease_name": "Common local name of the primary disease in the requested language (extremely simple)",
     "confidence_score": 85,
+    "confidence_level": "High" | "Medium" | "Low",
+    "crop_health_score": 80, // overall health percentage (0-100)
+    "risk_level": "High" | "Medium" | "Low",
+    "yield_impact": "High" | "Medium" | "Low", // predicted impact on harvest
     "severity_color": "Red" | "Yellow" | "Green",
     "disease_explanation": "Very simple 1-sentence explanation of the disease in easy language",
     "recovery_details": {
@@ -67,10 +127,8 @@ Format of the JSON object:
 
 The treatments and descriptions must be highly practical, trusted, and based on ICAR, agricultural university, or KVK books. All array sentences must be under 12 words.`;
 
-    // 1. Try Groq first (fast & free tier available)
     if (process.env.GROQ_API_KEY) {
         try {
-            console.log("Attempting diagnosis with Groq API (llama-3.3-70b-versatile)...");
             const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
             const chatCompletion = await groq.chat.completions.create({
                 messages: [
@@ -84,18 +142,22 @@ The treatments and descriptions must be highly practical, trusted, and based on 
             const jsonText = chatCompletion.choices[0].message.content;
             const result = JSON.parse(jsonText);
 
-            // Cache the result
-            diagnosisCache[cacheKey] = result;
+            const conf = classifyConfidence(result.confidence_score);
+            result.confidence_level = conf.level;
+            result.severity_color = conf.color;
+
+            diagnosisCache[cacheKey] = {
+                timestamp: Date.now(),
+                data: result
+            };
             return result;
         } catch (groqError) {
             console.warn("Groq API Error, falling back to Gemini:", groqError.message || groqError);
         }
     }
 
-    // 2. Fallback to Gemini
     if (process.env.GEMINI_API_KEY) {
         try {
-            console.log("Attempting diagnosis with Gemini API (fallback)...");
             const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
@@ -110,49 +172,21 @@ The treatments and descriptions must be highly practical, trusted, and based on 
             const jsonText = response.text;
             const result = JSON.parse(jsonText);
 
-            // Cache the result
-            diagnosisCache[cacheKey] = result;
+            const conf = classifyConfidence(result.confidence_score);
+            result.confidence_level = conf.level;
+            result.severity_color = conf.color;
+
+            diagnosisCache[cacheKey] = {
+                timestamp: Date.now(),
+                data: result
+            };
             return result;
         } catch (error) {
             console.error("Gemini API Error:", error.message || error);
         }
     }
 
-    // 3. Fallback response in case both APIs fail
-    const isGu = lang === 'gu';
-    const isHi = lang === 'hi';
-    return {
-        disease_name: isGu ? "અજ્ઞાત સમસ્યા" : isHi ? "अज्ञात समस्या" : "Unknown Issue",
-        confidence_score: 0,
-        severity_color: "Yellow",
-        disease_explanation: isGu ? "તમારા પાકમાં કોઈ અજ્ઞાત રોગ જોવા મળ્યો છે." : isHi ? "आपकी फसल में कोई अज्ञात बीमारी देखी गई है।" : "An unknown issue was detected on your crop.",
-        recovery_details: {
-            chances: "Medium",
-            time: isGu ? "૭-૧૦ દિવસ" : isHi ? "७-१० दिन" : "7-10 days",
-            unrecoverable_signs: isGu ? "જો આખો છોડ સુકાઈ જાય" : isHi ? "यदि पूरा पौधा सूख जाए" : "If the entire plant dries up completely"
-        },
-        organic_treatment: [
-            isGu ? "કડો લીમડાના તેલનું મિશ્રણ બનાવો." : isHi ? "नीम के तेल का मिश्रण बनाएं।" : "Make a bitter neem oil mixture.",
-            isGu ? "આ દવા છોડ પર વહેલી સવારે છાંટો." : isHi ? "यह दवा सुबह पौधों पर छिड़कें।" : "Spray it on plants early in the morning.",
-            isGu ? "બીમાર પાંદડા તોડીને જમીનમાં દાટો." : isHi ? "बीमार पत्तियों को तोड़कर जमीन में गाड़ें।" : "Uproot diseased leaves and bury them."
-        ],
-        chemical_treatment: [
-            isGu ? "કોપર ઓક્સિક્લોરાઇડ (૨ ગ્રામ/લીટર) વાપરો." : isHi ? "कॉपर ऑक्सीक्लोराइड (२ ग्राम/लीटर) का प्रयोग करें।" : "Use Copper Oxychloride (2g/liter).",
-            isGu ? "સાંજના સમયે માસ્ક પહેરીને દવા છાંટો." : isHi ? "शाम के समय मास्क पहनकर छिड़काव करें।" : "Spray in the evening wearing a protective mask."
-        ],
-        prevention_methods: [
-            isGu ? "પાક ફેરબદલી પદ્ધતિ અપનાવો." : isHi ? "फसल चक्र अपनाएं।" : "Adopt crop rotation methods.",
-            isGu ? "બીજ વાવતા પહેલા તેની માવજત કરો." : isHi ? "बीज बोने से पहले उपचार करें।" : "Treat seeds before sowing."
-        ],
-        fertilizer_suggestions: isGu ? "જમીન ચકાસણી મુજબ દેશી સેન્દ્રિય ખાતર આપો." : isHi ? "मिट्टी की जांच के अनुसार जैविक खाद डालें।" : "Apply organic manure based on soil test results.",
-        irrigation_recommendations: isGu ? "ટપક પદ્ધતિનો ઉપયોગ કરો અને પાણી ભરાવા ન દો." : isHi ? "टपक सिंचाई अपनाएं और खेतों में पानी जमा न होने दें।" : "Use drip irrigation and prevent water stagnation.",
-        weather_precautions: isGu ? "વાદળછાયા વાતાવરણમાં છંટકાવ કરવાનું ટાળો." : isHi ? "बादल छाए रहने पर छिड़काव न करें।" : "Avoid spraying during cloudy weather.",
-        early_warning_signs: isGu ? "નીચલા પાંદડા પીળા પડવા." : isHi ? "निचले पत्तों का पीला पड़ना।" : "Yellowing of the bottom-most leaves.",
-        nearest_action: isGu ? "નજીકના કૃષિ વિજ્ઞાન કેન્દ્ર (KVK) નો સંપર્ક કરો." : isHi ? "निकटतम कृषि विज्ञान केंद्र (KVK) से संपर्क करें।" : "Contact your nearest KVK extension center.",
-        top_diseases: [
-            { "name": isGu ? "અજ્ઞાત રોગ" : isHi ? "अज्ञात रोग" : "Unknown Issue", "confidence": 40 }
-        ]
-    };
+    return buildFallbackResponse(lang);
 }
 
 // ─── Chatbot: free-form agriculture Q&A ───────────────────────────────────────
@@ -170,7 +204,6 @@ export async function chatWithAI(question, lang = 'en', history = []) {
         { role: 'user', content: question }
     ];
 
-    // 1. Try Groq first (fast & free tier)
     if (process.env.GROQ_API_KEY) {
         try {
             const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -180,53 +213,34 @@ export async function chatWithAI(question, lang = 'en', history = []) {
                 max_tokens: 512,
                 temperature: 0.4
             });
-            return {
-                success: true,
-                reply: completion.choices[0].message.content.trim(),
-                provider: 'groq'
-            };
-        } catch (groqError) {
-            console.warn('[Chatbot] Groq failed, trying Gemini:', groqError.message || groqError);
+            const result = completion.choices[0].message.content;
+            return { success: true, reply: result, provider: 'groq' };
+        } catch (error) {
+            console.warn("Groq Chat Error, falling back to Gemini:", error.message || error);
         }
     }
 
-    // 2. Fallback to Gemini
     if (process.env.GEMINI_API_KEY) {
         try {
             const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
-            // Build combined conversation text for Gemini
-            const conversationText = history
-                .map(m => `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`)
-                .join('\n');
-            const fullPrompt = conversationText
-                ? `${conversationText}\nUser: ${question}`
-                : question;
-
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
-                contents: fullPrompt,
+                contents: question,
                 config: {
                     systemInstruction: systemPrompt,
-                    maxOutputTokens: 512,
                     temperature: 0.4
                 }
             });
-            return {
-                success: true,
-                reply: response.text.trim(),
-                provider: 'gemini'
-            };
-        } catch (geminiError) {
-            console.error('[Chatbot] Gemini also failed:', geminiError.message || geminiError);
+            return { success: true, reply: response.text, provider: 'gemini' };
+        } catch (error) {
+            console.error("Gemini Chat Error:", error.message || error);
         }
     }
 
-    // 3. Both failed — return friendly error in the requested language
     const errorMsg = {
         en: 'Sorry, the AI service is temporarily unavailable. Please try again in a few minutes.',
         hi: 'क्षमा करें, AI सेवा अभी उपलब्ध नहीं है। कृपया कुछ मिनट बाद पुनः प्रयास करें।',
-        gu: 'માફ કરશો, AI સેવા હાલ ઉપલબ્ધ નથી. કૃપા કરીને થોડી મિનિટ પછી ફરી પ્રयाс કरो।'
+        gu: 'માફ કરશો, AI સેવા હાલ ઉપલબ્ધ નથી. કૃપા કરીને થોડી મિનિટ પછી ફરી પ્રયાસ કરો।'
     };
     return {
         success: false,
@@ -270,6 +284,9 @@ Format of the JSON object:
     "disease_name": "Common local name of the primary disease/issue in the requested language (extremely simple)",
     "confidence_level": "High" | "Medium" | "Low",
     "confidence_score": 85, // integer percentage based on visual evidence
+    "crop_health_score": 80, // overall health percentage (0-100)
+    "risk_level": "High" | "Medium" | "Low",
+    "yield_impact": "High" | "Medium" | "Low", // predicted impact on harvest
     "severity_color": "Red" | "Yellow" | "Green",
     "disease_explanation": "Explain why this diagnosis was made based on what you see in the images, using simple farmer-friendly language.",
     "observed_symptoms": "Simple, clear description of the symptoms observed in the images (in requested language)",
@@ -308,11 +325,9 @@ All array sentences must be under 12 words. Make sure all values are translated 
 
     if (process.env.GEMINI_API_KEY) {
         try {
-            console.log(`Attempting multimodal image diagnosis with Gemini API (gemini-2.5-flash) for ${cropName}...`);
             const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
             
             const contents = [];
-            // Parse base64 images
             for (const img of images) {
                 const cleanBase64 = img.base64Data.split(';base64,').pop();
                 contents.push({
@@ -322,8 +337,6 @@ All array sentences must be under 12 words. Make sure all values are translated 
                     }
                 });
             }
-            
-            // Add the text prompt
             contents.push(taskPrompt);
 
             const response = await ai.models.generateContent({
@@ -338,6 +351,11 @@ All array sentences must be under 12 words. Make sure all values are translated 
 
             const jsonText = response.text;
             const result = JSON.parse(jsonText);
+
+            const conf = classifyConfidence(result.confidence_score);
+            result.confidence_level = conf.level;
+            result.severity_color = conf.color;
+
             return result;
         } catch (error) {
             console.error("Gemini Image Diagnosis API Error:", error.message || error);
@@ -346,42 +364,5 @@ All array sentences must be under 12 words. Make sure all values are translated 
         console.warn("GEMINI_API_KEY not configured in backend.");
     }
 
-    // Fallback response in case API fails
-    const isGu = lang === 'gu';
-    const isHi = lang === 'hi';
-    return {
-        disease_name: isGu ? "અજ્ઞાત સમસ્યા" : isHi ? "अज्ञात समस्या" : "Unknown Issue",
-        confidence_level: "Low",
-        confidence_score: 0,
-        severity_color: "Yellow",
-        disease_explanation: isGu ? "તમારા પાકમાં કોઈ અજ્ઞાત રોગ જોવા મળ્યો છે." : isHi ? "आपकी फसल में कोई अज्ञात बीमारी देखी गई है।" : "An unknown issue was detected on your crop.",
-        observed_symptoms: isGu ? "ચિત્રો અસ્પષ્ટ છે અથવા નુકસાન દેખાતું નથી." : isHi ? "चित्र अस्पष्ट हैं या क्षति दिखाई नहीं दे रही है।" : "Images are unclear or no damage is visible.",
-        possible_causes: isGu ? "નબળી રોશની અથવા ધૂંધળા ચિત્રો." : isHi ? "कम रोशनी या धुंधली तस्वीरें।" : "Poor lighting or blurry photos.",
-        recovery_details: {
-            chances: "Medium",
-            time: isGu ? "૭-૧૦ દિવસ" : isHi ? "७-१० दिन" : "7-10 days",
-            unrecoverable_signs: isGu ? "જો આખો છોડ સુકાઈ જાય" : isHi ? "यदि पूरा पौधा सूख जाए" : "If the entire plant dries up completely"
-        },
-        organic_treatment: [
-            isGu ? "કડો લીમડાના તેલનું મિશ્રણ બનાવો." : isHi ? "नीम के तेल का मिश्रण बनाएं।" : "Make a bitter neem oil mixture.",
-            isGu ? "આ દવા છોડ પર વહેલી સવારે છાંટો." : isHi ? "यह दवा सुबह पौधों पर छिड़कें।" : "Spray it on plants early in the morning.",
-            isGu ? "બીમાર પાંદડા તોડીને જમીનમાં દાટો." : isHi ? "बीमार पत्तियों को तोड़कर जमीन में गाड़ें।" : "Uproot diseased leaves and bury them."
-        ],
-        chemical_treatment: [
-            isGu ? "કોપર ઓક્સિક્લોરાઇડ (૨ ગ્રામ/લીટર) વાપરો." : isHi ? "कॉपर ऑक्सीक्लोराइड (२ ग्राम/लीटर) का प्रयोग करें।" : "Use Copper Oxychloride (2g/liter).",
-            isGu ? "સાંજના સમયે માસ્ક પહેરીને દવા છાંટો." : isHi ? "शाम के समय मास्क पहनकर छिड़काव करें।" : "Spray in the evening wearing a protective mask."
-        ],
-        prevention_methods: [
-            isGu ? "પાક ફેરબદલી પદ્ધતિ અપનાવો." : isHi ? "फसल चक्र अपनाएं।" : "Adopt crop rotation methods.",
-            isGu ? "બીજ વાવતા પહેલા તેની માવજત કરો." : isHi ? "बीज बोने से पहले उपचार करें।" : "Treat seeds before sowing."
-        ],
-        fertilizer_suggestions: isGu ? "જમીન ચકાસણી મુજબ દેશી સેન્દ્રિય ખાતર આપો." : isHi ? "मिट्टी की जांच के अनुसार जैविक खाद डालें।" : "Apply organic manure based on soil test results.",
-        irrigation_recommendations: isGu ? "ટપક પદ્ધતિનો ઉપયોગ કરો અને પાણી ભરાવા ન દો." : isHi ? "टपक सिंचाई अपनाएं और खेतों में पानी जमा न होने दें।" : "Use drip irrigation and prevent water stagnation.",
-        weather_precautions: isGu ? "વાદળછાયા વાતાવરણમાં છંટકાવ કરવાનું ટાળો." : isHi ? "बादल छाए रहने पर छिड़काव न करें।" : "Avoid spraying during cloudy weather.",
-        early_warning_signs: isGu ? "નીચલા પાંદડા પીળા પડવા." : isHi ? "निचले पत्तों का पीला पड़ना।" : "Yellowing of the bottom-most leaves.",
-        nearest_action: isGu ? "નજીકના કૃષિ વિજ્ઞાન કેન્દ્ર (KVK) નો સંપર્ક કરો." : isHi ? "निकटतम कृषि विज्ञान केंद्र (KVK) से संपर्क करें।" : "Contact your nearest KVK extension center.",
-        top_diseases: [
-            { "name": isGu ? "અજ્ઞાત રોગ" : isHi ? "अज्ञात रोग" : "Unknown Issue", "confidence": 40 }
-        ]
-    };
+    return buildFallbackResponse(lang);
 }

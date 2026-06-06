@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Krishi-Cure - Scientific Diagnosis</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Firebase SDK (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    
+
     <!-- Auth helper -->
     <script src="/js/auth.js"></script>
     <style>
@@ -39,6 +42,7 @@
             .dashboard-container {
                 grid-template-columns: 1fr 1fr;
             }
+
             .full-width-card {
                 grid-column: span 2;
             }
@@ -70,9 +74,23 @@
             width: fit-content;
         }
 
-        .badge-red { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
-        .badge-yellow { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
-        .badge-green { background: #d1fae5; color: #047857; border: 1px solid #a7f3d0; }
+        .badge-red {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .badge-yellow {
+            background: #fef3c7;
+            color: #b45309;
+            border: 1px solid #fde68a;
+        }
+
+        .badge-green {
+            background: #d1fae5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+        }
 
         .confidence-section {
             margin-top: 1rem;
@@ -93,9 +111,17 @@
             transition: width 0.8s ease-in-out;
         }
 
-        .progress-red { background: var(--danger-red); }
-        .progress-yellow { background: var(--warning-yellow); }
-        .progress-green { background: var(--safe-green); }
+        .progress-red {
+            background: var(--danger-red);
+        }
+
+        .progress-yellow {
+            background: var(--warning-yellow);
+        }
+
+        .progress-green {
+            background: var(--safe-green);
+        }
 
         /* Match Comparison Panel */
         .comparison-card {
@@ -221,8 +247,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Detail lists */
@@ -262,9 +295,20 @@
             font-size: 0.9rem;
         }
 
-        .step-list.organic li::before { content: "🌿"; background: none; }
-        .step-list.chemical li::before { content: "🧪"; background: none; }
-        .step-list.prevention li::before { content: "🛡️"; background: none; }
+        .step-list.organic li::before {
+            content: "🌿";
+            background: none;
+        }
+
+        .step-list.chemical li::before {
+            content: "🧪";
+            background: none;
+        }
+
+        .step-list.prevention li::before {
+            content: "🛡️";
+            background: none;
+        }
 
         /* Quick Info Grid */
         .info-grid {
@@ -330,22 +374,33 @@
                 color: black;
                 font-size: 12pt;
             }
-            .warning-banner, header, footer, .action-bar, .tab-headers, .back-btn {
+
+            .warning-banner,
+            header,
+            footer,
+            .action-bar,
+            .tab-headers,
+            .back-btn {
                 display: none !important;
             }
+
             .tab-content {
                 display: block !important;
                 padding: 0 !important;
                 margin-top: 1.5rem;
                 page-break-inside: avoid;
             }
+
             .step-card {
                 border: none !important;
                 box-shadow: none !important;
                 padding: 0 !important;
                 margin: 0 !important;
             }
-            .meta-card, .comparison-card, .tabs-container {
+
+            .meta-card,
+            .comparison-card,
+            .tabs-container {
                 border: 1px solid #ccc !important;
                 box-shadow: none !important;
                 margin-bottom: 1.5rem !important;
@@ -353,6 +408,7 @@
         }
     </style>
 </head>
+
 <body style="display: none;">
     <!-- Prevent UI flickering if logged in -->
     <script>
@@ -371,7 +427,8 @@
             <a href="/index.html" class="nav-link" id="nav_home">Home</a>
             <a href="/fertilizer-calculator.html" class="nav-link" id="nav_fertilizer">Fertilizer Calculator</a>
 
-            <a href="javascript:void(0)" class="nav-link" id="nav_chatbot" onclick="document.getElementById('krishi-chatbot-trigger')?.click()">AI Chatbot</a>
+            <a href="javascript:void(0)" class="nav-link" id="nav_chatbot"
+                onclick="document.getElementById('krishi-chatbot-trigger')?.click()">AI Chatbot</a>
         </nav>
         <div style="display: flex; align-items: center; gap: 1rem;">
             <div class="lang-selector">
@@ -386,50 +443,66 @@
     <main class="container">
         <section class="step-card active">
             <a href="/symptoms.html" class="back-btn" id="back_btn">Back</a>
-            
+
             <div class="result-header" style="text-align: center; margin-bottom: 1.5rem;">
-                <h2 id="diagnosis_result_title" style="font-size: 2rem; font-weight: 800; color: var(--forest-green);">Scientific Diagnosis Result</h2>
+                <h2 id="diagnosis_result_title" style="font-size: 2rem; font-weight: 800; color: var(--forest-green);">
+                    Scientific Diagnosis Result</h2>
             </div>
 
             <!-- Loading State -->
             <div id="loading-state" style="text-align: center; padding: 4rem 1rem;">
-                <h3 id="loading_text" style="color: var(--forest-green); font-size: 1.4rem; font-weight: 800;">Analyzing Symptoms with ICAR Engine...</h3>
-                <div class="loader" style="margin: 1.5rem auto; width: 45px; height: 45px; border: 4px solid #e2e8f0; border-top: 4px solid var(--forest-green); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                <h3 id="loading_text" style="color: var(--forest-green); font-size: 1.4rem; font-weight: 800;">Analyzing
+                    Symptoms with ICAR Engine...</h3>
+                <div class="loader"
+                    style="margin: 1.5rem auto; width: 45px; height: 45px; border: 4px solid #e2e8f0; border-top: 4px solid var(--forest-green); border-radius: 50%; animation: spin 1s linear infinite;">
+                </div>
             </div>
 
             <!-- Dashboard Result Box -->
             <div class="result-box" id="result-box" style="display: none;">
-                
+
                 <!-- Safety logic Banner -->
                 <div id="safety-alert-banner" class="safety-banner">
                     <!-- Loaded dynamically -->
                 </div>
 
                 <div class="dashboard-container">
-                    
+
                     <!-- Disease & Severity Info -->
                     <div class="meta-card">
                         <div id="severity-badge" class="badge">
                             <!-- Loaded dynamically -->
                         </div>
-                        <span class="disease-prefix" id="disease_prefix_text" style="font-size: 1rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Your crop has:</span>
-                        <h3 id="disease-name" class="disease-name" style="font-size: 2.2rem; font-weight: 800; color: var(--text-main); margin: 0.25rem 0 0.5rem 0; line-height: 1.2;"></h3>
-                        <p id="disease-explanation" style="font-size: 1.15rem; color: var(--text-muted); margin-bottom: 1.2rem; font-weight: 500;"></p>
-                        
+                        <span class="disease-prefix" id="disease_prefix_text"
+                            style="font-size: 1rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Your
+                            crop has:</span>
+                        <h3 id="disease-name" class="disease-name"
+                            style="font-size: 2.2rem; font-weight: 800; color: var(--text-main); margin: 0.25rem 0 0.5rem 0; line-height: 1.2;">
+                        </h3>
+                        <p id="disease-explanation"
+                            style="font-size: 1.15rem; color: var(--text-muted); margin-bottom: 1.2rem; font-weight: 500;">
+                        </p>
+
                         <!-- Image Diagnosis Extra Meta -->
-                        <div id="image-diagnosis-extra" style="display: none; border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: 0.5rem; margin-bottom: 1.2rem; font-size: 1rem;">
+                        <div id="image-diagnosis-extra"
+                            style="display: none; border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: 0.5rem; margin-bottom: 1.2rem; font-size: 1rem;">
                             <div style="margin-bottom: 0.75rem;">
-                                <strong id="lbl-observed-symptoms" style="color: var(--text-main); font-weight: 800;">Observed Symptoms:</strong>
-                                <span id="val-observed-symptoms" style="color: var(--text-light); margin-left: 0.3rem;"></span>
+                                <strong id="lbl-observed-symptoms"
+                                    style="color: var(--text-main); font-weight: 800;">Observed Symptoms:</strong>
+                                <span id="val-observed-symptoms"
+                                    style="color: var(--text-light); margin-left: 0.3rem;"></span>
                             </div>
                             <div>
-                                <strong id="lbl-possible-causes" style="color: var(--text-main); font-weight: 800;">Possible Causes:</strong>
-                                <span id="val-possible-causes" style="color: var(--text-light); margin-left: 0.3rem;"></span>
+                                <strong id="lbl-possible-causes"
+                                    style="color: var(--text-main); font-weight: 800;">Possible Causes:</strong>
+                                <span id="val-possible-causes"
+                                    style="color: var(--text-light); margin-left: 0.3rem;"></span>
                             </div>
                         </div>
-                        
+
                         <div class="confidence-section">
-                            <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.05rem;">
+                            <div
+                                style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.05rem;">
                                 <span id="confidence-label">Prediction Accuracy</span>
                                 <span id="confidence-percentage" style="color: var(--primary-green);"></span>
                             </div>
@@ -450,11 +523,14 @@
                     </div>
 
                     <!-- Analyzed Photos Gallery Card -->
-                    <div class="full-width-card" id="analyzed-photos-card" style="display: none; background: white; border-radius: var(--radius-lg); padding: 1.5rem; border: 1px solid var(--glass-border); box-shadow: var(--shadow-card);">
-                        <h4 style="font-size: 1.25rem; font-weight: 800; color: var(--forest-green); margin-bottom: 1rem;" id="analyzed_photos_title">
+                    <div class="full-width-card" id="analyzed-photos-card"
+                        style="display: none; background: white; border-radius: var(--radius-lg); padding: 1.5rem; border: 1px solid var(--glass-border); box-shadow: var(--shadow-card);">
+                        <h4 style="font-size: 1.25rem; font-weight: 800; color: var(--forest-green); margin-bottom: 1rem;"
+                            id="analyzed_photos_title">
                             Analyzed Photos
                         </h4>
-                        <div id="analyzed-photos-gallery" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem;">
+                        <div id="analyzed-photos-gallery"
+                            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem;">
                             <!-- Base64 previews injected here -->
                         </div>
                     </div>
@@ -470,7 +546,9 @@
 
                         <!-- Tab 1: Organic Plan -->
                         <div class="tab-content active" id="organic-tab">
-                            <h4 style="font-size: 1.25rem; font-weight: 800; color: var(--primary-green); margin-bottom: 1rem;">🌿 Safe Organic Action Plan</h4>
+                            <h4
+                                style="font-size: 1.25rem; font-weight: 800; color: var(--primary-green); margin-bottom: 1rem;">
+                                🌿 Safe Organic Action Plan</h4>
                             <ol class="step-list organic" id="organic-steps-list">
                                 <!-- Loaded dynamically -->
                             </ol>
@@ -478,7 +556,9 @@
 
                         <!-- Tab 2: Chemical Plan -->
                         <div class="tab-content" id="chemical-tab">
-                            <h4 style="font-size: 1.25rem; font-weight: 800; color: var(--danger-red); margin-bottom: 1rem;">🧪 Chemical Control (Emergency Only)</h4>
+                            <h4
+                                style="font-size: 1.25rem; font-weight: 800; color: var(--danger-red); margin-bottom: 1rem;">
+                                🧪 Chemical Control (Emergency Only)</h4>
                             <ul class="step-list chemical" id="chemical-steps-list">
                                 <!-- Loaded dynamically -->
                             </ul>
@@ -486,7 +566,9 @@
 
                         <!-- Tab 3: Prevention & Care -->
                         <div class="tab-content" id="prevention-tab">
-                            <h4 style="font-size: 1.25rem; font-weight: 800; color: var(--warning-yellow); margin-bottom: 1.20rem;">🛡️ Fertilizer, Irrigation & Care</h4>
+                            <h4
+                                style="font-size: 1.25rem; font-weight: 800; color: var(--warning-yellow); margin-bottom: 1.20rem;">
+                                🛡️ Fertilizer, Irrigation & Care</h4>
                             <div class="info-grid" style="margin-bottom: 1.5rem;">
                                 <div class="info-item">
                                     <div class="info-label" id="lbl-fertilizer">Compost/Fertilizer</div>
@@ -497,7 +579,9 @@
                                     <div class="info-value" id="val-irrigation"></div>
                                 </div>
                             </div>
-                            <h5 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem;">💡 Prevention Methods:</h5>
+                            <h5
+                                style="font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem;">
+                                💡 Prevention Methods:</h5>
                             <ul class="step-list prevention" id="prevention-steps-list">
                                 <!-- Loaded dynamically -->
                             </ul>
@@ -505,7 +589,9 @@
 
                         <!-- Tab 4: Recovery Forecast -->
                         <div class="tab-content" id="forecast-tab">
-                            <h4 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-bottom: 1.20rem;">📈 Recovery Estimates & Warnings</h4>
+                            <h4
+                                style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-bottom: 1.20rem;">
+                                📈 Recovery Estimates & Warnings</h4>
                             <div class="info-grid" style="margin-bottom: 1.5rem;">
                                 <div class="info-item">
                                     <div class="info-label" id="lbl-chances">Recovery Chances</div>
@@ -516,9 +602,12 @@
                                     <div class="info-value" id="val-time"></div>
                                 </div>
                             </div>
-                            <div class="info-item" style="background: #fff5f5; border: 1px solid #feb2b2; margin-bottom: 1rem;">
-                                <div class="info-label" style="color: #c53030;" id="lbl-warning-signs">⚠️ Unrecoverable Sign:</div>
-                                <div class="info-value" style="color: #9b2c2c; font-size: 1.1rem;" id="val-warning-signs"></div>
+                            <div class="info-item"
+                                style="background: #fff5f5; border: 1px solid #feb2b2; margin-bottom: 1rem;">
+                                <div class="info-label" style="color: #c53030;" id="lbl-warning-signs">⚠️ Unrecoverable
+                                    Sign:</div>
+                                <div class="info-value" style="color: #9b2c2c; font-size: 1.1rem;"
+                                    id="val-warning-signs"></div>
                             </div>
                             <div class="info-item">
                                 <div class="info-label" id="lbl-weather">Weather Alert/Precaution</div>
@@ -531,13 +620,16 @@
 
                 <!-- Footer Action Buttons -->
                 <div class="action-bar">
-                    <button class="primary-btn diagnose-btn" id="listen-btn" style="background-color: var(--forest-green); color: white;">
+                    <button class="primary-btn diagnose-btn" id="listen-btn"
+                        style="background-color: var(--forest-green); color: white;">
                         🔊 <span id="speak_btn_text">Listen</span>
                     </button>
-                    <button class="primary-btn" id="download-pdf-btn" data-i18n="btn_download_pdf" style="background-color: var(--forest-green); color: white;">
+                    <button class="primary-btn" id="download-pdf-btn" data-i18n="btn_download_pdf"
+                        style="background-color: var(--forest-green); color: white;">
                         Download PDF Report
                     </button>
-                    <a href="/index.html" class="primary-btn restart-btn" id="restart_btn" style="text-align: center; text-decoration: none;">Start Over</a>
+                    <a href="/index.html" class="primary-btn restart-btn" id="restart_btn"
+                        style="text-align: center; text-decoration: none;">Start Over</a>
                 </div>
 
             </div>
@@ -549,7 +641,8 @@
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>About Krishi Cure AI</h4>
-                <p>A state-of-the-art smart agriculture platform designed to help farmers diagnose crop diseases, calculate fertilizer requirements, check local weather, and consult our AI expert.</p>
+                <p>A state-of-the-art smart agriculture platform designed to help farmers diagnose crop diseases,
+                    calculate fertilizer requirements, check local weather, and consult our AI expert.</p>
             </div>
             <div class="footer-col">
                 <h4>Quick Links</h4>
@@ -565,7 +658,6 @@
                 <ul class="footer-links">
                     <li><a href="https://icar.org.in/" target="_blank" rel="noopener">ICAR Official</a></li>
                     <li><a href="https://www.india.gov.in/" target="_blank" rel="noopener">India Gov Portal</a></li>
-                    <li><a href="https://farmer.gov.in/" target="_blank" rel="noopener">Farmers' Portal</a></li>
                 </ul>
             </div>
         </div>
@@ -576,7 +668,15 @@
     </footer>
 
     <style>
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -606,7 +706,7 @@
                     window.downloadDiseaseReportPDF(data, cropName, userName);
                 });
             }
-            
+
             const diagnosisDataStr = sessionStorage.getItem('diagnosisResult');
             if (!diagnosisDataStr) {
                 window.location.href = '/index.html';
@@ -632,103 +732,103 @@
                 });
             });
 
-             // Localized Dynamic Texts — all from langStore
-             const setTxt = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
-             setTxt('loading_text',         langStore.loading_text);
-             setTxt('confidence-label',     langStore.confidence_label);
-             setTxt('comparison_title',     langStore.comparison_title);
-             setTxt('lbl-fertilizer',       langStore.lbl_fertilizer);
-             setTxt('lbl-irrigation',       langStore.lbl_irrigation);
-             setTxt('lbl-chances',          langStore.lbl_chances);
-             setTxt('lbl-time',             langStore.lbl_time);
-             setTxt('lbl-warning-signs',    langStore.lbl_warning_signs);
-             setTxt('lbl-weather',          langStore.lbl_weather);
-             setTxt('lbl-observed-symptoms', langStore.lbl_observed_symptoms || "Observed Symptoms:");
-             setTxt('lbl-possible-causes',   langStore.lbl_possible_causes || "Possible Causes:");
-             setTxt('analyzed_photos_title', langStore.analyzed_photos_title || "Analyzed Photos");
- 
-             // Populate analyzed image gallery if saved in session storage
-             const analyzedImagesStr = sessionStorage.getItem('analyzedImages');
-             const galleryCard = document.getElementById('analyzed-photos-card');
-             const galleryGrid = document.getElementById('analyzed-photos-gallery');
-             if (analyzedImagesStr) {
-                 const images = JSON.parse(analyzedImagesStr);
-                 if (images && images.length > 0) {
-                     galleryCard.style.display = 'block';
-                     galleryGrid.innerHTML = '';
-                     images.forEach((imgSrc, idx) => {
-                         const imgContainer = document.createElement('div');
-                         imgContainer.style.aspectRatio = '1';
-                         imgContainer.style.borderRadius = 'var(--radius-md)';
-                         imgContainer.style.border = '1px solid var(--glass-border)';
-                         imgContainer.style.overflow = 'hidden';
-                         imgContainer.style.cursor = 'pointer';
-                         
-                         imgContainer.innerHTML = `
+            // Localized Dynamic Texts — all from langStore
+            const setTxt = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+            setTxt('loading_text', langStore.loading_text);
+            setTxt('confidence-label', langStore.confidence_label);
+            setTxt('comparison_title', langStore.comparison_title);
+            setTxt('lbl-fertilizer', langStore.lbl_fertilizer);
+            setTxt('lbl-irrigation', langStore.lbl_irrigation);
+            setTxt('lbl-chances', langStore.lbl_chances);
+            setTxt('lbl-time', langStore.lbl_time);
+            setTxt('lbl-warning-signs', langStore.lbl_warning_signs);
+            setTxt('lbl-weather', langStore.lbl_weather);
+            setTxt('lbl-observed-symptoms', langStore.lbl_observed_symptoms || "Observed Symptoms:");
+            setTxt('lbl-possible-causes', langStore.lbl_possible_causes || "Possible Causes:");
+            setTxt('analyzed_photos_title', langStore.analyzed_photos_title || "Analyzed Photos");
+
+            // Populate analyzed image gallery if saved in session storage
+            const analyzedImagesStr = sessionStorage.getItem('analyzedImages');
+            const galleryCard = document.getElementById('analyzed-photos-card');
+            const galleryGrid = document.getElementById('analyzed-photos-gallery');
+            if (analyzedImagesStr) {
+                const images = JSON.parse(analyzedImagesStr);
+                if (images && images.length > 0) {
+                    galleryCard.style.display = 'block';
+                    galleryGrid.innerHTML = '';
+                    images.forEach((imgSrc, idx) => {
+                        const imgContainer = document.createElement('div');
+                        imgContainer.style.aspectRatio = '1';
+                        imgContainer.style.borderRadius = 'var(--radius-md)';
+                        imgContainer.style.border = '1px solid var(--glass-border)';
+                        imgContainer.style.overflow = 'hidden';
+                        imgContainer.style.cursor = 'pointer';
+
+                        imgContainer.innerHTML = `
                              <img src="${imgSrc}" alt="Analyzed Plant Photo ${idx + 1}" style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition-fast);">
                          `;
- 
-                         const imgEl = imgContainer.querySelector('img');
-                         imgContainer.addEventListener('mouseenter', () => { imgEl.style.transform = 'scale(1.08)'; });
-                         imgContainer.addEventListener('mouseleave', () => { imgEl.style.transform = 'scale(1)'; });
- 
-                         imgContainer.addEventListener('click', () => {
-                             const overlay = document.createElement('div');
-                             overlay.style.position = 'fixed';
-                             overlay.style.inset = '0';
-                             overlay.style.background = 'rgba(0,0,0,0.85)';
-                             overlay.style.zIndex = '3000';
-                             overlay.style.display = 'flex';
-                             overlay.style.alignItems = 'center';
-                             overlay.style.justifyContent = 'center';
-                             overlay.style.cursor = 'zoom-out';
-                             overlay.innerHTML = `<img src="${imgSrc}" style="max-width:90%; max-height:90%; border-radius:var(--radius-md); box-shadow:0 8px 32px rgba(0,0,0,0.4);">`;
-                             overlay.onclick = () => overlay.remove();
-                             document.body.appendChild(overlay);
-                         });
- 
-                         galleryGrid.appendChild(imgContainer);
-                     });
-                 } else {
-                     galleryCard.style.display = 'none';
-                 }
-             } else {
-                 galleryCard.style.display = 'none';
-             }
- 
-             // Populate Image-based diagnosis metadata if available
-             const extraMetaDiv = document.getElementById('image-diagnosis-extra');
-             if (data.observed_symptoms || data.possible_causes) {
-                 extraMetaDiv.style.display = 'block';
-                 document.getElementById('val-observed-symptoms').textContent = data.observed_symptoms || "N/A";
-                 document.getElementById('val-possible-causes').textContent = data.possible_causes || "N/A";
-             } else {
-                 extraMetaDiv.style.display = 'none';
-             }
- 
-             // Dynamically set back button target based on how the diagnosis was run
-             const backBtn = document.getElementById('back_btn');
-             if (backBtn) {
-                 if (analyzedImagesStr) {
-                     backBtn.href = '/upload.html';
-                 } else {
-                     backBtn.href = '/symptoms.html';
-                 }
-             }
+
+                        const imgEl = imgContainer.querySelector('img');
+                        imgContainer.addEventListener('mouseenter', () => { imgEl.style.transform = 'scale(1.08)'; });
+                        imgContainer.addEventListener('mouseleave', () => { imgEl.style.transform = 'scale(1)'; });
+
+                        imgContainer.addEventListener('click', () => {
+                            const overlay = document.createElement('div');
+                            overlay.style.position = 'fixed';
+                            overlay.style.inset = '0';
+                            overlay.style.background = 'rgba(0,0,0,0.85)';
+                            overlay.style.zIndex = '3000';
+                            overlay.style.display = 'flex';
+                            overlay.style.alignItems = 'center';
+                            overlay.style.justifyContent = 'center';
+                            overlay.style.cursor = 'zoom-out';
+                            overlay.innerHTML = `<img src="${imgSrc}" style="max-width:90%; max-height:90%; border-radius:var(--radius-md); box-shadow:0 8px 32px rgba(0,0,0,0.4);">`;
+                            overlay.onclick = () => overlay.remove();
+                            document.body.appendChild(overlay);
+                        });
+
+                        galleryGrid.appendChild(imgContainer);
+                    });
+                } else {
+                    galleryCard.style.display = 'none';
+                }
+            } else {
+                galleryCard.style.display = 'none';
+            }
+
+            // Populate Image-based diagnosis metadata if available
+            const extraMetaDiv = document.getElementById('image-diagnosis-extra');
+            if (data.observed_symptoms || data.possible_causes) {
+                extraMetaDiv.style.display = 'block';
+                document.getElementById('val-observed-symptoms').textContent = data.observed_symptoms || "N/A";
+                document.getElementById('val-possible-causes').textContent = data.possible_causes || "N/A";
+            } else {
+                extraMetaDiv.style.display = 'none';
+            }
+
+            // Dynamically set back button target based on how the diagnosis was run
+            const backBtn = document.getElementById('back_btn');
+            if (backBtn) {
+                if (analyzedImagesStr) {
+                    backBtn.href = '/upload.html';
+                } else {
+                    backBtn.href = '/symptoms.html';
+                }
+            }
 
             // Tab headers from langStore
             const headers = document.querySelectorAll('.tab-btn');
-            if (headers[0]) headers[0].textContent = langStore.tab_organic      || '🌿 Organic Plan';
-            if (headers[1]) headers[1].textContent = langStore.tab_chemical     || '🧪 Chemical Emergency';
-            if (headers[2]) headers[2].textContent = langStore.tab_prevention   || '🛡️ Prevention & Care';
-            if (headers[3]) headers[3].textContent = langStore.tab_forecast     || '📈 Recovery Forecast';
+            if (headers[0]) headers[0].textContent = langStore.tab_organic || '🌿 Organic Plan';
+            if (headers[1]) headers[1].textContent = langStore.tab_chemical || '🧪 Chemical Emergency';
+            if (headers[2]) headers[2].textContent = langStore.tab_prevention || '🛡️ Prevention & Care';
+            if (headers[3]) headers[3].textContent = langStore.tab_forecast || '📈 Recovery Forecast';
 
             // Populate Safety Logic Banner
             const safetyBanner = document.getElementById('safety-alert-banner');
             const confidence = data.confidence_score;
             if (confidence < 70) {
                 safetyBanner.className = "safety-banner safety-banner-warning";
-                safetyBanner.innerHTML = lang === 'gu' 
+                safetyBanner.innerHTML = lang === 'gu'
                     ? "⚠️ શંકાસ્પદ રોગ જણાય છે — કૃપા કરીને ચોક્કસ સલાહ માટે સ્થાનિક કૃષિ વિજ્ઞાન કેન્દ્ર (KVK) નો સંપર્ક કરો."
                     : lang === 'hi'
                         ? "⚠️ संभावित रोग का पता चला — कृपया अधिक जानकारी के लिए स्थानीय कृषि विज्ञान केंद्र (KVK) से सलाह लें।"
@@ -746,10 +846,10 @@
             document.getElementById('disease-name').textContent = data.disease_name;
             document.getElementById('disease-explanation').textContent = data.disease_explanation || "";
             document.getElementById('confidence-percentage').textContent = confidence + '%';
-            
+
             const confBar = document.getElementById('confidence-bar');
             confBar.style.width = confidence + '%';
-            
+
             const severityColor = (data.severity_color || 'Yellow').toUpperCase();
             let badgeClass = 'badge-yellow';
             let barClass = 'progress-yellow';
@@ -766,7 +866,7 @@
             }
 
             confBar.className = `progress-bar ${barClass}`;
-            
+
             const sevBadge = document.getElementById('severity-badge');
             sevBadge.className = `badge ${badgeClass}`;
             sevBadge.innerHTML = `<span>${severityColor === 'RED' ? '🔴' : (severityColor === 'GREEN' ? '🟢' : '🟡')}</span> <span>${severityText}</span>`;
@@ -778,7 +878,7 @@
                 data.top_diseases.forEach(d => {
                     const item = document.createElement('div');
                     item.className = 'comparison-item';
-                    
+
                     const score = d.confidence || d.confidence_score || 30;
                     let barColor = 'progress-green';
                     if (score > 80) barColor = severityColor === 'RED' ? 'progress-red' : (severityColor === 'GREEN' ? 'progress-green' : 'progress-yellow');
@@ -828,7 +928,7 @@
             // Populate Tab 3: Prevention & Care
             document.getElementById('val-fertilizer').textContent = data.fertilizer_suggestions || "N/A";
             document.getElementById('val-irrigation').textContent = data.irrigation_recommendations || "N/A";
-            
+
             const prevList = document.getElementById('prevention-steps-list');
             prevList.innerHTML = '';
             const prevention = data.prevention_methods || [];
@@ -871,54 +971,55 @@
 
 
 
-             // Listen to languageChanged to refresh AI diagnosis dynamically
-             const handleLanguageChange = async () => {
-                 const cropId = localStorage.getItem('selectedCrop');
-                 if (!cropId) return;
- 
-                 document.getElementById('loading-state').style.display = 'block';
-                 document.getElementById('result-box').style.display = 'none';
- 
-                 const analyzedImagesStr = sessionStorage.getItem('analyzedImages');
-                 if (analyzedImagesStr) {
-                     try {
-                         const imagesList = JSON.parse(analyzedImagesStr);
-                         const payloadImages = imagesList.map(src => ({
-                             base64Data: src,
-                             mimeType: 'image/jpeg'
-                         }));
-                         
-                         const symptomsStr = localStorage.getItem('selectedSymptoms') || '[]';
-                         const symptoms = JSON.parse(symptomsStr);
- 
-                         const response = await fetch('/api/diagnose-image', {
-                             method: 'POST',
-                             headers: { 'Content-Type': 'application/json' },
-                             body: JSON.stringify({
-                                 cropId,
-                                 images: payloadImages,
-                                 symptoms,
-                                 lang: window.currentLang
-                             })
-                         });
-                         if (!response.ok) throw new Error("Image re-diagnosis failed");
-                         const data = await response.json();
-                         sessionStorage.setItem('diagnosisResult', JSON.stringify(data));
-                         window.location.reload();
-                     } catch (err) {
-                         console.error("Language switch image diagnosis error:", err);
-                         window.location.href = '/index.html';
-                     }
-                 } else {
-                     const symptomsStr = localStorage.getItem('selectedSymptoms');
-                     if (!symptomsStr) return;
-                     const symptoms = JSON.parse(symptomsStr);
-                     await window.submitDiagnosis(cropId, symptoms, window.currentLang);
-                 }
-             };
- 
-             window.addEventListener('languageChanged', handleLanguageChange);
+            // Listen to languageChanged to refresh AI diagnosis dynamically
+            const handleLanguageChange = async () => {
+                const cropId = localStorage.getItem('selectedCrop');
+                if (!cropId) return;
+
+                document.getElementById('loading-state').style.display = 'block';
+                document.getElementById('result-box').style.display = 'none';
+
+                const analyzedImagesStr = sessionStorage.getItem('analyzedImages');
+                if (analyzedImagesStr) {
+                    try {
+                        const imagesList = JSON.parse(analyzedImagesStr);
+                        const payloadImages = imagesList.map(src => ({
+                            base64Data: src,
+                            mimeType: 'image/jpeg'
+                        }));
+
+                        const symptomsStr = localStorage.getItem('selectedSymptoms') || '[]';
+                        const symptoms = JSON.parse(symptomsStr);
+
+                        const response = await fetch('/api/diagnose-image', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                cropId,
+                                images: payloadImages,
+                                symptoms,
+                                lang: window.currentLang
+                            })
+                        });
+                        if (!response.ok) throw new Error("Image re-diagnosis failed");
+                        const data = await response.json();
+                        sessionStorage.setItem('diagnosisResult', JSON.stringify(data));
+                        window.location.reload();
+                    } catch (err) {
+                        console.error("Language switch image diagnosis error:", err);
+                        window.location.href = '/index.html';
+                    }
+                } else {
+                    const symptomsStr = localStorage.getItem('selectedSymptoms');
+                    if (!symptomsStr) return;
+                    const symptoms = JSON.parse(symptomsStr);
+                    await window.submitDiagnosis(cropId, symptoms, window.currentLang);
+                }
+            };
+
+            window.addEventListener('languageChanged', handleLanguageChange);
         });
     </script>
 </body>
+
 </html>

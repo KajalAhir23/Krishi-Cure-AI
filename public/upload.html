@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Krishi-Cure Pro - Upload Photos</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Firebase SDK (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    
+
     <!-- Auth helper -->
     <script src="/js/auth.js"></script>
     <style>
@@ -21,6 +24,7 @@
             margin-top: 1.5rem;
             margin-bottom: 2.5rem;
         }
+
         .slot-card {
             aspect-ratio: 1;
             border: 2px dashed var(--glass-border);
@@ -37,25 +41,30 @@
             text-align: center;
             overflow: hidden;
         }
+
         .slot-card:hover {
             border-color: var(--leaf-green);
             background: #fcfdfc;
             transform: translateY(-4px);
         }
+
         .slot-card.filled {
             border: 2px solid var(--leaf-green);
             background: white;
             cursor: default;
         }
+
         .slot-card.filled:hover {
             transform: none;
         }
+
         .slot-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: calc(var(--radius-lg) - 4px);
         }
+
         .slot-placeholder {
             display: flex;
             flex-direction: column;
@@ -63,19 +72,23 @@
             gap: 0.6rem;
             color: var(--text-light);
         }
+
         .slot-placeholder .icon {
             font-size: 2.6rem;
         }
+
         .slot-placeholder .label {
             font-weight: 700;
             font-size: 0.95rem;
             color: var(--forest-green);
         }
+
         .slot-placeholder .desc {
             font-size: 0.8rem;
             opacity: 0.8;
             line-height: 1.3;
         }
+
         .slot-card .remove-btn {
             position: absolute;
             top: 0.6rem;
@@ -91,11 +104,12 @@
             justify-content: center;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             transition: var(--transition-fast);
             z-index: 10;
             font-size: 0.9rem;
         }
+
         .slot-card .remove-btn:hover {
             background: rgb(220, 38, 38);
             transform: scale(1.1);
@@ -154,13 +168,15 @@
             font-family: inherit;
             font-size: 1.1rem;
             transition: var(--transition-fast);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
             margin-bottom: 1.5rem;
         }
+
         .accordion-header:hover {
             border-color: var(--leaf-green);
-            background: rgba(76,175,80,0.02);
+            background: rgba(76, 175, 80, 0.02);
         }
+
         .accordion-content {
             display: none;
             padding: 1rem;
@@ -204,7 +220,8 @@
 
         .spinner-icon {
             position: absolute;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
             font-size: 2.2rem;
         }
@@ -240,6 +257,7 @@
         }
     </style>
 </head>
+
 <body style="display: none;">
     <!-- Prevent UI flickering if logged in -->
     <script>
@@ -257,7 +275,8 @@
         <nav class="nav-menu">
             <a href="/index.html" class="nav-link" id="nav_home">Home</a>
             <a href="/fertilizer-calculator.html" class="nav-link" id="nav_fertilizer">Fertilizer Calculator</a>
-            <a href="javascript:void(0)" class="nav-link" id="nav_chatbot" onclick="document.getElementById('krishi-chatbot-trigger')?.click()">AI Chatbot</a>
+            <a href="javascript:void(0)" class="nav-link" id="nav_chatbot"
+                onclick="document.getElementById('krishi-chatbot-trigger')?.click()">AI Chatbot</a>
         </nav>
         <div style="display: flex; align-items: center; gap: 1rem;">
             <div class="lang-selector">
@@ -272,14 +291,15 @@
     <main class="container">
         <section class="step-card active">
             <a href="/diagnosis-choice.html" class="back-btn" id="back_btn">Back</a>
-            
+
             <h2><span id="upload_title">AI Crop Disease Detection</span></h2>
             <p id="upload_subtitle" style="color: var(--text-light); margin-bottom: 2rem; font-weight: 500;">
                 Select Crop and upload 1-4 images for analysis
             </p>
 
             <p style="font-size: 1.2rem; font-weight: 700; color: var(--text-light); margin-bottom: 1.5rem;">
-                <span id="select_crop_label">Selected Crop:</span> <span id="selected-crop-name" class="highlight">...</span>
+                <span id="select_crop_label">Selected Crop:</span> <span id="selected-crop-name"
+                    class="highlight">...</span>
             </p>
 
             <!-- Quick mobile capture buttons -->
@@ -293,12 +313,15 @@
             </div>
 
             <!-- Hidden Inputs -->
-            <input type="file" id="general-file-input" accept="image/png, image/jpeg, image/jpg" multiple style="display: none;">
+            <input type="file" id="general-file-input" accept="image/png, image/jpeg, image/jpg" multiple
+                style="display: none;">
             <input type="file" id="camera-file-input" accept="image/*" capture="environment" style="display: none;">
-            <input type="file" id="specific-slot-file-input" accept="image/png, image/jpeg, image/jpg" style="display: none;">
+            <input type="file" id="specific-slot-file-input" accept="image/png, image/jpeg, image/jpg"
+                style="display: none;">
 
             <!-- Slots Grid -->
-            <h3 id="recommended_images_title" style="color: var(--forest-green); font-size: 1.25rem; font-weight: 800; margin-bottom: 1rem;">
+            <h3 id="recommended_images_title"
+                style="color: var(--forest-green); font-size: 1.25rem; font-weight: 800; margin-bottom: 1rem;">
                 Recommended Photos:
             </h3>
 
@@ -344,7 +367,8 @@
                     <span id="accordion-arrow">➕</span>
                 </button>
                 <div class="accordion-content" id="symptoms-accordion-content">
-                    <p id="optional_symptoms_desc" style="color: var(--text-light); font-size: 0.95rem; margin-bottom: 1.25rem;">
+                    <p id="optional_symptoms_desc"
+                        style="color: var(--text-light); font-size: 0.95rem; margin-bottom: 1.25rem;">
                         Adding manual symptoms helps the AI make a more accurate diagnosis.
                     </p>
                     <div class="symptoms-container" id="symptoms-container">
@@ -365,7 +389,8 @@
             <div class="spinner-ring"></div>
             <div class="spinner-icon">🔬</div>
         </div>
-        <h2 id="analyzing_title" style="color: var(--forest-green); font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem;">
+        <h2 id="analyzing_title"
+            style="color: var(--forest-green); font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem;">
             Analyzing Images...
         </h2>
         <p id="analyzing_desc" style="color: var(--text-light); font-size: 1.1rem; max-width: 400px; margin: 0 auto;">
@@ -384,7 +409,8 @@
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>About Krishi Cure AI</h4>
-                <p>A state-of-the-art smart agriculture platform designed to help farmers diagnose crop diseases, calculate fertilizer requirements, check local weather, and consult our AI expert.</p>
+                <p>A state-of-the-art smart agriculture platform designed to help farmers diagnose crop diseases,
+                    calculate fertilizer requirements, check local weather, and consult our AI expert.</p>
             </div>
             <div class="footer-col">
                 <h4>Quick Links</h4>
@@ -400,7 +426,6 @@
                 <ul class="footer-links">
                     <li><a href="https://icar.org.in/" target="_blank" rel="noopener">ICAR Official</a></li>
                     <li><a href="https://www.india.gov.in/" target="_blank" rel="noopener">India Gov Portal</a></li>
-                    <li><a href="https://farmer.gov.in/" target="_blank" rel="noopener">Farmers' Portal</a></li>
                 </ul>
             </div>
         </div>
@@ -430,11 +455,11 @@
             const generalFileInput = document.getElementById('general-file-input');
             const cameraFileInput = document.getElementById('camera-file-input');
             const specificSlotFileInput = document.getElementById('specific-slot-file-input');
-            
+
             const cameraBtn = document.getElementById('camera-btn');
             const galleryBtn = document.getElementById('gallery-btn');
             const analyzeBtn = document.getElementById('analyze-btn');
-            
+
             const toggleSymptomsBtn = document.getElementById('toggle-symptoms-btn');
             const symptomsContent = document.getElementById('symptoms-accordion-content');
             const symptomsContainer = document.getElementById('symptoms-container');
@@ -450,10 +475,10 @@
                 document.getElementById('upload_title').textContent = langStore.upload_title || "AI Crop Disease Detection";
                 document.getElementById('upload_subtitle').textContent = langStore.upload_subtitle || "Select Crop and upload 1-4 images for analysis";
                 document.getElementById('select_crop_label').textContent = langStore.select_crop_label || "Selected Crop:";
-                
+
                 document.getElementById('btn-camera-text').textContent = lang === 'gu' ? "મોબાઈલ કેમેરા" : lang === 'hi' ? "मोबाइल कैमरा" : "Take Photo (Camera)";
                 document.getElementById('btn-gallery-text').textContent = lang === 'gu' ? "ગેલેરીમાંથી પસંદ કરો" : lang === 'hi' ? "गैलरी से चुनें" : "Choose from Gallery";
-                
+
                 document.getElementById('recommended_images_title').textContent = langStore.recommended_images_title || "Recommended Photos:";
                 document.getElementById('optional_symptoms_title').textContent = langStore.optional_symptoms_title || "Select Symptoms (Optional)";
                 document.getElementById('optional_symptoms_desc').textContent = langStore.optional_symptoms_desc || "Adding symptoms can help the AI give a more accurate diagnosis.";
@@ -585,7 +610,7 @@
             // Process image file and load it into a specific slot index
             const processFileIntoSlot = async (file, slotIdx) => {
                 const langStore = window.appData.langStore[window.currentLang] || {};
-                
+
                 // Verify image file type
                 const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
                 if (!validTypes.includes(file.type)) {
@@ -600,7 +625,7 @@
                     `;
 
                     const compressed = await compressAndConvertImage(file);
-                    
+
                     uploadedSlots[slotIdx] = {
                         file,
                         base64Data: compressed.base64Data,
@@ -637,9 +662,9 @@
             const renderSlotEmpty = (idx) => {
                 const slotCard = document.getElementById(`slot-${idx}`);
                 uploadedSlots[idx] = null;
-                
+
                 slotCard.className = 'slot-card';
-                
+
                 // Reconstruct template based on slot number
                 let icon = '🌱';
                 let defaultLabel = `Slot ${idx + 1}`;
@@ -722,7 +747,7 @@
                 if (e.target.files) {
                     const files = Array.from(e.target.files);
                     const langStore = window.appData.langStore[window.currentLang] || {};
-                    
+
                     let emptySlotsCount = uploadedSlots.filter(s => s === null).length;
                     if (files.length > emptySlotsCount) {
                         alert(langStore.error_max_images || "You can upload a maximum of 4 images.");
@@ -742,7 +767,7 @@
 
             // Drag and Drop support on desktop
             const dropZone = document.querySelector('.step-card');
-            
+
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
                 dropZone.addEventListener(eventName, preventDefaults, false);
             });
@@ -793,13 +818,13 @@
                 const desc = document.getElementById('analyzing_desc');
                 const fill = document.getElementById('progress-fill');
                 const carousel = document.getElementById('tips-carousel');
-                
+
                 const lang = window.currentLang;
                 const langStore = window.appData.langStore[lang] || {};
 
                 title.textContent = lang === 'gu' ? "ચિત્રોનું વિશ્લેષણ..." : lang === 'hi' ? "छवियों का विश्लेषण..." : "Analyzing Images...";
                 desc.textContent = langStore.analyzing_images_text || "Analyzing images with Multimodal AI and cross-referencing observations.";
-                
+
                 overlay.style.display = 'flex';
 
                 // Progress mock slider
@@ -860,10 +885,10 @@
             // Submit Diagnosis Action
             analyzeBtn.addEventListener('click', async () => {
                 const langStore = window.appData.langStore[window.currentLang] || {};
-                
+
                 // Get all uploaded image objects (filtering out nulls)
                 const activeImages = uploadedSlots.filter(s => s !== null);
-                
+
                 if (activeImages.length === 0) {
                     alert(langStore.error_no_images || "Please upload at least 1 image for diagnosis.");
                     return;
@@ -900,16 +925,16 @@
                     }
 
                     const resultData = await response.json();
-                    
+
                     // Save results to session storage
                     sessionStorage.setItem('diagnosisResult', JSON.stringify(resultData));
-                    
+
                     // Save base64 preview images (only the first 4 for display in results)
                     const previewDataUrls = activeImages.map(img => img.base64Data);
                     sessionStorage.setItem('analyzedImages', JSON.stringify(previewDataUrls));
 
                     overlayController.stop();
-                    
+
                     // Redirect to result dashboard
                     window.location.href = '/result.html';
 
@@ -926,4 +951,5 @@
         });
     </script>
 </body>
+
 </html>

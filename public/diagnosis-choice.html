@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Krishi-Cure Pro - Choose Method</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Firebase SDK (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    
+
     <!-- Auth helper -->
     <script src="/js/auth.js"></script>
     <style>
@@ -20,6 +23,7 @@
             gap: 2rem;
             margin-top: 2rem;
         }
+
         .choice-card {
             background: white;
             border: 2px solid var(--glass-border);
@@ -36,24 +40,29 @@
             text-decoration: none;
             color: inherit;
         }
+
         .choice-card:hover {
             transform: translateY(-8px);
             border-color: var(--leaf-green);
             box-shadow: var(--shadow-hover);
         }
+
         .choice-card .icon {
             font-size: 4rem;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+
         .choice-card:hover .icon {
             transform: scale(1.15);
         }
+
         .choice-card h3 {
             font-size: 1.5rem;
             font-weight: 800;
             color: var(--forest-green);
         }
+
         .choice-card p {
             color: var(--text-light);
             font-size: 1.05rem;
@@ -61,6 +70,7 @@
         }
     </style>
 </head>
+
 <body style="display: none;">
     <!-- Prevent UI flickering if logged in -->
     <script>
@@ -79,7 +89,8 @@
             <a href="/index.html" class="nav-link" id="nav_home">Home</a>
             <a href="/fertilizer-calculator.html" class="nav-link" id="nav_fertilizer">Fertilizer Calculator</a>
 
-            <a href="javascript:void(0)" class="nav-link" id="nav_chatbot" onclick="document.getElementById('krishi-chatbot-trigger')?.click()">AI Chatbot</a>
+            <a href="javascript:void(0)" class="nav-link" id="nav_chatbot"
+                onclick="document.getElementById('krishi-chatbot-trigger')?.click()">AI Chatbot</a>
         </nav>
         <div style="display: flex; align-items: center; gap: 1rem;">
             <div class="lang-selector">
@@ -94,10 +105,11 @@
     <main class="container">
         <section class="step-card active">
             <a href="/index.html" class="back-btn" id="back_btn">Back</a>
-            
+
             <h2 style="margin-bottom: 0.5rem;"><span id="choose_method_title">Choose Diagnosis Method</span></h2>
             <p style="font-size: 1.2rem; font-weight: 700; color: var(--text-light); margin-bottom: 2.5rem;">
-                <span id="select_crop_label">Selected Crop:</span> <span id="selected-crop-name" class="highlight">...</span>
+                <span id="select_crop_label">Selected Crop:</span> <span id="selected-crop-name"
+                    class="highlight">...</span>
             </p>
 
             <div class="choice-grid">
@@ -123,7 +135,8 @@
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>About Krishi Cure AI</h4>
-                <p>A state-of-the-art smart agriculture platform designed to help farmers diagnose crop diseases, calculate fertilizer requirements, check local weather, and consult our AI expert.</p>
+                <p>A state-of-the-art smart agriculture platform designed to help farmers diagnose crop diseases,
+                    calculate fertilizer requirements, check local weather, and consult our AI expert.</p>
             </div>
             <div class="footer-col">
                 <h4>Quick Links</h4>
@@ -139,7 +152,6 @@
                 <ul class="footer-links">
                     <li><a href="https://icar.org.in/" target="_blank" rel="noopener">ICAR Official</a></li>
                     <li><a href="https://www.india.gov.in/" target="_blank" rel="noopener">India Gov Portal</a></li>
-                    <li><a href="https://farmer.gov.in/" target="_blank" rel="noopener">Farmers' Portal</a></li>
                 </ul>
             </div>
         </div>
@@ -193,4 +205,5 @@
         });
     </script>
 </body>
+
 </html>

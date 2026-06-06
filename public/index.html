@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Krishi-Cure Pro — AI-powered crop disease diagnosis and smart weather advisory for Indian farmers. Supports English, Hindi, and Gujarati.">
+    <meta name="description"
+        content="Krishi-Cure Pro — AI-powered crop disease diagnosis and smart weather advisory for Indian farmers. Supports English, Hindi, and Gujarati.">
     <meta name="theme-color" content="#1a4731">
     <meta property="og:title" content="Krishi-Cure Pro — Smart Farming AI">
-    <meta property="og:description" content="AI crop disease diagnosis with real-time weather advisory for Indian farmers.">
+    <meta property="og:description"
+        content="AI crop disease diagnosis with real-time weather advisory for Indian farmers.">
     <meta property="og:type" content="website">
     <title>Krishi-Cure Pro</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/chatbot.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Firebase SDK (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    
+
     <!-- Auth helper -->
     <script src="/js/auth.js"></script>
 </head>
+
 <body style="display: none;">
     <!-- Prevent UI flickering if logged in -->
     <script>
@@ -38,7 +44,8 @@
             <a href="/index.html" class="nav-link active" id="nav_home">Home</a>
             <a href="/fertilizer-calculator.html" class="nav-link" id="nav_fertilizer">Fertilizer Calculator</a>
             <a href="javascript:void(0)" class="nav-link" id="nav_weather" onclick="toggleWeatherSection()">Weather</a>
-            <a href="javascript:void(0)" class="nav-link" id="nav_chatbot" onclick="document.getElementById('krishi-chatbot-trigger')?.click()">AI Chatbot</a>
+            <a href="javascript:void(0)" class="nav-link" id="nav_chatbot"
+                onclick="document.getElementById('krishi-chatbot-trigger')?.click()">AI Chatbot</a>
         </nav>
         <div style="display: flex; align-items: center; gap: 1rem;">
             <div class="lang-selector">
@@ -92,17 +99,20 @@
         <section class="step-card" id="step-crop" style="display: none;">
             <button class="back-btn" id="back-to-cat">Back</button>
             <h2 id="select_crop_title">Select Specific Crop</h2>
-            
+
             <div class="search-container" style="margin-bottom: 1.5rem; position: relative;">
-                <input type="text" id="search_crop_input" placeholder="Search crop..." style="width: 100%; padding: 1rem 1.5rem 1rem 3rem; border-radius: 12px; border: 1.5px solid var(--glass-border); font-family: inherit; font-size: 1.1rem; outline: none; transition: var(--transition-smooth); background: white;">
-                <span style="position: absolute; left: 1.2rem; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: var(--text-light);">🔍</span>
+                <input type="text" id="search_crop_input" placeholder="Search crop..."
+                    style="width: 100%; padding: 1rem 1.5rem 1rem 3rem; border-radius: 12px; border: 1.5px solid var(--glass-border); font-family: inherit; font-size: 1.1rem; outline: none; transition: var(--transition-smooth); background: white;">
+                <span
+                    style="position: absolute; left: 1.2rem; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: var(--text-light);">🔍</span>
             </div>
 
             <div id="crop-matrix-grid" class="crop-matrix-grid">
                 <!-- Row and column crop items populated by JS -->
             </div>
 
-            <button class="primary-btn diagnose-btn" id="next-btn" style="display: none; margin-top: 2.5rem;">Next: Select Symptoms</button>
+            <button class="primary-btn diagnose-btn" id="next-btn" style="display: none; margin-top: 2.5rem;">Next:
+                Select Symptoms</button>
         </section>
 
         <!-- Weather Card Section (hidden by default, toggled via Weather nav link) -->
@@ -114,7 +124,9 @@
         <div class="footer-grid">
             <div class="footer-col">
                 <h4 id="footer_about_title">About Krishi Cure AI</h4>
-                <p id="footer_about_desc">A state-of-the-art smart agriculture platform designed to help farmers diagnose crop diseases, calculate fertilizer requirements, check local weather, and consult our AI expert.</p>
+                <p id="footer_about_desc">A state-of-the-art smart agriculture platform designed to help farmers
+                    diagnose crop diseases, calculate fertilizer requirements, check local weather, and consult our AI
+                    expert.</p>
             </div>
             <div class="footer-col">
                 <h4 id="footer_quick_links">Quick Links</h4>
@@ -130,7 +142,6 @@
                 <ul class="footer-links">
                     <li><a href="https://icar.org.in/" target="_blank" rel="noopener">ICAR Official</a></li>
                     <li><a href="https://www.india.gov.in/" target="_blank" rel="noopener">India Gov Portal</a></li>
-                    <li><a href="https://farmer.gov.in/" target="_blank" rel="noopener">Farmers' Portal</a></li>
                 </ul>
             </div>
         </div>
@@ -170,13 +181,13 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             await window.initApp();
-            
+
             const stepCategory = document.getElementById('step-category');
             const stepCrop = document.getElementById('step-crop');
             const nextBtn = document.getElementById('next-btn');
             const backBtn = document.getElementById('back-to-cat');
             const searchInput = document.getElementById('search_crop_input');
-            
+
             let selectedCategory = null;
 
             // Render Translations for categories
@@ -233,9 +244,9 @@
                 const lang = window.currentLang;
                 const grid = document.getElementById('crop-matrix-grid');
                 const searchTerm = searchInput.value.toLowerCase().trim();
-                
+
                 grid.innerHTML = '';
-                
+
                 const selectedCropId = localStorage.getItem('selectedCrop');
 
                 const filteredCrops = cropsList.filter(crop => {
@@ -254,7 +265,7 @@
                     grid.appendChild(noResults);
                     return;
                 }
-                
+
                 filteredCrops.forEach(crop => {
                     const item = document.createElement('div');
                     item.className = 'crop-matrix-item';
@@ -264,22 +275,22 @@
                     item.innerHTML = `
                         <div class="crop-name">${crop[lang] || crop['en']}</div>
                     `;
-                    
+
                     item.addEventListener('click', () => {
                         // Clear previous selections
                         document.querySelectorAll('.crop-matrix-item').forEach(el => el.classList.remove('selected'));
-                        
+
                         // Set current selection
                         item.classList.add('selected');
-                        
+
                         // Save to localStorage for the next page
                         localStorage.setItem('selectedCrop', crop.id);
-                        
+
                         // Show and update Next button
                         nextBtn.style.display = 'block';
                         nextBtn.textContent = window.appData.langStore[window.currentLang].btn_next_choice || "Next";
                     });
-                    
+
                     grid.appendChild(item);
                 });
             };
@@ -297,4 +308,5 @@
         });
     </script>
 </body>
+
 </html>

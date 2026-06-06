@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Krishi-Cure Pro - Symptoms</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Firebase SDK (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    
+
     <!-- Auth helper -->
     <script src="/js/auth.js"></script>
 </head>
+
 <body style="display: none;">
     <!-- Prevent UI flickering if logged in -->
     <script>
@@ -32,7 +36,8 @@
             <a href="/index.html" class="nav-link" id="nav_home">Home</a>
             <a href="/fertilizer-calculator.html" class="nav-link" id="nav_fertilizer">Fertilizer Calculator</a>
 
-            <a href="javascript:void(0)" class="nav-link" id="nav_chatbot" onclick="document.getElementById('krishi-chatbot-trigger')?.click()">AI Chatbot</a>
+            <a href="javascript:void(0)" class="nav-link" id="nav_chatbot"
+                onclick="document.getElementById('krishi-chatbot-trigger')?.click()">AI Chatbot</a>
         </nav>
         <div style="display: flex; align-items: center; gap: 1rem;">
             <div class="lang-selector">
@@ -48,16 +53,19 @@
     <main class="container">
         <section class="step-card active">
             <a href="/index.html" class="back-btn" id="back_btn">Back</a>
-            
-            <h2><span id="symptoms_for_title">Symptoms for</span> <span id="selected_crop_name" class="highlight"></span></h2>
-            <p id="select_symptoms_text" class="form-label" style="font-size:1.2rem; margin-bottom:1rem; font-weight:bold;">Select all that apply:</p>
-            
+
+            <h2><span id="symptoms_for_title">Symptoms for</span> <span id="selected_crop_name"
+                    class="highlight"></span></h2>
+            <p id="select_symptoms_text" class="form-label"
+                style="font-size:1.2rem; margin-bottom:1rem; font-weight:bold;">Select all that apply:</p>
+
             <form id="symptoms-form">
                 <div class="symptoms-container" id="symptoms-container">
                     <!-- Populated by JS -->
                 </div>
-                
-                <button type="submit" class="primary-btn diagnose-btn" id="diagnose_btn" style="margin-top:2rem;">Diagnose Now</button>
+
+                <button type="submit" class="primary-btn diagnose-btn" id="diagnose_btn"
+                    style="margin-top:2rem;">Diagnose Now</button>
             </form>
         </section>
     </main>
@@ -67,7 +75,8 @@
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>About Krishi Cure AI</h4>
-                <p>A state-of-the-art smart agriculture platform designed to help farmers diagnose crop diseases, calculate fertilizer requirements, check local weather, and consult our AI expert.</p>
+                <p>A state-of-the-art smart agriculture platform designed to help farmers diagnose crop diseases,
+                    calculate fertilizer requirements, check local weather, and consult our AI expert.</p>
             </div>
             <div class="footer-col">
                 <h4>Quick Links</h4>
@@ -83,7 +92,6 @@
                 <ul class="footer-links">
                     <li><a href="https://icar.org.in/" target="_blank" rel="noopener">ICAR Official</a></li>
                     <li><a href="https://www.india.gov.in/" target="_blank" rel="noopener">India Gov Portal</a></li>
-                    <li><a href="https://farmer.gov.in/" target="_blank" rel="noopener">Farmers' Portal</a></li>
                 </ul>
             </div>
         </div>
@@ -98,7 +106,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             await window.initApp();
-            
+
             const cropId = localStorage.getItem('selectedCrop');
             if (!cropId) {
                 window.location.href = '/index.html';
@@ -116,7 +124,7 @@
 
                 const lang = window.currentLang;
                 const langStore = window.appData.langStore[lang] || window.appData.langStore['en'];
-                
+
                 console.log("Rendering symptoms for lang:", lang);
 
                 // Update crop name and get its specific symptoms
@@ -136,8 +144,8 @@
                 // Render checkboxes
                 symptomsContainer.innerHTML = '';
                 const categories = ['leaf', 'stem', 'flower', 'fruit', 'root'];
-                
-                categories.forEach(cat => { 
+
+                categories.forEach(cat => {
                     // Dynamic titles with flower support
                     let catTitle = '';
                     if (cat === 'flower') {
@@ -154,9 +162,9 @@
                         let actualCat = s.category;
                         const lowerEn = (s.en || '').toLowerCase();
                         if (actualCat === 'fruit' && (
-                            lowerEn.includes('flower') || 
-                            lowerEn.includes('blossom') || 
-                            lowerEn.includes('curd') || 
+                            lowerEn.includes('flower') ||
+                            lowerEn.includes('blossom') ||
+                            lowerEn.includes('curd') ||
                             lowerEn.includes('bud') ||
                             lowerEn.includes('boll')
                         )) {
@@ -164,11 +172,11 @@
                         }
                         return actualCat === cat;
                     });
-                    
+
                     if (cropSymptomsIds) {
                         catSymptoms = catSymptoms.filter(s => cropSymptomsIds.includes(s.id));
                     }
-                    
+
                     if (catSymptoms.length === 0) return; // Skip empty categories
 
                     const catHeader = document.createElement('h3');
@@ -188,10 +196,10 @@
                         `;
                         grid.appendChild(label);
                     });
-                    
+
                     symptomsContainer.appendChild(grid);
                 });
-                
+
                 console.log("Symptoms rendered successfully");
             };
 
@@ -202,9 +210,9 @@
                 e.preventDefault();
                 const formData = new FormData(e.target);
                 const symptoms = formData.getAll('symptoms');
-                
+
                 const langStore = window.appData.langStore[window.currentLang] || {};
-                
+
                 if (symptoms.length === 0) {
                     alert(langStore.select_symptom_alert || "Please select at least one symptom.");
                     return;
@@ -217,4 +225,5 @@
         });
     </script>
 </body>
+
 </html>

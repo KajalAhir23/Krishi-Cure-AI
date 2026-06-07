@@ -1,21 +1,51 @@
 {
-  "name": "krishi_cure",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "name": "krishi-cure-ai",
+  "version": "2.0.0",
+  "description": "AI-powered smart agriculture application helping farmers identify crop diseases and get treatment suggestions using AI in multiple languages",
+  "homepage": "https://github.com/yourusername/krishi-cure-ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/krishi-cure-ai.git"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Your Name",
   "license": "ISC",
   "type": "module",
+  "main": "server.js",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "echo \"Linting not configured yet\"",
+    "format": "echo \"Code formatting not configured yet\""
+  },
+  "keywords": [
+    "agriculture",
+    "AI",
+    "crop-disease",
+    "disease-detection",
+    "farming",
+    "farmers",
+    "multilingual",
+    "hindi",
+    "gujarati",
+    "english",
+    "machine-learning",
+    "chatbot",
+    "fertilizer-calculator"
+  ],
   "dependencies": {
     "@google/genai": "^2.3.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-rate-limit": "^8.5.2",
     "groq-sdk": "^1.2.0"
+  },
+  "devDependencies": {},
+  "bugs": {
+    "url": "https://github.com/yourusername/krishi-cure-ai/issues"
   }
 }

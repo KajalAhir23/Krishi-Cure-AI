@@ -69,7 +69,7 @@ app.use('/api', apiRoutes);
  */
 
 // Fallback to index.html for frontend routes (SPA)
-app.get('*', (req, res, next) => {
+app.get(/.*/, (req, res, next) => {
   // Only fallback if it's not an API request
   if (!req.url.startsWith('/api')) {
     return res.sendFile(path.join(__dirname, 'public', 'index.html'));

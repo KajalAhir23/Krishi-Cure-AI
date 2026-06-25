@@ -54,14 +54,16 @@ class AIService {
 
     const groq = new Groq({ apiKey: ENV.GROQ_API_KEY });
 
+    const { jsonMode, ...restOptions } = options;
+
     const requestConfig = {
       messages,
       model: CONFIG.AI_MODELS.GROQ.MODEL_ID,
-      temperature: options.temperature || 0.2,
-      ...options
+      temperature: restOptions.temperature || 0.2,
+      ...restOptions
     };
 
-    if (options.jsonMode) {
+    if (jsonMode) {
       requestConfig.response_format = { type: 'json_object' };
     }
 
@@ -83,13 +85,19 @@ class AIService {
 
     const ai = new GoogleGenAI({ apiKey: ENV.GEMINI_API_KEY });
 
+    const { jsonMode, systemInstruction, ...restOptions } = options;
+
     const config = {
-      temperature: options.temperature || 0.2,
-      ...options
+      temperature: restOptions.temperature || 0.2,
+      ...restOptions
     };
 
-    if (options.jsonMode) {
+    if (jsonMode) {
       config.responseMimeType = 'application/json';
+    }
+
+    if (systemInstruction) {
+      config.systemInstruction = systemInstruction;
     }
 
     const response = await ai.models.generateContent({
@@ -106,13 +114,33 @@ class AIService {
    * @param {Object} input - Diagnosis input
    * @returns {Promise<Object>} - Diagnosis result
    */
+  /**
+   * Generates diagnosis with AI (with fallback)
+   * @param {Object} input - Diagnosis input
+   * @returns {Promise<Object>} - Diagnosis result
+   */
   async generateDiagnosis(input) {
-    const { cropName, symptoms, lang = 'en' } = input;
+    const { cropName, symptoms, images, lang = 'en' } = input;
 
-    // Try Groq first
+    // If images are provided, we MUST use Gemini because Groq doesn't support images
+    if (images && images.length > 0) {
+      if (ENV.GEMINI_API_KEY) {
+        try {
+          console.log('📡 Using Gemini for multimodal image diagnosis...');
+          return await this.diagnoseWithGemini(cropName, symptoms, images, lang);
+        } catch (error) {
+          console.error('❌ Multimodal Gemini diagnosis failed:', error.message);
+          throw error;
+        }
+      } else {
+        throw new Error('Gemini API key is required for image-based diagnosis but not configured.');
+      }
+    }
+
+    // Try Groq first for text-only diagnosis
     if (ENV.GROQ_API_KEY) {
       try {
-        console.log('📡 Using Groq for diagnosis...');
+        console.log('📡 Using Groq for text-only diagnosis...');
         return await this.diagnoseWithGroq(cropName, symptoms, lang);
       } catch (error) {
         console.warn('⚠️  Groq failed, trying Gemini:', error.message);
@@ -122,8 +150,8 @@ class AIService {
     // Fallback to Gemini
     if (ENV.GEMINI_API_KEY) {
       try {
-        console.log('📡 Using Gemini for diagnosis...');
-        return await this.diagnoseWithGemini(cropName, symptoms, lang);
+        console.log('📡 Using Gemini for text-only diagnosis...');
+        return await this.diagnoseWithGemini(cropName, symptoms, [], lang);
       } catch (error) {
         console.error('❌ Gemini also failed:', error.message);
       }
@@ -169,7 +197,7 @@ class AIService {
    */
   async diagnoseWithGroq(cropName, symptoms, lang) {
     const systemInstruction = this.buildDiagnosisSystemPrompt();
-    const taskPrompt = this.buildDiagnosisTaskPrompt(cropName, symptoms, lang);
+    const taskPrompt = this.buildDiagnosisTaskPrompt(cropName, symptoms, lang, false);
 
     const response = await this.callGroqAPI(
       [
@@ -198,11 +226,30 @@ class AIService {
    * Diagnoses with Gemini API
    * @private
    */
-  async diagnoseWithGemini(cropName, symptoms, lang) {
+  async diagnoseWithGemini(cropName, symptoms, images = [], lang) {
     const systemInstruction = this.buildDiagnosisSystemPrompt();
-    const taskPrompt = this.buildDiagnosisTaskPrompt(cropName, symptoms, lang);
+    const taskPrompt = this.buildDiagnosisTaskPrompt(cropName, symptoms, lang, images && images.length > 0);
 
-    const response = await this.callGeminiAPI(taskPrompt, {
+    let contentPayload = [];
+    if (images && images.length > 0) {
+      for (const img of images) {
+        let base64Data = img.base64Data;
+        if (base64Data.includes(';base64,')) {
+          base64Data = base64Data.split(';base64,')[1];
+        }
+        contentPayload.push({
+          inlineData: {
+            mimeType: img.mimeType || 'image/jpeg',
+            data: base64Data
+          }
+        });
+      }
+    }
+
+    // Add prompt as the last part
+    contentPayload.push(taskPrompt);
+
+    const response = await this.callGeminiAPI(contentPayload, {
       temperature: CONFIG.AI_MODELS.GEMINI.TEMPERATURE_DIAGNOSIS,
       jsonMode: true,
       systemInstruction
@@ -276,15 +323,21 @@ Avoid complex scientific or technical terms. Use only common local words that fa
    * Builds diagnosis task prompt
    * @private
    */
-  buildDiagnosisTaskPrompt(cropName, symptoms, lang) {
+  buildDiagnosisTaskPrompt(cropName, symptoms, lang, hasImages = false) {
     const langName = CONFIG.LANGUAGES.LANGUAGE_NAMES[lang] || 'English';
 
-    return `Task: Carefully analyze these symptoms for ${cropName} and identify the top 3 possible diseases, pests, or deficiencies.
+    return `Task: Carefully analyze the symptoms ${hasImages ? 'and image(s) ' : ''}for ${cropName} and identify the top 3 possible diseases, pests, or deficiencies.
 Symptoms: ${Array.isArray(symptoms) ? symptoms.join(', ') : symptoms}
 Language Requested: ${langName}
 
 Output Requirement: You MUST respond ONLY with a valid JSON object (no markdown, no code blocks).
 Make the diagnosis scientifically accurate but use extremely simple, colloquial words in the requested language.
+
+Image Quality Rules (ONLY applicable if image is provided):
+- Assess the image quality for clarity, blur, lighting, or partial views.
+- If the image is blurry, low-light, or shows only a partial view, set "quality_issues_detected" to true and ensure the "confidence_score" is lowered appropriately (below 70).
+- Describe the quality in "image_quality_assessment" in ${langName}.
+- If no image is provided, set "quality_issues_detected" to false and "image_quality_assessment" to "No image provided".
 
 Format of the JSON object:
 {
@@ -294,6 +347,11 @@ Format of the JSON object:
     "risk_level": "High|Medium|Low",
     "yield_impact": "High|Medium|Low",
     "disease_explanation": "Very simple 1-sentence explanation",
+    "observed_symptoms": ["Symptom 1", "Symptom 2"],
+    "possible_causes": ["Cause 1", "Cause 2"],
+    "severity_level": "Severe|Moderate|Mild (translated to requested language)",
+    "image_quality_assessment": "Description of image quality (clarity, blur, lighting, etc.)",
+    "quality_issues_detected": false,
     "organic_treatment": ["Step 1", "Step 2", "Step 3"],
     "chemical_treatment": ["Step 1", "Step 2"],
     "prevention_methods": ["Prevention 1", "Prevention 2"],

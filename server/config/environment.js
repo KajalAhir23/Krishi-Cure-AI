@@ -15,6 +15,7 @@ export const ENV = {
   // API Keys
   GROQ_API_KEY: process.env.GROQ_API_KEY,
   GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+  WEATHER_API_KEY: process.env.WEATHER_API_KEY,
 
   // Firebase
   FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,

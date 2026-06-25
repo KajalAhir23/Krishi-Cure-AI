@@ -201,17 +201,6 @@ function setupEventListeners() {
         areaInput.addEventListener('input', saveInputsToLocalStorage);
     }
 
-    const downloadBtn = document.getElementById('download-pdf-btn');
-    if (downloadBtn) {
-        downloadBtn.addEventListener('click', () => {
-            if (window.latestFertilizerResult) {
-                const userName = localStorage.getItem('farmerName') || '';
-                window.downloadFertilizerReportPDF(window.latestFertilizerResult, window.selectedCropName, userName);
-            } else {
-                window.showToast("No calculation results to download.", "warning");
-            }
-        });
-    }
 }
 
 function setupAccordions() {
@@ -270,10 +259,21 @@ async function calculateFertilizer() {
         });
 
         if (!response.ok) throw new Error("Calculation API failed");
-        const data = await response.json();
+        const json = await response.json();
+        // API wraps all responses: { success: true, data: {...} }
+        const data = json.data || json;
         
-        window.latestFertilizerResult = data;
-        displayResults(data);
+        // Normalize field names from API response
+        const normalized = {
+            ...data,
+            quantity: data.quantity?.total ?? data.quantity,
+            quantity_per_unit: data.quantity?.per_unit_area ?? data.quantity_per_unit,
+            method: data.application?.details ?? data.method,
+            fertilizer_name: data.fertilizer_name
+        };
+        
+        window.latestFertilizerResult = normalized;
+        displayResults(normalized);
     } catch (e) {
         console.error(e);
         window.showToast("Calculation failed. Please verify fields.", 'error');
@@ -297,12 +297,16 @@ function displayResults(data) {
     
     const resAreaDesc = document.getElementById('res_area_desc');
     if (resAreaDesc) {
-        const unitDisplay = window.t('fert_lbl_unit') || data.area.unit;
-        resAreaDesc.textContent = `${window.t('fert_res_area_desc') || 'For total area of'} ${data.area.value} ${data.area.unit} (${data.area.hectares} Hectares)`;
+        const unitKey = 'opt_' + data.area.unit.toLowerCase();
+        const translatedUnit = window.t(unitKey) || data.area.unit;
+        const translatedHectares = window.t('opt_hectare') || 'Hectares';
+        resAreaDesc.textContent = `${window.t('fert_res_area_desc') || 'For total area of'} ${data.area.value} ${translatedUnit} (${data.area.hectares} ${translatedHectares})`;
     }
 
     const container = document.getElementById('quantity-cards-container');
     if (container) {
+        const unitKey = 'opt_' + data.area.unit.toLowerCase();
+        const translatedUnit = window.t(unitKey) || data.area.unit;
         container.innerHTML = `
             <div class="result-card" style="grid-column: 1 / -1;">
                 <div class="fert-name" style="font-size: 1.2rem; color: var(--forest-green); font-weight: 800;">${data.fertilizer_name}</div>
@@ -310,7 +314,7 @@ function displayResults(data) {
                     ${data.quantity} <span style="font-size: 1.5rem; font-weight: 700;">kg</span>
                 </div>
                 <div style="font-size: 0.95rem; color: var(--text-light); margin-top: 0.8rem; border-top: 1px solid var(--glass-border); padding-top: 0.6rem; font-weight: 600;">
-                    Per ${data.area.unit}: ${data.quantity_per_unit} kg
+                    ${window.t('lbl_qty_per_unit') || 'Per Unit Area'}: ${data.quantity_per_unit} kg (${window.t('lbl_per') || 'per'} ${translatedUnit})
                 </div>
             </div>
         `;

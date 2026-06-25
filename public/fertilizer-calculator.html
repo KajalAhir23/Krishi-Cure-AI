@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#1a4731">
     <title>Fertilizer Calculator | Krishi Cure AI</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Gujarati:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Firebase SDK (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -164,7 +164,7 @@
 
             <a href="javascript:void(0)" class="nav-link" id="nav_chatbot" onclick="document.getElementById('krishi-chatbot-trigger')?.click()">AI Chatbot</a>
         </nav>
-        <div style="display: flex; align-items: center; gap: 1rem;">
+        <div class="header-controls">
             <div class="lang-selector">
                 <button class="lang-btn active" data-lang="en">ENGLISH</button>
                 <button class="lang-btn" data-lang="hi">हिन्दी</button>
@@ -177,8 +177,8 @@
     <main class="container">
         <!-- Form Section wrapped in the premium step-card -->
         <section class="step-card active">
-            <h2 id="fert_title">Fertilizer Calculator 🧮</h2>
-            <p id="fert_subtitle" style="color: var(--text-light); margin-bottom: 2.5rem; font-weight: 500; font-size: 1.15rem; line-height: 1.5;">Calculate accurate Urea, DAP, and Potash requirements for your crop based on land area.</p>
+            <h2 id="fert_title"><span data-i18n="fert_title"></span></h2>
+            <p id="fert_subtitle" style="color: var(--text-light); margin-bottom: 2.5rem; font-weight: 500; font-size: 1.15rem; line-height: 1.5;"><span data-i18n="fert_subtitle"></span></p>
 
             <form id="fertilizer-form" class="calc-form" onsubmit="event.preventDefault();" style="display: flex; flex-direction: column;">
                 
@@ -209,9 +209,9 @@
                     <div class="form-group" style="margin-bottom: 0;">
                         <label id="fert_lbl_unit" for="unit_select" style="display: block; font-weight: 700; font-size: 0.95rem; color: var(--text-main); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Select Area Unit:</label>
                         <select id="unit_select" style="width: 100%; padding: 0.95rem 1.20rem; border-radius: 12px; border: 1.5px solid var(--glass-border); font-family: inherit; font-size: 1.05rem; outline: none; transition: var(--transition-fast); background: white; cursor: pointer; color: var(--text-main);" required>
-                            <option value="Bigha">Bigha</option>
-                            <option value="Acre">Acre</option>
-                            <option value="Hectare">Hectare</option>
+                            <option value="Bigha" data-i18n="opt_bigha">Bigha</option>
+                            <option value="Acre" data-i18n="opt_acre">Acre</option>
+                            <option value="Hectare" data-i18n="opt_hectare">Hectare</option>
                         </select>
                     </div>
 
@@ -224,7 +224,7 @@
                 </div>
 
                 <div style="text-align: center; margin-top: 1.5rem;">
-                    <button type="button" id="calc-btn" class="primary-btn" style="padding: 1rem 3.5rem; font-size: 1.1rem; border-radius: 12px;">Calculate Requirements ⚡</button>
+                    <button type="button" id="calc-btn" class="primary-btn" style="padding: 1rem 3.5rem; font-size: 1.1rem; border-radius: 12px;"><span data-i18n="fert_btn_calc"></span></button>
                 </div>
             </form>
 
@@ -243,9 +243,6 @@
                         <h2 id="res_title" style="color: var(--forest-green); font-size: 1.9rem; font-weight: 800; margin-bottom: 0.3rem; margin-top: 0; text-transform: uppercase;">COTTON + UREA</h2>
                         <p id="res_area_desc" style="color: var(--text-light); font-size: 1.05rem; font-weight: 700; margin: 0;"></p>
                     </div>
-                    <button id="download-pdf-btn" class="primary-btn" style="padding: 0.85rem 1.6rem; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; border-radius: var(--radius-sm); font-weight: 800; text-transform: uppercase;">
-                        📥 Download PDF Report
-                    </button>
                 </div>
 
                 <!-- Quantity Required Cards Grid -->
@@ -329,10 +326,9 @@
         </div>
     </footer>
 
-    <!-- html2pdf.js Dependency -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="/translations.js"></script>
     <script src="/js/app.js"></script>
-    <script src="/js/pdf-report.js"></script>
+    <script src="/js/status-ticker.js"></script>
     <script src="/js/fertilizer-calc.js"></script>
 </body>
 </html>

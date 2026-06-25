@@ -30,11 +30,14 @@ window.firebaseAuth = null;
 window.confirmationResult = null;
 
 // Initialize Firebase dynamically using configuration from the backend env
-window.initFirebase = async () => {
+// Start immediately (not waiting for DOMContentLoaded) to avoid race condition
+window.firebaseInitPromise = (async () => {
     try {
         const response = await fetch('/api/firebase-config');
         if (!response.ok) throw new Error("Failed to load Firebase configuration");
-        const firebaseConfig = await response.json();
+        const json = await response.json();
+        // Extract from API wrapper { success: true, data: {...} }
+        const firebaseConfig = json.data || json;
         
         if (!firebase.apps.length) {
             window.firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -62,9 +65,17 @@ window.initFirebase = async () => {
                 }
             }
         });
+        console.log('✅ Firebase initialized successfully');
+        return true;
     } catch (error) {
         console.error("Firebase Initialization Error:", error);
+        return false;
     }
+})();
+
+// Legacy wrapper for backward-compatible calls
+window.initFirebase = async () => {
+    return window.firebaseInitPromise;
 };
 
 // Update user profile information across the application UI
@@ -228,7 +239,6 @@ window.logoutUser = async () => {
 
 // Setup initial triggers when DOM is loaded
 window.addEventListener('DOMContentLoaded', () => {
-    if (typeof firebase !== 'undefined') {
-        window.initFirebase();
-    }
+    // firebaseInitPromise was already started at script load time.
+    // Nothing else needed here; the promise handles initialization.
 });

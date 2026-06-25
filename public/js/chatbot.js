@@ -39,77 +39,7 @@
 
     let chatHistory = [];
     let isModalOpen = false;
-    let activeSpeakBtn = null;
 
-    // Speech Synthesis Helper
-    window.speakText = (text, lang) => {
-        if (!('speechSynthesis' in window)) {
-            console.warn("[SpeechSynthesis] API is not supported in this browser.");
-            return;
-        }
-        window.speechSynthesis.cancel();
-        
-        const cleanText = text
-            .replace(/<\/?[^>]+(>|$)/g, "")
-            .replace(/[\*\_#`~]/g, "")
-            .replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF]/g, "");
-            
-        const utterance = new SpeechSynthesisUtterance(cleanText);
-        const localeMap = { en: 'en-US', hi: 'hi-IN', gu: 'gu-IN' };
-        utterance.lang = localeMap[lang] || 'en-US';
-        
-        const voices = window.speechSynthesis.getVoices();
-        let voice = voices.find(v => v.lang.toLowerCase() === utterance.lang.toLowerCase());
-        if (!voice) {
-            voice = voices.find(v => v.lang.toLowerCase().startsWith(lang.toLowerCase()));
-        }
-        if (voice) {
-            utterance.voice = voice;
-            console.log(`[SpeechSynthesis] Voice selected: ${voice.name} (${voice.lang})`);
-        } else {
-            console.warn(`[SpeechSynthesis] No matching voice found for lang: ${utterance.lang}`);
-        }
-        
-        utterance.rate = 0.9;
-        
-        utterance.onstart = () => {
-            window.dispatchEvent(new CustomEvent('speechStarted'));
-        };
-        utterance.onend = () => {
-            window.dispatchEvent(new CustomEvent('speechEnded'));
-        };
-        utterance.onerror = (e) => {
-            console.error("[SpeechSynthesis] Error speaking utterance:", e);
-            window.dispatchEvent(new CustomEvent('speechEnded'));
-        };
-        
-        window.speechSynthesis.speak(utterance);
-    };
-
-    // Pre-trigger loading of voices
-    if (window.speechSynthesis) {
-        window.speechSynthesis.getVoices();
-        if ('onvoiceschanged' in window.speechSynthesis) {
-            window.speechSynthesis.onvoiceschanged = () => {
-                console.log("[SpeechSynthesis] Loaded voices count:", window.speechSynthesis.getVoices().length);
-            };
-        }
-    }
-
-    window.addEventListener('speechStarted', () => {
-        if (activeSpeakBtn) {
-            activeSpeakBtn.innerHTML = `⏹️ <span class="voice-indicator"><span></span><span></span><span></span></span>`;
-            activeSpeakBtn.classList.add('speaking');
-        }
-    });
-
-    window.addEventListener('speechEnded', () => {
-        if (activeSpeakBtn) {
-            activeSpeakBtn.innerHTML = `🔊 <span>${window.t('speak_btn') || 'Listen'}</span>`;
-            activeSpeakBtn.classList.remove('speaking');
-            activeSpeakBtn = null;
-        }
-    });
 
     function loadHistory() {
         try {
@@ -179,19 +109,6 @@
         const input = document.getElementById('chatbot-ui-input');
         const messagesContainer = document.getElementById('chatbot-ui-messages');
         
-        const micBtn = document.createElement('button');
-        micBtn.id = 'chatbot-mic-btn';
-        micBtn.className = 'mic-btn';
-        micBtn.type = 'button';
-        micBtn.title = 'Voice Input';
-        micBtn.style.fontSize = '1.15rem';
-        micBtn.innerHTML = '🎤';
-            
-        const footer = document.querySelector('.chatbot-footer');
-        if (footer) {
-            footer.insertBefore(micBtn, sendBtn);
-        }
-
         trigger.addEventListener('click', () => {
             isModalOpen = !isModalOpen;
             if (isModalOpen) {
@@ -200,16 +117,12 @@
                 renderMessages();
             } else {
                 modal.classList.remove('active');
-                window.speechSynthesis.cancel();
-                window.dispatchEvent(new Event('speechEnded'));
             }
         });
 
         closeBtn.addEventListener('click', () => {
             isModalOpen = false;
             modal.classList.remove('active');
-            window.speechSynthesis.cancel();
-            window.dispatchEvent(new Event('speechEnded'));
         });
 
         sendBtn.addEventListener('click', sendMessage);
@@ -219,234 +132,8 @@
             }
         });
 
-        let recognition = null;
-        let micState = 'idle';
-        let timeoutId = null;
-        let autoSendTimeoutId = null;
-        let resetTimeoutId = null;
-
-        const voiceStates = {
-            en: {
-                listening: "🔴 Listening...",
-                completed: "✅ Speech captured",
-                error_denied: "⚠️ Microphone permission denied",
-                error_no_speech: "⚠️ No speech detected",
-                error_unsupported: "⚠️ Browser not supported",
-                error_timeout: "⚠️ Recognition timeout",
-                error_network: "⚠️ Network error",
-                error_generic: "⚠️ Could not recognize speech"
-            },
-            hi: {
-                listening: "🔴 सुन रहा है...",
-                completed: "✅ आवाज़ कैप्चर की गई",
-                error_denied: "⚠️ माइक्रोफ़ोन अनुमति अस्वीकृत",
-                error_no_speech: "⚠️ कोई आवाज़ नहीं मिली",
-                error_unsupported: "⚠️ यह ब्राउज़र सपोर्ट नहीं करता",
-                error_timeout: "⚠️ समय समाप्त हो गया",
-                error_network: "⚠️ नेटवर्क त्रुटि",
-                error_generic: "⚠️ आवाज़ पहचान नहीं पाए"
-            },
-            gu: {
-                listening: "🔴 સાંભળી રહ્યો છું...",
-                completed: "✅ અવાજ મેળવ્યો",
-                error_denied: "⚠️ માઇક્રોફોન મંજૂરી નકારવામાં આવી",
-                error_no_speech: "⚠️ કોઈ અવાજ મળ્યો નહીં",
-                error_unsupported: "⚠️ આ બ્રાઉઝર સપોર્ટ કરતું નથી",
-                error_timeout: "⚠️ સમય સમાપ્ત થઈ ગયો",
-                error_network: "⚠️ નેટવર્ક ભૂલ",
-                error_generic: "⚠️ અવાજ ઓળખી શકાયો નહીં"
-            }
-        };
-
-        function setMicState(state, errorKey = null) {
-            micState = state;
-            const lang = window.currentLang || 'en';
-            const states = voiceStates[lang] || voiceStates.en;
-            const t = localizations[lang] || localizations.en;
-
-            // Clear any pending timeouts
-            if (timeoutId) {
-                clearTimeout(timeoutId);
-                timeoutId = null;
-            }
-            if (autoSendTimeoutId) {
-                clearTimeout(autoSendTimeoutId);
-                autoSendTimeoutId = null;
-            }
-            if (resetTimeoutId) {
-                clearTimeout(resetTimeoutId);
-                resetTimeoutId = null;
-            }
-
-            switch (state) {
-                case 'idle':
-                    micBtn.innerHTML = '🎤';
-                    micBtn.classList.remove('active', 'completed', 'error');
-                    micBtn.title = 'Voice Input';
-                    input.placeholder = t.placeholder;
-                    break;
-                case 'listening':
-                    micBtn.innerHTML = '🔴';
-                    micBtn.classList.add('active');
-                    micBtn.classList.remove('completed', 'error');
-                    micBtn.title = states.listening;
-                    input.placeholder = states.listening;
-                    break;
-                case 'completed':
-                    micBtn.innerHTML = '✅';
-                    micBtn.classList.add('completed');
-                    micBtn.classList.remove('active', 'error');
-                    micBtn.title = states.completed;
-                    input.placeholder = states.completed;
-                    break;
-                case 'error':
-                    micBtn.innerHTML = '⚠️';
-                    micBtn.classList.add('error');
-                    micBtn.classList.remove('active', 'completed');
-                    const errorMsg = states[errorKey] || states.error_generic;
-                    micBtn.title = errorMsg;
-                    input.placeholder = errorMsg;
-                    input.value = '';
-
-                    // Auto-reset to idle after 3 seconds
-                    resetTimeoutId = setTimeout(() => {
-                        setMicState('idle');
-                    }, 3000);
-                    break;
-            }
-        }
-
-        function startSpeechRecognition() {
-            const lang = window.currentLang || 'en';
-            
-            // Check browser support
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) {
-                console.error("[SpeechRecognition] Browser does not support Web Speech API.");
-                setMicState('error', 'error_unsupported');
-                return;
-            }
-
-            // Cancel any active SpeechSynthesis before starting microphone
-            if (window.speechSynthesis) {
-                window.speechSynthesis.cancel();
-                window.dispatchEvent(new Event('speechEnded'));
-            }
-
-            try {
-                recognition = new SpeechRecognition();
-                
-                // Configure recognition settings
-                const langMap = { en: 'en-US', hi: 'hi-IN', gu: 'gu-IN' };
-                recognition.lang = langMap[lang] || 'en-US';
-                recognition.interimResults = false;
-                recognition.maxAlternatives = 1;
-                recognition.continuous = false;
-
-                console.log(`[SpeechRecognition] Initialized with language: ${recognition.lang}`);
-
-                recognition.onstart = () => {
-                    console.log("[SpeechRecognition] Session started.");
-                    setMicState('listening');
-                    
-                    // Safety timeout of 10 seconds if user starts recognition but does not speak
-                    timeoutId = setTimeout(() => {
-                        console.warn("[SpeechRecognition] Safety timeout reached. Stopping...");
-                        if (recognition) {
-                            recognition.abort();
-                        }
-                        setMicState('error', 'error_timeout');
-                    }, 10000);
-                };
-
-                recognition.onresult = (event) => {
-                    if (timeoutId) {
-                        clearTimeout(timeoutId);
-                        timeoutId = null;
-                    }
-                    
-                    const transcript = event.results[0][0].transcript;
-                    console.log(`[SpeechRecognition] Successfully transcribed: "${transcript}"`);
-                    
-                    input.value = transcript;
-                    input.focus();
-                    
-                    setMicState('completed');
-                    
-                    // Automatically process the message after 1 second
-                    autoSendTimeoutId = setTimeout(() => {
-                        setMicState('idle');
-                        sendMessage();
-                    }, 1000);
-                };
-
-                recognition.onerror = (event) => {
-                    if (timeoutId) {
-                        clearTimeout(timeoutId);
-                        timeoutId = null;
-                    }
-                    console.error(`[SpeechRecognition] Error: ${event.error}`);
-                    
-                    let errorKey = 'error_generic';
-                    if (event.error === 'not-allowed' || event.error === 'permission-denied') {
-                        errorKey = 'error_denied';
-                    } else if (event.error === 'no-speech') {
-                        errorKey = 'error_no_speech';
-                    } else if (event.error === 'network') {
-                        errorKey = 'error_network';
-                    } else if (event.error === 'aborted') {
-                        // User manual stop/abort, ignore showing error
-                        return;
-                    }
-                    
-                    setMicState('error', errorKey);
-                };
-
-                recognition.onend = () => {
-                    console.log("[SpeechRecognition] Session ended.");
-                    if (timeoutId) {
-                        clearTimeout(timeoutId);
-                        timeoutId = null;
-                    }
-                    // Only return to idle if we aren't in completed or error transient states
-                    if (micState === 'listening') {
-                        setMicState('idle');
-                    }
-                };
-
-                // Explicit stop when user finishes speaking
-                recognition.onspeechend = () => {
-                    console.log("[SpeechRecognition] User stopped speaking.");
-                    recognition.stop();
-                };
-
-                recognition.start();
-            } catch (e) {
-                console.error("[SpeechRecognition] Could not start recognition:", e);
-                setMicState('error', 'error_generic');
-            }
-        }
-
-        micBtn.addEventListener('click', () => {
-            if (micState === 'listening') {
-                console.log("[SpeechRecognition] User manually stopped recognition.");
-                if (recognition) {
-                    recognition.abort();
-                }
-                setMicState('idle');
-            } else if (micState === 'idle') {
-                startSpeechRecognition();
-            }
-        });
-
         window.addEventListener('languageChanged', () => {
             updateUIStrings();
-            if (micState !== 'idle') {
-                if (recognition) {
-                    recognition.abort();
-                }
-                setMicState('idle');
-            }
         });
         updateUIStrings();
         renderMessages();
@@ -534,26 +221,6 @@
             contentDiv.textContent = t.greeting;
             greetingBubble.appendChild(contentDiv);
             
-            const speakBtn = document.createElement('button');
-            speakBtn.className = 'chat-speak-btn';
-            speakBtn.innerHTML = `🔊 <span>${window.t('speak_btn') || 'Listen'}</span>`;
-            
-            speakBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (activeSpeakBtn === speakBtn) {
-                    window.speechSynthesis.cancel();
-                    window.dispatchEvent(new Event('speechEnded'));
-                } else {
-                    if (activeSpeakBtn) {
-                        window.speechSynthesis.cancel();
-                        window.dispatchEvent(new Event('speechEnded'));
-                    }
-                    activeSpeakBtn = speakBtn;
-                    window.speakText(t.greeting, lang);
-                }
-            });
-
-            greetingBubble.appendChild(speakBtn);
             messagesContainer.appendChild(greetingBubble);
         } else {
             chatHistory.forEach(msg => {
@@ -564,28 +231,6 @@
                 contentDiv.innerHTML = parseMarkdown(msg.content);
                 bubble.appendChild(contentDiv);
                 
-                if (msg.role === 'assistant') {
-                    const speakBtn = document.createElement('button');
-                    speakBtn.className = 'chat-speak-btn';
-                    speakBtn.innerHTML = `🔊 <span>${window.t('speak_btn') || 'Listen'}</span>`;
-                    
-                    speakBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        if (activeSpeakBtn === speakBtn) {
-                            window.speechSynthesis.cancel();
-                            window.dispatchEvent(new Event('speechEnded'));
-                        } else {
-                            if (activeSpeakBtn) {
-                                window.speechSynthesis.cancel();
-                                window.dispatchEvent(new Event('speechEnded'));
-                            }
-                            activeSpeakBtn = speakBtn;
-                            window.speakText(msg.content, lang);
-                        }
-                    });
-
-                    bubble.appendChild(speakBtn);
-                }
                 messagesContainer.appendChild(bubble);
             });
         }
@@ -615,10 +260,6 @@
             return;
         }
 
-        // Cancel any active speech when sending a new message
-        window.speechSynthesis.cancel();
-        window.dispatchEvent(new Event('speechEnded'));
-
         chatHistory.push({ role: 'user', content: text });
         renderMessages();
 
@@ -638,8 +279,11 @@
                 })
             });
 
-            const data = await response.json();
+            const json = await response.json();
             typingIndicator.classList.remove('active');
+
+            // API wraps all responses: { success: true, data: { reply: '...' } }
+            const data = json.data || json;
 
             if (data && data.reply) {
                 chatHistory.push({ role: 'assistant', content: data.reply });

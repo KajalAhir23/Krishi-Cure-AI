@@ -23,7 +23,9 @@ window.submitDiagnosis = async (cropId, symptoms, lang) => {
             throw new Error(`API returned ${response.status}`);
         }
 
-        const data = await response.json();
+        const json = await response.json();
+        // API wraps all responses: { success: true, data: {...} }
+        const data = json.data || json;
         
         // Save to session storage and redirect
         sessionStorage.setItem('diagnosisResult', JSON.stringify(data));

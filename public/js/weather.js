@@ -546,17 +546,19 @@
             if (!res.ok) throw new Error('Weather API error');
             const data = await res.json();
 
-            const currentForecast = data.list?.[0];
-            if (!currentForecast) throw new Error('Invalid forecast data');
+            if (!data || !data.success || !data.data) {
+                throw new Error('Invalid weather response');
+            }
 
-            const cityName = data.city?.name || currentCityName || tr().localFallbackCityName;
+            const w = data.data;
+            const cityName = w.cityName || currentCityName || tr().localFallbackCityName;
 
             cachedWeather = {
-                temp:        currentForecast.main.temp,
-                humidity:    currentForecast.main.humidity,
-                weatherCode: currentForecast.weather[0].id,
-                windSpeed:   currentForecast.wind.speed * 3.6,
-                rainChance:  Math.round((currentForecast.pop ?? 0) * 100),
+                temp:        w.temp,
+                humidity:    w.humidity,
+                weatherCode: w.weatherCode,
+                windSpeed:   w.windSpeed,
+                rainChance:  w.rainChance,
                 cityName
             };
 
@@ -643,10 +645,14 @@
         }
     });
 
+    if (window.__weatherAutoInit === false) {
+    window.__initWeather = initWeather;
+} else {
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initWeather);
     } else {
         initWeather();
     }
+}
 
 })();

@@ -27,7 +27,7 @@
     </script>
 
     <div class="warning-banner">
-        <marquee scrollamount="5" id="warning_banner">Loading...</marquee>
+        <div class="warning-ticker-wrap"><span class="warning-ticker" id="warning_banner">Loading...</span></div>
     </div>
 
     <header class="app-header">
@@ -39,7 +39,7 @@
             <a href="javascript:void(0)" class="nav-link" id="nav_chatbot"
                 onclick="document.getElementById('krishi-chatbot-trigger')?.click()">AI Chatbot</a>
         </nav>
-        <div style="display: flex; align-items: center; gap: 1rem;">
+        <div class="header-controls">
             <div class="lang-selector">
                 <button class="lang-btn active" data-lang="en">ENGLISH</button>
                 <button class="lang-btn" data-lang="hi">हिन्दी</button>
@@ -56,8 +56,7 @@
 
             <h2><span id="symptoms_for_title">Symptoms for</span> <span id="selected_crop_name"
                     class="highlight"></span></h2>
-            <p id="select_symptoms_text" class="form-label"
-                style="font-size:1.2rem; margin-bottom:1rem; font-weight:bold;">Select all that apply:</p>
+            <p id="select_symptoms_text" class="form-label" style="font-size:1.1rem; margin-bottom:1.25rem;">Select all that apply:</p>
 
             <form id="symptoms-form">
                 <div class="symptoms-container" id="symptoms-container">
@@ -102,6 +101,7 @@
     </footer>
 
     <script src="/js/app.js"></script>
+    <script src="/js/status-ticker.js"></script>
     <script src="/js/diagnostic.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {

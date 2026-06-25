@@ -21,7 +21,7 @@
 
     <header class="app-header">
         <div class="logo">🌾 <span id="app_name">Krishi Cure AI</span></div>
-        <div class="header-right" style="display: flex; align-items: center; gap: 1rem;">
+        <div class="header-controls">
             <div class="lang-selector">
                 <button class="lang-btn" data-lang="en">ENGLISH</button>
                 <button class="lang-btn" data-lang="hi">हिन्दी</button>
@@ -36,7 +36,7 @@
 
             <!-- Card 1: Google Login -->
             <section class="step-card active login-card" style="flex: 1 1 0; min-width: 0; padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: center; background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);">
-                <h2 id="login_title" style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem; font-weight: 800; color: var(--forest-green);">Farmer Login</h2>
+                <h2 id="login_title" data-i18n="login_title" style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem; font-weight: 800; color: var(--forest-green);"></h2>
 
                 <div id="error-message" style="display: none; margin-bottom: 1.5rem; padding: 0.8rem 1rem; border-radius: 12px; background: #fff5f5; color: #c53030; border: 1px solid #fed7d7; font-weight: 600; font-size: 0.95rem;"></div>
 
@@ -54,24 +54,24 @@
             <!-- Card 2: How It Works -->
             <section class="step-card active login-card" style="flex: 1 1 0; min-width: 0; padding: 2rem 1.8rem; background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);">
                 <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid rgba(76,175,80,0.15);">
-                    <h3 id="card_crop_title" style="color: var(--forest-green); font-size: 1.2rem; font-weight: 800; margin: 0;">Crop Disease Prediction</h3>
+                    <h3 id="card_crop_title" data-i18n="card_crop_title" style="color: var(--forest-green); font-size: 1.2rem; font-weight: 800; margin: 0;">Crop Disease Prediction</h3>
                 </div>
                 <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1.2rem;">
                     <li style="display: flex; align-items: center; gap: 0.85rem;">
                         <span style="font-size: 1.3rem;">🌱</span>
-                        <span id="card_crop_li1" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Select Crop</span>
+                        <span id="card_crop_li1" data-i18n="card_crop_li1" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Select Crop</span>
                     </li>
                     <li style="display: flex; align-items: center; gap: 0.85rem;">
                         <span style="font-size: 1.3rem;">📷</span>
-                        <span id="card_crop_li2" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Upload 1–4 Images</span>
+                        <span id="card_crop_li2" data-i18n="card_crop_li2" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Upload 1–4 Images</span>
                     </li>
                     <li style="display: flex; align-items: center; gap: 0.85rem;">
                         <span style="font-size: 1.3rem;">🔍</span>
-                        <span id="card_crop_li3" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">(Optional) Select Symptoms</span>
+                        <span id="card_crop_li3" data-i18n="card_crop_li3" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">(Optional) Select Symptoms</span>
                     </li>
                     <li style="display: flex; align-items: center; gap: 0.85rem;">
                         <span style="font-size: 1.3rem;">🩺</span>
-                        <span id="card_crop_li4" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Get AI Result</span>
+                        <span id="card_crop_li4" data-i18n="card_crop_li4" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Get AI Result</span>
                     </li>
                 </ul>
             </section>
@@ -79,24 +79,20 @@
             <!-- Card 3: AI Chatbot -->
             <section class="step-card active login-card" style="flex: 1 1 0; min-width: 0; padding: 2rem 1.8rem; background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);">
                 <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid rgba(76,175,80,0.15);">
-                    <h3 id="card_chat_title" style="color: var(--forest-green); font-size: 1.2rem; font-weight: 800; margin: 0;">AI Agriculture Chatbot</h3>
+                    <h3 id="card_chat_title" data-i18n="card_chat_title" style="color: var(--forest-green); font-size: 1.2rem; font-weight: 800; margin: 0;">AI Agriculture Chatbot</h3>
                 </div>
                 <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1.2rem;">
                     <li style="display: flex; align-items: center; gap: 0.85rem;">
                         <span style="font-size: 1.3rem;">💬</span>
-                        <span id="card_chat_li1" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Open Chatbot</span>
+                        <span id="card_chat_li1" data-i18n="card_chat_li1" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Open Chatbot</span>
                     </li>
                     <li style="display: flex; align-items: center; gap: 0.85rem;">
-                        <span style="font-size: 1.3rem;">🎤</span>
-                        <span id="card_chat_li2" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Type or Speak</span>
-                    </li>
-                    <li style="display: flex; align-items: center; gap: 0.85rem;">
-                        <span style="font-size: 1.3rem;">🌐</span>
-                        <span id="card_chat_li3" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">English, Hindi, or Gujarati</span>
+                        <span style="font-size: 1.3rem;">⌨️</span>
+                        <span id="card_chat_li2" data-i18n="card_chat_li2" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Type in English, Hindi, or Gujarati</span>
                     </li>
                     <li style="display: flex; align-items: center; gap: 0.85rem;">
                         <span style="font-size: 1.3rem;">⚡</span>
-                        <span id="card_chat_li4" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Get Instant Farming Advice</span>
+                        <span id="card_chat_li4" data-i18n="card_chat_li4" style="color: var(--text-light); font-size: 0.97rem; font-weight: 600;">Get Instant Farming Advice</span>
                     </li>
                 </ul>
             </section>
@@ -121,9 +117,9 @@
             <div class="footer-col">
                 <h4 id="footer_quick_links">Quick Links</h4>
                 <ul class="footer-links">
-                    <li><a href="/index.html" id="nav_home">Home</a></li>
-                    <li><a href="/index.html" id="nav_disease">Disease Detection</a></li>
-                    <li><a href="/fertilizer-calculator.html" id="nav_fertilizer">Fertilizer Calculator</a></li>
+                    <li><a href="/index.html" id="footer_nav_home" data-i18n="nav_home">Home</a></li>
+                    <li><a href="/index.html" id="footer_nav_disease" data-i18n="nav_disease">Disease Detection</a></li>
+                    <li><a href="/fertilizer-calculator.html" id="footer_nav_fertilizer" data-i18n="nav_fertilizer">Fertilizer Calculator</a></li>
 
                 </ul>
             </div>
@@ -136,12 +132,14 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p id="footer_rights">© 2026 Krishi Cure AI. All Rights Reserved.</p>
-            <p id="footer_dev_by">Developed by Bhatiya Kajal</p>
+            <p id="footer_rights" data-i18n="footer_rights">© 2026 Krishi Cure AI. All Rights Reserved.</p>
+            <p id="footer_dev_by" data-i18n="developer_credit">Developed by Bhatiya Kajal</p>
         </div>
     </footer>
 
+    <script src="/translations.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/status-ticker.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             await window.initApp();
@@ -173,6 +171,10 @@
                     googleBtn.innerHTML = `<span>⏳</span> <span>${loggingInText}</span>`;
 
                     try {
+                        // Wait for Firebase to finish initializing before triggering sign-in
+                        if (window.firebaseInitPromise) {
+                            await window.firebaseInitPromise;
+                        }
                         if (!window.firebaseAuth) {
                             throw new Error("Firebase Auth is not initialized yet.");
                         }

@@ -48,7 +48,7 @@ export function validateImageDiagnosisInput(data) {
     return { isValid: false, error: CONFIG.ERRORS.MISSING_IMAGES };
   }
 
-  if (images.some(img => typeof img !== 'string')) {
+  if (images.some(img => !img || typeof img !== 'object' || typeof img.base64Data !== 'string')) {
     return { isValid: false, error: CONFIG.ERRORS.MISSING_IMAGES };
   }
 

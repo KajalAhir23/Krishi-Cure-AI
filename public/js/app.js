@@ -24,7 +24,9 @@ window.initApp = async () => {
     try {
         const response = await fetch('/api/data');
         if (!response.ok) throw new Error('Failed to load data');
-        window.appData = await response.json();
+        const json = await response.json();
+        // API wraps all responses: { success: true, data: {...} }
+        window.appData = json.data || json;
         
         setupLanguageToggles();
         applyTranslations();
@@ -134,26 +136,16 @@ function setupLanguageToggles() {
 }
 
 function applyTranslations() {
-    if (!window.appData) return;
-    const langStore = window.appData.langStore[window.currentLang];
-    if (!langStore) return;
+    if (!window.appData || !window.appData.langStore) return;
+    const langStore = window.appData.langStore[window.currentLang] || {};
 
-    // Translate by DOM IDs
     const elementsToTranslate = {
-        'warning_banner': 'warning_banner',
-        'app_name': 'app_name',
-        'select_crop_title': 'select_crop',
-        'search_crop_input': 'search_crop',
-        'back_btn': 'back',
-        'back-to-cat': 'back',
-        'symptoms_for_title': 'symptoms_for',
         'select_symptoms_text': 'select_symptoms',
         'diagnose_btn': 'diagnose',
         'diagnosis_result_title': 'diagnosis_result',
         'disease_prefix_text': 'disease_prefix',
         'match_text': 'match',
         'action_plan_title': 'action_plan_title',
-        'speak_btn_text': 'speak_btn',
         'restart_btn': 'restart',
         'logout_btn': 'logout',
         'welcome_greeting': 'welcome_back',
@@ -174,6 +166,7 @@ function applyTranslations() {
         'footer_resources': 'footer_resources',
         'footer_contact': 'footer_contact',
         'footer_rights': 'footer_rights',
+        'lbl-weather': 'lbl_weather',
         'footer_dev_by': 'developer_credit',
 
         // Fertilizer page
@@ -188,20 +181,6 @@ function applyTranslations() {
         'fert_res_area_desc': 'fert_res_area_desc',
         'fert_lbl_urea': 'fert_lbl_urea',
         'fert_lbl_dap': 'fert_lbl_dap',
-        'fert_lbl_potash': 'fert_lbl_potash',
-        'fert_lbl_other': 'fert_lbl_other',
-        'fert_lbl_schedule': 'fert_lbl_schedule',
-        'fert_lbl_notes': 'fert_lbl_notes',
-        'fert_btn_back': 'fert_btn_back',
-
-        // Weather section
-        'weather_advice_title': 'lbl_weather',
-
-        // Upload Page
-        'upload_title': 'upload_title',
-        'upload_subtitle': 'upload_subtitle',
-        'select_crop_label': 'select_crop_label',
-        'upload_area_title': 'upload_area_title',
         'upload_limit_info': 'upload_limit_info',
         'recommended_images_title': 'recommended_images_title',
         'rec_img_1': 'rec_img_1',
@@ -280,3 +259,4 @@ function setupMobileNavbar() {
         });
     }
 }
+window.applyGlobalTranslations = applyTranslations;

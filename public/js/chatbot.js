@@ -104,25 +104,37 @@
 
         chatHistory = loadHistory();
 
+        window.setChatbotModalOpen = function (val) {
+            isModalOpen = val;
+        };
+
         const closeBtn = document.getElementById('chatbot-ui-close');
         const sendBtn = document.getElementById('chatbot-ui-send');
         const input = document.getElementById('chatbot-ui-input');
         const messagesContainer = document.getElementById('chatbot-ui-messages');
         
         trigger.addEventListener('click', () => {
-            isModalOpen = !isModalOpen;
-            if (isModalOpen) {
-                modal.classList.add('active');
-                input.focus();
-                renderMessages();
+            const path = window.location.pathname;
+            if (path.includes('chatbot.html')) {
+                const restorePath = window.lastActivePath || '/index.html';
+                const finalPath = restorePath.includes('chatbot.html') ? '/index.html' : restorePath;
+                history.pushState(null, '', finalPath);
             } else {
-                modal.classList.remove('active');
+                window.lastActivePath = path;
+                history.pushState(null, '', '/chatbot.html');
+            }
+            if (typeof window.handleUrlRouting === 'function') {
+                window.handleUrlRouting();
             }
         });
 
         closeBtn.addEventListener('click', () => {
-            isModalOpen = false;
-            modal.classList.remove('active');
+            const restorePath = window.lastActivePath || '/index.html';
+            const finalPath = restorePath.includes('chatbot.html') ? '/index.html' : restorePath;
+            history.pushState(null, '', finalPath);
+            if (typeof window.handleUrlRouting === 'function') {
+                window.handleUrlRouting();
+            }
         });
 
         sendBtn.addEventListener('click', sendMessage);

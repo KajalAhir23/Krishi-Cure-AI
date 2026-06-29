@@ -41,11 +41,10 @@
     <header class="app-header">
         <div class="logo">🌾 <span id="app_name">Krishi Cure AI</span></div>
         <nav class="nav-menu">
-            <a href="/index.html" class="nav-link active" id="nav_home">Home</a>
+            <a href="/index.html" class="nav-link" id="nav_home">Home</a>
             <a href="/fertilizer-calculator.html" class="nav-link" id="nav_fertilizer">Fertilizer Calculator</a>
-            <a href="javascript:void(0)" class="nav-link" id="nav_weather" onclick="toggleWeatherSection()">Weather</a>
-            <a href="javascript:void(0)" class="nav-link" id="nav_chatbot"
-                onclick="document.getElementById('krishi-chatbot-trigger')?.click()">AI Chatbot</a>
+            <a href="/weather.html" class="nav-link" id="nav_weather">Weather</a>
+            <a href="/chatbot.html" class="nav-link" id="nav_chatbot">AI Chatbot</a>
         </nav>
         <div class="header-controls">
             <div class="lang-selector">
@@ -158,23 +157,17 @@
     <!-- Weather toggle: hidden by default, loads on first click -->
     <script>
         window.__weatherAutoInit = false; // prevent weather.js from auto-initializing
-        let weatherInitialized = false;
+        window.weatherInitialized = false;
 
         function toggleWeatherSection() {
-            const section = document.getElementById('weather-section');
-            if (!section) return;
-
-            if (section.style.display === 'none') {
-                section.style.display = 'block';
-                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-                // First time: trigger weather init
-                if (!weatherInitialized && typeof window.__initWeather === 'function') {
-                    window.__initWeather();
-                    weatherInitialized = true;
-                }
+            const path = window.location.pathname;
+            if (path.includes('weather.html')) {
+                history.pushState(null, '', '/index.html');
             } else {
-                section.style.display = 'none';
+                history.pushState(null, '', '/weather.html');
+            }
+            if (typeof window.handleUrlRouting === 'function') {
+                window.handleUrlRouting();
             }
         }
     </script>

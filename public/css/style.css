@@ -1,4 +1,4 @@
-﻿/* ================================================================
+/* ================================================================
    KRISHI-CURE PRO — Professional Enterprise UI System v3.0
    Government-Grade Agriculture Platform
    All colors preserved. Zero logic changes.
@@ -180,33 +180,70 @@ h4 {
     display: block;
     overflow: hidden;
     width: 100%;
+    position: relative;
 }
 
 .warning-ticker {
     display: inline-block;
     white-space: nowrap;
-    animation: tickerScroll 32s linear infinite;
-    padding-left: 100%;
     transition: opacity 0.35s ease;
 }
 
-/* Ready state: centered rotating messages, no scroll */
-.warning-ticker.ready {
-    animation: none;
-    padding-left: 0;
+/* Loading state: centered & static */
+.warning-ticker.ticker-loading {
     display: block;
     text-align: center;
     width: 100%;
-    letter-spacing: 0.03em;
+    animation: tickerPulse 1.8s ease-in-out infinite;
 }
 
-.warning-ticker.fade-out {
-    opacity: 0;
+/* Scrolling state */
+.warning-ticker.ticker-scrolling {
+    display: flex;
+    width: max-content;
+    animation: tickerScroll 48s linear infinite;
+}
+
+.warning-ticker.ticker-scrolling:hover,
+.warning-ticker.ticker-scrolling:focus,
+.warning-ticker.ticker-scrolling:focus-within {
+    animation-play-state: paused;
+}
+
+.warning-ticker.ticker-scrolling:focus {
+    outline: 2px solid #ffffff;
+    outline-offset: -2px;
+}
+
+.ticker-items {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    padding-right: 4rem;
+}
+
+.ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: #e8f5e9;
+    letter-spacing: 0.015em;
 }
 
 @keyframes tickerScroll {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+
+@keyframes tickerPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
 }
 
 @keyframes bannerFlow {

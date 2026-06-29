@@ -31,6 +31,7 @@ window.initApp = async () => {
         setupLanguageToggles();
         applyTranslations();
         setupMobileNavbar();
+        window.handleUrlRouting();
         
         // Dispatch global appReady event for other scripts to safely run
         window.dispatchEvent(new Event('appReady'));
@@ -259,4 +260,146 @@ function setupMobileNavbar() {
         });
     }
 }
+
+window.syncNavbarActiveState = () => {
+    const navLinks = document.querySelectorAll('.nav-link');
+    if (navLinks.length === 0) return;
+
+    // Clear active classes from all links
+    navLinks.forEach(link => link.classList.remove('active'));
+
+    const currentPath = window.location.pathname;
+
+    if (currentPath.includes('chatbot.html')) {
+        const chatbotLink = document.getElementById('nav_chatbot');
+        if (chatbotLink) chatbotLink.classList.add('active');
+    } else if (currentPath.includes('weather.html')) {
+        const weatherLink = document.getElementById('nav_weather');
+        if (weatherLink) weatherLink.classList.add('active');
+    } else if (currentPath.includes('fertilizer-calculator.html')) {
+        const fertLink = document.getElementById('nav_fertilizer');
+        if (fertLink) fertLink.classList.add('active');
+    } else {
+        // Any other page defaults to Home
+        const homeLink = document.getElementById('nav_home');
+        if (homeLink) homeLink.classList.add('active');
+    }
+};
+
+window.handleUrlRouting = () => {
+    const currentPath = window.location.pathname;
+
+    // 1. Weather section visibility
+    const weatherSection = document.getElementById('weather-section');
+    if (weatherSection) {
+        if (currentPath.includes('weather.html')) {
+            weatherSection.style.display = 'block';
+            weatherSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Trigger weather init if first load
+            if (!window.weatherInitialized && typeof window.__initWeather === 'function') {
+                window.__initWeather();
+                window.weatherInitialized = true;
+            }
+        } else {
+            weatherSection.style.display = 'none';
+        }
+    }
+
+    // 2. Chatbot modal visibility
+    const chatbotModal = document.getElementById('krishi-chatbot-ui');
+    if (chatbotModal) {
+        if (currentPath.includes('chatbot.html')) {
+            chatbotModal.classList.add('active');
+            const input = document.getElementById('chatbot-ui-input');
+            if (input) input.focus();
+            if (window.renderMessages) window.renderMessages();
+            
+            if (typeof window.setChatbotModalOpen === 'function') {
+                window.setChatbotModalOpen(true);
+            }
+        } else {
+            chatbotModal.classList.remove('active');
+            
+            if (typeof window.setChatbotModalOpen === 'function') {
+                window.setChatbotModalOpen(false);
+            }
+        }
+    }
+
+    // 3. Sync active navbar highlights
+    window.syncNavbarActiveState();
+};
+
+function setupNavbarClickInterceptors() {
+    const homeLink = document.getElementById('nav_home');
+    if (homeLink) {
+        homeLink.addEventListener('click', (e) => {
+            const path = window.location.pathname;
+            // Prevent reload if already on home pages
+            if (path === '/' || path.includes('index.html') || path.includes('weather.html') || path.includes('chatbot.html') || path.includes('symptoms.html') || path.includes('upload.html') || path.includes('result.html') || path.includes('diagnosis-choice.html')) {
+                if (path.includes('symptoms.html') || path.includes('upload.html') || path.includes('result.html') || path.includes('diagnosis-choice.html')) {
+                    // Let navigation back to home page happen normally
+                    return;
+                }
+                e.preventDefault();
+                history.pushState(null, '', '/index.html');
+                window.handleUrlRouting();
+            }
+        });
+    }
+
+    const weatherLink = document.getElementById('nav_weather');
+    if (weatherLink) {
+        weatherLink.addEventListener('click', (e) => {
+            const path = window.location.pathname;
+            const weatherSection = document.getElementById('weather-section');
+            if (weatherSection) {
+                // If on index.html, intercept and toggle
+                e.preventDefault();
+                if (path.includes('weather.html')) {
+                    history.pushState(null, '', '/index.html');
+                } else {
+                    history.pushState(null, '', '/weather.html');
+                }
+                window.handleUrlRouting();
+            }
+        });
+    }
+
+    const chatbotLink = document.getElementById('nav_chatbot');
+    if (chatbotLink) {
+        chatbotLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const path = window.location.pathname;
+            if (path.includes('chatbot.html')) {
+                // Close chatbot, restoring previous base page URL
+                const restorePath = window.lastActivePath || '/index.html';
+                const finalPath = restorePath.includes('chatbot.html') ? '/index.html' : restorePath;
+                history.pushState(null, '', finalPath);
+            } else {
+                // Open chatbot, saving current path
+                window.lastActivePath = path;
+                history.pushState(null, '', '/chatbot.html');
+            }
+            window.handleUrlRouting();
+        });
+    }
+}
+
 window.applyGlobalTranslations = applyTranslations;
+
+// Event listeners for synchronization on load, popstate, pageshow, and languageChanged
+window.addEventListener('languageChanged', () => window.handleUrlRouting());
+window.addEventListener('pageshow', () => {
+    window.handleUrlRouting();
+    setupNavbarClickInterceptors();
+});
+window.addEventListener('popstate', () => window.handleUrlRouting());
+
+// Also initialize click interceptors immediately if DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupNavbarClickInterceptors);
+} else {
+    setupNavbarClickInterceptors();
+}

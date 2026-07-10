@@ -1,9 +1,7 @@
 /**
  * Krishi-Cure Pro - Smart Weather & Agriculture Advisory System
- * - Real-time weather via backend proxy (Open-Meteo fallback)
- * - Interactive Leaflet map for location picking
- * - Text search (village/district/city) via backend-proxied Nominatim
- * - Localized city names in selected language (EN/HI/GU)
+ * Fixed: Idempotent init, no duplicate fetches, robust error handling,
+ *        proper geocode name parsing, clean language switching.
  */
 
 (function () {
@@ -14,11 +12,16 @@
             humidity: "Humidity",
             rainChance: "Rain Chance",
             windSpeed: "Wind Speed",
+            sunrise: "Sunrise",
+            sunset: "Sunset",
+            feelsLike: "Feels Like",
+            pressure: "Pressure",
+            visibility: "Visibility",
             diseaseRisk: "Disease Risk Alert",
             irrigation: "Irrigation Suggestion",
             warning: "Weather Warning",
             loading: "Fetching live weather and agriculture advisory...",
-            error: "Failed to load weather data. Please try again.",
+            error: "Unable to load weather. Please check your internet and try again.",
             retry: "Retry",
             localFallbackBadge: "Default Location",
             detectedLocationBadge: "Live Location",
@@ -32,6 +35,7 @@
             cancelBtn: "Cancel",
             searching: "Searching...",
             noResults: "No results found. Try a different name.",
+            unavailable: "Unavailable",
             stableCode: "Weather looks stable. Keep monitoring crops.",
             normalIrrig: "Water normally based on soil dampness.",
             stableWarning: "Weather is normal. Ideal for spraying or fertilizing.",
@@ -49,11 +53,16 @@
             humidity: "नमी (हवा में)",
             rainChance: "बारिश की संभावना",
             windSpeed: "हवा की गति",
+            sunrise: "सूर्योदय",
+            sunset: "सूर्यास्त",
+            feelsLike: "ऐसा महसूस होता है",
+            pressure: "वायुमंडलीय दबाव",
+            visibility: "दृश्यता",
             diseaseRisk: "रोग का खतरा अलर्ट",
             irrigation: "सिंचाई का सुझाव",
             warning: "मौसम चेतावनी",
             loading: "लाइव मौसम और कृषि सलाह लोड की जा रही है...",
-            error: "मौसम डेटा लोड करने में विफल। कृपया पुन: प्रयास करें।",
+            error: "मौसम डेटा लोड करने में विफल। कृपया इंटरनेट जांचें और पुन: प्रयास करें।",
             retry: "पुनः प्रयास करें",
             localFallbackBadge: "डिफ़ॉल्ट स्थान",
             detectedLocationBadge: "लाइव स्थान",
@@ -67,6 +76,7 @@
             cancelBtn: "रद्द करें",
             searching: "खोज जारी है...",
             noResults: "कोई परिणाम नहीं मिला। कोई अलग नाम आज़माएं।",
+            unavailable: "अनुपलब्ध",
             stableCode: "मौसम अनुकूल है। फसलों की सामान्य निगरानी रखें।",
             normalIrrig: "मिट्टी की नमी के अनुसार सामान्य रूप से पानी दें।",
             stableWarning: "मौसम सामान्य है। कीटनाशक छिड़काव या खाद के लिए उत्तम समय है।",
@@ -84,11 +94,16 @@
             humidity: "ભેજનું પ્રમાણ",
             rainChance: "વરસાદની શક્યતા",
             windSpeed: "પવનની ઝડપ",
+            sunrise: "સૂર્યોદય",
+            sunset: "સૂર્યાસ્ત",
+            feelsLike: "આવું લાગે છે",
+            pressure: "હવાનું દબાણ",
+            visibility: "દૃશ્યતા",
             diseaseRisk: "રોગનું જોખમ એલર્ટ",
             irrigation: "પિયતની ભલામણ",
             warning: "હવામાન ચેતવણી",
             loading: "હવામાન અને કૃષિ સલાહ લોડ થઈ રહી છે...",
-            error: "હવામાન માહિતી મેળવવામાં નિષ્ફળતા. ફરી પ્રયાસ કરો.",
+            error: "હવામાન માહિતી મેળવવામાં નિષ્ફળ. ઇન્ટરનેટ તપાસો અને ફરી પ્રયાસ કરો.",
             retry: "ફરી પ્રયાસ કરો",
             localFallbackBadge: "પૂર્વનિર્ધારિત સ્થાન",
             detectedLocationBadge: "લાઈવ લોકેશન",
@@ -97,11 +112,12 @@
             changeLocation: "સ્થાન બદલો",
             searchPlaceholder: "ગામ, જિલ્લો અથવા શહેર ટાઇપ કરો...",
             searchBtn: "શોધો",
-            mapInstruction: "નકશા પર ક્લિક કરો અથવા ઉપર શોધો",
+            mapInstruction: "નકશા પર ક્લિક કરેલ છે અથવા ઉપર શોધો",
             confirmLocation: "સ્થાન નક્કી કરો",
             cancelBtn: "રદ કરો",
             searching: "શોધ ચાલુ છે...",
             noResults: "કોઈ પરિણામ મળ્યા નથી. અલગ નામ અજમાવો.",
+            unavailable: "અપ્રાપ્ય",
             stableCode: "હવામાન સ્થિર છે. પાકની સામાન્ય દેખરેખ ચાલુ રાખો.",
             normalIrrig: "જમીનની ભેજ ક્ષમતા મુજબ સામાન્ય પિયત આપવું.",
             stableWarning: "હવામાન સામાન્ય છે. દવા છાંટવા કે ખાતર આપવા માટે અનુકૂળ સમય છે.",
@@ -126,6 +142,10 @@
     let pendingCoords   = null;       // Coords chosen on map but not yet confirmed
     let leafletReady    = !!window.L; // true if Leaflet already loaded
 
+    // FIX: Track in-flight fetch and initialization state to prevent duplicates
+    let isFetching      = false;
+    let isInitialized   = false;      // true after first full init (GPS asked)
+
     const DEFAULT_COORDS = { latitude: 22.5644, longitude: 72.9289 };
 
     // ── Helpers ─────────────────────────────────────────────────────────────
@@ -134,14 +154,21 @@
     }
 
     function mapWeatherCode(id) {
-        if (id >= 200 && id < 300) return { key: 'cond_stormy',  emoji: '⛈️' };
-        if (id >= 300 && id < 400) return { key: 'cond_drizzle', emoji: '🌦️' };
-        if (id >= 500 && id < 600) return { key: 'cond_rainy',   emoji: '🌧️' };
-        if (id >= 600 && id < 700) return { key: 'cond_snowy',   emoji: '❄️' };
-        if (id >= 700 && id < 800) return { key: 'cond_foggy',   emoji: '🌫️' };
-        if (id === 800)             return { key: 'cond_clear',   emoji: '☀️' };
-        if (id > 800 && id < 900)  return { key: 'cond_cloudy',  emoji: '⛅' };
+        const code = parseInt(id, 10) || 800;
+        if (code >= 200 && code < 300) return { key: 'cond_stormy',  emoji: '⛈️' };
+        if (code >= 300 && code < 400) return { key: 'cond_drizzle', emoji: '🌦️' };
+        if (code >= 500 && code < 600) return { key: 'cond_rainy',   emoji: '🌧️' };
+        if (code >= 600 && code < 700) return { key: 'cond_snowy',   emoji: '❄️'  };
+        if (code >= 700 && code < 800) return { key: 'cond_foggy',   emoji: '🌫️' };
+        if (code === 800)              return { key: 'cond_clear',   emoji: '☀️'  };
+        if (code > 800 && code < 900) return { key: 'cond_cloudy',  emoji: '⛅'  };
         return { key: 'cond_clear', emoji: '🌡️' };
+    }
+
+    function safe(val, fallback = '--') {
+        if (val === null || val === undefined || val === '') return fallback;
+        if (typeof val === 'number' && isNaN(val)) return fallback;
+        return val;
     }
 
     function computeAdvisories(temp, humidity, rainChance, windSpeed, weatherCode, lang) {
@@ -263,16 +290,15 @@
 
         // Init Leaflet map — wait until Leaflet JS is fully loaded
         if (leafletReady) {
-            setTimeout(() => initLeafletMap(t), 50);
+            setTimeout(() => initLeafletMap(), 50);
         } else {
-            // Show a brief loading indicator inside the map div while Leaflet loads
             const mapDiv = overlay.querySelector('#wlp-map');
             if (mapDiv) mapDiv.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-light);font-size:0.95rem;">🗺️ Loading map...</div>';
             const waitForLeaflet = setInterval(() => {
                 if (window.L) {
                     leafletReady = true;
                     clearInterval(waitForLeaflet);
-                    if (document.getElementById('wlp-map')) initLeafletMap(t);
+                    if (document.getElementById('wlp-map')) initLeafletMap();
                 }
             }, 100);
         }
@@ -281,12 +307,10 @@
         document.getElementById('wlp-close').addEventListener('click', closeLocationPicker);
         document.getElementById('wlp-cancel').addEventListener('click', closeLocationPicker);
         overlay.addEventListener('click', (e) => { if (e.target === overlay) closeLocationPicker(); });
-
         document.getElementById('wlp-search-btn').addEventListener('click', doSearch);
         document.getElementById('wlp-search-input').addEventListener('keydown', (e) => {
             if (e.key === 'Enter') doSearch();
         });
-
         document.getElementById('wlp-confirm').addEventListener('click', confirmPendingLocation);
     }
 
@@ -296,40 +320,35 @@
         pendingCoords = null;
     }
 
-    function initLeafletMap(t) {
+    function initLeafletMap() {
         const centerLat = lastCoords ? lastCoords.lat : DEFAULT_COORDS.latitude;
         const centerLon = lastCoords ? lastCoords.lon : DEFAULT_COORDS.longitude;
 
         leafletMap = L.map('wlp-map', { zoomControl: true }).setView([centerLat, centerLon], 7);
-
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors',
             maxZoom: 18
         }).addTo(leafletMap);
 
-        // If there's an existing location, show a marker
         if (lastCoords) {
             leafletMarker = L.marker([lastCoords.lat, lastCoords.lon]).addTo(leafletMap);
         }
 
-        // Click on map to pick location
-        leafletMap.on('click', async (e) => {
+        leafletMap.on('click', (e) => {
             const { lat, lng } = e.latlng;
-            setPendingCoords(lat, lng, null); // city name resolved after confirm
+            setPendingCoords(lat, lng, null);
         });
     }
 
     function setPendingCoords(lat, lon, cityName) {
         pendingCoords = { lat, lon, cityName };
 
-        // Update marker
         if (leafletMap) {
             if (leafletMarker) leafletMarker.setLatLng([lat, lon]);
             else leafletMarker = L.marker([lat, lon]).addTo(leafletMap);
             leafletMap.setView([lat, lon], Math.max(leafletMap.getZoom(), 10));
         }
 
-        // Show label
         const label = document.getElementById('wlp-selected-label');
         if (label) {
             label.style.display = 'block';
@@ -359,17 +378,24 @@
         try {
             const lang = window.currentLang || 'en';
             const res = await fetch(`/api/geocode?q=${encodeURIComponent(query)}&lang=${lang}`);
+            if (!res.ok) throw new Error('Geocode API error');
             const data = await res.json();
 
-            if (!data || data.length === 0) {
+            // Handle both array (raw Nominatim) and formatted responses
+            const items = Array.isArray(data) ? data : (data.results || []);
+
+            if (!items || items.length === 0) {
                 resultsDiv.innerHTML = `<div class="wlp-no-results">⚠️ ${t.noResults}</div>`;
             } else {
-                resultsDiv.innerHTML = data.slice(0, 5).map((item, i) => {
-                    const name = item.localName || item.display_name || item.name || query;
-                    const sub = item.display_name || '';
-                    return `<div class="wlp-result-item" data-idx="${i}" data-lat="${item.lat}" data-lon="${item.lon}" data-name="${encodeURIComponent(name)}">
-                        <div class="wlp-result-name">📍 ${name}</div>
-                        <div class="wlp-result-sub">${sub.substring(0, 80)}...</div>
+                resultsDiv.innerHTML = items.slice(0, 5).map((item, i) => {
+                    // Use short name first, then first part of display_name, then full display_name
+                    const shortName = item.name || (item.display_name ? item.display_name.split(',')[0].trim() : query);
+                    const subName = item.display_name || '';
+                    const latVal = item.lat;
+                    const lonVal = item.lon;
+                    return `<div class="wlp-result-item" data-idx="${i}" data-lat="${latVal}" data-lon="${lonVal}" data-name="${encodeURIComponent(shortName)}">
+                        <div class="wlp-result-name">📍 ${shortName}</div>
+                        <div class="wlp-result-sub">${subName.length > 80 ? subName.substring(0, 80) + '…' : subName}</div>
                     </div>`;
                 }).join('');
 
@@ -378,13 +404,16 @@
                         const lat = parseFloat(el.dataset.lat);
                         const lon = parseFloat(el.dataset.lon);
                         const name = decodeURIComponent(el.dataset.name);
-                        setPendingCoords(lat, lon, name);
-                        resultsDiv.style.display = 'none';
+                        if (!isNaN(lat) && !isNaN(lon)) {
+                            setPendingCoords(lat, lon, name);
+                            resultsDiv.style.display = 'none';
+                        }
                     });
                 });
             }
         } catch (e) {
-            resultsDiv.innerHTML = `<div class="wlp-no-results">⚠️ ${t.error}</div>`;
+            console.error('[Weather] Geocode search error:', e);
+            resultsDiv.innerHTML = `<div class="wlp-no-results">⚠️ ${t.noResults}</div>`;
         }
 
         searchBtn.disabled = false;
@@ -395,20 +424,20 @@
         if (!pendingCoords) return;
         const { lat, lon, cityName } = pendingCoords;
 
+        if (isNaN(lat) || isNaN(lon)) {
+            console.error('[Weather] Invalid coordinates in pendingCoords');
+            return;
+        }
+
         locationStatus = 'manual';
-        currentCityName = ''; // will be resolved by backend reverse geocode
+        currentCityName = cityName || '';
 
         closeLocationPicker();
         lastCoords = { lat, lon };
 
-        // If we have a city name from search results, use it directly
-        if (cityName) {
-            currentCityName = cityName;
-            await fetchWeatherForCoords(lat, lon);
-        } else {
-            // Came from map click — backend will reverse-geocode
-            await fetchWeatherForCoords(lat, lon);
-        }
+        // Clear sessionStorage so fresh fetch is made
+        sessionStorage.removeItem('krishiCachedWeather');
+        await fetchWeatherForCoords(lat, lon);
     }
 
     // ── Weather Rendering ────────────────────────────────────────────────────
@@ -440,6 +469,7 @@
                 </div>`;
             document.getElementById('weather-retry-btn')?.addEventListener('click', () => {
                 cachedWeather = null;
+                sessionStorage.removeItem('krishiCachedWeather');
                 fetchWeatherForCoords(
                     lastCoords ? lastCoords.lat : DEFAULT_COORDS.latitude,
                     lastCoords ? lastCoords.lon : DEFAULT_COORDS.longitude
@@ -451,13 +481,34 @@
         const w = cachedWeather;
         const condition = mapWeatherCode(w.weatherCode);
         const conditionName = t[condition.key] || condition.key;
+        const lang = window.currentLang || 'en';
 
-        let badgeText = locationStatus === 'detected' ? t.detectedLocationBadge
-                      : locationStatus === 'manual'   ? t.manualLocationBadge
-                      : t.localFallbackBadge;
+        const badgeText = locationStatus === 'detected' ? t.detectedLocationBadge
+                        : locationStatus === 'manual'   ? t.manualLocationBadge
+                        : t.localFallbackBadge;
 
-        const displayCity = w.cityName || currentCityName || t.localFallbackCityName;
-        const advisories  = computeAdvisories(w.temp, w.humidity, w.rainChance, w.windSpeed, w.weatherCode, window.currentLang || 'en');
+        const displayCountry = (w.country && w.country.trim()) ? `, ${w.country.trim()}` : '';
+        const displayCity = (safe(w.cityName) !== '--' ? w.cityName
+                          : (currentCityName || t.localFallbackCityName)) + displayCountry;
+
+        const tempVal       = safe(w.temp)       !== '--' ? `${Math.round(w.temp)}°C` : '--';
+        const humidityVal   = safe(w.humidity)   !== '--' ? `${w.humidity}%` : '--';
+        const rainVal       = safe(w.rainChance) !== '--' ? `${w.rainChance}%` : '--';
+        const windVal       = safe(w.windSpeed)  !== '--' ? `${Math.round(w.windSpeed * 10) / 10} km/h` : '--';
+        const sunriseVal    = safe(w.sunrise, t.unavailable);
+        const sunsetVal     = safe(w.sunset, t.unavailable);
+        const feelsLikeVal  = safe(w.feels_like) !== '--' ? `${Math.round(w.feels_like)}°C` : '--';
+        const pressureVal   = safe(w.pressure)   !== '--' ? `${w.pressure} hPa` : '--';
+        const visibilityVal = safe(w.visibility) !== '--' ? `${w.visibility} km` : '--';
+
+        const advisories = computeAdvisories(
+            parseFloat(w.temp) || 25,
+            parseFloat(w.humidity) || 50,
+            parseFloat(w.rainChance) || 0,
+            parseFloat(w.windSpeed) || 0,
+            parseInt(w.weatherCode, 10) || 800,
+            lang
+        );
 
         container.innerHTML = `
             <div class="weather-card">
@@ -481,25 +532,50 @@
                     <div class="weather-info-box">
                         <div class="weather-large-emoji">${condition.emoji}</div>
                         <div class="weather-temp-details">
-                            <span class="weather-temp-value">${Math.round(w.temp)}°C</span>
+                            <span class="weather-temp-value">${tempVal}</span>
                             <span class="weather-desc-label">${conditionName}</span>
                         </div>
                     </div>
                     <div class="weather-details-list">
                         <div class="weather-detail-item">
                             <span class="weather-detail-icon">💧</span>
-                            <span class="weather-detail-val">${w.humidity}%</span>
+                            <span class="weather-detail-val">${humidityVal}</span>
                             <span class="weather-detail-lbl">${t.humidity}</span>
                         </div>
                         <div class="weather-detail-item">
                             <span class="weather-detail-icon">☔</span>
-                            <span class="weather-detail-val">${w.rainChance}%</span>
+                            <span class="weather-detail-val">${rainVal}</span>
                             <span class="weather-detail-lbl">${t.rainChance}</span>
                         </div>
                         <div class="weather-detail-item">
                             <span class="weather-detail-icon">💨</span>
-                            <span class="weather-detail-val">${Math.round(w.windSpeed * 10) / 10} km/h</span>
+                            <span class="weather-detail-val">${windVal}</span>
                             <span class="weather-detail-lbl">${t.windSpeed}</span>
+                        </div>
+                        <div class="weather-detail-item">
+                            <span class="weather-detail-icon">🌡️</span>
+                            <span class="weather-detail-val">${feelsLikeVal}</span>
+                            <span class="weather-detail-lbl">${t.feelsLike}</span>
+                        </div>
+                        <div class="weather-detail-item">
+                            <span class="weather-detail-icon">⏲️</span>
+                            <span class="weather-detail-val">${pressureVal}</span>
+                            <span class="weather-detail-lbl">${t.pressure}</span>
+                        </div>
+                        <div class="weather-detail-item">
+                            <span class="weather-detail-icon">👁️</span>
+                            <span class="weather-detail-val">${visibilityVal}</span>
+                            <span class="weather-detail-lbl">${t.visibility}</span>
+                        </div>
+                        <div class="weather-detail-item">
+                            <span class="weather-detail-icon">🌅</span>
+                            <span class="weather-detail-val">${sunriseVal}</span>
+                            <span class="weather-detail-lbl">${t.sunrise}</span>
+                        </div>
+                        <div class="weather-detail-item">
+                            <span class="weather-detail-icon">🌇</span>
+                            <span class="weather-detail-val">${sunsetVal}</span>
+                            <span class="weather-detail-lbl">${t.sunset}</span>
                         </div>
                     </div>
                 </div>
@@ -522,6 +598,7 @@
 
         document.getElementById('weather-refresh-btn')?.addEventListener('click', () => {
             cachedWeather = null;
+            sessionStorage.removeItem('krishiCachedWeather');
             fetchWeatherForCoords(
                 lastCoords ? lastCoords.lat : DEFAULT_COORDS.latitude,
                 lastCoords ? lastCoords.lon : DEFAULT_COORDS.longitude
@@ -532,45 +609,71 @@
     }
 
     // ── Data Fetching ────────────────────────────────────────────────────────
-    /**
-     * Fetch weather + localized city name via backend (no CORS issues)
-     */
     async function fetchWeatherForCoords(lat, lon) {
+        // FIX: Prevent duplicate in-flight requests
+        if (isFetching) return;
+        if (isNaN(lat) || isNaN(lon)) {
+            console.error('[Weather] Invalid coordinates:', lat, lon);
+            cachedWeather = { error: true };
+            renderWeatherCard();
+            return;
+        }
+
+        isFetching = true;
         lastCoords = { lat, lon };
         cachedWeather = null;
-        renderWeatherCard(); // show loading
+        renderWeatherCard(); // show loading spinner
 
         try {
             const lang = window.currentLang || 'en';
-            const res = await fetch(`/api/weather?lat=${lat}&lon=${lon}&lang=${lang}`);
-            if (!res.ok) throw new Error('Weather API error');
+            const url = `/api/weather?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&lang=${encodeURIComponent(lang)}`;
+            const res = await fetch(url);
+
+            if (!res.ok) {
+                throw new Error(`Weather API returned HTTP ${res.status}`);
+            }
+
             const data = await res.json();
 
             if (!data || !data.success || !data.data) {
-                throw new Error('Invalid weather response');
+                throw new Error('Invalid API response structure');
             }
 
             const w = data.data;
-            const cityName = w.cityName || currentCityName || tr().localFallbackCityName;
 
+            // Validate all critical fields — never store undefined
             cachedWeather = {
-                temp:        w.temp,
-                humidity:    w.humidity,
-                weatherCode: w.weatherCode,
-                windSpeed:   w.windSpeed,
-                rainChance:  w.rainChance,
-                cityName
+                temp:        (w.temp !== null && w.temp !== undefined)       ? parseFloat(w.temp)       : null,
+                humidity:    (w.humidity !== null && w.humidity !== undefined) ? parseFloat(w.humidity)   : null,
+                weatherCode: (w.weatherCode !== null && w.weatherCode !== undefined) ? parseInt(w.weatherCode, 10) : 800,
+                windSpeed:   (w.windSpeed !== null && w.windSpeed !== undefined) ? parseFloat(w.windSpeed) : null,
+                rainChance:  (w.rainChance !== null && w.rainChance !== undefined) ? parseFloat(w.rainChance) : 0,
+                cityName:    (w.cityName && w.cityName.trim()) ? w.cityName.trim()
+                             : (currentCityName || tr().localFallbackCityName),
+                sunrise:     w.sunrise || null,
+                sunset:      w.sunset || null,
+                feels_like:  (w.feels_like !== null && w.feels_like !== undefined) ? parseFloat(w.feels_like) : null,
+                pressure:    (w.pressure !== null && w.pressure !== undefined)     ? parseInt(w.pressure, 10)  : null,
+                visibility:  (w.visibility !== null && w.visibility !== undefined) ? parseFloat(w.visibility) : null,
+                country:     w.country || null
             };
 
-            // Save to sessionStorage
-            sessionStorage.setItem('krishiCachedWeather', JSON.stringify({
-                cachedWeather,
-                lastCoords,
-                locationStatus
-            }));
-        } catch (e) {
-            console.error('Weather fetch error:', e);
+            // Persist to sessionStorage for same-session cache
+            try {
+                sessionStorage.setItem('krishiCachedWeather', JSON.stringify({
+                    cachedWeather,
+                    lastCoords,
+                    locationStatus
+                }));
+            } catch (storageErr) {
+                // sessionStorage full or unavailable — non-fatal
+            }
+
+        } catch (err) {
+            console.error('[Weather] Fetch error:', err.message || err);
             cachedWeather = { error: true };
+        } finally {
+            isFetching = false;
         }
 
         renderWeatherCard();
@@ -580,7 +683,7 @@
     function initWeather() {
         if (!document.getElementById('weather-section')) return;
 
-        // Load Leaflet CSS + JS dynamically (non-blocking, tracked via leafletReady flag)
+        // Load Leaflet CSS + JS dynamically (non-blocking)
         if (!document.getElementById('leaflet-css')) {
             const link = document.createElement('link');
             link.id = 'leaflet-css';
@@ -596,6 +699,16 @@
             document.head.appendChild(script);
         }
 
+        // FIX: If already initialized and we have valid cached data, just re-render
+        // This prevents duplicate GPS requests when user navigates back to weather
+        if (isInitialized && cachedWeather && !cachedWeather.error) {
+            renderWeatherCard();
+            return;
+        }
+
+        // FIX: Don't start new init if a fetch is in progress
+        if (isFetching) return;
+
         // Try restoring from sessionStorage
         try {
             const saved = sessionStorage.getItem('krishiCachedWeather');
@@ -603,56 +716,98 @@
                 const parsed = JSON.parse(saved);
                 if (parsed && parsed.cachedWeather && !parsed.cachedWeather.error) {
                     cachedWeather = parsed.cachedWeather;
-                    lastCoords = parsed.lastCoords;
-                    locationStatus = parsed.locationStatus;
+                    lastCoords    = parsed.lastCoords;
+                    locationStatus = parsed.locationStatus || 'fallback';
+                    isInitialized = true;
                     renderWeatherCard();
-                    return; // Skip GPS detection since we have active cache
+                    return; // Use cached — no GPS needed
                 }
             }
         } catch (e) {
-            console.error("Failed to restore weather from sessionStorage:", e);
+            console.warn('[Weather] sessionStorage restore failed:', e);
+            sessionStorage.removeItem('krishiCachedWeather');
         }
 
-        // Show loading spinner immediately — don't wait for GPS
-        renderWeatherCard();
+        // No cache — show loading and request location
+        isInitialized = true;
+        renderWeatherCard(); // show spinner
 
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                    locationStatus = 'detected';
-                    fetchWeatherForCoords(pos.coords.latitude, pos.coords.longitude);
-                },
-                () => {
-                    locationStatus = 'fallback';
-                    fetchWeatherForCoords(DEFAULT_COORDS.latitude, DEFAULT_COORDS.longitude);
-                },
-                { timeout: 7000, maximumAge: 60000 }
-            );
+            try {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        locationStatus = 'detected';
+                        fetchWeatherForCoords(pos.coords.latitude, pos.coords.longitude);
+                    },
+                    (err) => {
+                        console.warn('[Weather] Geolocation failed (code ' + err.code + '), using fallback location.');
+                        locationStatus = 'fallback';
+                        fetchWeatherForCoords(DEFAULT_COORDS.latitude, DEFAULT_COORDS.longitude);
+                        // Show manual city search modal automatically
+                        openLocationPicker();
+                    },
+                    { timeout: 2500, maximumAge: 120000, enableHighAccuracy: false }
+                );
+            } catch (geoErr) {
+                console.warn('[Weather] Geolocation threw exception synchronously, using fallback location:', geoErr);
+                locationStatus = 'fallback';
+                fetchWeatherForCoords(DEFAULT_COORDS.latitude, DEFAULT_COORDS.longitude);
+                // Show manual city search modal automatically
+                openLocationPicker();
+            }
         } else {
             locationStatus = 'fallback';
             fetchWeatherForCoords(DEFAULT_COORDS.latitude, DEFAULT_COORDS.longitude);
+            // Show manual city search modal automatically
+            openLocationPicker();
         }
     }
 
-    // On language change: re-fetch with same coords (backend returns localized name)
+    // ── Language Change Handler ──────────────────────────────────────────────
+    // FIX: Only re-render (or re-fetch) when weather is visible.
+    // Do NOT call initWeather() here — that would trigger duplicate GPS requests.
     window.addEventListener('languageChanged', () => {
-        cachedWeather = null;
-        currentCityName = '';
-        if (lastCoords) {
-            fetchWeatherForCoords(lastCoords.lat, lastCoords.lon);
-        } else {
+        const weatherSection = document.getElementById('weather-section');
+        if (!weatherSection || weatherSection.style.display === 'none') return;
+
+        if (cachedWeather && !cachedWeather.error) {
+            // We have data — just re-render with new language strings
+            // Also update city name to localized version via a fresh fetch
+            const coords = lastCoords || { lat: DEFAULT_COORDS.latitude, lon: DEFAULT_COORDS.longitude };
+            sessionStorage.removeItem('krishiCachedWeather');
+            cachedWeather = null;
+            currentCityName = '';
+            fetchWeatherForCoords(coords.lat, coords.lon);
+        } else if (!isFetching) {
+            // No data yet — just re-render the current state (loading or error)
             renderWeatherCard();
         }
     });
 
+    // ── Entry Point ──────────────────────────────────────────────────────────
     if (window.__weatherAutoInit === false) {
-    window.__initWeather = initWeather;
-} else {
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initWeather);
+        // Controlled init: app.js will call window.__initWeather() when needed
+        window.__initWeather = initWeather;
+
+        // FIX: Handle race condition where weather.js loads after app.js completes initialization
+        const initIfOnWeatherPage = () => {
+            if (window.location.pathname.includes('weather.html')) {
+                initWeather();
+            }
+        };
+
+        if (window.appData) {
+            initIfOnWeatherPage();
+        } else {
+            window.addEventListener('appReady', initIfOnWeatherPage);
+        }
     } else {
-        initWeather();
+        // Standalone auto-init
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initWeather);
+        } else {
+            initWeather();
+        }
     }
-}
 
 })();

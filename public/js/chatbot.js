@@ -71,7 +71,7 @@
         document.body.appendChild(trigger);
 
         const modal = document.createElement('div');
-        modal.id = 'krishi-chatbot-modal';
+        modal.id = 'krishi-chatbot-ui';
         modal.innerHTML = `
             <div class="chatbot-header">
                 <div class="chatbot-header-info">

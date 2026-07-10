@@ -121,6 +121,30 @@ function mapWmoToOwmCode(wmoCode) {
   return 800;
 }
 
+function formatUnixTime(timestamp, timezoneOffsetSeconds) {
+  if (!timestamp) return null;
+  const date = new Date((timestamp + (timezoneOffsetSeconds || 0)) * 1000);
+  const hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const displayHours = hours % 12 || 12;
+  const displayMinutes = minutes.toString().padStart(2, '0');
+  return `${displayHours}:${displayMinutes} ${ampm}`;
+}
+
+function formatIsoTime(isoString) {
+  if (!isoString) return null;
+  const parts = isoString.split('T');
+  if (parts.length < 2) return null;
+  const timeParts = parts[1].split(':');
+  const hours = parseInt(timeParts[0], 10);
+  const minutes = parseInt(timeParts[1], 10);
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const displayHours = hours % 12 || 12;
+  const displayMinutes = minutes.toString().padStart(2, '0');
+  return `${displayHours}:${displayMinutes} ${ampm}`;
+}
+
 router.get('/geocode', async (req, res) => {
   const { lat, lon, q } = req.query;
 
@@ -172,6 +196,7 @@ router.get('/weather', async (req, res) => {
     let latitude = lat ? parseFloat(lat) : null;
     let longitude = lon ? parseFloat(lon) : null;
     let resolvedCity = city || '';
+    let country = '';
 
     if (city && (!latitude || !longitude)) {
       // Use Nominatim to get lat/lon for city
@@ -184,8 +209,29 @@ router.get('/weather', async (req, res) => {
         latitude = parseFloat(geoData[0].lat);
         longitude = parseFloat(geoData[0].lon);
         resolvedCity = geoData[0].display_name?.split(',')[0] || city;
+        const parts = geoData[0].display_name?.split(',');
+        if (parts && parts.length > 0) {
+          country = parts[parts.length - 1].trim();
+        }
       } else {
         return res.status(404).json({ success: false, error: `City not found: ${city}` });
+      }
+    }
+
+    // Resolve city name and country via reverse geocoding if coords are provided directly
+    if (latitude && longitude && !resolvedCity) {
+      try {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${encodeURIComponent(latitude)}&lon=${encodeURIComponent(longitude)}`;
+        const response = await fetch(url, {
+          headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          resolvedCity = data.address?.city || data.address?.town || data.address?.village || data.address?.county || '';
+          country = data.address?.country || '';
+        }
+      } catch (err) {
+        console.error('[Reverse Geocode Error in Weather Endpoint]', err.message);
       }
     }
 
@@ -203,6 +249,7 @@ router.get('/weather', async (req, res) => {
       const owm = await owmRes.json();
       weatherData = {
         cityName: resolvedCity || owm.name,
+        country: owm.sys?.country || country || 'IN',
         temp: owm.main.temp,
         feels_like: owm.main.feels_like,
         humidity: owm.main.humidity,
@@ -213,11 +260,13 @@ router.get('/weather', async (req, res) => {
         pressure: owm.main.pressure,
         weatherCode: owm.weather[0]?.id || 800,
         rainChance: owm.rain ? 100 : (owm.clouds?.all > 50 ? Math.round(owm.clouds.all * 0.5) : 0),
+        sunrise: formatUnixTime(owm.sys?.sunrise, owm.timezone),
+        sunset: formatUnixTime(owm.sys?.sunset, owm.timezone),
         provider: 'openweathermap'
       };
     } else {
       // Open-Meteo (free, no key required)
-      const meteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code,cloud_cover,surface_pressure,apparent_temperature&timezone=auto`;
+      const meteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code,cloud_cover,surface_pressure,apparent_temperature&daily=sunrise,sunset&timezone=auto`;
       const meteoRes = await fetch(meteoUrl);
       if (!meteoRes.ok) throw new Error(`Open-Meteo error: ${meteoRes.status}`);
       const meteo = await meteoRes.json();
@@ -233,7 +282,8 @@ router.get('/weather', async (req, res) => {
       };
 
       weatherData = {
-        cityName: resolvedCity,
+        cityName: resolvedCity || 'Anand',
+        country: country || 'India',
         temp: cur.temperature_2m,
         feels_like: cur.apparent_temperature,
         humidity: cur.relative_humidity_2m,
@@ -244,6 +294,8 @@ router.get('/weather', async (req, res) => {
         pressure: cur.surface_pressure,
         weatherCode: mapWmoToOwmCode(cur.weather_code),
         rainChance: [51,53,55,61,63,65,80,81,82,95,96,99].includes(cur.weather_code) ? 80 : (cur.cloud_cover > 50 ? Math.round(cur.cloud_cover * 0.5) : 0),
+        sunrise: formatIsoTime(meteo.daily?.sunrise?.[0]),
+        sunset: formatIsoTime(meteo.daily?.sunset?.[0]),
         provider: 'open-meteo'
       };
     }

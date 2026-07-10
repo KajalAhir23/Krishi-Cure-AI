@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Krishi-Cure Pro - Upload Photos</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/illustrations.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -276,6 +277,7 @@
             <a href="/index.html" class="nav-link" id="nav_home">Home</a>
             <a href="/fertilizer-calculator.html" class="nav-link" id="nav_fertilizer">Fertilizer Calculator</a>
             <a href="/chatbot.html" class="nav-link" id="nav_chatbot">AI Chatbot</a>
+            <a href="/weather.html" class="nav-link" id="nav_weather">Weather</a>
         </nav>
         <div class="header-controls">
             <div class="lang-selector">
@@ -292,9 +294,20 @@
             <a href="/diagnosis-choice.html" class="back-btn" id="back_btn">Back</a>
 
             <h2><span id="upload_title">AI Crop Disease Detection</span></h2>
-            <p id="upload_subtitle" style="color: var(--text-light); margin-bottom: 2rem; font-weight: 500;">
+            <p id="upload_subtitle" style="color: var(--text-light); margin-bottom: 1.25rem; font-weight: 500;">
                 Select Crop and upload 1-4 images for analysis
             </p>
+
+            <!-- AI Scan Illustration -->
+            <div class="page-illus-wrap" aria-hidden="true">
+                <img
+                    src="/images/illustrations/upload_phone_scan.png"
+                    alt="Illustration showing smartphone AI scanning a plant leaf for disease detection"
+                    loading="lazy"
+                    width="380"
+                    height="280"
+                >
+            </div>
 
             <p style="font-size: 1.2rem; font-weight: 700; color: var(--text-light); margin-bottom: 1.5rem;">
                 <span id="select_crop_label">Selected Crop:</span> <span id="selected-crop-name"

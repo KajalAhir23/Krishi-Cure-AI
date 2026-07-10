@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Krishi-Cure - Login</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/illustrations.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Firebase SDK (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -31,8 +32,19 @@
     </header>
 
     <main class="container" style="margin-top: 2rem;">
-        <!-- 3 cards forced into one row; stack on mobile via CSS -->
+        <!-- 3 cards + illustration side panel; stack on mobile via CSS -->
         <div style="display: flex; flex-wrap: nowrap; gap: 1.5rem; justify-content: center; align-items: stretch; width: 100%;">
+
+            <!-- Illustration side panel (hidden on mobile) -->
+            <div class="login-illus-col" aria-hidden="true">
+                <img
+                    src="/images/illustrations/login_farmer_ai.png"
+                    alt="Farmer using AI agriculture platform illustration"
+                    loading="eager"
+                    width="320"
+                    height="320"
+                >
+            </div>
 
             <!-- Card 1: Google Login -->
             <section class="step-card active login-card" style="flex: 1 1 0; min-width: 0; padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: center; background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);">

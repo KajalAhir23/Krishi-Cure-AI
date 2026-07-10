@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Krishi-Cure - Scientific Diagnosis</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/illustrations.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Gujarati:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Firebase SDK (Compat Version) -->
@@ -35,6 +36,7 @@
             <a href="/index.html" class="nav-link" id="nav_home">Home</a>
             <a href="/fertilizer-calculator.html" class="nav-link" id="nav_fertilizer">Fertilizer Calculator</a>
             <a href="/chatbot.html" class="nav-link" id="nav_chatbot">AI Chatbot</a>
+            <a href="/weather.html" class="nav-link" id="nav_weather">Weather</a>
         </nav>
         <div class="header-controls">
             <div class="lang-selector">
@@ -70,6 +72,15 @@
                 <!-- Safety logic Banner -->
                 <div id="safety-alert-banner" class="safety-banner">
                     <!-- Loaded dynamically -->
+                </div>
+
+                <!-- Severity-based visual illustration (decorative, aria-hidden) -->
+                <div id="severity-illus-strip" aria-hidden="true" style="display:flex;align-items:center;justify-content:center;gap:1.25rem;padding:1rem 1.25rem;background:linear-gradient(135deg,rgba(76,175,80,0.04),rgba(45,90,39,0.02));border:1px solid var(--glass-border);border-radius:var(--radius-md);margin-bottom:1.5rem;">
+                    <div id="severity-illus-icon" style="font-size:3.5rem;filter:drop-shadow(0 6px 12px rgba(45,90,39,0.15));transition:all 0.4s ease;">🌾</div>
+                    <div>
+                        <div id="severity-illus-label" style="font-weight:800;font-size:0.88rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.06em;">Crop Health Status</div>
+                        <div id="severity-illus-desc" style="font-size:0.82rem;color:var(--text-light);font-weight:500;margin-top:0.2rem;line-height:1.4;">AI analysis complete — see results below</div>
+                    </div>
                 </div>
 
                 <div class="dashboard-container">
@@ -439,6 +450,30 @@
             const sevBadge = document.getElementById('severity-badge');
             sevBadge.className = `badge ${badgeClass}`;
             sevBadge.innerHTML = `<span>${severityColor === 'RED' ? '🔴' : (severityColor === 'GREEN' ? '🟢' : '🟡')}</span> <span>${severityText}</span>`;
+
+            // Update decorative severity illustration strip (visual only)
+            const illustIcon = document.getElementById('severity-illus-icon');
+            const illustLabel = document.getElementById('severity-illus-label');
+            const illustDesc = document.getElementById('severity-illus-desc');
+            if (illustIcon && illustLabel && illustDesc) {
+                if (severityColor === 'RED') {
+                    illustIcon.textContent = '🍂';
+                    illustLabel.textContent = '⚠️ High Severity Detected';
+                    illustDesc.textContent = 'Act quickly — significant crop damage identified by AI analysis.';
+                    illustIcon.style.filter = 'drop-shadow(0 6px 12px rgba(220,38,38,0.25))';
+                } else if (severityColor === 'GREEN') {
+                    illustIcon.textContent = '🌿';
+                    illustLabel.textContent = '✅ Low Severity — Crop Recoverable';
+                    illustDesc.textContent = 'Positive outlook — your crop can be treated successfully.';
+                    illustIcon.style.filter = 'drop-shadow(0 6px 12px rgba(34,197,94,0.25))';
+                } else {
+                    illustIcon.textContent = '🌾';
+                    illustLabel.textContent = '⚡ Moderate Severity Detected';
+                    illustDesc.textContent = 'Prompt action recommended — follow the treatment plan below.';
+                    illustIcon.style.filter = 'drop-shadow(0 6px 12px rgba(245,158,11,0.25))';
+                }
+            }
+
 
             // Populate Match Comparison List (Top 3)
             const compList = document.getElementById('comparison-list');

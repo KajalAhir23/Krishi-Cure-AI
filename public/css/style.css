@@ -109,7 +109,7 @@ body::after {
    3. TYPOGRAPHY SYSTEM
    ================================================================ */
 h1 {
-    font-size: 2.6rem;
+    font-size: clamp(1.8rem, 3vw + 1rem, 2.6rem);
     font-weight: 800;
     color: var(--forest-green);
     line-height: 1.2;
@@ -120,13 +120,13 @@ h2 {
     color: var(--forest-green);
     margin-bottom: 1.75rem;
     font-weight: 800;
-    font-size: 1.95rem;
+    font-size: clamp(1.4rem, 2vw + 0.8rem, 1.95rem);
     letter-spacing: -0.4px;
     line-height: 1.25;
 }
 
 h3 {
-    font-size: 1.3rem;
+    font-size: clamp(1.15rem, 1vw + 0.8rem, 1.3rem);
     font-weight: 700;
     color: var(--text-main);
     line-height: 1.3;
@@ -634,8 +634,9 @@ body { padding-top: 68px; }
    ================================================================ */
 .container {
     max-width: 1020px;
+    width: 100%;
     margin: 2.5rem auto;
-    padding: 0 1.5rem;
+    padding: 0 clamp(0.75rem, 4vw, 1.5rem);
     position: relative;
     z-index: 1;
 }
@@ -762,8 +763,8 @@ body { padding-top: 68px; }
    ================================================================ */
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.35rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+    gap: clamp(0.75rem, 2vw, 1.35rem);
 }
 
 .cat-card {
@@ -874,7 +875,7 @@ textarea::placeholder {
    ================================================================ */
 .crop-matrix-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(158px, 42vw), 1fr));
     gap: 1rem;
     margin-top: 1.75rem;
     max-height: 480px;
@@ -952,7 +953,7 @@ textarea::placeholder {
 
 .symptoms-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(275px, 100%), 1fr));
     gap: 0.8rem;
 }
 
@@ -1257,7 +1258,8 @@ textarea::placeholder {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-width: 340px;
+    max-width: min(340px, calc(100vw - 2rem));
+    width: max-content;
     pointer-events: none;
 }
 
@@ -1595,6 +1597,7 @@ textarea::placeholder {
     gap: 0.85rem;
     margin-top: 1.75rem;
     justify-content: center;
+    align-items: stretch;
 }
 
 .action-bar .primary-btn {
@@ -1645,9 +1648,9 @@ textarea::placeholder {
    ================================================================ */
 .choice-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-    gap: 1.7rem;
-    margin-top: 1.7rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
+    gap: clamp(1rem, 3vw, 1.7rem);
+    margin-top: clamp(1rem, 3vw, 1.7rem);
 }
 
 .choice-card {
@@ -1741,8 +1744,8 @@ footer { position: relative; z-index: 1; }
 
 .footer-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+    gap: clamp(1.2rem, 3vw, 2.25rem);
     margin-bottom: 2.25rem;
     max-width: 1020px;
     margin-left: auto;
@@ -1909,10 +1912,10 @@ footer { position: relative; z-index: 1; }
 
 .weather-main-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.7rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+    gap: clamp(0.9rem, 2vw, 1.7rem);
     margin-bottom: 1.55rem;
-    align-items: center;
+    align-items: start;
 }
 
 .weather-info-box {
@@ -1953,8 +1956,8 @@ footer { position: relative; z-index: 1; }
 
 .weather-details-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.72rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(80px, 28vw), 1fr));
+    gap: clamp(0.35rem, 1vw, 0.72rem);
 }
 
 .weather-detail-item {
@@ -1993,8 +1996,8 @@ footer { position: relative; z-index: 1; }
 
 .weather-insights-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.88rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+    gap: clamp(0.6rem, 1.5vw, 0.88rem);
 }
 
 .weather-insight-card {
@@ -2393,44 +2396,67 @@ footer { position: relative; z-index: 1; }
    25. RESPONSIVE SYSTEM
    ================================================================ */
 
-/* Laptop (max 1024px) */
-@media (max-width: 1024px) {
-    .container { max-width: 92%; margin: 2rem auto; }
-    .step-card { padding: 2.2rem; }
-    h2 { font-size: 1.8rem; }
+/* ── Large Desktop / 2K / 4K ──────────────────────────────────── */
+@media (min-width: 1600px) {
+    .container { max-width: 1120px; }
+    .step-card { padding: 3.25rem; }
 }
 
-/* Tablet (max 768px) */
-@media (max-width: 768px) {
-    .container  { max-width: 95%; margin: 1.35rem auto; padding: 0 1rem; }
-    .step-card  { padding: 1.8rem; border-radius: var(--radius-lg); }
-    h2          { font-size: 1.62rem; margin-bottom: 1.35rem; }
+@media (min-width: 1920px) {
+    .container { max-width: 1240px; }
+    .category-grid { gap: 1.6rem; }
+    .choice-grid { gap: 2rem; }
+}
 
-    .category-grid { grid-template-columns: repeat(3, 1fr); gap: 0.9rem; }
+/* ── Laptop (max 1024px) ──────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .container { max-width: 94%; margin: 2rem auto; }
+    .step-card { padding: 2.2rem; }
+}
+
+/* ── Tablet (max 820px) — already handled in header section ───── */
+
+/* ── Tablet / Large Mobile (max 768px) ────────────────────────── */
+@media (max-width: 768px) {
+    .container  { max-width: 96%; margin: 1.35rem auto; padding: 0 1rem; }
+    .step-card  { padding: 1.8rem; border-radius: var(--radius-lg); }
+
+    .category-grid { gap: 0.9rem; }
     .cat-card  { padding: 1.72rem 0.82rem; border-radius: var(--radius-md); }
+    .cat-card .icon { font-size: 2.9rem; }
 
     .crop-matrix-grid {
-        grid-template-columns: repeat(auto-fill, minmax(122px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(min(122px, 40vw), 1fr));
         gap: 0.82rem;
         padding: 0.5rem;
     }
     .crop-matrix-item { padding: 0.95rem; border-radius: var(--radius-md); }
     .crop-matrix-item .crop-name { font-size: 0.88rem; }
 
-    .symptoms-grid { grid-template-columns: repeat(auto-fill, minmax(212px, 1fr)); gap: 0.72rem; }
+    .symptoms-grid { grid-template-columns: repeat(auto-fill, minmax(min(212px, 100%), 1fr)); gap: 0.72rem; }
     .symptom-label { padding: 0.88rem 1rem; gap: 0.72rem; }
 
-    .primary-btn { padding: 0.92rem 1.82rem; font-size: 0.95rem; }
+    .primary-btn {
+        padding: 0.92rem 1.82rem;
+        font-size: 0.95rem;
+        min-height: 44px; /* touch target */
+    }
     .diagnose-btn { margin-top: 1.5rem; }
 
-    .status-banner { padding: 1.08rem 1.2rem; font-size: 1.12rem; gap: 0.88rem; border-radius: var(--radius-md); margin-bottom: 1.35rem; }
+    .status-banner {
+        padding: 1.08rem 1.2rem;
+        font-size: 1.12rem;
+        gap: 0.88rem;
+        border-radius: var(--radius-md);
+        margin-bottom: 1.35rem;
+        flex-wrap: wrap;
+    }
     .result-box    { padding: 1.82rem; margin-bottom: 1.35rem; border-radius: var(--radius-lg); }
     .disease-name  { font-size: 1.68rem; }
     .remedy-section{ padding: 1.32rem; margin-top: 1.72rem; }
     .action-steps li { padding: 1.18rem; border-radius: var(--radius-md); }
 
-    .weather-main-grid         { grid-template-columns: 1fr; gap: 1.1rem; }
-    .weather-insights-container{ grid-template-columns: 1fr; gap: 0.72rem; }
+    .weather-insights-container { gap: 0.72rem; }
 
     .wlp-modal       { max-height: 95vh; border-radius: var(--radius-lg); }
     .wlp-map         { min-height: 195px; max-height: 245px; margin: 0 1rem; }
@@ -2438,19 +2464,59 @@ footer { position: relative; z-index: 1; }
     .wlp-header      { padding: 0.92rem 1rem; }
     .wlp-footer      { padding: 0.68rem 1rem; }
 
-    .footer-grid { gap: 1.72rem; }
     .login-layout-wrapper { flex-direction: column-reverse; }
-    .choice-grid  { gap: 1.22rem; }
     .choice-card  { padding: 2.2rem 1.5rem; }
+
+    .toast-container {
+        top: auto;
+        bottom: 5rem;
+        right: 1rem;
+        left: 1rem;
+        max-width: 100%;
+        width: auto;
+        align-items: flex-end;
+    }
 }
 
-/* Mobile (max 480px) */
+/* ── Mid Mobile (max 576px) ───────────────────────────────────── */
+@media (max-width: 576px) {
+    .container  { margin: 0.9rem auto; padding: 0 0.75rem; }
+    .step-card  { padding: 1.4rem 1.1rem; border-radius: var(--radius-md); }
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.78rem;
+    }
+    .cat-card { padding: 1.5rem 0.75rem; }
+    .cat-card .icon { font-size: 2.6rem; }
+
+    .choice-grid { grid-template-columns: 1fr; }
+    .choice-card { padding: 2rem 1.35rem; gap: 1.1rem; }
+
+    .welcome-card-content { flex-wrap: wrap; gap: 0.75rem; }
+
+    .action-bar { flex-direction: column; gap: 0.6rem; }
+    .action-bar .primary-btn {
+        width: 100%;
+        min-width: unset;
+        flex: unset;
+        justify-content: center;
+    }
+
+    .score-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+}
+
+/* ── Mobile (max 480px) ───────────────────────────────────────── */
 @media (max-width: 480px) {
-    .app-header { padding: 0.62rem 4%; }
-    .logo       { font-size: 1.32rem; gap: 0.42rem; }
+    .app-header { padding: 0 3.5%; }
+    .logo       { font-size: 1.28rem; gap: 0.38rem; }
 
     .container  { margin: 0.72rem auto; padding: 0 0.62rem; }
-    .step-card  { padding: 1.22rem 1rem; border-radius: var(--radius-md); }
+    .step-card  { padding: 1.15rem 0.95rem; border-radius: var(--radius-md); }
 
     h2 { font-size: 1.38rem; margin-bottom: 1.08rem; text-align: center; }
 
@@ -2458,83 +2524,140 @@ footer { position: relative; z-index: 1; }
     .cat-card {
         flex-direction: row;
         justify-content: flex-start;
-        padding: 1.08rem 1.32rem;
-        gap: 1.22rem;
+        padding: 0.95rem 1.15rem;
+        gap: 1rem;
         border-radius: var(--radius-md);
         text-align: left;
+        min-height: 44px;
     }
+    .cat-card .icon { font-size: 2.2rem; flex-shrink: 0; }
 
     .crop-matrix-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 0.62rem;
+        gap: 0.55rem;
         padding: 0.2rem;
         max-height: 385px;
     }
     .crop-matrix-item { padding: 0.72rem; border-radius: var(--radius-sm); gap: 0.42rem; }
     .crop-matrix-item .crop-name { font-size: 0.82rem; }
+    .crop-matrix-item .crop-icon { font-size: 2rem; }
 
-    .symptoms-grid  { grid-template-columns: 1fr; gap: 0.62rem; }
-    .symptom-label  { padding: 0.72rem 0.88rem; border-radius: var(--radius-sm); gap: 0.68rem; }
+    .symptoms-grid  { grid-template-columns: 1fr; gap: 0.55rem; }
+    .symptom-label  { padding: 0.72rem 0.88rem; border-radius: var(--radius-sm); gap: 0.68rem; min-height: 44px; }
     .symptom-category-title { font-size: 0.95rem; margin: 1.55rem 0 0.72rem; }
 
     .primary-btn {
         width: 100%;
         text-align: center;
-        padding: 0.92rem 1.35rem;
+        padding: 0.95rem 1.35rem;
         font-size: 0.9rem;
         border-radius: var(--radius-md);
         display: flex;
+        min-height: 48px;
     }
 
-    .back-btn { padding: 0.42rem 1.08rem; font-size: 0.82rem; margin-bottom: 1.08rem; }
+    .back-btn {
+        padding: 0.42rem 1.08rem;
+        font-size: 0.82rem;
+        margin-bottom: 1.08rem;
+        min-height: 40px;
+    }
 
-    .status-banner { padding: 0.92rem 0.98rem; font-size: 1.02rem; gap: 0.52rem; margin-bottom: 1.08rem; }
-    .result-box    { padding: 1.08rem 0.88rem; margin-bottom: 1.08rem; border-radius: var(--radius-md); }
-    .disease-name  { font-size: 1.32rem; line-height: 1.3; margin: 0.22rem 0; }
-    .remedy-section{ padding: 0.92rem 0.78rem; margin-top: 1.32rem; }
+    .status-banner { padding: 0.88rem 0.95rem; font-size: 0.98rem; gap: 0.5rem; margin-bottom: 1.08rem; }
+    .result-box    { padding: 1rem 0.85rem; margin-bottom: 1rem; border-radius: var(--radius-md); }
+    .disease-name  { font-size: 1.3rem; line-height: 1.3; margin: 0.22rem 0; }
+    .remedy-section{ padding: 0.88rem 0.75rem; margin-top: 1.25rem; }
 
-    .tab-content { padding: 0.98rem; }
-    .tab-btn     { font-size: 0.78rem; padding: 0.78rem 0.62rem; min-width: 83px; }
+    .tab-content { padding: 0.9rem; }
+    .tab-btn     { font-size: 0.76rem; padding: 0.75rem 0.58rem; min-width: 78px; min-height: 44px; }
     .step-list li{ font-size: 0.88rem; padding: 0.72rem 0.72rem 0.72rem 2.55rem; }
-    .info-grid   { grid-template-columns: 1fr; gap: 0.58rem; }
-    .action-bar  { gap: 0.68rem; }
-    .action-bar .primary-btn { min-width: 128px; font-size: 0.86rem; padding: 0.78rem 0.88rem; }
+    .info-grid   { grid-template-columns: 1fr; gap: 0.55rem; }
+    .action-bar  { gap: 0.6rem; }
+    .action-bar .primary-btn { min-width: unset; flex: 1 1 100%; font-size: 0.86rem; padding: 0.78rem 0.88rem; }
 
-    .welcome-card         { padding: 1.08rem 1.2rem; }
-    .welcome-card-content { gap: 0.88rem; }
-    .welcome-avatar, .welcome-avatar-fallback { width: 48px; height: 48px; }
-    .welcome-avatar-wrapper { width: 48px; height: 48px; }
-    .welcome-avatar-fallback { font-size: 1.72rem; }
-    .welcome-name  { font-size: 1.22rem !important; }
-    .welcome-email { font-size: 0.8rem; }
+    .welcome-card         { padding: 1rem 1.1rem; }
+    .welcome-card-content { gap: 0.8rem; }
+    .welcome-avatar, .welcome-avatar-fallback { width: 46px; height: 46px; }
+    .welcome-avatar-wrapper { width: 46px; height: 46px; }
+    .welcome-avatar-fallback { font-size: 1.6rem; }
+    .welcome-name  { font-size: 1.18rem !important; }
+    .welcome-email { font-size: 0.78rem; }
 
-    .weather-card         { padding: 1.08rem 0.92rem; border-radius: var(--radius-md); }
-    .weather-header       { margin-bottom: 0.98rem; }
-    .weather-card-title   { font-size: 0.98rem; flex-wrap: wrap; gap: 0.38rem; }
-    .weather-info-box     { padding: 0.72rem; gap: 0.88rem; }
-    .weather-large-emoji  { font-size: 2.5rem; }
-    .weather-temp-value   { font-size: 2.08rem; }
-    .weather-details-list { grid-template-columns: repeat(3, 1fr); gap: 0.36rem; }
-    .weather-detail-item  { padding: 0.46rem; border-radius: var(--radius-sm); }
-    .weather-detail-val   { font-size: 0.86rem; }
-    .weather-detail-lbl   { font-size: 0.59rem; }
+    .weather-card         { padding: 1rem 0.85rem; border-radius: var(--radius-md); }
+    .weather-header       { margin-bottom: 0.9rem; flex-wrap: wrap; gap: 0.5rem; }
+    .weather-card-title   { font-size: 0.95rem; flex-wrap: wrap; gap: 0.35rem; }
+    .weather-info-box     { padding: 0.68rem; gap: 0.72rem; flex-wrap: wrap; }
+    .weather-large-emoji  { font-size: 2.4rem; }
+    .weather-temp-value   { font-size: 2rem; }
+    .weather-details-list { grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
+    .weather-detail-item  { padding: 0.42rem; border-radius: var(--radius-sm); }
+    .weather-detail-val   { font-size: 0.84rem; }
+    .weather-detail-lbl   { font-size: 0.58rem; }
 
-    .wlp-map         { min-height: 172px; max-height: 212px; margin: 0 0.68rem; }
-    .wlp-search-row  { flex-wrap: wrap; }
+    .wlp-map         { min-height: 165px; max-height: 205px; margin: 0 0.62rem; }
+    .wlp-search-row  { flex-wrap: wrap; gap: 0.4rem; padding: 0.62rem 0.8rem 0.35rem; }
     .wlp-search-input{ width: 100%; }
+    .wlp-search-btn  { width: 100%; justify-content: center; }
+    .wlp-results     { margin: 0 0.8rem 0.4rem; }
 
-    .choice-card { padding: 1.72rem 1.22rem; gap: 0.98rem; }
-    .choice-card h3 { font-size: 1.18rem; }
-    .choice-card .icon { font-size: 2.9rem; }
+    .choice-card { padding: 1.6rem 1.1rem; gap: 0.88rem; }
+    .choice-card h3 { font-size: 1.15rem; }
+    .choice-card .icon { font-size: 2.8rem; }
 
-    .app-footer { padding: 2.2rem 4% 1.22rem; margin-top: 2.5rem; }
-    .footer-grid{ gap: 1.48rem; margin-bottom: 1.48rem; }
-    .footer-col h4 { font-size: 0.95rem; }
-    .footer-bottom { flex-direction: column; gap: 0.38rem; text-align: center; }
+    .app-footer { padding: 2rem 4% 1.2rem; margin-top: 2.5rem; }
+    .footer-grid{ margin-bottom: 1.4rem; }
+    .footer-col h4 { font-size: 0.93rem; }
+    .footer-bottom { flex-direction: column; gap: 0.35rem; text-align: center; }
+
+    .toast-container {
+        top: auto;
+        bottom: 5.5rem;
+        right: 0.75rem;
+        left: 0.75rem;
+        max-width: calc(100% - 1.5rem);
+        width: auto;
+        align-items: stretch;
+    }
+    .toast-notification { font-size: 0.85rem; }
 }
 
-/* Small Mobile (max 360px) */
+/* ── Small Mobile (max 360px) ─────────────────────────────────── */
 @media (max-width: 360px) {
-    .step-card { padding: 0.98rem 0.82rem; }
-    .crop-matrix-grid { max-height: 338px; }
-    h2 { font-size: 1.22rem; }
+    .step-card { padding: 0.9rem 0.75rem; }
+    .crop-matrix-grid { max-height: 330px; }
+    h2 { font-size: 1.18rem; }
+
+    .category-grid { grid-template-columns: 1fr; }
+    .cat-card { padding: 0.85rem 1rem; gap: 0.75rem; }
+
+    .lang-btn {
+        padding: 0.28rem 0.42rem;
+        font-size: 0.64rem;
+    }
+    .logout-btn {
+        padding: 0.3rem 0.62rem;
+        font-size: 0.7rem;
+    }
+    .logo { font-size: 1.08rem; }
+    .welcome-name { font-size: 1.1rem !important; }
+}
+
+/* ── Minimum supported width (320px / iPhone SE) ─────────────── */
+@media (max-width: 320px) {
+    .app-header { padding: 0 2%; }
+    .container  { padding: 0 0.5rem; }
+    .step-card  { padding: 0.78rem 0.6rem; }
+    h2          { font-size: 1.08rem; }
+
+    .lang-btn   { padding: 0.22rem 0.35rem; font-size: 0.62rem; }
+    .logout-btn { padding: 0.26rem 0.52rem; font-size: 0.68rem; }
+    .logo       { font-size: 1rem; gap: 0.28rem; }
+
+    .primary-btn { font-size: 0.86rem; padding: 0.82rem 1rem; }
+    .tab-btn     { font-size: 0.72rem; min-width: 60px; }
+
+    .crop-matrix-grid { grid-template-columns: repeat(2, 1fr); gap: 0.42rem; }
+    .crop-matrix-item { padding: 0.58rem; }
+    .crop-matrix-item .crop-icon { font-size: 1.7rem; }
+    .crop-matrix-item .crop-name { font-size: 0.76rem; }
+}

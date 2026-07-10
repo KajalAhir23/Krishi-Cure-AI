@@ -1,0 +1,1096 @@
+/* ================================================================
+   KRISHI CURE AI — Supplemental Responsive System
+   Covers: Fertilizer, Weather, Upload, Login, Footer, Images,
+           Forms, Cards, Buttons across all screen sizes.
+   320px → 4K. Zero color / logic / branding changes.
+   ================================================================ */
+
+/* ================================================================
+   1. BASE RESPONSIVE UTILITIES
+   ================================================================ */
+
+/* Prevent any element from causing horizontal scroll */
+img, video, canvas, svg, iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Fluid images everywhere */
+img {
+    display: block;
+}
+
+/* Full-width inputs on any screen */
+select,
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="search"],
+textarea {
+    max-width: 100%;
+    min-height: 44px; /* WCAG touch target */
+    font-size: max(16px, 1rem); /* prevent iOS zoom */
+}
+
+/* ================================================================
+   2. FERTILIZER CALCULATOR — FORM GRID
+   ================================================================ */
+
+/* Base: two-column form grid on medium+ screens */
+.fert-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+/* Results quantity cards — safe responsive grid */
+#quantity-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2.25rem;
+}
+
+/* Results info grid — 2 columns on desktop */
+.results-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 1.25rem;
+}
+
+/* Accordion card base */
+.info-accordion-card {
+    background: white;
+    border: 1.5px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-fast);
+}
+
+.info-accordion-card:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(76, 175, 80, 0.2);
+}
+
+.accordion-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.4rem;
+    background: none;
+    border: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.97rem;
+    font-weight: 800;
+    color: var(--forest-green);
+    cursor: pointer;
+    text-align: left;
+    transition: var(--transition-fast);
+}
+
+.accordion-btn:hover {
+    background: rgba(76, 175, 80, 0.04);
+}
+
+.accordion-content {
+    padding: 0 1.4rem 1.2rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+/* Fertilizer quantity card styles */
+.fert-qty-card {
+    background: linear-gradient(135deg, rgba(76,175,80,0.05) 0%, white 100%);
+    border: 1.5px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: var(--transition-fast);
+}
+
+.fert-qty-card:hover {
+    border-color: rgba(76,175,80,0.25);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* ================================================================
+   3. IMAGE UPLOAD PAGE — RESPONSIVE UPLOAD AREA
+   ================================================================ */
+
+/* Upload drop zone */
+.upload-drop-zone,
+.upload-zone,
+#upload-zone,
+[id*="drop-zone"],
+[class*="drop-zone"] {
+    width: 100%;
+    min-height: 180px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Preview grid for uploaded images */
+.preview-grid,
+#preview-grid,
+[id*="preview-grid"],
+[class*="preview-grid"] {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(130px, 45%), 1fr));
+    gap: 0.75rem;
+    width: 100%;
+}
+
+/* ================================================================
+   4. WEATHER PAGE — LOCATION CONTROLS
+   ================================================================ */
+
+.weather-location-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.weather-change-loc-btn {
+    background: rgba(45, 90, 39, 0.06);
+    border: 1.5px solid var(--glass-border);
+    color: var(--forest-green);
+    padding: 0.45rem 1rem;
+    border-radius: var(--radius-pill);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    white-space: nowrap;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.weather-change-loc-btn:hover {
+    background: var(--forest-green);
+    color: white;
+    border-color: var(--forest-green);
+}
+
+.weather-location-badge {
+    background: rgba(76, 175, 80, 0.08);
+    border: 1px solid rgba(76, 175, 80, 0.15);
+    border-radius: var(--radius-pill);
+    padding: 0.2rem 0.75rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--forest-green);
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* ================================================================
+   5. LOGIN PAGE RESPONSIVE
+   ================================================================ */
+
+.login-layout-wrapper {
+    flex-wrap: wrap;
+}
+
+.login-form-col {
+    flex: 1 1 320px;
+    min-width: 0;
+}
+
+/* ================================================================
+   6. LARGE DESKTOP (1600px+)
+   ================================================================ */
+@media (min-width: 1600px) {
+    .fert-form-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    #quantity-cards-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .weather-details-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ================================================================
+   7. LAPTOP (max 1200px)
+   ================================================================ */
+@media (max-width: 1200px) {
+    .fert-form-grid {
+        gap: 1.25rem;
+    }
+}
+
+/* ================================================================
+   8. TABLET LANDSCAPE / SMALL LAPTOP (max 1024px)
+   ================================================================ */
+@media (max-width: 1024px) {
+    /* Fertilizer */
+    .fert-form-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.1rem;
+    }
+
+    #quantity-cards-container {
+        grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    }
+
+    /* Results info cards single column on smaller laptops */
+    .results-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Weather detail items: 4 columns on laptop */
+    .weather-details-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ================================================================
+   9. TABLET PORTRAIT (max 820px)
+   ================================================================ */
+@media (max-width: 820px) {
+    /* Fertilizer form — single column on tablet */
+    .fert-form-grid {
+        grid-template-columns: 1fr;
+        gap: 1.15rem;
+    }
+
+    #quantity-cards-container {
+        grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+        gap: 1rem;
+    }
+
+    /* Weather detail items: 4 columns */
+    .weather-details-list {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+    }
+
+    /* Weather insights — 2 columns */
+    .weather-insights-container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    /* Weather header wrap */
+    .weather-header {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    /* Location actions wrap */
+    .weather-location-actions {
+        flex-wrap: wrap;
+    }
+
+    /* Weather main grid — stack on tablet */
+    .weather-main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Upload page */
+    .preview-grid, #preview-grid {
+        grid-template-columns: repeat(auto-fill, minmax(min(100px, 40%), 1fr));
+    }
+
+    /* Result page: res_title smaller */
+    #res_title {
+        font-size: clamp(1.2rem, 3vw, 1.9rem) !important;
+    }
+}
+
+/* ================================================================
+   10. TABLET / LARGE MOBILE (max 768px)
+   ================================================================ */
+@media (max-width: 768px) {
+    /* Fertilizer calculate button: full width */
+    #calc-btn {
+        width: 100% !important;
+        padding: 1rem 2rem !important;
+        font-size: 1rem !important;
+    }
+
+    /* Fertilizer results header: stack vertically */
+    #results-content > div:first-child {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    /* Accordion button font size */
+    .accordion-btn {
+        font-size: 0.92rem;
+        padding: 1rem 1.1rem;
+    }
+
+    /* Login page: vertical layout */
+    .login-layout-wrapper {
+        flex-direction: column-reverse;
+    }
+
+    /* Footer: full-width columns */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.4rem;
+    }
+
+    /* Weather detail items: 4 cols */
+    .weather-details-list {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.45rem;
+    }
+
+    /* Weather insights: 1 column */
+    .weather-insights-container {
+        grid-template-columns: 1fr;
+    }
+
+    /* Reduce weather card padding */
+    .weather-card {
+        padding: 1.4rem;
+    }
+
+    /* Weather location badge: allow wrap */
+    .weather-card-title {
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        font-size: 1.05rem;
+    }
+
+    /* Upload drop zone smaller min-height */
+    .upload-drop-zone,
+    .upload-zone,
+    #upload-zone,
+    [id*="drop-zone"],
+    [class*="drop-zone"] {
+        min-height: 140px;
+        padding: clamp(1rem, 3vw, 2rem);
+    }
+}
+
+/* ================================================================
+   11. MID MOBILE (max 576px)
+   ================================================================ */
+@media (max-width: 576px) {
+    /* Fertilizer form */
+    .fert-form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    #quantity-cards-container {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+    }
+
+    /* Accordion */
+    .accordion-btn {
+        font-size: 0.88rem;
+        padding: 0.9rem 1rem;
+    }
+
+    .accordion-content {
+        padding: 0 1rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    /* Fertilizer results title */
+    #res_title {
+        font-size: 1.28rem !important;
+        word-break: break-word;
+    }
+
+    /* Weather detail items: 3 columns on mid mobile */
+    .weather-details-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.4rem;
+    }
+
+    .weather-detail-val {
+        font-size: 0.85rem;
+    }
+
+    .weather-detail-lbl {
+        font-size: 0.58rem;
+    }
+
+    .weather-detail-icon {
+        font-size: 1rem;
+    }
+
+    /* Weather card */
+    .weather-card {
+        padding: 1.1rem;
+    }
+
+    .weather-card-title {
+        font-size: 0.95rem;
+    }
+
+    .weather-temp-value {
+        font-size: 2.1rem;
+    }
+
+    .weather-large-emoji {
+        font-size: 2.6rem;
+    }
+
+    /* Weather insights: 1 column */
+    .weather-insights-container {
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+    }
+
+    /* Weather location badge: truncate gracefully */
+    .weather-location-badge {
+        max-width: 180px;
+        font-size: 0.7rem;
+    }
+
+    /* Location picker modal */
+    .wlp-modal {
+        border-radius: var(--radius-lg);
+    }
+
+    /* Results grid single column */
+    .results-info-grid {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+    }
+
+    /* Fert qty card */
+    .fert-qty-card {
+        padding: 1.1rem;
+    }
+
+    /* Upload page preview */
+    .preview-grid, #preview-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.6rem;
+    }
+
+    /* Footer */
+    .app-footer {
+        padding: 2rem 4% 1.5rem;
+        margin-top: 2.5rem;
+    }
+
+    .footer-col h4 {
+        font-size: 0.95rem;
+        margin-bottom: 0.9rem;
+    }
+}
+
+/* ================================================================
+   12. SMALL MOBILE (max 480px)
+   ================================================================ */
+@media (max-width: 480px) {
+    /* Fertilizer */
+    #calc-btn {
+        padding: 0.95rem 1.5rem !important;
+        font-size: 0.95rem !important;
+    }
+
+    .accordion-btn {
+        font-size: 0.84rem;
+    }
+
+    /* Weather details: 3 columns */
+    .weather-details-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.35rem;
+    }
+
+    .weather-detail-item {
+        padding: 0.45rem 0.3rem;
+    }
+
+    .weather-detail-val {
+        font-size: 0.8rem;
+    }
+
+    .weather-detail-lbl {
+        font-size: 0.55rem;
+    }
+
+    /* Weather change location button: full width */
+    .weather-change-loc-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .weather-location-actions {
+        width: 100%;
+    }
+
+    /* Fert result header stack */
+    #results-content > div:first-child {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+
+    /* Upload area */
+    .upload-drop-zone,
+    .upload-zone,
+    #upload-zone,
+    [id*="drop-zone"] {
+        min-height: 120px;
+        padding: 1rem;
+    }
+
+    /* Preview images */
+    .preview-grid,
+    #preview-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+}
+
+/* ================================================================
+   13. VERY SMALL MOBILE (max 360px)
+   ================================================================ */
+@media (max-width: 360px) {
+    /* Fertilizer */
+    .fert-form-grid {
+        gap: 0.85rem;
+    }
+
+    .accordion-btn {
+        font-size: 0.8rem;
+        padding: 0.78rem 0.85rem;
+    }
+
+    .accordion-content {
+        font-size: 0.84rem;
+        padding: 0 0.85rem 0.85rem;
+    }
+
+    /* Weather */
+    .weather-details-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.28rem;
+    }
+
+    .weather-detail-item {
+        padding: 0.38rem 0.22rem;
+    }
+
+    .weather-detail-val {
+        font-size: 0.75rem;
+    }
+
+    .weather-detail-lbl {
+        font-size: 0.5rem;
+    }
+
+    .weather-detail-icon {
+        font-size: 0.9rem;
+    }
+
+    .weather-temp-value {
+        font-size: 1.8rem;
+    }
+
+    .weather-card-title {
+        font-size: 0.88rem;
+    }
+
+    #res_title {
+        font-size: 1.1rem !important;
+    }
+
+    /* Upload */
+    .preview-grid, #preview-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.4rem;
+    }
+}
+
+/* ================================================================
+   14. MINIMUM SUPPORTED (320px / iPhone SE)
+   ================================================================ */
+@media (max-width: 320px) {
+    .weather-details-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.22rem;
+    }
+
+    .weather-detail-item {
+        padding: 0.3rem 0.18rem;
+    }
+
+    .weather-detail-val {
+        font-size: 0.7rem;
+    }
+
+    .weather-detail-lbl {
+        font-size: 0.46rem;
+    }
+
+    .weather-detail-icon {
+        font-size: 0.82rem;
+    }
+
+    .fert-qty-card {
+        padding: 0.85rem;
+    }
+
+    .accordion-btn {
+        font-size: 0.76rem;
+        padding: 0.7rem 0.78rem;
+    }
+}
+
+/* ================================================================
+   15. TOUCH & MOBILE UX ENHANCEMENTS
+   ================================================================ */
+
+/* Prevent iOS double-tap zoom on buttons */
+button, a, input, select, textarea {
+    touch-action: manipulation;
+}
+
+/* Larger tap targets for all interactive elements on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .accordion-btn {
+        min-height: 48px;
+    }
+
+    .weather-change-loc-btn {
+        min-height: 44px;
+        padding: 0.6rem 1.1rem;
+    }
+
+    .nav-link {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .weather-refresh-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .lang-btn {
+        min-height: 36px;
+    }
+
+    /* Better scrollable containers on touch */
+    .crop-matrix-grid,
+    .tab-headers,
+    .chatbot-messages {
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: none;
+    }
+}
+
+/* ================================================================
+   16. SAFE AREA SUPPORT (iPhone X / Android Notch)
+   ================================================================ */
+
+.app-header {
+    padding-left: max(5%, env(safe-area-inset-left, 0px));
+    padding-right: max(5%, env(safe-area-inset-right, 0px));
+}
+
+.app-footer {
+    padding-bottom: max(1.75rem, env(safe-area-inset-bottom, 0px));
+}
+
+/* ================================================================
+   17. PRINT MEDIA — already in style.css, no duplication
+   ================================================================ */
+
+/* ================================================================
+   18. HIGH-DPI / RETINA IMPROVEMENTS
+   ================================================================ */
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* Ensure border-radius and shadows render crisply */
+    .step-card,
+    .weather-card,
+    .cat-card,
+    .choice-card,
+    .info-accordion-card,
+    .fert-qty-card {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+}
+
+/* ================================================================
+   19. REDUCED MOTION — RESPECT USER PREFERENCE
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ================================================================
+   20. FERTILIZER CALCULATOR — DROPDOWN & SELECTION
+   ================================================================ */
+
+.dropdown-list {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1.5px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-hover);
+    z-index: 500;
+    max-height: min(260px, 50vh);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.selection-display {
+    margin-top: 0.5rem;
+    min-height: 0;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--forest-green);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+/* ================================================================
+   21. RESULTS SECTION — RESPONSIVE RESULTS HEADER
+   ================================================================ */
+
+@media (max-width: 600px) {
+    /* Stack results header vertically */
+    #results-content [style*="justify-content: space-between"] {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    /* Reduce padding on empty state */
+    #results-empty {
+        padding: 2.5rem 1rem !important;
+    }
+
+    #results-empty span {
+        font-size: 2.5rem !important;
+    }
+
+    #results-empty h3 {
+        font-size: 1.1rem !important;
+    }
+
+    #results-empty p {
+        font-size: 0.9rem !important;
+    }
+}
+
+/* ================================================================
+   22. WEATHER PAGE — FULL PAGE LAYOUT
+   ================================================================ */
+
+/* weather.html specific container */
+#weather-section.container {
+    padding: 0 clamp(0.6rem, 3vw, 1.5rem);
+    margin-top: clamp(1rem, 3vw, 2.5rem);
+}
+
+/* ================================================================
+   23. LOCATION PICKER MODAL — FULL RESPONSIVE
+   ================================================================ */
+
+.wlp-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.52);
+    z-index: 5000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(0.5rem, 2vw, 1.5rem);
+    backdrop-filter: blur(4px);
+}
+
+.wlp-modal {
+    background: white;
+    border-radius: var(--radius-xl);
+    width: 100%;
+    max-width: min(560px, 96vw);
+    max-height: min(90vh, 680px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: var(--shadow-deep);
+    animation: slideUp 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.wlp-map {
+    flex: 1;
+    min-height: 220px;
+    max-height: 320px;
+    margin: 0 1rem;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+}
+
+.wlp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--glass-border);
+    flex-shrink: 0;
+}
+
+.wlp-title {
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--forest-green);
+}
+
+.wlp-close-btn {
+    background: rgba(45,90,39,0.06);
+    border: none;
+    color: var(--forest-green);
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.wlp-close-btn:hover {
+    background: var(--forest-green);
+    color: white;
+}
+
+.wlp-search-row {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.85rem 1rem 0.45rem;
+    flex-shrink: 0;
+}
+
+.wlp-search-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.72rem 1rem;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--glass-border);
+    font-family: 'Outfit', sans-serif;
+    font-size: max(16px, 0.95rem);
+    outline: none;
+    transition: var(--transition-fast);
+}
+
+.wlp-search-input:focus {
+    border-color: var(--leaf-green);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.10);
+}
+
+.wlp-search-btn {
+    background: var(--forest-green);
+    color: white;
+    border: none;
+    padding: 0.72rem 1.1rem;
+    border-radius: var(--radius-md);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    white-space: nowrap;
+    min-height: 44px;
+    transition: var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.wlp-search-btn:hover {
+    background: #3d7a35;
+}
+
+.wlp-map-instruction {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    font-weight: 500;
+    padding: 0.4rem 1rem;
+    flex-shrink: 0;
+}
+
+.wlp-results {
+    overflow-y: auto;
+    max-height: 180px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--glass-border);
+    margin: 0 1rem 0.5rem;
+    background: white;
+    -webkit-overflow-scrolling: touch;
+}
+
+.wlp-selected-label {
+    padding: 0.45rem 1rem;
+    font-size: 0.84rem;
+    color: var(--forest-green);
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.wlp-footer {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.88rem 1rem;
+    border-top: 1px solid var(--glass-border);
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+.wlp-cancel-btn,
+.wlp-confirm-btn {
+    flex: 1;
+    min-width: 110px;
+    padding: 0.72rem 1rem;
+    border-radius: var(--radius-md);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    min-height: 44px;
+    transition: var(--transition-fast);
+}
+
+.wlp-cancel-btn {
+    background: rgba(45,90,39,0.06);
+    border: 1.5px solid var(--glass-border);
+    color: var(--text-main);
+}
+
+.wlp-cancel-btn:hover {
+    background: rgba(45,90,39,0.12);
+}
+
+.wlp-confirm-btn {
+    background: var(--forest-green);
+    color: white;
+    box-shadow: var(--shadow-btn);
+}
+
+.wlp-confirm-btn:hover:not(:disabled) {
+    background: #3d7a35;
+    transform: translateY(-1px);
+}
+
+.wlp-confirm-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.wlp-no-results,
+.wlp-result-item {
+    padding: 0.65rem 1rem;
+    font-size: 0.88rem;
+    cursor: pointer;
+    border-bottom: 1px solid var(--glass-border);
+    transition: var(--transition-fast);
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.wlp-result-item:last-child {
+    border-bottom: none;
+}
+
+.wlp-result-item:hover {
+    background: rgba(76,175,80,0.06);
+    color: var(--forest-green);
+}
+
+.wlp-no-results {
+    color: var(--text-light);
+    text-align: center;
+    cursor: default;
+    padding: 1rem;
+}
+
+/* Mobile location picker: full screen */
+@media (max-width: 540px) {
+    .wlp-overlay {
+        padding: 0;
+        align-items: flex-end;
+    }
+
+    .wlp-modal {
+        max-width: 100%;
+        max-height: 92vh;
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    .wlp-map {
+        min-height: 180px;
+        max-height: 230px;
+    }
+
+    .wlp-search-row {
+        flex-wrap: wrap;
+    }
+
+    .wlp-search-input {
+        width: 100%;
+        flex: unset;
+    }
+
+    .wlp-search-btn {
+        width: 100%;
+    }
+
+    .wlp-footer {
+        flex-direction: column;
+    }
+}

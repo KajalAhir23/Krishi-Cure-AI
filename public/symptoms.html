@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Krishi-Cure Pro - Symptoms</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/illustrations.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -36,6 +37,7 @@
             <a href="/index.html" class="nav-link" id="nav_home">Home</a>
             <a href="/fertilizer-calculator.html" class="nav-link" id="nav_fertilizer">Fertilizer Calculator</a>
             <a href="/chatbot.html" class="nav-link" id="nav_chatbot">AI Chatbot</a>
+            <a href="/weather.html" class="nav-link" id="nav_weather">Weather</a>
         </nav>
         <div class="header-controls">
             <div class="lang-selector">
@@ -55,6 +57,20 @@
             <h2><span id="symptoms_for_title">Symptoms for</span> <span id="selected_crop_name"
                     class="highlight"></span></h2>
             <p id="select_symptoms_text" class="form-label" style="font-size:1.1rem; margin-bottom:1.25rem;">Select all that apply:</p>
+
+            <!-- Subtle plant inspection illustration -->
+            <div style="display:flex;align-items:center;gap:1rem;background:linear-gradient(135deg,rgba(76,175,80,0.04),rgba(45,90,39,0.03));border:1px solid var(--glass-border);border-radius:var(--radius-md);padding:1rem 1.25rem;margin-bottom:1.75rem;" aria-hidden="true">
+                <div style="font-size:2.8rem;filter:drop-shadow(0 4px 6px rgba(45,90,39,0.15));flex-shrink:0;">🔍</div>
+                <div>
+                    <div style="font-weight:800;color:var(--forest-green);font-size:0.95rem;margin-bottom:0.2rem;">Visual Symptom Inspection</div>
+                    <div style="font-size:0.82rem;color:var(--text-light);font-weight:500;line-height:1.45;">Select all visible symptoms for accurate AI-powered disease prediction.</div>
+                </div>
+                <div style="margin-left:auto;display:flex;flex-direction:column;gap:0.4rem;flex-shrink:0;">
+                    <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.76rem;font-weight:700;color:var(--text-light);"><span>🌿</span> Leaf</div>
+                    <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.76rem;font-weight:700;color:var(--text-light);"><span>🌱</span> Stem</div>
+                    <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.76rem;font-weight:700;color:var(--text-light);"><span>🍒</span> Fruit</div>
+                </div>
+            </div>
 
             <form id="symptoms-form">
                 <div class="symptoms-container" id="symptoms-container">

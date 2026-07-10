@@ -269,14 +269,15 @@ window.syncNavbarActiveState = () => {
     navLinks.forEach(link => link.classList.remove('active'));
 
     const currentPath = window.location.pathname;
+    const currentHash = window.location.hash;
 
-    if (currentPath.includes('chatbot.html')) {
+    if (currentPath.includes('chatbot') || currentHash === '#chatbot') {
         const chatbotLink = document.getElementById('nav_chatbot');
         if (chatbotLink) chatbotLink.classList.add('active');
-    } else if (currentPath.includes('weather.html')) {
+    } else if (currentPath.includes('weather') || currentHash === '#weather-section') {
         const weatherLink = document.getElementById('nav_weather');
         if (weatherLink) weatherLink.classList.add('active');
-    } else if (currentPath.includes('fertilizer-calculator.html')) {
+    } else if (currentPath.includes('fertilizer-calculator')) {
         const fertLink = document.getElementById('nav_fertilizer');
         if (fertLink) fertLink.classList.add('active');
     } else {
@@ -288,16 +289,41 @@ window.syncNavbarActiveState = () => {
 
 window.handleUrlRouting = () => {
     const currentPath = window.location.pathname;
+    const currentHash = window.location.hash;
+    const isWeather = currentPath.includes('weather') || currentHash === '#weather-section';
+    const isChatbot = currentPath.includes('chatbot');
 
-    // 1. Weather section visibility
+    // 1. Hide / show home main content (step cards, hero, stats)
+    const homeContent = [
+        document.getElementById('step-category'),
+        document.getElementById('step-crop'),
+        document.querySelector('.hero-illus-banner'),
+        document.querySelector('.hero-stats-strip'),
+        document.getElementById('dashboard-welcome-card')
+    ];
+    homeContent.forEach(el => {
+        if (!el) return;
+        if (isWeather || isChatbot) {
+            el.dataset.prevDisplay = el.style.display || '';
+            el.style.display = 'none';
+        } else {
+            // Restore previous display (default empty = browser default = block)
+            if (el.dataset.prevDisplay !== undefined) {
+                el.style.display = el.dataset.prevDisplay;
+                delete el.dataset.prevDisplay;
+            }
+        }
+    });
+
+    // 2. Weather section visibility
     const weatherSection = document.getElementById('weather-section');
     if (weatherSection) {
-        if (currentPath.includes('weather.html')) {
+        if (isWeather) {
             weatherSection.style.display = 'block';
-            weatherSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            
-            // Trigger weather init if first load
-            if (!window.weatherInitialized && typeof window.__initWeather === 'function') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Always call initWeather when navigating to weather page
+            if (typeof window.__initWeather === 'function') {
                 window.__initWeather();
                 window.weatherInitialized = true;
             }
@@ -309,7 +335,7 @@ window.handleUrlRouting = () => {
     // 2. Chatbot modal visibility
     const chatbotModal = document.getElementById('krishi-chatbot-ui');
     if (chatbotModal) {
-        if (currentPath.includes('chatbot.html')) {
+        if (currentPath.includes('chatbot')) {
             chatbotModal.classList.add('active');
             const input = document.getElementById('chatbot-ui-input');
             if (input) input.focus();
@@ -332,50 +358,15 @@ window.handleUrlRouting = () => {
 };
 
 function setupNavbarClickInterceptors() {
-    const homeLink = document.getElementById('nav_home');
-    if (homeLink) {
-        homeLink.addEventListener('click', (e) => {
-            const path = window.location.pathname;
-            // Prevent reload if already on home pages
-            if (path === '/' || path.includes('index.html') || path.includes('weather.html') || path.includes('chatbot.html') || path.includes('symptoms.html') || path.includes('upload.html') || path.includes('result.html') || path.includes('diagnosis-choice.html')) {
-                if (path.includes('symptoms.html') || path.includes('upload.html') || path.includes('result.html') || path.includes('diagnosis-choice.html')) {
-                    // Let navigation back to home page happen normally
-                    return;
-                }
-                e.preventDefault();
-                history.pushState(null, '', '/index.html');
-                window.handleUrlRouting();
-            }
-        });
-    }
-
-    const weatherLink = document.getElementById('nav_weather');
-    if (weatherLink) {
-        weatherLink.addEventListener('click', (e) => {
-            const path = window.location.pathname;
-            const weatherSection = document.getElementById('weather-section');
-            if (weatherSection) {
-                // If on index.html, intercept and toggle
-                e.preventDefault();
-                if (path.includes('weather.html')) {
-                    history.pushState(null, '', '/index.html');
-                } else {
-                    history.pushState(null, '', '/weather.html');
-                }
-                window.handleUrlRouting();
-            }
-        });
-    }
-
     const chatbotLink = document.getElementById('nav_chatbot');
     if (chatbotLink) {
         chatbotLink.addEventListener('click', (e) => {
             e.preventDefault();
             const path = window.location.pathname;
-            if (path.includes('chatbot.html')) {
+            if (path.includes('chatbot')) {
                 // Close chatbot, restoring previous base page URL
                 const restorePath = window.lastActivePath || '/index.html';
-                const finalPath = restorePath.includes('chatbot.html') ? '/index.html' : restorePath;
+                const finalPath = restorePath.includes('chatbot') ? '/index.html' : restorePath;
                 history.pushState(null, '', finalPath);
             } else {
                 // Open chatbot, saving current path
@@ -389,8 +380,10 @@ function setupNavbarClickInterceptors() {
 
 window.applyGlobalTranslations = applyTranslations;
 
-// Event listeners for synchronization on load, popstate, pageshow, and languageChanged
-window.addEventListener('languageChanged', () => window.handleUrlRouting());
+// Event listeners for synchronization on load, popstate, pageshow
+// NOTE: languageChanged is intentionally NOT calling handleUrlRouting here
+// because weather.js handles its own language re-fetch independently.
+// Calling handleUrlRouting on languageChanged would trigger double weather fetches.
 window.addEventListener('pageshow', () => {
     window.handleUrlRouting();
     setupNavbarClickInterceptors();

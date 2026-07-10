@@ -1,0 +1,290 @@
+/* ================================================================
+   KRISHI CURE AI — Illustration & Image Enhancement Styles
+   Visual-only additions. No layout or logic changes.
+   ================================================================ */
+
+/* ── Hero Illustration Banner (Home page) ─────────────────────── */
+.hero-illus-banner {
+    width: 100%;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    margin-bottom: 1.75rem;
+    position: relative;
+    background: linear-gradient(135deg, rgba(45,90,39,0.04) 0%, rgba(76,175,80,0.06) 50%, rgba(212,175,55,0.03) 100%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-card);
+    animation: fadeIn 0.7s ease-out;
+}
+
+.hero-illus-banner img {
+    width: 100%;
+    height: auto;
+    max-height: 320px;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    border-radius: var(--radius-xl);
+    filter: brightness(1.02) saturate(1.05);
+    transition: transform 0.6s ease;
+}
+
+.hero-illus-banner:hover img {
+    transform: scale(1.015);
+}
+
+/* Overlay badge on hero */
+.hero-illus-badge {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(45,90,39,0.1);
+    border-radius: var(--radius-md);
+    padding: 0.55rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: var(--forest-green);
+    box-shadow: 0 4px 14px rgba(45,90,39,0.1);
+    animation: slideUp 0.7s 0.3s cubic-bezier(0.165,0.84,0.44,1) both;
+}
+
+.hero-illus-badge .badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4caf50;
+    animation: pulseDot 2s infinite;
+    flex-shrink: 0;
+}
+
+@keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.8); }
+}
+
+/* ── Inline Page Illustration (Upload, Fertilizer, etc.) ────────── */
+.page-illus-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.page-illus-wrap img {
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    border-radius: var(--radius-lg);
+    object-fit: contain;
+    filter: drop-shadow(0 8px 24px rgba(45,90,39,0.12));
+}
+
+/* ── Side Illustration (Login page) ─────────────────────────────── */
+.login-illus-col {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(45,90,39,0.04) 0%, rgba(76,175,80,0.06) 100%);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    position: relative;
+}
+
+.login-illus-col img {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 12px 28px rgba(45,90,39,0.15));
+    animation: floatIllus 5s ease-in-out infinite;
+}
+
+@keyframes floatIllus {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-10px); }
+}
+
+/* Decorative dots pattern behind login illustration */
+.login-illus-col::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(76,175,80,0.08) 1px, transparent 1px);
+    background-size: 22px 22px;
+    pointer-events: none;
+}
+
+/* ── Category Card Illustrations ─────────────────────────────────── */
+.cat-card-illus {
+    width: 72px;
+    height: 72px;
+    border-radius: var(--radius-md);
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(45,90,39,0.12));
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    flex-shrink: 0;
+}
+
+.cat-card:hover .cat-card-illus {
+    transform: scale(1.14) rotate(3deg);
+}
+
+/* ── Diagnosis Choice Card Illustrations ─────────────────────────── */
+.choice-card-illus {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    filter: drop-shadow(0 6px 14px rgba(45,90,39,0.12));
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.choice-card:hover .choice-card-illus {
+    transform: scale(1.12);
+}
+
+/* ── Floating Side Panel Illustration (Fertilizer / Symptoms) ────── */
+.section-illus-aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(45,90,39,0.03) 0%, rgba(76,175,80,0.05) 100%);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    text-align: center;
+}
+
+.section-illus-aside img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 14px rgba(45,90,39,0.12));
+    animation: floatIllus 4s ease-in-out infinite;
+}
+
+.section-illus-aside .illus-caption {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* ── Stat Chips shown beside hero ───────────────────────────────── */
+.hero-stats-strip {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.hero-stat-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: white;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-pill);
+    padding: 0.42rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--forest-green);
+    box-shadow: var(--shadow-card);
+    white-space: nowrap;
+    animation: fadeIn 0.5s ease-out both;
+}
+
+.hero-stat-chip:nth-child(1) { animation-delay: 0.1s; }
+.hero-stat-chip:nth-child(2) { animation-delay: 0.2s; }
+.hero-stat-chip:nth-child(3) { animation-delay: 0.3s; }
+
+/* ── Footer Decorative Pattern ──────────────────────────────────── */
+.app-footer {
+    position: relative;
+    overflow: hidden;
+}
+
+.app-footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 5 Q35 15 30 25 Q25 15 30 5Z' fill='rgba(76,175,80,0.04)'/%3E%3Cpath d='M10 30 Q20 25 25 35 Q15 38 10 30Z' fill='rgba(76,175,80,0.03)'/%3E%3Cpath d='M50 30 Q40 25 35 35 Q45 38 50 30Z' fill='rgba(76,175,80,0.03)'/%3E%3C/svg%3E");
+    background-size: 60px 60px;
+    pointer-events: none;
+    opacity: 0.6;
+    z-index: 0;
+}
+
+.app-footer > * { position: relative; z-index: 1; }
+
+/* ── SVG Icon chips on feature cards ─────────────────────────────── */
+.feature-icon-chip {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(76,175,80,0.1) 0%, rgba(45,90,39,0.07) 100%);
+    border: 1px solid rgba(76,175,80,0.15);
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    transition: var(--transition-bounce);
+}
+
+.feature-icon-chip:hover {
+    transform: scale(1.1) rotate(5deg);
+    background: linear-gradient(135deg, rgba(76,175,80,0.18) 0%, rgba(45,90,39,0.12) 100%);
+}
+
+/* ── Result page severity illustration ──────────────────────────── */
+.result-severity-illus {
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+    border-radius: var(--radius-lg);
+    object-fit: contain;
+    filter: drop-shadow(0 8px 20px rgba(45,90,39,0.12));
+    animation: fadeIn 0.6s ease-out;
+    margin: 0 auto;
+    display: block;
+}
+
+/* ── Responsive adjustments ─────────────────────────────────────── */
+@media (max-width: 820px) {
+    .hero-illus-banner img { max-height: 240px; }
+    .login-illus-col { display: none; } /* hide on mobile to keep focus on login */
+    .cat-card-illus { width: 58px; height: 58px; }
+}
+
+@media (max-width: 576px) {
+    .hero-illus-banner img { max-height: 180px; object-position: center; }
+    .page-illus-wrap img { max-width: 260px; }
+    .hero-stats-strip { gap: 0.5rem; }
+    .hero-stat-chip { font-size: 0.74rem; padding: 0.35rem 0.75rem; }
+}
+
+@media (max-width: 480px) {
+    .hero-illus-banner { border-radius: var(--radius-lg); }
+    .hero-illus-banner img { max-height: 160px; }
+    .hero-illus-badge { font-size: 0.74rem; padding: 0.4rem 0.75rem; }
+    .page-illus-wrap { margin-bottom: 1.2rem; }
+    .page-illus-wrap img { max-width: 200px; }
+    .choice-card-illus { width: 72px; height: 72px; }
+}

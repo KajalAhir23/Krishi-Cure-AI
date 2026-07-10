@@ -90,7 +90,7 @@ window.updateUserProfileUI = (user) => {
     }
 
     // Find the header flex container containing lang-selector
-    const headerFlex = document.querySelector('.app-header > div[style*="display: flex"]');
+    const headerFlex = document.querySelector('.app-header > .header-controls') || document.querySelector('.app-header > div[style*="display: flex"]');
     if (headerFlex && !document.getElementById('user-profile-widget')) {
         // Create widget element
         const widget = document.createElement('div');

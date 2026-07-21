@@ -20,8 +20,8 @@
     <style>
         .choice-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
+            gap: clamp(1rem, 3vw, 2rem);
             margin-top: 2rem;
         }
 

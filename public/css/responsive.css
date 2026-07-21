@@ -1094,3 +1094,67 @@ button, a, input, select, textarea {
         flex-direction: column;
     }
 }
+
+/* ================================================================
+   24. EXTRA RESPONSIVE ENHANCEMENTS (320px - 4K)
+   ================================================================ */
+
+/* Severity strip & symptom inspection banner stacking on mobile */
+@media (max-width: 576px) {
+    .severity-illus-strip {
+        flex-direction: column !important;
+        text-align: center !important;
+        padding: 0.85rem 1rem !important;
+        gap: 0.5rem !important;
+    }
+
+    .symptom-inspection-banner {
+        flex-wrap: wrap !important;
+        text-align: center !important;
+        justify-content: center !important;
+    }
+
+    .symptom-inspection-banner > div:last-child {
+        margin-left: 0 !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        width: 100% !important;
+        margin-top: 0.4rem !important;
+    }
+
+    .choice-card-illus {
+        max-width: 80px;
+        height: auto;
+    }
+}
+
+/* 2K & 4K Large Display Optimization */
+@media (min-width: 2000px) {
+    .container {
+        max-width: 1400px !important;
+    }
+
+    .hero-illus-banner img {
+        max-height: 420px !important;
+    }
+
+    .crop-matrix-grid {
+        max-height: 600px !important;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+    }
+
+    .step-card {
+        padding: 3.5rem !important;
+    }
+}
+
+/* Strict No-Horizontal-Scroll Guarantee */
+html, body {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+}
+
+*, *::before, *::after {
+    max-width: 100%;
+}
+

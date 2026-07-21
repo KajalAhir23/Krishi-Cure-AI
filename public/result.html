@@ -75,7 +75,7 @@
                 </div>
 
                 <!-- Severity-based visual illustration (decorative, aria-hidden) -->
-                <div id="severity-illus-strip" aria-hidden="true" style="display:flex;align-items:center;justify-content:center;gap:1.25rem;padding:1rem 1.25rem;background:linear-gradient(135deg,rgba(76,175,80,0.04),rgba(45,90,39,0.02));border:1px solid var(--glass-border);border-radius:var(--radius-md);margin-bottom:1.5rem;">
+                <div id="severity-illus-strip" class="severity-illus-strip" aria-hidden="true" style="display:flex;align-items:center;justify-content:center;gap:1.25rem;padding:1rem 1.25rem;background:linear-gradient(135deg,rgba(76,175,80,0.04),rgba(45,90,39,0.02));border:1px solid var(--glass-border);border-radius:var(--radius-md);margin-bottom:1.5rem;">
                     <div id="severity-illus-icon" style="font-size:3.5rem;filter:drop-shadow(0 6px 12px rgba(45,90,39,0.15));transition:all 0.4s ease;">🌾</div>
                     <div>
                         <div id="severity-illus-label" style="font-weight:800;font-size:0.88rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.06em;">Crop Health Status</div>
@@ -147,7 +147,7 @@
                             Analyzed Photos
                         </h4>
                         <div id="analyzed-photos-gallery"
-                            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem;">
+                            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(110px, 100%), 1fr)); gap: 1rem;">
                             <!-- Base64 previews injected here -->
                         </div>
                     </div>

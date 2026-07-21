@@ -32,8 +32,8 @@
     </header>
 
     <main class="container" style="margin-top: 2rem;">
-        <!-- 3 cards + illustration side panel; stack on mobile via CSS -->
-        <div style="display: flex; flex-wrap: nowrap; gap: 1.5rem; justify-content: center; align-items: stretch; width: 100%;">
+        <!-- 3 cards + illustration side panel; stack on mobile/tablet via CSS -->
+        <div class="login-layout-wrapper">
 
             <!-- Illustration side panel (hidden on mobile) -->
             <div class="login-illus-col" aria-hidden="true">
@@ -47,7 +47,7 @@
             </div>
 
             <!-- Card 1: Google Login -->
-            <section class="step-card active login-card" style="flex: 1 1 0; min-width: 0; padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: center; background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);">
+            <section class="step-card active login-card" style="flex: 1 1 260px; min-width: 0; padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: center; background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);">
                 <h2 id="login_title" data-i18n="login_title" style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem; font-weight: 800; color: var(--forest-green);"></h2>
 
                 <div id="error-message" style="display: none; margin-bottom: 1.5rem; padding: 0.8rem 1rem; border-radius: 12px; background: #fff5f5; color: #c53030; border: 1px solid #fed7d7; font-weight: 600; font-size: 0.95rem;"></div>
@@ -64,7 +64,7 @@
             </section>
 
             <!-- Card 2: How It Works -->
-            <section class="step-card active login-card" style="flex: 1 1 0; min-width: 0; padding: 2rem 1.8rem; background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);">
+            <section class="step-card active login-card" style="flex: 1 1 260px; min-width: 0; padding: 2rem 1.8rem; background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);">
                 <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid rgba(76,175,80,0.15);">
                     <h3 id="card_crop_title" data-i18n="card_crop_title" style="color: var(--forest-green); font-size: 1.2rem; font-weight: 800; margin: 0;">Crop Disease Prediction</h3>
                 </div>
@@ -89,7 +89,7 @@
             </section>
 
             <!-- Card 3: AI Chatbot -->
-            <section class="step-card active login-card" style="flex: 1 1 0; min-width: 0; padding: 2rem 1.8rem; background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);">
+            <section class="step-card active login-card" style="flex: 1 1 260px; min-width: 0; padding: 2rem 1.8rem; background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);">
                 <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid rgba(76,175,80,0.15);">
                     <h3 id="card_chat_title" data-i18n="card_chat_title" style="color: var(--forest-green); font-size: 1.2rem; font-weight: 800; margin: 0;">AI Agriculture Chatbot</h3>
                 </div>
@@ -113,9 +113,17 @@
 
     <!-- Mobile responsive: stack cards on small screens -->
     <style>
-        @media (max-width: 768px) {
+        .login-layout-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: stretch;
+            width: 100%;
+        }
+        @media (max-width: 900px) {
             .login-card { flex: 1 1 100% !important; }
-            main .container > div { flex-wrap: wrap !important; }
+            .login-layout-wrapper { flex-direction: column; }
         }
     </style>
 

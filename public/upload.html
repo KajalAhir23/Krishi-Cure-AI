@@ -20,10 +20,16 @@
     <style>
         .slots-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+            gap: clamp(0.75rem, 2vw, 1.5rem);
             margin-top: 1.5rem;
             margin-bottom: 2.5rem;
+        }
+
+        @media (max-width: 576px) {
+            .slots-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .slot-card {

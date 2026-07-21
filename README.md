@@ -1,236 +1,466 @@
-# 🌾 Krishi Cure AI
+<div align="center">
 
-> An AI-powered smart agriculture application helping farmers identify crop diseases and get professional treatment suggestions using artificial intelligence in multiple languages.
+  <h1>🌾 Krishi Cure AI</h1>
+  <h3><i>Empowering Agriculture through Multilingual Intelligence & AI Diagnostics</i></h3>
 
-[![Node.js](https://img.shields.io/badge/Node.js-v16%2B-green)]()
-[![Express.js](https://img.shields.io/badge/Express.js-v5-blue)]()
-[![License](https://img.shields.io/badge/License-ISC-yellow)]()
+  <p>An AI-powered smart agriculture platform designed to help farmers identify crop diseases, receive personalized organic & chemical treatment plans, calculate precise fertilizer dosages, access hyper-local weather advisory, and consult an AI farming assistant in multiple regional languages.</p>
 
-## 📋 Table of Contents
+  <p>
+    <a href="#-key-features">Key Features</a> •
+    <a href="#-ai-disease-detection-workflow">Diagnosis Workflow</a> •
+    <a href="#-technology-stack">Tech Stack</a> •
+    <a href="#-installation">Installation</a> •
+    <a href="#-developer">Developer</a>
+  </p>
 
-- [Overview](#overview)
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Technology Stack](#technology-stack)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Running Locally](#running-locally)
-- [API Documentation](#api-documentation)
-- [Development](#development)
-- [Troubleshooting](#troubleshooting)
+</div>
 
-## 🎯 Overview
+---
 
-Krishi Cure AI is a professional-grade web application designed to help farmers across India identify crop diseases and receive accurate treatment recommendations. The application uses advanced AI models (Groq Llama and Google Gemini) to provide diagnosis and advice in three languages: English, Hindi, and Gujarati.
+## 🛡️ GitHub Badges
 
-**Key Benefits:**
-- ✅ Accurate AI-powered disease diagnosis
-- ✅ Multi-language support for accessibility
-- ✅ Voice-enabled interaction
-- ✅ Weather integration
-- ✅ Fertilizer calculation tools
-- ✅ Complete responsive design
+<div align="center">
 
-## ✨ Features
+  ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+  ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+  ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+  ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+  ![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+  ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+  ![Gemini AI](https://img.shields.io/badge/Google_Gemini-8E75B2?style=for-the-badge&logo=google&logoColor=white)
+  ![OpenWeather API](https://img.shields.io/badge/OpenWeather-EB6E4B?style=for-the-badge&logo=openweather&logoColor=white)
+  ![Responsive Design](https://img.shields.io/badge/Responsive-Mobile_to_4K-4CAF50?style=for-the-badge&logo=responsive&logoColor=white)
+  ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
+  ![Stars](https://img.shields.io/github/stars/yourusername/krishi-cure-ai?style=for-the-badge&color=gold)
+  ![Forks](https://img.shields.io/github/forks/yourusername/krishi-cure-ai?style=for-the-badge&color=blue)
 
-### Core Features
-- 🌱 **Crop Disease Detection** - Identify diseases from symptoms or images
-- 📷 **Image Upload Analysis** - Upload 1-4 images for AI analysis
-- 🤖 **AI Chatbot** - General agriculture Q&A assistance
-- 🌐 **Multi-language Support** - English, Hindi, Gujarati
-- 🔐 **Google Authentication** - Secure login
-- 🌦️ **Weather Information** - Live weather integration
-- 🗺️ **Location Services** - Automatic and manual location detection
-- 🎤 **Voice Support** - Voice-enabled interactions
-- 📊 **Fertilizer Calculator** - Calculate fertilizer requirements by area
-- 📄 **PDF Reports** - Generate diagnosis reports
-- 📱 **Fully Responsive** - Works on desktop, tablet, mobile
+</div>
 
-## 🌿 Supported Categories
+---
 
-### Field Crops
+## 📌 Project Overview
 
-* Cotton
-* Groundnut
-* Wheat
-* Rice
-* Bajra
-* Jowar
-* Maize
-* Sugarcane
-* Castor
-* Sesame
-* Mustard
-* Pulses
-* Soybean
-* Cumin
-* Fennel
-* Coriander
-* Onion
-* Garlic
-* Chilli
-* Sunflower
-* and more...
+**Krishi Cure AI** is an advanced, multilingual, smart farming assistant built to bridge the gap between traditional agricultural knowledge and modern artificial intelligence. In modern farming, late disease detection, nutrient mismanagement, and unpredictable weather events cost farmers substantial crop loss every season.
 
-### Fruits
+### 💡 Why It Was Built
+Many small-scale and regional farmers lack immediate access to agricultural experts or local diagnostic labs. Language barriers further restrict their ability to leverage digital tools. **Krishi Cure AI** provides instant, reliable, and localized diagnostic & advisory services in native regional languages directly on any device.
 
-* Mango
-* Banana
-* Papaya
-* Pomegranate
-* Guava
-* Chikoo
-* Lemon
-* Orange
-* Grapes
-* Dragon Fruit
-* Coconut
-* Avocado
-* and more...
+### 👥 Who It Helps & Problems Solved
+- **Farmers & Agricultural Workers**: Get instant visual & symptom-based crop diagnosis without expensive lab visits.
+- **Agricultural Advisors & Field Extension Workers**: Quickly assess crop health, recommend organic/chemical treatments, and calculate precise fertilizer bags needed.
+- **Local Communities**: Reduces excessive chemical pesticide usage by offering safe organic alternatives and preventive care strategies.
 
-### Vegetables
+---
 
-* Potato
-* Tomato
-* Brinjal
-* Okra
-* Cabbage
-* Cauliflower
-* Bottle Gourd
-* Pumpkin
-* Cucumber
-* Capsicum
-* Carrot
-* Beetroot
-* Spinach
-* Ginger
-* and more...
+## ✨ Key Features
 
-## 📷 Image-Based Disease Detection
+| Feature Category | Description & Capabilities |
+| :--- | :--- |
+| **🤖 Multimodal AI Disease Detection** | Upload up to 4 high-resolution plant photos for visual AI analysis using Google Gemini. |
+| **📋 Manual Symptom Selection** | Interactive checklist categorized by Leaf, Stem, Flower, Fruit, and Root symptoms. |
+| **🔬 Hybrid Diagnosis Engine** | Combines image visual inspection with user-selected symptoms for higher prediction accuracy. |
+| **📊 Confidence Score & Ranking** | Displays top matching diseases with percentage accuracy and safety confidence indicators. |
+| **🌿 Organic Treatment Plan** | Step-by-step eco-friendly bio-pesticide, neem oil, and compost remedies. |
+| **🧪 Chemical Emergency Plan** | Safe, emergency-only chemical fungicide and pesticide application steps. |
+| **🛡️ Prevention & Recovery Care** | Irrigation adjustments, weather precautions, and estimated recovery timeframes. |
+| **☀️ Smart Weather Advisory** | Hyper-local weather conditions, humidity, rain probability, wind speed, and agricultural safety alerts. |
+| **🧮 Fertilizer Calculator** | Calculates exact Urea, DAP, Potash, and organic manure requirements based on crop & area size. |
+| **🔐 Google Authentication** | One-tap secure user authentication using Firebase Auth. |
+| **💬 AI Agriculture Chatbot** | Real-time AI consultation assistant to answer queries regarding crops, soil health, and pest control. |
+| **🌍 Native Multilingual Support** | Seamless real-time language switching between English, Hindi (हिन्दी), and Gujarati (ગુજરાતી). |
+| **📱 100% Fully Responsive UI** | Custom fluid CSS grid and flex layout optimized for 320px mobile phones up to 4K monitors. |
 
-Farmers can identify crop diseases by uploading images of affected plants.
+---
 
-### How It Works
+## 🌐 Supported Languages
 
-1. Select Crop
-2. Upload 1–4 Images
-3. (Optional) Select Symptoms
-4. AI Analyzes Images
-5. Get Disease Prediction
-6. View Recovery Suggestions
+**Krishi Cure AI** provides complete multi-language internationalization across every page, UI component, dynamic text banner, dynamic diagnosis result, and chatbot response:
 
-### Supported Uploads
+- 🇬🇧 **English**
+- 🇮🇳 **Hindi (हिन्दी)**
+- 🇮🇳 **Gujarati (ગુજરાતી)**
 
-* Mobile Camera Capture
-* Mobile Gallery Upload
-* Desktop Image Upload
+> [!TIP]
+> The language selection preference is persisted across browser sessions and automatically translates disease remedies, weather alerts, fertilizer calculations, and AI chatbot responses dynamically.
 
-### AI Analysis
+---
 
-* Disease Detection
-* Pest Identification
-* Nutrient Deficiency Detection
-* Recovery Recommendations
-* Prevention Guidance
+## 🌾 Supported Crop Categories
 
-## 🤖 AI Agriculture Chatbot
+The platform supports a vast matrix of regional and international crops divided into 3 primary categories:
 
-Farmers can ask agriculture-related questions and receive instant AI-powered guidance.
+```
+                  ┌──────────────────────────────┐
+                  │   Supported Crop Categories  │
+                  └──────────────┬───────────────┘
+                                 │
+         ┌───────────────────────┼───────────────────────┐
+         ▼                       ▼                       ▼
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│   Field Crops   │     │   Vegetables    │     │     Fruits      │
+├─────────────────┤     ├─────────────────┤     ├─────────────────┤
+│ Wheat           │     │ Tomato          │     │ Apple           │
+│ Cotton          │     │ Potato          │     │ Banana          │
+│ Paddy / Rice    │     │ Onion           │     │ Mango           │
+│ Maize (Corn)    │     │ Chilli / Pepper │     │ Citrus / Orange │
+│ Sugarcane       │     │ Eggplant        │     │ Papaya          │
+│ Groundnut       │     │ Cabbage         │     │ Guava           │
+│ Groundnut / Soy │     │ Cucumber        │     │ Pomegranate     │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+```
 
-Examples:
+---
 
-* Crop diseases
-* Pest management
-* Fertilizer recommendations
-* Irrigation advice
-* Weather-based crop care
-* Soil management
+## 🔄 AI Disease Detection Workflow
 
-### 🎤 Voice Support
+Below is the end-to-end user workflow for diagnosing crop health within the application:
 
-* Speak instead of typing
-* Supports Gujarati, Hindi, and English
-* Real-time speech-to-text conversion
-* Farmer-friendly interaction
+```
+ ┌──────────────┐      ┌──────────────┐      ┌──────────────────┐
+ │  User Login  │ ───> │ Select Crop  │ ───> │ Choose Diagnosis │
+ └──────────────┘      └──────────────┘      └────────┬─────────┘
+                                                      │
+                       ┌──────────────────────────────┴──────────────────────────────┐
+                       ▼                                                             ▼
+             ┌──────────────────┐                                          ┌──────────────────┐
+             │  Upload Photos   │                                          │ Select Symptoms  │
+             │  (Up to 4 slots) │                                          │  (Manual Grid)   │
+             └────────┬─────────┘                                          └────────┬─────────┘
+                      │                                                             │
+                      └──────────────────────────────┬──────────────────────────────┘
+                                                     ▼
+                                       ┌───────────────────────────┐
+                                       │   Multimodal Gemini AI    │
+                                       │    Diagnostic Analysis    │
+                                       └─────────────┬─────────────┘
+                                                     │
+                                                     ▼
+                                       ┌───────────────────────────┐
+                                       │ Prediction & Confidence   │
+                                       │ Score (% Accuracy & Risk) │
+                                       └─────────────┬─────────────┘
+                                                     │
+                                                     ▼
+                                       ┌───────────────────────────┐
+                                       │  Scientific Remedies &    │
+                                       │ Organic/Chemical Actions  │
+                                       └─────────────┬─────────────┘
+                                                     │
+                                  ┌──────────────────┴──────────────────┐
+                                  ▼                                     ▼
+                      ┌──────────────────────┐              ┌──────────────────────┐
+                      │ Hyper-Local Weather  │              │ Fertilizer Dosage &  │
+                      │  Advisory & Alerts   │              │ Application Schedule │
+                      └──────────────────────┘              └──────────────────────┘
+```
 
-## 🌦️ Weather Module
+---
 
-Provides:
+## ☀️ Weather Advisory Module
 
-* Live temperature
-* Humidity
-* Wind speed
-* Weather conditions
-* Auto location detection
-* Manual location selection
-* Weather-based farming insights
+The **Weather Care Advisory Module** provides real-time atmospheric insights tailored to agricultural crop protection:
 
-## 🌱 Fertilizer Calculator
+- **GPS Auto-Location**: Detects the user's current coordinates using HTML5 Geolocation.
+- **Interactive Manual Location Picker**: Built-in Leaflet map and Nominatim search for selecting custom villages, districts, or cities.
+- **Meteorological Indicators**:
+  - 🌡️ **Temperature & Feels-Like Value**
+  - 💧 **Relative Air Humidity (%)**
+  - ☔ **Rain Fall Probability (%)**
+  - 💨 **Wind Speed (km/h)**
+  - ⏲️ **Atmospheric Pressure (hPa)**
+  - 👁️ **Sight Visibility (km)**
+  - 🌅 **Sunrise & Sunset Times**
+- **Automated Agriculture Warnings**:
+  - **Fungal Alert**: Triggered when humidity >80% and temperature is between 20°C–30°C.
+  - **Irrigation Advice**: Recommends delaying or increasing watering depending on rainfall and soil evaporation.
+  - **Spray Safety Alert**: Warns against spraying pesticides during strong wind speeds (>22 km/h).
 
-The Fertilizer Calculator helps farmers estimate fertilizer requirements based on crop type and farm area.
+---
 
-### Features
+## 🧮 Fertilizer Calculator Module
 
-* Crop-wise fertilizer recommendations
-* Support for:
+The **Smart Fertilizer Calculator** enables farmers to calculate precise fertilizer dosages to prevent soil degradation and over-fertilization:
 
-  * Bigha
-  * Acre
-  * Hectare
-* Area-based fertilizer calculation
-* Recommended fertilizer quantities
-* Application schedule guidance
+### Inputs Required
+1. **Target Crop**: Select from crops database.
+2. **Fertilizer Type**: Select Urea, DAP (Di-Ammonium Phosphate), MOP (Muriate of Potash), Zinc, or NPK blends.
+3. **Land Area Value**: Enter numerical area size.
+4. **Area Unit**: Supports **Acre**, **Hectare**, and **Bigha** (regional conversion factors applied automatically).
 
-### How It Works
+### Outputs Calculated
+- 📦 **Recommended Fertilizer Dosage**: Exact weight in Kilograms (kg) and equivalent standard 45kg/50kg commercial bags.
+- 📆 **Application Schedule**: Split dosage timelines (Basal Application, Vegetative Stage, Flowering Stage).
+- 🛠️ **Method of Application**: Top-dressing, foliar spray, or band placement guidance.
+- ⚠️ **Soil Precautions**: Environmental safety instructions to maintain soil fertility.
 
-1. Select Crop
-2. Select Area Unit (Bigha/Acre/Hectare)
-3. Enter Area
-4. Calculate Fertilizer Requirement
-5. Get Recommendations
+---
 
-### Output
+## 💬 AI Agriculture Chatbot
 
-* Urea Requirement
-* DAP Requirement
-* Potash Requirement
-* Application Schedule
-* Farming Recommendations
+The floating **Krishi Cure AI Assistant** acts as a 24/7 digital agronomist:
 
-## 📈 How Krishi Cure AI Works
+- **Domain Knowledge**: Trained to assist with crop diseases, pest identification, weed management, seasonal crop calendars, and soil nutrients.
+- **Multilingual Dialogue**: Comprehends and responds fluently in English, Hindi, and Gujarati based on active site language settings.
+- **Context Awareness**: Remembers recent conversation turns during the session to provide relevant follow-up advice.
 
-1. Sign in with Google
-2. Select Crop Category
-3. Select Crop
-4. Upload 1–4 Images
-5. (Optional) Select Symptoms
-6. Get AI Disease Prediction
-7. View Risk Analysis
-8. Receive Treatment Suggestions
-9. Check Weather Conditions
-10. Ask Questions using AI Chatbot
-11. Type or Speak using Voice Input
-12. Open Fertilizer Calculator
-13. Enter Crop and Area Details
-14. Get Fertilizer Recommendations
+---
 
-### Supported Crops
+## 🛠️ Technology Stack
 
-**Field Crops:** Cotton, Groundnut, Wheat, Rice, Bajra, Jowar, Maize, Sugarcane, Castor, Sesame, Mustard, Pulses, Soybean, Cumin, Fennel, Coriander, Onion, Garlic, Chilli, Sunflower
+<div align="center">
 
-**Fruits:** Mango, Banana, Papaya, Pomegranate, Guava, Chikoo, Lemon, Orange, Grapes, Dragon Fruit, Coconut, Avocado
+| Component | Technology / Library | Description |
+| :--- | :--- | :--- |
+| **Frontend Core** | HTML5, CSS3, JavaScript (ES6+) | Vanilla architecture for maximum performance and zero framework bloat. |
+| **Styling & System** | Custom Vanilla CSS (Design Tokens) | Glassmorphism UI, Outfit/Inter typography, fluid clamp units. |
+| **Backend Runtime** | Node.js (v16+) & Express.js (v5) | Enterprise REST API routes, request sanitization, rate limiting. |
+| **Artificial Intelligence**| Google Gemini AI SDK (`@google/genai`) | Multimodal vision analysis & natural language conversation engine. |
+| **Authentication** | Firebase Auth SDK (Compat v9) | One-tap Google OAuth 2.0 single sign-on. |
+| **Weather & Maps** | OpenWeather API & Leaflet.js | Live weather data, reverse geocoding, interactive map picker. |
+| **Security & Rate Limit**| Express-Rate-Limit & CORS | API abuse prevention and secure cross-origin resource sharing. |
 
-**Vegetables:** Potato, Tomato, Brinjal, Okra, Cabbage, Cauliflower, Bottle Gourd, Pumpkin, Cucumber, Capsicum, Carrot, Beetroot, Spinach, Ginger
+</div>
 
-## 📁 Project Structure
+---
 
-```\nkrishi-cure-ai/\n├── server/                          # Backend\n│   ├── config/                      # Configuration\n│   │   ├── constants.js            # App constants\n│   │   └── environment.js          # Environment variables\n│   ├── controllers/                 # Route controllers\n│   │   ├── dataController.js       # Master data endpoints\n│   │   ├── diagnosisController.js  # Disease diagnosis\n│   │   ├── chatbotController.js    # Chatbot logic\n│   │   └── fertilizerController.js # Fertilizer calculations\n│   ├── services/                    # Business logic\n│   │   ├── aiService.js            # AI integration (Groq/Gemini)\n│   │   ├── dataService.js          # Data management\n│   │   └── fertilizerService.js    # Fertilizer calculations\n│   ├── validators/                  # Input validation\n│   │   └── inputValidator.js       # Request validation\n│   ├── utils/                       # Utilities\n│   │   ├── errorHandler.js         # Error handling\n│   │   ├── middleware.js           # Custom middleware\n│   │   └── validationMiddleware.js # Validation middleware\n│   ├── middlewares/                 # Express middleware\n│   │   └── rateLimiter.js          # Rate limiting\n│   └── routes/                      # API routes\n│       └── api.js                   # Main API routes\n│\n├── src/                             # Frontend\n│   ├── components/                  # Reusable components\n│   ├── services/                    # API services\n│   │   └── apiService.js           # Frontend API client\n│   ├── utils/                       # Frontend utilities\n│   │   └── helpers.js              # Helper functions\n│   └── constants/                   # Frontend constants\n│       └── uiConstants.js          # UI constants\n│\n├── public/                          # Static assets\n│   ├── index.html, login.html, etc.\n│   ├── js/                          # Frontend JavaScript\n│   └── css/                         # Stylesheets\n│\n├── data/                            # Data files\n│   └── crops.json                   # Crops database\n│\n├── .env.example                     # Environment variables template\n├── package.json                     # Project dependencies\n├── server.js                        # Server entry point\n├── README.md                        # This file\n└── vercel.json                      # Deployment config\n```\n\n## 🛠️ Technology Stack\n\n**Backend:**\n- Node.js v16+\n- Express.js v5\n- Groq API (LLaMA 3.3 70B)\n- Google Gemini API\n- dotenv (environment management)\n\n**Frontend:**\n- HTML5\n- CSS3\n- Vanilla JavaScript\n- Firebase Authentication\n- Responsive Design\n\n**APIs & Services:**\n- Google Firebase Auth\n- Groq API\n- Google Generative AI API\n\n## 📦 Installation\n\n### Prerequisites\n\n- Node.js v16 or higher\n- npm v8 or higher\n- Git\n\n### Step 1: Clone Repository\n\n```bash\ngit clone https://github.com/yourusername/krishi-cure-ai.git\ncd krishi-cure-ai\n```\n\n### Step 2: Install Dependencies\n\n```bash\nnpm install\n```\n\n### Step 3: Environment Configuration\n\n```bash\ncp .env.example .env\n# Edit .env with your API keys\n```\n\n## ⚙️ Configuration\n\n### Environment Variables\n\nCreate a `.env` file:\n\n```env\nPORT=3000\nNODE_ENV=development\nCORS_ORIGIN=*\nGROQ_API_KEY=your_groq_api_key\nGEMINI_API_KEY=your_gemini_api_key\nFIREBASE_API_KEY=your_firebase_key\nFIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com\n```\n\n### Getting API Keys\n\n**Groq API:** Visit [Groq Console](https://console.groq.com)\n\n**Gemini API:** Visit [Google AI Studio](https://makersuite.google.com/app/apikey)\n\n**Firebase:** Visit [Firebase Console](https://console.firebase.google.com)\n\n## 🚀 Running Locally\n\n```bash\n# Development mode\nnpm start\n\n# Watch mode (auto-reload)\nnpm run dev\n```\n\nServer runs on `http://localhost:3000`\n\n## 📚 API Documentation\n\n### Base URL: `http://localhost:3000/api`\n\n#### GET /data\nReturns master data (crops, symptoms, translations)\n\n#### POST /diagnose\nSymptom-based disease diagnosis\n```json\n{\n  \"cropId\": \"wheat\",\n  \"symptoms\": [\"symptom1\", \"symptom2\"],\n  \"lang\": \"en\"\n}\n```\n\n#### POST /diagnose-image\nImage-based disease diagnosis\n```json\n{\n  \"cropId\": \"wheat\",\n  \"images\": [\"base64_image_1\"],\n  \"lang\": \"en\"\n}\n```\n\n#### POST /chatbot\nAgriculture Q&A chatbot\n```json\n{\n  \"question\": \"How to grow wheat?\",\n  \"lang\": \"en\"\n}\n```\n\n#### POST /fertilizer/calculate\nCalculate fertilizer requirements\n```json\n{\n  \"cropId\": \"wheat\",\n  \"fertilizerId\": \"urea\",\n  \"areaUnit\": \"Acre\",\n  \"areaValue\": 5,\n  \"lang\": \"en\"\n}\n```\n\n## 👨‍💻 Development\n\n### Code Standards\n- Use meaningful variable names\n- Add JSDoc comments\n- Keep functions focused\n- Validate all inputs\n- Handle errors gracefully\n- Use environment variables\n\n### Adding Features\n1. Create service in `server/services/`\n2. Create controller in `server/controllers/`\n3. Add validation in `server/validators/`\n4. Add route in `server/routes/api.js`\n\n## ❓ Troubleshooting\n\n**Port already in use:**\n```bash\nlsof -ti:3000 | xargs kill -9  # macOS/Linux\n```\n\n**API Key errors:** Verify `.env` has correct keys\n\n**CORS errors:** Check `CORS_ORIGIN` setting\n\n## 🤝 Contributing\n\nContributions welcome! Please:\n1. Fork the repository\n2. Create feature branch\n3. Follow code standards\n4. Test changes locally\n5. Submit Pull Request\n\n## 📄 License\n\nISC License - See LICENSE file for details\n\n## 🙏 Acknowledgments\n\n- Groq for fast LLaMA inference\n- Google for Gemini API and Firebase\n- ICAR for agricultural guidance\n- All contributors\n\n---\n\n**Made with 🌾 for Indian Farmers**
-* Farmer Dashboard
+## 📁 Folder Structure
+
+```
+krishi-cure-ai/
+├── controllers/               # Express request handlers & controller logic
+├── data/                      # Crops, symptoms, and translation JSON databases
+├── middlewares/               # Rate limiters & API validation middlewares
+├── public/                    # Static frontend application directory
+│   ├── css/                   # Design system & modular stylesheets
+│   │   ├── chatbot.css        # Chatbot modal & message bubble styles
+│   │   ├── illustrations.css  # Hero banner & illustration utility styles
+│   │   ├── responsive.css     # Supplemental 320px to 4K responsive rules
+│   │   └── style.css          # Primary design system, tokens, & global components
+│   ├── images/                # Visual illustrations & app branding assets
+│   │   ├── illustrations/     # Vector farming & diagnostic illustrations
+│   │   └── logo.png           # Application logo
+│   ├── js/                    # Client-side JavaScript modules
+│   │   ├── app.js             # Global app init, router, & translation controller
+│   │   ├── auth.js            # Firebase authentication helper
+│   │   ├── chatbot.js         # Chatbot UI event handlers & session manager
+│   │   ├── diagnostic.js      # Symptom submission & result DOM builder
+│   │   ├── fertilizer-calc.js # Fertilizer dropdown & calculation engine
+│   │   ├── status-ticker.js   # Live advisory ticker animation script
+│   │   └── weather.js         # Weather API fetcher, Leaflet map, & advisory engine
+│   ├── diagnosis-choice.html  # Diagnosis method selection page
+│   ├── fertilizer-calculator.html # Smart fertilizer calculator page
+│   ├── index.html             # Application home page & crop selection matrix
+│   ├── login.html             # User authentication & landing feature overview
+│   ├── result.html            # Scientific diagnosis dashboard page
+│   ├── symptoms.html          # Manual symptom checklist selection page
+│   ├── translations.js        # Multilingual dictionary store
+│   └── upload.html            # Multimodal 4-slot image upload page
+├── routes/                    # API route definitions
+├── server/                    # Internal backend modular server architecture
+│   ├── config/                # Environment variables & server constants
+│   ├── controllers/           # API business logic implementations
+│   ├── middlewares/           # Custom middleware handlers
+│   ├── routes/                # Express router endpoints
+│   └── utils/                 # Logger & error utility functions
+├── .env.example               # Template for environment configuration
+├── ARCHITECTURE.md            # Detailed application architecture documentation
+├── package.json               # Node.js project manifest & dependencies
+└── server.js                  # Main Node.js application entry point
+```
+
+---
+
+## ⚡ Installation & Setup Guide
+
+Follow these steps to run **Krishi Cure AI** locally on your machine:
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v16.0.0 or higher)
+- [npm](https://www.npmjs.com/) (v8.0.0 or higher)
+- A Google Gemini AI API key
+- An OpenWeather API key
+
+### Step 1: Clone the Repository
+```bash
+git clone https://github.com/yourusername/krishi-cure-ai.git
+cd krishi-cure-ai
+```
+
+### Step 2: Install Dependencies
+```bash
+npm install
+```
+
+### Step 3: Configure Environment Variables
+Copy the `.env.example` file to create your own `.env` file:
+```bash
+cp .env.example .env
+```
+
+Open `.env` and fill in your API credentials (see [Environment Variables](#-environment-variables) section below).
+
+### Step 4: Run the Application
+Start the development server with hot-reloading:
+```bash
+npm run dev
+```
+
+Or start the production server:
+```bash
+npm start
+```
+
+Open your browser and navigate to:
+```
+http://localhost:3000
+```
+
+---
+
+## 🔑 Environment Variables
+
+Create a `.env` file in the root directory and configure the following variables:
+
+```env
+# Server Configuration
+PORT=3000
+NODE_ENV=development
+
+# Google Gemini AI API Key
+GEMINI_API_KEY=your_google_gemini_api_key_here
+
+# OpenWeather API Key
+OPENWEATHER_API_KEY=your_openweather_api_key_here
+
+# Firebase Configuration (for client auth)
+FIREBASE_API_KEY=your_firebase_api_key_here
+FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+FIREBASE_PROJECT_ID=your_project_id
+FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+FIREBASE_APP_ID=your_app_id
+```
+
+> [!WARNING]
+> Never commit your actual `.env` file or private API keys to public version control repositories.
+
+---
+
+## 📸 Screenshots
+
+<div align="center">
+
+| Home Page & Crop Selection | AI Disease Detection Upload |
+| :---: | :---: |
+| ![Home Page](https://via.placeholder.com/600x350.png?text=Krishi+Cure+AI+-+Home+Page) | ![Disease Detection](https://via.placeholder.com/600x350.png?text=Krishi+Cure+AI+-+Image+Upload) |
+
+| Weather Advisory Module | Fertilizer Calculator |
+| :---: | :---: |
+| ![Weather Advisory](https://via.placeholder.com/600x350.png?text=Krishi+Cure+AI+-+Weather+Advisory) | ![Fertilizer Calculator](https://via.placeholder.com/600x350.png?text=Krishi+Cure+AI+-+Fertilizer+Calculator) |
+
+| AI Agriculture Chatbot | Diagnosis Dashboard Result |
+| :---: | :---: |
+| ![AI Chatbot](https://via.placeholder.com/600x350.png?text=Krishi+Cure+AI+-+AI+Chatbot) | ![Diagnosis Result](https://via.placeholder.com/600x350.png?text=Krishi+Cure+AI+-+Diagnosis+Result) |
+
+</div>
+
+---
+
+## 📱 Responsive Design & Compatibility
+
+**Krishi Cure AI** features a responsive layout designed to function seamlessly across all screen sizes and modern web browsers:
+
+- 📱 **Android Smartphones** (320px–480px, including small-width devices like iPhone SE)
+- 📱 **Large Mobile Devices & Phablets** (481px–767px)
+- 🍏 **iPads & Android Tablets** (Portrait & Landscape modes 768px–1023px)
+- 💻 **MacBook Air & Small Laptops** (1024px–1366px)
+- 💻 **MacBook Pro & Standard Laptops** (1366px–1600px)
+- 🖥️ **Desktop Monitors & 2K/4K Ultra-Wide Displays** (1920px–2560px+)
+
+### Cross-Browser Support
+- Google Chrome
+- Mozilla Firefox
+- Microsoft Edge
+- Apple Safari
+- Brave Browser
+
+---
+
+## ⚠️ Important Accuracy Note
+
+> [!IMPORTANT]
+> **AI Assistance Notice**:
+> - All crop disease predictions generated by **Krishi Cure AI** are AI-assisted evaluations based on multimodal visual analysis of user-uploaded images and manually selected plant symptoms.
+> - The **Confidence Score** indicates the statistical likelihood of the prediction based on agricultural datasets.
+> - If the confidence score is low (<70%) or the disease symptoms appear severe and unrecoverable, users are strongly advised to consult a certified local agricultural extension officer, ICAR expert, or qualified agronomist before purchasing or applying intensive chemical treatments.
+> - This application is an educational and advisory tool and does not claim 100% diagnostic accuracy under all environmental conditions.
+
+---
+
+## 🚀 Future Enhancements Roadmap
+
+- 📈 **Real-Time APMC Mandi Prices**: Live market rates for regional crop yields across Indian states.
+- 🧪 **Soil Health Card AI Analysis**: Upload soil test reports to extract nitrogen, phosphorus, potassium, and pH levels automatically.
+- 🌾 **Crop Recommendation Engine**: Suggest optimal seasonal crops based on soil nutrient profiles and weather forecasts.
+- 🔔 **Smart Push Notifications**: Automated weather warnings, spraying reminders, and irrigation alerts.
+- 📊 **Farmer Activity Dashboard**: Historical diagnosis logs, fertilizer usage tracking, and harvest records.
+- 📶 **Offline Support (PWA)**: Progress Web App functionality for accessing saved treatment guides in remote areas with low connectivity.
+- 🏛️ **Government Scheme Integration**: Direct information portal for agricultural subsidies, insurance schemes (PMFBY), and farmer welfare policies.
+- 🔮 **AI Yield Prediction**: Machine learning forecast models to estimate crop yield tonnage based on farm acreage and inputs.
+
+---
+
+## 🤝 Contribution Guidelines
+
+Contributions, issues, and feature requests are welcome!
+
+1. **Fork the Repository**
+2. **Create a Feature Branch** (`git checkout -b feature/AmazingFeature`)
+3. **Commit Your Changes** (`git commit -m 'Add some AmazingFeature'`)
+4. **Push to the Branch** (`git push origin feature/AmazingFeature`)
+5. **Open a Pull Request**
+
+Please ensure your code follows the established code style, includes appropriate inline comments, and tests responsiveness before opening a pull request.
+
+---
+
+## 📄 License
+
+This project is open-source and available under the [MIT License](LICENSE).
+
+---
+
+## 🙏 Acknowledgements
+
+- [Google Gemini AI](https://deepmind.google/technologies/gemini/) — Multimodal AI analysis & conversation models.
+- [OpenWeather API](https://openweathermap.org/) — Real-time weather data & forecasts.
+- [Firebase Auth](https://firebase.google.com/) — Secure authentication infrastructure.
+- [Leaflet.js](https://leafletjs.com/) & [OpenStreetMap](https://www.openstreetmap.org/) — Interactive mapping and location picker.
+- [ICAR (Indian Council of Agricultural Research)](https://icar.org.in/) — Agriculture guidelines & references.
+
+---
 
 ## 👩‍💻 Developer
 
-Kajal Bhatiya
+<div align="center">
 
-## 🔗 GitHub Repository
+  ### **Bhatiya Kajal**
+  *B.Tech in Computer Science Engineering (Artificial Intelligence)*  
+  **Frontend Developer & AI Enthusiast**
 
-https://github.com/KajalAhir23/Krishi-Cure-AI
+  <p>Passionate about leveraging Artificial Intelligence, Modern Web Engineering, and Smart Agriculture solutions to solve real-world problems for farmers and rural communities.</p>
+
+  <p>
+    <a href="https://github.com/yourusername"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/></a>
+    <a href="https://linkedin.com/in/yourusername"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
+    <a href="mailto:your.email@example.com"><img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/></a>
+    <a href="https://yourportfolio.com"><img src="https://img.shields.io/badge/Portfolio-4CAF50?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Portfolio"/></a>
+  </p>
+
+</div>
+
+---
+
+## 🔗 Repository Link
+
+- **GitHub Repository**: [https://github.com/yourusername/krishi-cure-ai](https://github.com/yourusername/krishi-cure-ai)

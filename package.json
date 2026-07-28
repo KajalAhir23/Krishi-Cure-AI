@@ -2,12 +2,12 @@
   "name": "krishi-cure-ai",
   "version": "2.0.0",
   "description": "AI-powered smart agriculture application helping farmers identify crop diseases and get treatment suggestions using AI in multiple languages",
-  "homepage": "https://github.com/yourusername/krishi-cure-ai",
+  "homepage": "https://github.com/KajalAhir23/krishi-cure-ai",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/krishi-cure-ai.git"
+    "url": "https://github.com/KajalAhir23/krishi-cure-ai.git"
   },
-  "author": "Your Name",
+  "author": "kajal bhatiya",
   "license": "ISC",
   "type": "module",
   "main": "server.js",

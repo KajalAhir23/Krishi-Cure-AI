@@ -86,15 +86,16 @@
 
 /* ── Side Illustration (Login page) ─────────────────────────────── */
 .login-illus-col {
-    flex: 1 1 0;
+    flex: 1 1 260px;
     min-width: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 1.5rem;
+    padding: 2rem 1.8rem;
     background: linear-gradient(135deg, rgba(45,90,39,0.04) 0%, rgba(76,175,80,0.06) 100%);
     border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     box-shadow: var(--shadow-card);
     overflow: hidden;
     position: relative;
@@ -102,8 +103,9 @@
 
 .login-illus-col img {
     width: 100%;
-    max-width: 320px;
-    height: auto;
+    max-width: 280px;
+    height: 100%;
+    max-height: 280px;
     object-fit: contain;
     filter: drop-shadow(0 12px 28px rgba(45,90,39,0.15));
     animation: floatIllus 5s ease-in-out infinite;

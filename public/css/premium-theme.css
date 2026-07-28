@@ -1,0 +1,533 @@
+/* ================================================================
+   KRISHI-CURE PRO — Earthy Premium Agri-Tech CSS Theme Extension
+   Visual-only theme layer. Cascades over style.css, chatbot.css,
+   and illustrations.css.
+   ================================================================ */
+
+/* ── 1. CORE DESIGN TOKENS & OVERRIDES ───────────────────────── */
+:root {
+    /* === EARTHY PREMIUM PALETTE === */
+    --header-bg:    #0a3622;
+    --bg-main:      #f9f7f0; /* Warm cream/paper canvas */
+    --forest-green: #1b4332; /* Deep rich forest green */
+    --leaf-green:   #2d6a4f; /* Vibrant natural foliage green */
+    --accent-gold:  #d4af37; /* Deep lustrous gold */
+    --gold-light:   #f4e8c1; /* Soft cream gold */
+    --gold-bright:  #f5c542; /* Bright glowing gold */
+    --text-main:    #122319; /* Deep charcoal green body text */
+    --text-light:   #3d5a45; /* Muted evergreen secondary text */
+    --card-bg:      rgba(255, 255, 255, 0.95);
+    --glass-border: rgba(212, 175, 55, 0.22);
+
+    /* === PREMIUM SHADOW SYSTEM === */
+    --shadow-soft:  0 8px 32px 0 rgba(27, 67, 50, 0.08);
+    --shadow-card:  0 6px 20px rgba(27, 67, 50, 0.06), 0 2px 6px rgba(212, 175, 55, 0.08);
+    --shadow-hover: 0 16px 40px rgba(27, 67, 50, 0.12), 0 0 25px rgba(212, 175, 55, 0.22);
+    --shadow-btn:   0 8px 24px rgba(27, 67, 50, 0.28), 0 0 16px rgba(212, 175, 55, 0.35);
+    --shadow-deep:  0 24px 60px rgba(13, 35, 25, 0.22), 0 8px 24px rgba(212, 175, 55, 0.15);
+
+    /* === GRADIENTS === */
+    --grad-primary: linear-gradient(135deg, #1b4332 0%, #2d6a4f 55%, #1b4332 100%);
+    --grad-gold:    linear-gradient(135deg, #d4af37 0%, #f4e8c1 50%, #b89325 100%);
+    --grad-surface: linear-gradient(145deg, rgba(255,255,255,0.97) 0%, rgba(249,247,240,0.92) 100%);
+    --grad-hero:    radial-gradient(ellipse at 15% 15%, rgba(45,106,79,0.09) 0%, transparent 55%),
+                    radial-gradient(ellipse at 85% 80%, rgba(212,175,55,0.12) 0%, transparent 55%),
+                    radial-gradient(ellipse at 50% 40%, rgba(27,67,50,0.04) 0%, transparent 60%);
+}
+
+/* ── 2. GLOBAL BASE & CANVAS BACKGROUND ────────────────────────── */
+body {
+    background-color: var(--bg-main) !important;
+    background-image: var(--grad-hero) !important;
+    background-attachment: fixed !important;
+    color: var(--text-main) !important;
+    position: relative;
+}
+
+/* Organic blurred ambient background blobs + grain noise effect */
+body::before {
+    content: '';
+    position: fixed;
+    top: -100px;
+    right: -100px;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    bottom: -100px;
+    left: -100px;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(45, 106, 79, 0.1) 0%, transparent 70%);
+    filter: blur(70px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── 3. WARNING TICKER BANNER ────────────────────────────────── */
+.warning-banner {
+    background: linear-gradient(90deg, #0b2216 0%, #1b4332 25%, #d4af37 50%, #1b4332 75%, #0b2216 100%) !important;
+    background-size: 200% 100% !important;
+    animation: bannerFlow 12s linear infinite !important;
+    border-bottom: 1.5px solid rgba(212, 175, 55, 0.4) !important;
+    color: #fdfbf7 !important;
+    box-shadow: 0 4px 14px rgba(11, 34, 22, 0.2) !important;
+}
+
+.ticker-item {
+    color: #fdfbf7 !important;
+    font-weight: 600 !important;
+}
+
+/* ── 4. APP HEADER & NAVIGATION ─────────────────────────────── */
+.app-header {
+    background: rgba(255, 255, 255, 0.94) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.25) !important;
+    box-shadow: 0 4px 20px rgba(11, 34, 22, 0.06) !important;
+    position: fixed !important;
+}
+
+/* Hairline gradient bar right under header */
+.app-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3.5px;
+    background: linear-gradient(90deg, #1b4332 0%, #d4af37 35%, #74c69d 65%, #1b4332 100%);
+    pointer-events: none;
+}
+
+/* Logo Badge Styling */
+.logo {
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 60%, #b89325 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    font-weight: 800 !important;
+    position: relative;
+}
+
+.nav-link {
+    color: var(--text-light) !important;
+    font-weight: 600 !important;
+    transition: var(--transition-fast) !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+.nav-link:hover {
+    color: var(--forest-green) !important;
+    background: rgba(212, 175, 55, 0.12) !important;
+}
+
+.nav-link.active {
+    color: var(--forest-green) !important;
+    background: rgba(45, 106, 79, 0.1) !important;
+    font-weight: 800 !important;
+}
+
+.nav-link.active::after {
+    background: linear-gradient(90deg, #1b4332, #d4af37) !important;
+    height: 3px !important;
+}
+
+/* Language selector & logout button */
+.lang-selector {
+    background: rgba(212, 175, 55, 0.08) !important;
+    border: 1px solid rgba(212, 175, 55, 0.3) !important;
+}
+
+.lang-btn.active {
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 3px 10px rgba(27, 67, 50, 0.3) !important;
+    border: 1px solid rgba(212, 175, 55, 0.4) !important;
+}
+
+.logout-btn {
+    border: 1.5px solid rgba(212, 175, 55, 0.4) !important;
+    color: var(--forest-green) !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+}
+
+.logout-btn:hover {
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%) !important;
+    color: #ffffff !important;
+    border-color: #d4af37 !important;
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.3) !important;
+}
+
+/* ── 5. CARDS & SECTIONS (Gold Top Accent Bar + Rich Shadows) ─── */
+.step-card,
+.login-card,
+.login-illus-col,
+.welcome-card,
+.info-accordion-card,
+.meta-card,
+.comparison-card,
+.full-width-card {
+    position: relative !important;
+    background: var(--card-bg) !important;
+    border: 1px solid rgba(212, 175, 55, 0.25) !important;
+    border-radius: var(--radius-xl) !important;
+    box-shadow: var(--shadow-card) !important;
+    overflow: hidden !important;
+    transition: var(--transition-smooth) !important;
+}
+
+/* Top Accent Bar: Gold / Forest Green Gradient Hairline */
+.step-card::before,
+.login-card::before,
+.login-illus-col::before,
+.welcome-card::before,
+.info-accordion-card::before,
+.meta-card::before,
+.comparison-card::before,
+.full-width-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #1b4332 0%, #d4af37 40%, #f4e8c1 60%, #2d6a4f 100%);
+    z-index: 2;
+}
+
+.login-illus-col {
+    flex: 1 1 260px !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 2rem 1.8rem !important;
+    background: linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(255,255,255,0.96) 50%, rgba(45,106,79,0.05) 100%) !important;
+}
+
+.login-illus-col img {
+    width: 100% !important;
+    max-width: 280px !important;
+    height: 100% !important;
+    max-height: 280px !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: auto !important;
+    filter: drop-shadow(0 10px 24px rgba(27, 67, 50, 0.15)) !important;
+    animation: floatIllus 5s ease-in-out infinite !important;
+}
+
+.welcome-card {
+    background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(255,255,255,0.96) 50%, rgba(45,106,79,0.06) 100%) !important;
+    border: 1.5px solid rgba(212, 175, 55, 0.3) !important;
+}
+
+/* ── 6. CATEGORY & CHOICE CARDS (Circular Gradient Badges) ────── */
+.cat-card,
+.choice-card {
+    background: linear-gradient(160deg, #ffffff 0%, rgba(249, 247, 240, 0.8) 100%) !important;
+    border: 1.5px solid rgba(212, 175, 55, 0.28) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: 0 6px 18px rgba(27, 67, 50, 0.05), 0 2px 6px rgba(212, 175, 55, 0.06) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    transition: var(--transition-bounce) !important;
+}
+
+.cat-card::before,
+.choice-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3.5px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+/* Turn Emoji icons into soft circular gradient badges (Pure CSS) */
+.cat-card .icon,
+.choice-card .icon,
+.choice-card .feature-icon-chip {
+    width: 78px !important;
+    height: 78px !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle at 35% 35%, #ffffff 0%, #f4e8c1 60%, rgba(212, 175, 55, 0.3) 100%) !important;
+    border: 2px solid rgba(212, 175, 55, 0.45) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.22), inset 0 2px 4px rgba(255, 255, 255, 0.9) !important;
+    transition: var(--transition-bounce) !important;
+    margin: 0 auto 0.5rem auto !important;
+    font-size: 2.5rem !important;
+}
+
+.cat-card:hover,
+.choice-card:hover {
+    transform: translateY(-8px) !important;
+    border-color: rgba(212, 175, 55, 0.7) !important;
+    box-shadow: 0 16px 40px rgba(27, 67, 50, 0.12), 0 0 25px rgba(212, 175, 55, 0.25) !important;
+    background: linear-gradient(160deg, #ffffff 0%, rgba(254, 250, 235, 0.95) 100%) !important;
+}
+
+.cat-card:hover .icon,
+.choice-card:hover .icon,
+.choice-card:hover .feature-icon-chip {
+    transform: scale(1.12) rotate(4deg) !important;
+    border-color: #d4af37 !important;
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4), 0 0 15px rgba(45, 106, 79, 0.2) !important;
+    background: radial-gradient(circle at 35% 35%, #ffffff 0%, #f5c542 60%, rgba(212, 175, 55, 0.5) 100%) !important;
+}
+
+/* ── 7. PRIMARY BUTTONS (Richer Gradient + Gold Ring Glow) ────── */
+.primary-btn,
+button.primary-btn,
+.diagnose-btn,
+.google-btn {
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 55%, #1b4332 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(212, 175, 55, 0.6) !important;
+    box-shadow: 0 6px 20px rgba(27, 67, 50, 0.25), 0 0 14px rgba(212, 175, 55, 0.3) !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.03em !important;
+    transition: var(--transition-bounce) !important;
+    position: relative !important;
+}
+
+.primary-btn:hover,
+button.primary-btn:hover,
+.diagnose-btn:hover,
+.google-btn:hover {
+    transform: translateY(-3px) scale(1.015) !important;
+    box-shadow: 0 12px 30px rgba(27, 67, 50, 0.35), 0 0 22px rgba(212, 175, 55, 0.5) !important;
+    background: linear-gradient(135deg, #2d6a4f 0%, #40916c 55%, #1b4332 100%) !important;
+    border-color: #d4af37 !important;
+}
+
+.primary-btn:active,
+button.primary-btn:active {
+    transform: translateY(0) scale(0.99) !important;
+}
+
+.secondary-btn {
+    border: 1.5px solid rgba(212, 175, 55, 0.5) !important;
+    color: var(--forest-green) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 4px 12px rgba(27, 67, 50, 0.06) !important;
+    transition: var(--transition-bounce) !important;
+}
+
+.secondary-btn:hover {
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%) !important;
+    color: #ffffff !important;
+    border-color: #d4af37 !important;
+    box-shadow: 0 6px 18px rgba(212, 175, 55, 0.3) !important;
+}
+
+/* ── 8. FORM CONTROLS & MATRIX ITEMS ──────────────────────────── */
+input[type="text"],
+input[type="number"],
+select {
+    border: 1.5px solid rgba(212, 175, 55, 0.3) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    transition: var(--transition-fast) !important;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25) !important;
+}
+
+.crop-matrix-item {
+    border: 1.5px solid rgba(212, 175, 55, 0.25) !important;
+    border-radius: var(--radius-md) !important;
+    background: white !important;
+    transition: var(--transition-fast) !important;
+}
+
+.crop-matrix-item:hover {
+    border-color: #d4af37 !important;
+    background: rgba(212, 175, 55, 0.08) !important;
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.18) !important;
+    transform: translateY(-2px) !important;
+}
+
+.crop-matrix-item.selected {
+    border: 2px solid #d4af37 !important;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(244, 232, 193, 0.45)) !important;
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.35), 0 4px 14px rgba(27, 67, 50, 0.12) !important;
+    transform: translateY(-2px) !important;
+}
+
+.crop-matrix-item.selected .crop-name {
+    color: #122319 !important;
+    font-weight: 800 !important;
+}
+
+.slot-card {
+    border: 2px dashed rgba(212, 175, 55, 0.35) !important;
+    background: rgba(255, 255, 255, 0.7) !important;
+    transition: var(--transition-bounce) !important;
+}
+
+.slot-card:hover {
+    border-color: #d4af37 !important;
+    background: rgba(254, 250, 235, 0.9) !important;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.2) !important;
+}
+
+.slot-card.filled {
+    border: 2px solid #d4af37 !important;
+    box-shadow: 0 4px 16px rgba(27, 67, 50, 0.1) !important;
+}
+
+/* ── 9. RESULT DASHBOARD & SEVERITY ILLUSTRATIONS ─────────────── */
+.badge-green {
+    background: rgba(45, 106, 79, 0.15) !important;
+    color: #1b4332 !important;
+    border: 1px solid rgba(45, 106, 79, 0.3) !important;
+}
+
+.badge-yellow {
+    background: rgba(212, 175, 55, 0.18) !important;
+    color: #8a6d05 !important;
+    border: 1px solid rgba(212, 175, 55, 0.4) !important;
+}
+
+.badge-red {
+    background: rgba(220, 38, 38, 0.12) !important;
+    color: #991b1b !important;
+    border: 1px solid rgba(220, 38, 38, 0.3) !important;
+}
+
+.tab-btn {
+    border-radius: var(--radius-sm) !important;
+    transition: var(--transition-fast) !important;
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid #d4af37 !important;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25) !important;
+}
+
+.hero-stat-chip {
+    border: 1px solid rgba(212, 175, 55, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.12) !important;
+}
+
+/* ── 10. CHATBOT WIDGET RESTYLE ───────────────────────────────── */
+#krishi-chatbot-trigger {
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #d4af37 100%) !important;
+    box-shadow: 0 8px 30px rgba(27, 67, 50, 0.35), 0 0 16px rgba(212, 175, 55, 0.3) !important;
+    border: 2px solid rgba(212, 175, 55, 0.5) !important;
+}
+
+#krishi-chatbot-trigger:hover {
+    transform: scale(1.1) translateY(-3px) !important;
+    box-shadow: 0 14px 40px rgba(27, 67, 50, 0.45), 0 0 24px rgba(212, 175, 55, 0.5) !important;
+}
+
+#krishi-chatbot-ui {
+    border: 2px solid rgba(212, 175, 55, 0.35) !important;
+    border-radius: var(--radius-xl) !important;
+    box-shadow: 0 16px 50px rgba(7, 21, 15, 0.22), 0 0 25px rgba(212, 175, 55, 0.18) !important;
+    overflow: hidden !important;
+}
+
+.chatbot-header {
+    background: linear-gradient(135deg, #0b2216 0%, #1b4332 60%, #2d6a4f 100%) !important;
+    border-bottom: 2px solid #d4af37 !important;
+}
+
+.chatbot-avatar {
+    background: rgba(212, 175, 55, 0.25) !important;
+    border: 1px solid rgba(212, 175, 55, 0.5) !important;
+}
+
+.chat-bubble.bot {
+    background: #ffffff !important;
+    border: 1px solid rgba(212, 175, 55, 0.28) !important;
+    box-shadow: 0 3px 12px rgba(27, 67, 50, 0.05) !important;
+}
+
+.chat-bubble.user {
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(212, 175, 55, 0.35) !important;
+    box-shadow: 0 3px 12px rgba(27, 67, 50, 0.15) !important;
+}
+
+.mic-btn,
+.chatbot-send-btn {
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%) !important;
+    border: 1px solid #d4af37 !important;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25) !important;
+}
+
+.mic-btn:hover,
+.chatbot-send-btn:hover {
+    transform: scale(1.08) !important;
+    box-shadow: 0 6px 18px rgba(212, 175, 55, 0.4) !important;
+}
+
+/* ── 11. FOOTER (Deep Near-Black-Green + Gold Top Border) ─────── */
+.app-footer {
+    background: linear-gradient(180deg, #091c12 0%, #040e09 100%) !important;
+    color: #d8e2dc !important;
+    border-top: 4px solid #d4af37 !important;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.25) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.app-footer::before {
+    content: '' !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background-image:
+        radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23d4af37' fill-opacity='0.04'%3E%3Cpath d='M40 10 Q50 25 40 40 Q30 25 40 10Z'/%3E%3Cpath d='M15 45 Q30 38 38 52 Q22 58 15 45Z'/%3E%3Cpath d='M65 45 Q50 38 42 52 Q58 58 65 45Z'/%3E%3C/g%3E%3C/svg%3E") !important;
+    background-size: 80px 80px !important;
+    pointer-events: none !important;
+    opacity: 0.8 !important;
+}
+
+.app-footer h4 {
+    color: #d4af37 !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.04em !important;
+}
+
+.app-footer a {
+    color: #95d5b2 !important;
+    transition: all 0.22s ease !important;
+}
+
+.app-footer a:hover {
+    color: #f4e8c1 !important;
+    padding-left: 4px !important;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(212, 175, 55, 0.18) !important;
+    color: #74c69d !important;
+}

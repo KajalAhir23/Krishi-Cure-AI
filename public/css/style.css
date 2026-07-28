@@ -917,14 +917,17 @@ textarea::placeholder {
 }
 
 .crop-matrix-item.selected {
-    background: linear-gradient(135deg, var(--forest-green), #3d7a35);
-    border-color: var(--forest-green);
-    color: white;
-    box-shadow: 0 10px 28px rgba(45, 90, 39, 0.28);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.18), rgba(244, 232, 193, 0.4));
+    border-color: var(--accent-gold);
+    color: var(--text-main);
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.3), 0 4px 14px rgba(45, 90, 39, 0.1);
     transform: translateY(-2px);
 }
 
-.crop-matrix-item.selected .crop-name { color: rgba(255,255,255,0.95); }
+.crop-matrix-item.selected .crop-name {
+    color: var(--text-main);
+    font-weight: 800;
+}
 
 .crop-matrix-item .crop-icon { font-size: 2.5rem; }
 

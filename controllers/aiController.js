@@ -135,7 +135,7 @@ The treatments and descriptions must be highly practical, trusted, and based on 
                     { role: 'system', content: systemInstruction },
                     { role: 'user', content: taskPrompt }
                 ],
-                model: 'llama-3.3-70b-versatile',
+                model: 'openai/gpt-oss-120b',
                 response_format: { type: "json_object" }
             });
 
@@ -160,7 +160,7 @@ The treatments and descriptions must be highly practical, trusted, and based on 
         try {
             const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
             const response = await ai.models.generateContent({
-                model: 'gemini-2.5-flash',
+                model: 'gemini-3.6-flash',
                 contents: taskPrompt,
                 config: {
                     systemInstruction: systemInstruction,
@@ -209,7 +209,7 @@ export async function chatWithAI(question, lang = 'en', history = []) {
             const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
             const completion = await groq.chat.completions.create({
                 messages,
-                model: 'llama-3.3-70b-versatile',
+                model: 'openai/gpt-oss-120b',
                 max_tokens: 512,
                 temperature: 0.4
             });
@@ -224,7 +224,7 @@ export async function chatWithAI(question, lang = 'en', history = []) {
         try {
             const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
             const response = await ai.models.generateContent({
-                model: 'gemini-2.5-flash',
+                model: 'gemini-3.6-flash',
                 contents: question,
                 config: {
                     systemInstruction: systemPrompt,
@@ -340,7 +340,7 @@ All array sentences must be under 12 words. Make sure all values are translated 
             contents.push(taskPrompt);
 
             const response = await ai.models.generateContent({
-                model: 'gemini-2.5-flash',
+                model: 'gemini-3.6-flash',
                 contents: contents,
                 config: {
                     systemInstruction: systemInstruction,

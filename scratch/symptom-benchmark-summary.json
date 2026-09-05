@@ -1,0 +1,15 @@
+{
+  "totalTestCases": 100,
+  "cropsCovered": 40,
+  "errors": 0,
+  "overallAccuracy": "84.0%",
+  "correctPredictions": 84,
+  "validPredictions": 100,
+  "perCategoryAccuracy": {
+    "fungal": "82.5% (33/40)",
+    "bacterial": "92.9% (13/14)",
+    "viral": "91.7% (11/12)",
+    "nutrient": "79.4% (27/34)"
+  },
+  "note": "This tests whether the AI's diagnosed disease matches the EXPECTED DISEASE CATEGORY (fungal/bacterial/viral/pest/nutrient) implied by the symptoms selected — not an exact named-disease match. Auto-generated from data/crops.json, no external dataset required. Review the CSV manually before quoting this number publicly."
+}

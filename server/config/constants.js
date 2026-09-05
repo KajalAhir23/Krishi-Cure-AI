@@ -53,12 +53,13 @@ export const CONFIG = {
   AI_MODELS: {
     GROQ: {
       MODEL_ID: 'openai/gpt-oss-120b',
-      MAX_TOKENS_CHAT: 512,
+      MAX_TOKENS_CHAT: 1500,
       TEMPERATURE_DIAGNOSIS: 0.2,
       TEMPERATURE_CHAT: 0.4
     },
     GEMINI: {
       MODEL_ID: 'gemini-3.6-flash',
+      MAX_TOKENS_CHAT: 1500,
       TEMPERATURE_DIAGNOSIS: 0.2,
       TEMPERATURE_CHAT: 0.4
     }

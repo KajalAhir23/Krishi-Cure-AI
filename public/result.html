@@ -7,7 +7,9 @@
     <title>Krishi-Cure - Scientific Diagnosis</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/illustrations.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Gujarati:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Gujarati:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Firebase SDK (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -75,11 +77,18 @@
                 </div>
 
                 <!-- Severity-based visual illustration (decorative, aria-hidden) -->
-                <div id="severity-illus-strip" class="severity-illus-strip" aria-hidden="true" style="display:flex;align-items:center;justify-content:center;gap:1.25rem;padding:1rem 1.25rem;background:linear-gradient(135deg,rgba(76,175,80,0.04),rgba(45,90,39,0.02));border:1px solid var(--glass-border);border-radius:var(--radius-md);margin-bottom:1.5rem;">
-                    <div id="severity-illus-icon" style="font-size:3.5rem;filter:drop-shadow(0 6px 12px rgba(45,90,39,0.15));transition:all 0.4s ease;">🌾</div>
+                <div id="severity-illus-strip" class="severity-illus-strip" aria-hidden="true"
+                    style="display:flex;align-items:center;justify-content:center;gap:1.25rem;padding:1rem 1.25rem;background:linear-gradient(135deg,rgba(76,175,80,0.04),rgba(45,90,39,0.02));border:1px solid var(--glass-border);border-radius:var(--radius-md);margin-bottom:1.5rem;">
+                    <div id="severity-illus-icon"
+                        style="font-size:3.5rem;filter:drop-shadow(0 6px 12px rgba(45,90,39,0.15));transition:all 0.4s ease;">
+                        🌾</div>
                     <div>
-                        <div id="severity-illus-label" style="font-weight:800;font-size:0.88rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.06em;">Crop Health Status</div>
-                        <div id="severity-illus-desc" style="font-size:0.82rem;color:var(--text-light);font-weight:500;margin-top:0.2rem;line-height:1.4;">AI analysis complete — see results below</div>
+                        <div id="severity-illus-label"
+                            style="font-weight:800;font-size:0.88rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.06em;">
+                            Crop Health Status</div>
+                        <div id="severity-illus-desc"
+                            style="font-size:0.82rem;color:var(--text-light);font-weight:500;margin-top:0.2rem;line-height:1.4;">
+                            AI analysis complete — see results below</div>
                     </div>
                 </div>
 
@@ -416,10 +425,10 @@
             const confidence = data.confidence_score;
             if (confidence < 70) {
                 safetyBanner.className = "safety-banner safety-banner-warning";
-                safetyBanner.innerHTML = langStore.safety_warning;
+                safetyBanner.innerHTML = langStore.safety_low_confidence;
             } else {
                 safetyBanner.className = "safety-banner safety-banner-success";
-                safetyBanner.innerHTML = langStore.safety_success;
+                safetyBanner.innerHTML = langStore.safety_high_confidence;
             }
 
             // Populate Primary Disease details

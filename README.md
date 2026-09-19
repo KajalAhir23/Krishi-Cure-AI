@@ -366,16 +366,18 @@ FIREBASE_APP_ID=your_app_id
 > _Add real screenshots here before publishing — replace this section with actual PNG/JPG files from `public/images/screenshots/` once available._
 
 | Home Page & Crop Selection | AI Disease Detection Upload |
-| :---: | :---: |
-| _Add screenshot_ | _Add screenshot_ |
+| :---: |
+| https://github.com/KajalAhir23/Krishi-Cure-AI/blob/main/public/images/ss/homepage.png |
 
 | Weather Advisory Module | Fertilizer Calculator |
 | :---: | :---: |
-| _Add screenshot_ | _Add screenshot_ |
+| https://github.com/KajalAhir23/Krishi-Cure-AI/blob/main/public/images/ss/weather.png | https://github.com/KajalAhir23/Krishi-Cure-AI/blob/main/public/images/ss/calculator.png |
 
 | AI Agriculture Chatbot | Diagnosis Dashboard Result |
 | :---: | :---: |
 | _Add screenshot_ | _Add screenshot_ |
+| https://github.com/KajalAhir23/Krishi-Cure-AI/blob/main/public/images/ss/chatbot.png | https://github.com/KajalAhir23/Krishi-Cure-AI/blob/main/public/images/ss/res.png |
+
 
 ---
 

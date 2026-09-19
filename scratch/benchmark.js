@@ -78,10 +78,54 @@ function toBase64(filePath) {
 
 // Turn "Tomato___Early_blight" into { crop: "Tomato", label: "early blight" }
 function parseFolderName(folder) {
-    const parts = folder.split('___');
-    const crop = (parts[0] || folder).replace(/_/g, ' ').trim();
-    const label = (parts[1] || 'unknown').replace(/_/g, ' ').trim().toLowerCase();
-    return { crop, label };
+    // Handle "Crop___Disease_Name" (PlantVillage / Crop Diseases style)
+    if (folder.includes('___')) {
+        const [cropPart, ...rest] = folder.split('___');
+        const crop = cropPart.replace(/_/g, ' ').trim();
+        const label = (rest.join(' ') || 'unknown').replace(/_/g, ' ').trim().toLowerCase();
+        return { crop, label };
+    }
+    // Handle "Crop_Disease Name" (single underscore, e.g. "Sugarcane_Bacterial Blight")
+    const underscoreIdx = folder.indexOf('_');
+    if (underscoreIdx > -1) {
+        const crop = folder.slice(0, underscoreIdx).trim();
+        const label = folder.slice(underscoreIdx + 1).replace(/_/g, ' ').trim().toLowerCase();
+        return { crop, label };
+    }
+    // Fallback: no separator found at all
+    return { crop: folder, label: 'unknown' };
+}
+
+// Recursively find every directory that directly contains image files
+// (a "leaf" class folder), skipping duplicate nested copies of the
+// same dataset (e.g. PlantVillage/PlantVillage/... re-containing the
+// same classes) by deduping on folder basename.
+function findClassFolders(rootDir) {
+    const found = [];
+    const seenBasenames = new Set();
+
+    function walk(dir) {
+        const entries = fs.readdirSync(dir, { withFileTypes: true });
+        const subdirs = entries.filter(e => e.isDirectory());
+        const hasImages = entries.some(e => e.isFile() && /\.(jpe?g|png)$/i.test(e.name));
+
+        if (hasImages) {
+            const basename = path.basename(dir);
+            if (seenBasenames.has(basename)) {
+                return; // skip duplicate nested copy of a class we already found
+            }
+            seenBasenames.add(basename);
+            found.push(dir);
+            return; // don't descend further into a leaf class folder
+        }
+
+        for (const sub of subdirs) {
+            walk(path.join(dir, sub.name));
+        }
+    }
+
+    walk(rootDir);
+    return found;
 }
 
 // Very loose fuzzy match: does the AI's guess share meaningful
@@ -111,23 +155,23 @@ async function main() {
         process.exit(1);
     }
 
-    const classFolders = fs.readdirSync(DATASET_DIR).filter(f =>
-        fs.statSync(path.join(DATASET_DIR, f)).isDirectory()
-    );
+    const classFolderPaths = findClassFolders(DATASET_DIR);
 
-    if (classFolders.length === 0) {
-        console.error('\n❌ No class folders found inside scratch/dataset/\n');
+    if (classFolderPaths.length === 0) {
+        console.error('\n❌ No class folders with images found inside scratch/dataset/\n');
+        console.error('   Searched recursively — make sure image files sit directly inside');
+        console.error('   crop/disease-named folders somewhere under scratch/dataset/\n');
         process.exit(1);
     }
 
-    console.log(`\n📂 Found ${classFolders.length} classes in dataset.`);
+    console.log(`\n📂 Found ${classFolderPaths.length} classes in dataset (searched recursively, duplicates skipped).`);
     console.log(`⚙️  Sampling up to ${PER_CLASS_LIMIT} images/class, ${MAX_TOTAL} images total.\n`);
 
     // Build the sample list
     const samples = [];
-    for (const folder of classFolders) {
-        const { crop, label } = parseFolderName(folder);
-        const folderPath = path.join(DATASET_DIR, folder);
+    for (const folderPath of classFolderPaths) {
+        const folderName = path.basename(folderPath);
+        const { crop, label } = parseFolderName(folderName);
         const images = fs.readdirSync(folderPath)
             .filter(f => /\.(jpe?g|png)$/i.test(f))
             .slice(0, PER_CLASS_LIMIT);
